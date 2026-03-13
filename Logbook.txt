@@ -1,0 +1,796 @@
+import { useMemo, useRef, useState } from "react";
+import { Bold, Italic, Underline, List, Eraser, MessageSquarePlus, Highlighter, Lock } from "lucide-react";
+
+const VERSION = "1.0.12";
+
+const cycleOptions = [
+  "",
+  "605 Parent",
+  "WHTP",
+  "vLLC",
+  "LLC",
+  "FTP",
+  "RMC",
+  "Hot Soak",
+  "Cold Start",
+  "Custom",
+];
+
+const starterEntries = [
+  {
+    id: 1,
+    source: "system",
+    locked: true,
+    ignored: false,
+    reviewState: "Active",
+    eventType: "Cycle Start",
+    time: "09:28 AM",
+    run: "1229751",
+    cycle: "605 Parent",
+    torqueMap: "180.6",
+    sump: "188.0",
+    carbon: "-0.17",
+    nox: "-0.010",
+    thc: "-0.003",
+    pm: "—",
+    work: "56.05",
+    filter: "00000",
+    testMap: "19",
+    category: "Test Update",
+    status: "Open",
+    noteHtml: "System event: cycle start registered and soak sequence initiated.",
+    noteText: "System event: cycle start registered and soak sequence initiated.",
+  },
+  {
+    id: 2,
+    source: "operator",
+    locked: true,
+    ignored: false,
+    reviewState: "Monitoring",
+    eventType: "Operator Note",
+    time: "10:16 AM",
+    run: "1229753",
+    cycle: "WHTP",
+    torqueMap: "—",
+    sump: "161.1",
+    carbon: "-0.65",
+    nox: "0.0054",
+    thc: "0.0057",
+    pm: "—",
+    work: "40.87",
+    filter: "—",
+    testMap: "13",
+    category: "Issue",
+    status: "Monitoring",
+    noteHtml: "Cut out around <strong>0.35C</strong>. Contacting engineering to see if this is normal.",
+    noteText: "Cut out around 0.35C. Contacting engineering to see if this is normal.",
+  },
+  {
+    id: 3,
+    source: "system",
+    locked: true,
+    ignored: false,
+    reviewState: "Active",
+    eventType: "Post Processing",
+    time: "05:15 PM",
+    run: "1229756",
+    cycle: "vLLC",
+    torqueMap: "—",
+    sump: "180.6",
+    carbon: "-0.71",
+    nox: "-0.010",
+    thc: "-0.003",
+    pm: "—",
+    work: "56.05",
+    filter: "—",
+    testMap: "19",
+    category: "Engineer Direction",
+    status: "Open",
+    noteHtml: "System event: rev 9.10 loaded. Post processing remains incomplete and requires review.",
+    noteText: "System event: rev 9.10 loaded. Post processing remains incomplete and requires review.",
+  },
+];
+
+const emptyForm = {
+  time: "",
+  run: "",
+  cycle: "",
+  torqueMap: "",
+  sump: "",
+  carbon: "",
+  nox: "",
+  thc: "",
+  pm: "",
+  work: "",
+  filter: "",
+  testMap: "",
+  category: "General",
+  status: "Open",
+};
+
+const initialBannerFields = {
+  engineModel: "Titanium",
+  engineSN: "80728265",
+  engineer: "A. McCalment",
+  pph: "E6640",
+  testCell: "204",
+  testPlanId: "TIHD2A-EN-B2P10",
+  technician: "Joey Poppe",
+  shift: "6W",
+  date: "03/08",
+  startTime: "07:00 AM",
+  endTime: "07:00 PM",
+  cellHourMeter: "094",
+};
+
+const bannerConfig = [
+  ["Engine Model", "engineModel"],
+  ["Engine S/N", "engineSN"],
+  ["Engineer", "engineer"],
+  ["PPH", "pph"],
+  ["Test Cell", "testCell"],
+  ["Test Plan ID", "testPlanId"],
+  ["Technician", "technician"],
+  ["Shift", "shift"],
+  ["Date", "date"],
+  ["Start Time", "startTime"],
+  ["End Time", "endTime"],
+  ["Cell Hour Meter", "cellHourMeter"],
+];
+
+const autoLogEventTemplates = [
+  {
+    label: "Prep to Cal → 1065 Checks",
+    eventType: "1065 Check",
+    category: "Emissions",
+    status: "Open",
+    note: "System event: prep to cal command completed and 1065 checks auto-populated for review.",
+  },
+  {
+    label: "Emissions Cycle Logged",
+    eventType: "Emissions Cycle",
+    category: "Emissions",
+    status: "Open",
+    note: "System event: emissions cycle auto-populated into running sheet.",
+  },
+  {
+    label: "Restrictions Command Logged",
+    eventType: "Restrictions",
+    category: "Test Update",
+    status: "Monitoring",
+    note: "System event: restrictions command executed and logged for traceability.",
+  },
+  {
+    label: "Cycle Start",
+    eventType: "Cycle Start",
+    category: "Test Update",
+    status: "Open",
+    note: "System event: cycle start registered.",
+  },
+  {
+    label: "Cycle Complete",
+    eventType: "Cycle Complete",
+    category: "Test Update",
+    status: "Resolved",
+    note: "System event: cycle completed successfully.",
+  },
+  {
+    label: "Alarm Triggered",
+    eventType: "Alarm",
+    category: "Issue",
+    status: "Monitoring",
+    note: "System event: alarm triggered and requires review.",
+  },
+  {
+    label: "Post Processing",
+    eventType: "Post Processing",
+    category: "Engineer Direction",
+    status: "Waiting",
+    note: "System event: post processing step added to queue.",
+  },
+];
+
+const highlightCommands = [
+  { label: "Y", value: "#fef08a" },
+  { label: "G", value: "#bbf7d0" },
+  { label: "B", value: "#bfdbfe" },
+];
+
+function statusClasses(status) {
+  switch (status) {
+    case "Resolved":
+      return "bg-emerald-100 text-emerald-800 border-emerald-200";
+    case "Monitoring":
+      return "bg-amber-100 text-amber-800 border-amber-200";
+    case "Waiting":
+      return "bg-blue-100 text-blue-800 border-blue-200";
+    default:
+      return "bg-rose-100 text-rose-800 border-rose-200";
+  }
+}
+
+function reviewClasses(reviewState) {
+  switch (reviewState) {
+    case "Ignored":
+      return "bg-slate-200 text-slate-700 border-slate-300";
+    case "Reviewed":
+      return "bg-violet-100 text-violet-800 border-violet-200";
+    case "Monitoring":
+      return "bg-amber-100 text-amber-800 border-amber-200";
+    default:
+      return "bg-emerald-100 text-emerald-800 border-emerald-200";
+  }
+}
+
+function sourceClasses(source) {
+  return source === "system"
+    ? "bg-sky-100 text-sky-800 border-sky-200"
+    : "bg-stone-100 text-stone-800 border-stone-300";
+}
+
+function formatCurrentTime() {
+  return new Date().toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+}
+
+function formatTimeForInput(value) {
+  const raw = (value || "").toUpperCase().replace(/[^0-9APM]/g, "");
+  const digits = raw.replace(/[^0-9]/g, "").slice(0, 4);
+  const suffixMatch = raw.match(/(AM|PM|A|P)$/);
+  let suffix = suffixMatch ? suffixMatch[0] : "";
+
+  if (suffix === "A") suffix = "AM";
+  if (suffix === "P") suffix = "PM";
+
+  let hh = "";
+  let mm = "";
+
+  if (digits.length === 1) {
+    hh = digits;
+  } else if (digits.length === 2) {
+    hh = digits;
+  } else if (digits.length === 3) {
+    hh = `0${digits.slice(0, 1)}`;
+    mm = digits.slice(1, 3);
+  } else if (digits.length >= 4) {
+    hh = digits.slice(0, 2);
+    mm = digits.slice(2, 4);
+  }
+
+  if (hh.length === 2) {
+    const hourNum = Math.min(Math.max(parseInt(hh || "0", 10), 1), 12);
+    hh = String(hourNum).padStart(2, "0");
+  }
+
+  if (mm.length === 2) {
+    const minuteNum = Math.min(Math.max(parseInt(mm || "0", 10), 0), 59);
+    mm = String(minuteNum).padStart(2, "0");
+  }
+
+  let formatted = hh;
+  if (mm) formatted += `:${mm}`;
+  if (formatted && suffix) formatted += ` ${suffix}`;
+
+  return formatted;
+}
+
+function plainTextFromHtml(html) {
+  if (typeof window === "undefined") return html.replace(/<[^>]+>/g, " ").trim();
+  const div = document.createElement("div");
+  div.innerHTML = html;
+  return (div.textContent || div.innerText || "").trim();
+}
+
+function sanitizeHtml(html) {
+  return html
+    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "")
+    .replace(/ on\w+="[^"]*"/gi, "")
+    .replace(/ on\w+='[^']*'/gi, "");
+}
+
+export default function CTCUnifiedLogbookPrototype() {
+  const [entries, setEntries] = useState(starterEntries);
+  const [bannerFields, setBannerFields] = useState(initialBannerFields);
+  const [form, setForm] = useState({ ...emptyForm, time: formatCurrentTime() });
+  const [search, setSearch] = useState("");
+  const [selectedAutoLog, setSelectedAutoLog] = useState("Prep to Cal → 1065 Checks");
+  const [noteHtml, setNoteHtml] = useState("");
+  const [followUpTargetId, setFollowUpTargetId] = useState(null);
+  const [followUpText, setFollowUpText] = useState("");
+  const [expandedRows, setExpandedRows] = useState({});
+  const noteEditorRef = useRef(null);
+
+  const filteredEntries = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return entries;
+    return entries.filter((entry) =>
+      Object.values(entry).some((value) => String(value).toLowerCase().includes(q))
+    );
+  }, [entries, search]);
+
+  const handleChange = (field, value) => {
+    if (field === "time") {
+      setForm((prev) => ({ ...prev, [field]: formatTimeForInput(value) }));
+      return;
+    }
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleBannerChange = (field, value) => {
+    setBannerFields((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const syncEditorHtml = () => {
+    const html = noteEditorRef.current?.innerHTML || "";
+    setNoteHtml(html);
+  };
+
+  const focusEditor = () => {
+    noteEditorRef.current?.focus();
+  };
+
+  const focusEditorWithParagraph = () => {
+    focusEditor();
+    if ((noteEditorRef.current?.innerHTML || "").trim() === "") {
+      noteEditorRef.current.innerHTML = "<div><br></div>";
+      syncEditorHtml();
+    }
+  };
+
+  const applyTextCommand = (command, value = null) => {
+    focusEditorWithParagraph();
+    document.execCommand(command, false, value);
+    syncEditorHtml();
+  };
+
+  const resetForm = () => {
+    setForm({ ...emptyForm, time: formatCurrentTime() });
+    setNoteHtml("");
+    if (noteEditorRef.current) noteEditorRef.current.innerHTML = "";
+  };
+
+  const submitEntry = () => {
+    const cleanedHtml = sanitizeHtml(noteHtml).trim();
+    const plainText = plainTextFromHtml(cleanedHtml);
+
+    if (!plainText) return;
+
+    const newEntry = {
+      ...form,
+      id: Date.now(),
+      time: form.time || formatCurrentTime(),
+      source: "operator",
+      locked: true,
+      ignored: false,
+      reviewState: form.status === "Monitoring" ? "Monitoring" : "Active",
+      eventType: "Operator Note",
+      noteHtml: cleanedHtml,
+      noteText: plainText,
+    };
+
+    setEntries((prev) => [newEntry, ...prev]);
+    resetForm();
+  };
+
+  const addSystemEvent = (template) => {
+    const newEntry = {
+      id: Date.now(),
+      source: "system",
+      locked: true,
+      ignored: false,
+      reviewState: template.status === "Monitoring" ? "Monitoring" : "Active",
+      eventType: template.eventType,
+      time: formatCurrentTime(),
+      run: form.run || "—",
+      cycle: form.cycle || "—",
+      torqueMap: form.torqueMap || "—",
+      sump: form.sump || "—",
+      carbon: form.carbon || "—",
+      nox: form.nox || "—",
+      thc: form.thc || "—",
+      pm: form.pm || "—",
+      work: form.work || "—",
+      filter: form.filter || "—",
+      testMap: form.testMap || "—",
+      category: template.category,
+      status: template.status,
+      noteHtml: template.note,
+      noteText: template.note,
+    };
+
+    setEntries((prev) => [newEntry, ...prev]);
+  };
+
+  const updateReviewState = (id, nextState) => {
+    setEntries((prev) =>
+      prev.map((entry) =>
+        entry.id === id
+          ? {
+              ...entry,
+              ignored: nextState === "Ignored",
+              reviewState: nextState,
+            }
+          : entry
+      )
+    );
+  };
+
+  const addFollowUp = (entryId) => {
+    const cleaned = followUpText.trim();
+    if (!cleaned) return;
+
+    const newEntry = {
+      id: Date.now(),
+      source: "operator",
+      locked: true,
+      ignored: false,
+      reviewState: "Active",
+      eventType: "Addendum",
+      time: formatCurrentTime(),
+      run: "—",
+      cycle: "—",
+      torqueMap: "—",
+      sump: "—",
+      carbon: "—",
+      nox: "—",
+      thc: "—",
+      pm: "—",
+      work: "—",
+      filter: "—",
+      testMap: "—",
+      category: "Follow-Up",
+      status: "Open",
+      parentId: entryId,
+      noteHtml: `<strong>Addendum to Entry ${entryId}:</strong> ${cleaned}`,
+      noteText: `Addendum to Entry ${entryId}: ${cleaned}`,
+    };
+
+    setEntries((prev) => [newEntry, ...prev]);
+    setFollowUpTargetId(null);
+    setFollowUpText("");
+  };
+
+  const toggleExpandedRow = (id) => {
+    setExpandedRows((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  return (
+    <div className="min-h-screen bg-stone-100 text-slate-900 p-3 md:p-4">
+      <div className="max-w-[1600px] mx-auto space-y-3">
+        <header className="bg-white border border-slate-300 rounded-2xl shadow-sm overflow-hidden">
+          <div className="px-4 py-3 border-b border-slate-300 bg-slate-50">
+            <div className="flex flex-col gap-1 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <div className="text-[10px] uppercase tracking-[0.3em] text-slate-500">CTC Prototype</div>
+                <h1 className="text-2xl font-bold leading-tight">CTC Unified Logbook</h1>
+              </div>
+              <div className="text-xs text-slate-600 text-right">
+                <div>Controlled running sheet with locked system and operator history.</div>
+                <div className="font-semibold text-slate-700 mt-1">Version {VERSION}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 xl:grid-cols-6 gap-x-0 gap-y-0 border-t border-slate-300">
+            {bannerConfig.map(([label, key]) => (
+              <label key={label} className="px-3 py-2 border-r border-b border-slate-300 last:border-r-0 block">
+                <div className="text-[10px] uppercase tracking-[0.16em] text-slate-500 mb-1">{label}</div>
+                <input
+                  value={bannerFields[key]}
+                  onChange={(e) => handleBannerChange(key, e.target.value)}
+                  className="w-full font-semibold text-xs md:text-sm rounded-md border border-slate-200 bg-white px-2 py-1.5 outline-none focus:ring-2 focus:ring-slate-300"
+                  placeholder={label}
+                />
+              </label>
+            ))}
+          </div>
+        </header>
+
+        <section className="bg-white border border-slate-300 rounded-2xl shadow-sm p-3 space-y-3">
+          <div className="flex flex-col gap-1 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h2 className="text-lg font-semibold">New Log Submission</h2>
+              <p className="text-xs text-slate-600">Operator entries append to history. Auto log events preview how Cyflex-style commands could populate locked system messages.</p>
+            </div>
+            <div className="text-xs font-medium text-slate-700">Compact single-page layout · v{VERSION}</div>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-2">
+            <label className="space-y-1 block">
+              <span className="text-xs font-medium text-slate-700">Time</span>
+              <input
+                value={form.time}
+                onChange={(e) => handleChange("time", e.target.value)}
+                className="w-full rounded-lg border border-slate-300 bg-stone-50 px-2 py-1.5 text-sm"
+                placeholder="--:-- AM"
+              />
+            </label>
+            <label className="space-y-1 block">
+              <span className="text-xs font-medium text-slate-700">Run #</span>
+              <input value={form.run} onChange={(e) => handleChange("run", e.target.value)} className="w-full rounded-lg border border-slate-300 bg-stone-50 px-2 py-1.5 text-sm" placeholder="Run #" />
+            </label>
+            <label className="space-y-1 block xl:col-span-2">
+              <span className="text-xs font-medium text-slate-700">Cycle Type</span>
+              <select value={form.cycle} onChange={(e) => handleChange("cycle", e.target.value)} className="w-full rounded-lg border border-slate-300 bg-stone-50 px-2 py-1.5 text-sm">
+                {cycleOptions.map((option) => (
+                  <option key={option || "blank"} value={option}>{option || "Select cycle"}</option>
+                ))}
+              </select>
+            </label>
+            <label className="space-y-1 block">
+              <span className="text-xs font-medium text-slate-700">Torque</span>
+              <input value={form.torqueMap} onChange={(e) => handleChange("torqueMap", e.target.value)} className="w-full rounded-lg border border-slate-300 bg-stone-50 px-2 py-1.5 text-sm" placeholder="Map" />
+            </label>
+            <label className="space-y-1 block">
+              <span className="text-xs font-medium text-slate-700">Sump</span>
+              <input value={form.sump} onChange={(e) => handleChange("sump", e.target.value)} className="w-full rounded-lg border border-slate-300 bg-stone-50 px-2 py-1.5 text-sm" placeholder="°F" />
+            </label>
+            <label className="space-y-1 block">
+              <span className="text-xs font-medium text-slate-700">Carbon</span>
+              <input value={form.carbon} onChange={(e) => handleChange("carbon", e.target.value)} className="w-full rounded-lg border border-slate-300 bg-stone-50 px-2 py-1.5 text-sm" placeholder="Carbon" />
+            </label>
+            <label className="space-y-1 block">
+              <span className="text-xs font-medium text-slate-700">NOx</span>
+              <input value={form.nox} onChange={(e) => handleChange("nox", e.target.value)} className="w-full rounded-lg border border-slate-300 bg-stone-50 px-2 py-1.5 text-sm" placeholder="NOx" />
+            </label>
+            <label className="space-y-1 block">
+              <span className="text-xs font-medium text-slate-700">THC</span>
+              <input value={form.thc} onChange={(e) => handleChange("thc", e.target.value)} className="w-full rounded-lg border border-slate-300 bg-stone-50 px-2 py-1.5 text-sm" placeholder="THC" />
+            </label>
+            <label className="space-y-1 block">
+              <span className="text-xs font-medium text-slate-700">PM</span>
+              <input value={form.pm} onChange={(e) => handleChange("pm", e.target.value)} className="w-full rounded-lg border border-slate-300 bg-stone-50 px-2 py-1.5 text-sm" placeholder="PM" />
+            </label>
+            <label className="space-y-1 block">
+              <span className="text-xs font-medium text-slate-700">Work</span>
+              <input value={form.work} onChange={(e) => handleChange("work", e.target.value)} className="w-full rounded-lg border border-slate-300 bg-stone-50 px-2 py-1.5 text-sm" placeholder="Work" />
+            </label>
+            <label className="space-y-1 block">
+              <span className="text-xs font-medium text-slate-700">Filter</span>
+              <input value={form.filter} onChange={(e) => handleChange("filter", e.target.value)} className="w-full rounded-lg border border-slate-300 bg-stone-50 px-2 py-1.5 text-sm" placeholder="#" />
+            </label>
+            <label className="space-y-1 block">
+              <span className="text-xs font-medium text-slate-700">Test Map</span>
+              <input value={form.testMap} onChange={(e) => handleChange("testMap", e.target.value)} className="w-full rounded-lg border border-slate-300 bg-stone-50 px-2 py-1.5 text-sm" placeholder="#" />
+            </label>
+            <label className="space-y-1 block">
+              <span className="text-xs font-medium text-slate-700">Category</span>
+              <select value={form.category} onChange={(e) => handleChange("category", e.target.value)} className="w-full rounded-lg border border-slate-300 bg-stone-50 px-2 py-1.5 text-sm">
+                <option>General</option>
+                <option>Test Update</option>
+                <option>Issue</option>
+                <option>Emissions</option>
+                <option>Calibration</option>
+                <option>Engineer Direction</option>
+                <option>Handoff</option>
+              </select>
+            </label>
+            <label className="space-y-1 block">
+              <span className="text-xs font-medium text-slate-700">Status</span>
+              <select value={form.status} onChange={(e) => handleChange("status", e.target.value)} className="w-full rounded-lg border border-slate-300 bg-stone-50 px-2 py-1.5 text-sm">
+                <option>Open</option>
+                <option>Monitoring</option>
+                <option>Resolved</option>
+                <option>Waiting</option>
+              </select>
+            </label>
+            <div className="space-y-1 block col-span-2 md:col-span-4 xl:col-span-8">
+              <span className="text-xs font-medium text-slate-700">Log Note</span>
+              <div className="rounded-xl border border-slate-300 bg-stone-50 overflow-hidden">
+                <div className="flex flex-wrap items-center gap-1 border-b border-slate-300 bg-slate-50 px-2 py-1.5 sticky top-0 z-10">
+                  <span className="mr-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">Format</span>
+                  <span className="text-[10px] text-slate-400 mr-2">List adds bullet points</span>
+                  <button type="button" title="Bold" onClick={() => applyTextCommand("bold")} className="inline-flex items-center justify-center rounded border border-slate-300 bg-white px-2 py-1 text-xs font-bold shadow-sm"><Bold className="h-3.5 w-3.5" /></button>
+                  <button type="button" title="Italic" onClick={() => applyTextCommand("italic")} className="inline-flex items-center justify-center rounded border border-slate-300 bg-white px-2 py-1 text-xs shadow-sm"><Italic className="h-3.5 w-3.5" /></button>
+                  <button type="button" title="Underline" onClick={() => applyTextCommand("underline")} className="inline-flex items-center justify-center rounded border border-slate-300 bg-white px-2 py-1 text-xs shadow-sm"><Underline className="h-3.5 w-3.5" /></button>
+                  <button type="button" title="Bullet List" onClick={() => applyTextCommand("insertUnorderedList")} className="inline-flex items-center justify-center gap-1 rounded border border-slate-300 bg-white px-2 py-1 text-xs shadow-sm"><List className="h-3.5 w-3.5" /><span>List</span></button>
+                  <button type="button" title="Clear Formatting" onClick={() => applyTextCommand("removeFormat")} className="inline-flex items-center justify-center rounded border border-slate-300 bg-white px-2 py-1 text-xs shadow-sm"><Eraser className="h-3.5 w-3.5" /></button>
+                  <div className="mx-1 h-5 w-px bg-slate-300" />
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500 inline-flex items-center gap-1"><Highlighter className="h-3 w-3" />Highlight</span>
+                  {highlightCommands.map((item) => (
+                    <button
+                      key={item.value}
+                      type="button"
+                      title={`Highlight ${item.label}`}
+                      onClick={() => applyTextCommand("hiliteColor", item.value)}
+                      className="rounded border border-slate-300 px-2 py-1 text-xs font-semibold shadow-sm"
+                      style={{ backgroundColor: item.value }}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+                <div
+                  ref={noteEditorRef}
+                  contentEditable
+                  suppressContentEditableWarning
+                  onInput={syncEditorHtml}
+                  className="min-h-[96px] max-h-[320px] overflow-y-auto px-2 py-2 text-sm leading-5 outline-none"
+                  data-placeholder="Enter the note almost like you would on the paper sheet..."
+                  style={{ whiteSpace: "pre-wrap" }}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid lg:grid-cols-[auto_auto_1fr_auto] gap-2 items-end border-t border-slate-200 pt-2">
+            <button onClick={submitEntry} className="rounded-xl bg-slate-900 text-white px-4 py-2 text-sm font-medium">Add Operator Entry</button>
+            <button onClick={resetForm} className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium">Clear</button>
+            <label className="block space-y-1">
+              <span className="text-xs font-medium text-slate-700">Auto Log Event</span>
+              <select
+                value={selectedAutoLog}
+                onChange={(e) => setSelectedAutoLog(e.target.value)}
+                className="w-full rounded-lg border border-slate-300 bg-stone-50 px-2 py-2 text-sm"
+              >
+                {autoLogEventTemplates.map((template) => (
+                  <option key={template.label} value={template.label}>{template.label}</option>
+                ))}
+              </select>
+            </label>
+            <button
+              onClick={() => {
+                const template = autoLogEventTemplates.find((item) => item.label === selectedAutoLog);
+                if (template) addSystemEvent(template);
+              }}
+              className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-2 text-sm font-medium hover:bg-slate-100"
+            >
+              Auto Log Event
+            </button>
+          </div>
+        </section>
+
+        <main className="bg-white border border-slate-300 rounded-2xl shadow-sm overflow-hidden">
+          <div className="px-4 py-3 border-b border-slate-300 bg-slate-50 flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h2 className="text-lg font-semibold">Running Sheet</h2>
+              <p className="text-xs text-slate-600">Append-only record. Entries cannot be edited or deleted; they can only be reviewed, ignored, restored active, or followed up with an addendum.</p>
+            </div>
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full lg:w-72 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
+              placeholder="Search run, cycle, note, event..."
+            />
+          </div>
+
+          <div className="overflow-y-auto max-h-[46vh]">
+            <table className="w-full text-xs border-collapse table-fixed">
+              <thead className="sticky top-0 z-10">
+                <tr className="bg-slate-100 text-slate-700">
+                  {[
+                    "Time",
+                    "Source",
+                    "Event",
+                    "Run #",
+                    "Cycle",
+                    "Category",
+                    "Status",
+                    "Review",
+                    "Note",
+                    "Actions",
+                  ].map((head) => (
+                    <th
+                      key={head}
+                      className={`px-2 py-2 border-b border-r border-slate-300 text-left font-semibold whitespace-nowrap ${
+                        head === "Time" ? "w-[7%]" :
+                        head === "Source" ? "w-[7%]" :
+                        head === "Event" ? "w-[9%]" :
+                        head === "Run #" ? "w-[8%]" :
+                        head === "Cycle" ? "w-[8%]" :
+                        head === "Category" ? "w-[8%]" :
+                        head === "Status" ? "w-[7%]" :
+                        head === "Review" ? "w-[7%]" :
+                        head === "Note" ? "w-[27%]" :
+                        head === "Actions" ? "w-[12%]" : ""
+                      }`}
+                    >
+                      {head}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {filteredEntries.map((entry) => (
+                  <>
+                    <tr
+                    key={entry.id}
+                    className={`align-top ${entry.ignored ? "bg-amber-50/60 opacity-80" : "odd:bg-white even:bg-stone-50"}`}
+                  >
+                    <td className="px-2 py-2 border-b border-r border-slate-200 whitespace-nowrap font-medium align-top">{entry.time}</td>
+                    <td className="px-2 py-2 border-b border-r border-slate-200 whitespace-nowrap">
+                      <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase ${sourceClasses(entry.source)}`}>
+                        {entry.locked && <Lock className="h-2.5 w-2.5" />}
+                        {entry.source}
+                      </span>
+                    </td>
+                    <td className="px-2 py-2 border-b border-r border-slate-200 whitespace-nowrap">{entry.eventType || "—"}</td>
+                    <td className="px-2 py-2 border-b border-r border-slate-200 whitespace-nowrap">{entry.run || "—"}</td>
+                    <td className="px-2 py-2 border-b border-r border-slate-200 whitespace-nowrap">{entry.cycle || "—"}</td>
+                    <td className="px-2 py-2 border-b border-r border-slate-200 whitespace-nowrap">{entry.category}</td>
+                    <td className="px-2 py-2 border-b border-r border-slate-200 whitespace-nowrap">
+                      <span className={`inline-flex rounded-full border px-2 py-0.5 text-[10px] font-semibold ${statusClasses(entry.status)}`}>
+                        {entry.status}
+                      </span>
+                    </td>
+                    <td className="px-2 py-2 border-b border-r border-slate-200 whitespace-nowrap">
+                      <span className={`inline-flex rounded-full border px-2 py-0.5 text-[10px] font-semibold ${reviewClasses(entry.reviewState)}`}>
+                        {entry.reviewState}
+                      </span>
+                    </td>
+                    <td className="px-2 py-2 border-b border-r border-slate-200 leading-5 align-top w-[27%]">
+                      <div className="entry-note" dangerouslySetInnerHTML={{ __html: entry.noteHtml || entry.noteText || "" }} />
+                    </td>
+                    <td className="px-2 py-2 border-b border-slate-200 whitespace-nowrap">
+                      <div className="flex flex-col gap-1 min-w-[92px]">
+                        <button onClick={() => toggleExpandedRow(entry.id)} className="rounded-lg border border-slate-300 px-2 py-1 text-[10px] font-medium bg-white">{expandedRows[entry.id] ? "Less" : "Details"}</button>
+                        <button onClick={() => updateReviewState(entry.id, "Reviewed")} className="rounded-lg border border-slate-300 px-2 py-1 text-[10px] font-medium bg-white">Reviewed</button>
+                        <button onClick={() => updateReviewState(entry.id, "Ignored")} className="rounded-lg border border-slate-300 px-2 py-1 text-[10px] font-medium bg-white">Ignore</button>
+                        <button onClick={() => updateReviewState(entry.id, entry.status === "Monitoring" ? "Monitoring" : "Active")} className="rounded-lg border border-slate-300 px-2 py-1 text-[10px] font-medium bg-white">Restore</button>
+                        <button onClick={() => setFollowUpTargetId(entry.id)} className="inline-flex items-center justify-center gap-1 rounded-lg border border-slate-300 px-2 py-1 text-[10px] font-medium bg-white"><MessageSquarePlus className="h-3 w-3" />Addendum</button>
+                      </div>
+                    </td>
+                  </tr>
+                {expandedRows[entry.id] && (
+                  <tr key={`${entry.id}-details`} className="bg-slate-50">
+                    <td colSpan={10} className="px-3 py-3 border-b border-slate-200">
+                      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-2 text-[11px]">
+                        <div className="rounded-lg border border-slate-200 bg-white px-2 py-2"><span className="text-slate-500 block">Torque</span><span className="font-medium">{entry.torqueMap || "—"}</span></div>
+                        <div className="rounded-lg border border-slate-200 bg-white px-2 py-2"><span className="text-slate-500 block">Sump</span><span className="font-medium">{entry.sump || "—"}</span></div>
+                        <div className="rounded-lg border border-slate-200 bg-white px-2 py-2"><span className="text-slate-500 block">Carbon</span><span className="font-medium">{entry.carbon || "—"}</span></div>
+                        <div className="rounded-lg border border-slate-200 bg-white px-2 py-2"><span className="text-slate-500 block">NOx</span><span className="font-medium">{entry.nox || "—"}</span></div>
+                        <div className="rounded-lg border border-slate-200 bg-white px-2 py-2"><span className="text-slate-500 block">THC</span><span className="font-medium">{entry.thc || "—"}</span></div>
+                        <div className="rounded-lg border border-slate-200 bg-white px-2 py-2"><span className="text-slate-500 block">PM</span><span className="font-medium">{entry.pm || "—"}</span></div>
+                        <div className="rounded-lg border border-slate-200 bg-white px-2 py-2"><span className="text-slate-500 block">Work</span><span className="font-medium">{entry.work || "—"}</span></div>
+                        <div className="rounded-lg border border-slate-200 bg-white px-2 py-2"><span className="text-slate-500 block">Filter</span><span className="font-medium">{entry.filter || "—"}</span></div>
+                        <div className="rounded-lg border border-slate-200 bg-white px-2 py-2"><span className="text-slate-500 block">Test Map</span><span className="font-medium">{entry.testMap || "—"}</span></div>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                                  </>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </main>
+
+        {followUpTargetId && (
+          <section className="bg-white border border-slate-300 rounded-2xl shadow-sm p-3 space-y-2">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <h3 className="text-sm font-semibold">Addendum for Entry {followUpTargetId}</h3>
+                <p className="text-xs text-slate-600">Use this instead of editing history. The original row stays intact, and this note is appended as a new record.</p>
+              </div>
+              <button onClick={() => { setFollowUpTargetId(null); setFollowUpText(""); }} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium">Close</button>
+            </div>
+            <textarea
+              value={followUpText}
+              onChange={(e) => setFollowUpText(e.target.value)}
+              className="w-full min-h-24 rounded-xl border border-slate-300 bg-stone-50 px-3 py-2 text-sm"
+              placeholder="Enter clarification, correction, or follow-up note..."
+            />
+            <div className="flex justify-end">
+              <button onClick={() => addFollowUp(followUpTargetId)} className="rounded-xl bg-slate-900 text-white px-4 py-2 text-sm font-medium">Add Addendum</button>
+            </div>
+          </section>
+        )}
+
+        <style>{`
+          .entry-note strong { font-weight: 700; }
+          .entry-note em { font-style: italic; }
+          .entry-note u { text-decoration: underline; }
+          .entry-note ul { list-style: disc; padding-left: 1.25rem; margin: 0.25rem 0; }
+          .entry-note li { margin: 0.125rem 0; }
+          [contenteditable][data-placeholder]:empty:before {
+            content: attr(data-placeholder);
+            color: #94a3b8;
+          }
+        `}</style>
+      </div>
+    </div>
+  );
+}
