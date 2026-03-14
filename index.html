@@ -84,6 +84,11 @@
     .filters-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
     .filters-row .search{max-width:260px}
     .filters-row select{padding:7px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text);min-width:150px}
+    .date-filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+    .date-filter-row .date-field{display:flex;align-items:center;gap:6px;background:#f8fafc;border:1px solid #dbe3ed;border-radius:10px;padding:6px 8px}
+    .date-filter-row .date-field label{font-size:12px;font-weight:700;color:#475569;margin:0}
+    .date-filter-row input[type="date"]{padding:7px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
+    .filter-clear-btn{padding:8px 10px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;color:#334155;font-weight:700;cursor:pointer}
     .review-attention{background:#fee2e2;color:#b91c1c;border-color:#fecaca}
     .action-stack button.attention-btn{border-color:#fecaca;background:#fff7f7;color:#991b1b}
     .handoff-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
@@ -129,6 +134,8 @@
       .snapshot-grid.hours-snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .handoff-grid,.handoff-columns{grid-template-columns:1fr}
       .filters-row .search{max-width:none}
+      .date-filter-row{align-items:stretch}
+      .date-filter-row .date-field{width:100%;justify-content:space-between}
       table{font-size:11px}
     }
   </style>
@@ -143,7 +150,7 @@
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.19-html</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.20-html</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -211,24 +218,37 @@
           <h2>Running Sheet</h2>
           <div class="small">Append-only record. Entries cannot be edited or deleted; they can only be reviewed, marked needs attention, ignored, restored active, or followed up with an addendum.</div>
         </div>
-        <div class="filters-row">
-          <input id="search-input" class="search" placeholder="Search run, cycle, note, event..." />
-          <select id="filter-source">
-            <option value="">All Sources</option>
-            <option value="system">System</option>
-            <option value="operator">Operator</option>
-          </select>
-          <select id="filter-category">
-            <option value="">All Categories</option>
-          </select>
-          <select id="filter-review">
-            <option value="">All Review States</option>
-            <option value="Active">Active</option>
-            <option value="Monitoring">Monitoring</option>
-            <option value="Needs Attention">Needs Attention</option>
-            <option value="Reviewed">Reviewed</option>
-            <option value="Ignored">Ignored</option>
-          </select>
+        <div>
+          <div class="filters-row">
+            <input id="search-input" class="search" placeholder="Search run, cycle, note, event..." />
+            <select id="filter-source">
+              <option value="">All Sources</option>
+              <option value="system">System</option>
+              <option value="operator">Operator</option>
+            </select>
+            <select id="filter-category">
+              <option value="">All Categories</option>
+            </select>
+            <select id="filter-review">
+              <option value="">All Review States</option>
+              <option value="Active">Active</option>
+              <option value="Monitoring">Monitoring</option>
+              <option value="Needs Attention">Needs Attention</option>
+              <option value="Reviewed">Reviewed</option>
+              <option value="Ignored">Ignored</option>
+            </select>
+          </div>
+          <div class="date-filter-row">
+            <div class="date-field">
+              <label for="filter-date-from">From</label>
+              <input id="filter-date-from" type="date" />
+            </div>
+            <div class="date-field">
+              <label for="filter-date-to">To</label>
+              <input id="filter-date-to" type="date" />
+            </div>
+            <button id="clear-date-filters" class="filter-clear-btn" type="button">Clear Dates</button>
+          </div>
         </div>
       </div>
       <div class="table-wrap">
@@ -351,7 +371,7 @@
   </div>
 
   <script>
-    const VERSION = "1.0.19-html";
+    const VERSION = "1.0.20-html";
     document.getElementById("version-label").textContent = VERSION;
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
@@ -362,7 +382,7 @@
       "Run Time","Running Per Plan","Engineer (DK/TP)","Engineer (Hardware)","Cold Soak Time","Rerun (Equipment)","Rerun (Operator)","No Operator","No Work (Test article)","No Work (No Q)","CBE","Facility Down","Air Handlers","Emissions Cart","Fuel Cart","Dyno","Cyflex","PM System","Filter Changer","Calterm / Cuty","Other (please note in log)","Engine Install","Cell Calibration Work"
     ];
 
-    let bannerFields = {engineModel:"Titanium",engineSN:"80728265",engineer:"A. McCalment",pph:"E6640",testCell:"204",testPlanId:"TIHD2A-EN-B2P10",technician:"Joey Poppe",shift:"6W",date:"03/08",startTime:"07:00 AM",endTime:"07:00 PM",cellHourMeter:"094"};
+    let bannerFields = {engineModel:"Titanium",engineSN:"80728265",engineer:"A. McCalment",pph:"E6640",testCell:"204",testPlanId:"TIHD2A-EN-B2P10",technician:"Joey Poppe",shift:"6W",date:"2026-03-08",startTime:"07:00 AM",endTime:"07:00 PM",cellHourMeter:"094"};
     let billableHours = Object.fromEntries(billableHourCategories.map(label => [label, ""]));
     let formState = {time:"",run:"",cycle:"",torqueMap:"",sump:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"};
 
@@ -407,6 +427,9 @@
     const filterSource = document.getElementById("filter-source");
     const filterCategory = document.getElementById("filter-category");
     const filterReview = document.getElementById("filter-review");
+    const filterDateFrom = document.getElementById("filter-date-from");
+    const filterDateTo = document.getElementById("filter-date-to");
+    const clearDateFiltersBtn = document.getElementById("clear-date-filters");
     const handoffState = document.getElementById("handoff-state");
     const handoffPriority = document.getElementById("handoff-priority");
     const handoffOwner = document.getElementById("handoff-owner");
@@ -441,6 +464,29 @@
       if (mm.length === 2) mm = String(Math.min(Math.max(parseInt(mm || "0",10),0),59)).padStart(2,"0");
       let formatted = hh; if (mm) formatted += `:${mm}`; if (formatted && suffix) formatted += ` ${suffix}`; return formatted;
     }
+    function normalizeDateValue(value){
+      const raw = String(value || "").trim();
+      if (!raw) return "";
+      if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+      const slash = raw.match(/^(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?$/);
+      if (slash){
+        const month = String(Math.min(Math.max(parseInt(slash[1],10),1),12)).padStart(2,"0");
+        const day = String(Math.min(Math.max(parseInt(slash[2],10),1),31)).padStart(2,"0");
+        let year = slash[3] ? slash[3] : String(new Date().getFullYear());
+        if (year.length === 2) year = `20${year}`;
+        return `${year}-${month}-${day}`;
+      }
+      const parsed = new Date(raw);
+      if (!Number.isNaN(parsed.getTime())) return parsed.toISOString().slice(0,10);
+      return "";
+    }
+    function displayDate(value){
+      const normalized = normalizeDateValue(value);
+      if (!normalized) return value || "—";
+      const [year,month,day] = normalized.split("-").map(Number);
+      const local = new Date(year, month - 1, day);
+      return local.toLocaleDateString([], {month:"2-digit", day:"2-digit", year:"numeric"});
+    }
     function sanitizeHtml(html){return html.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi,"").replace(/ on\w+="[^"]*"/gi,"").replace(/ on\w+='[^']*'/gi,"")}
     function plainTextFromHtml(html){const div = document.createElement("div"); div.innerHTML = html; return (div.textContent || div.innerText || "").trim()}
     function totalHours(){return Object.values(billableHours).reduce((sum, value) => sum + (parseFloat(value) || 0), 0).toFixed(1)}
@@ -449,7 +495,7 @@
       headerGrid.innerHTML = bannerConfig.map(([label,key]) => `
         <div class="header-cell">
           <label>${label}</label>
-          <input data-banner="${key}" value="${escapeHtml(bannerFields[key] || "")}" />
+          <input data-banner="${key}" type="${key === 'date' ? 'date' : 'text'}" value="${escapeHtml(key === 'date' ? normalizeDateValue(bannerFields[key] || "") : (bannerFields[key] || ""))}" />
         </div>
       `).join("");
       headerGrid.querySelectorAll("[data-banner]").forEach(input => {
@@ -542,15 +588,20 @@
       const sourceFilter = filterSource.value;
       const categoryFilter = filterCategory.value;
       const reviewFilter = filterReview.value;
+      const dateFrom = filterDateFrom.value;
+      const dateTo = filterDateTo.value;
       const shown = entries.filter(entry => {
+        const entryDate = normalizeDateValue(entry.headerSnapshot?.date || "");
         const matchesSearch = !q || [
           entry.time, entry.source, entry.eventType, entry.run, entry.cycle, entry.category,
-          entry.status, entry.reviewState, entry.noteText, entry.noteHtml
+          entry.status, entry.reviewState, entry.noteText, entry.noteHtml, displayDate(entry.headerSnapshot?.date || "")
         ].some(v => String(v || "").toLowerCase().includes(q));
         const matchesSource = !sourceFilter || entry.source === sourceFilter;
         const matchesCategory = !categoryFilter || entry.category === categoryFilter;
         const matchesReview = !reviewFilter || entry.reviewState === reviewFilter;
-        return matchesSearch && matchesSource && matchesCategory && matchesReview;
+        const matchesDateFrom = !dateFrom || (entryDate && entryDate >= dateFrom);
+        const matchesDateTo = !dateTo || (entryDate && entryDate <= dateTo);
+        return matchesSearch && matchesSource && matchesCategory && matchesReview && matchesDateFrom && matchesDateTo;
       });
 
       entriesBody.innerHTML = shown.map(entry => {
@@ -593,7 +644,7 @@
                       ${snapshotBox("Test Plan ID", headerSnapshot.testPlanId || "—")}
                       ${snapshotBox("Technician", headerSnapshot.technician || "—")}
                       ${snapshotBox("Shift", headerSnapshot.shift || "—")}
-                      ${snapshotBox("Date", headerSnapshot.date || "—")}
+                      ${snapshotBox("Date", displayDate(headerSnapshot.date || "—"))}
                       ${snapshotBox("Start Time", headerSnapshot.startTime || "—")}
                       ${snapshotBox("End Time", headerSnapshot.endTime || "—")}
                       ${snapshotBox("Cell Hour Meter", headerSnapshot.cellHourMeter || "—")}
@@ -790,6 +841,13 @@
     filterSource.addEventListener("input", renderEntries);
     filterCategory.addEventListener("input", renderEntries);
     filterReview.addEventListener("input", renderEntries);
+    filterDateFrom.addEventListener("input", renderEntries);
+    filterDateTo.addEventListener("input", renderEntries);
+    clearDateFiltersBtn.addEventListener("click", () => {
+      filterDateFrom.value = "";
+      filterDateTo.value = "";
+      renderEntries();
+    });
 
     renderHeaderFields();
     renderForm();
