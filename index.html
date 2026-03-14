@@ -45,7 +45,8 @@
     .actions-row{display:grid;grid-template-columns:auto auto 1fr auto;gap:8px;align-items:end;padding-top:8px;border-top:1px solid #e2e8f0}
     button.primary{background:#0f172a;color:#fff;border:1px solid #0f172a;border-radius:10px;padding:10px 14px;cursor:pointer}
     button.secondary{background:#fff;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px 14px;cursor:pointer}
-    .hours-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+    .hours-wrap{max-height:260px;overflow:auto;padding-right:4px}
+    .hours-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
     .hours-card{border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;padding:8px;display:flex;flex-direction:column;gap:6px}
     .hours-card label{font-size:11px;line-height:1.3;font-weight:600;color:#334155}
     .hours-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
@@ -72,15 +73,20 @@
     .action-stack{display:flex;flex-direction:column;gap:4px;min-width:92px}
     .action-stack button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 6px;font-size:10px;cursor:pointer}
     .details-row{background:#f8fafc}
-    .details-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:10px}
+    .detail-sections{display:grid;grid-template-columns:minmax(260px,1.05fr) minmax(260px,1fr) minmax(320px,1.35fr);gap:10px;align-items:start}
+    .details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:0}
     .detail-box,.snapshot-box{border:1px solid #e2e8f0;border-radius:10px;background:#fff;padding:8px;font-size:11px}
     .detail-box span:first-child,.snapshot-box span:first-child{display:block;color:var(--muted);margin-bottom:4px}
     .snapshot{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px;margin-top:10px}
     .snapshot-title{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:700;margin-bottom:8px}
-    .snapshot-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;font-size:11px}
+    .snapshot-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;font-size:11px}
+    .snapshot-scroll{max-height:240px;overflow:auto;padding-right:4px}
+    .snapshot-grid.hours-snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .followup{padding:12px;display:flex;flex-direction:column;gap:8px}
     .followup-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
     .followup-textarea{min-height:96px;background:#fafaf9}
+    .section-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
+    .section-title{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:700;margin-bottom:8px}
     @media (max-width:1200px){
       .header-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
       .header-cell:nth-child(6n){border-right:1px solid var(--line)}
@@ -88,8 +94,10 @@
       .form-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
       .span-8,.span-6{grid-column:span 4}
       .actions-row{grid-template-columns:1fr 1fr}
-      .hours-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .hours-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+      .detail-sections{grid-template-columns:1fr}
       .details-grid,.snapshot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .snapshot-grid.hours-snapshot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
     }
     @media (max-width:800px){
       .header-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -99,7 +107,9 @@
       .span-8,.span-6,.span-4,.span-2{grid-column:span 2}
       .actions-row{grid-template-columns:1fr}
       .hours-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .detail-sections{grid-template-columns:1fr}
       .details-grid,.snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .snapshot-grid.hours-snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       table{font-size:11px}
     }
   </style>
@@ -114,7 +124,7 @@
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.15-html</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.16-html</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -176,7 +186,7 @@
             <span class="pill">Cell Meter: <span id="hours-meter" style="margin-left:6px">094</span></span>
           </div>
         </div>
-        <div class="hours-grid" id="hours-grid"></div>
+        <div class="hours-wrap"><div class="hours-grid" id="hours-grid"></div></div>
       </div>
     </section>
 
@@ -227,7 +237,7 @@
   </div>
 
   <script>
-    const VERSION = "1.0.15-html";
+    const VERSION = "1.0.16-html";
     document.getElementById("version-label").textContent = VERSION;
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
@@ -400,41 +410,48 @@
           ${detailsOpen ? `
             <tr class="details-row">
               <td colspan="10">
-                <div class="details-grid">
-                  ${detailBox("Torque", entry.torqueMap)}
-                  ${detailBox("Sump", entry.sump)}
-                  ${detailBox("Carbon", entry.carbon)}
-                  ${detailBox("NOx", entry.nox)}
-                  ${detailBox("THC", entry.thc)}
-                  ${detailBox("PM", entry.pm)}
-                  ${detailBox("Work", entry.work)}
-                  ${detailBox("Filter", entry.filter)}
-                  ${detailBox("Test Map", entry.testMap)}
-                </div>
-                <div class="snapshot">
-                  <div class="snapshot-title">Header Snapshot at Time of Entry</div>
-                  <div class="snapshot-grid">
-                    ${snapshotBox("Engine Model", headerSnapshot.engineModel || "—")}
-                    ${snapshotBox("Engine S/N", headerSnapshot.engineSN || "—")}
-                    ${snapshotBox("Engineer", headerSnapshot.engineer || "—")}
-                    ${snapshotBox("PPH", headerSnapshot.pph || "—")}
-                    ${snapshotBox("Test Cell", headerSnapshot.testCell || "—")}
-                    ${snapshotBox("Test Plan ID", headerSnapshot.testPlanId || "—")}
-                    ${snapshotBox("Technician", headerSnapshot.technician || "—")}
-                    ${snapshotBox("Shift", headerSnapshot.shift || "—")}
-                    ${snapshotBox("Date", headerSnapshot.date || "—")}
-                    ${snapshotBox("Start Time", headerSnapshot.startTime || "—")}
-                    ${snapshotBox("End Time", headerSnapshot.endTime || "—")}
-                    ${snapshotBox("Cell Hour Meter", headerSnapshot.cellHourMeter || "—")}
+                <div class="detail-sections">
+                  <div class="section-card">
+                    <div class="section-title">Technical Values</div>
+                    <div class="details-grid">
+                      ${detailBox("Torque", entry.torqueMap)}
+                      ${detailBox("Sump", entry.sump)}
+                      ${detailBox("Carbon", entry.carbon)}
+                      ${detailBox("NOx", entry.nox)}
+                      ${detailBox("THC", entry.thc)}
+                      ${detailBox("PM", entry.pm)}
+                      ${detailBox("Work", entry.work)}
+                      ${detailBox("Filter", entry.filter)}
+                      ${detailBox("Test Map", entry.testMap)}
+                    </div>
                   </div>
-                </div>
-                <div class="snapshot">
-                  <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px">
-                    <div class="snapshot-title" style="margin-bottom:0">Billable Hours Snapshot</div>
-                    <div class="small" style="font-weight:700;color:#334155">Total: ${hoursTotalSnapshot}</div>
+                  <div class="snapshot">
+                    <div class="snapshot-title">Header Snapshot at Time of Entry</div>
+                    <div class="snapshot-grid">
+                      ${snapshotBox("Engine Model", headerSnapshot.engineModel || "—")}
+                      ${snapshotBox("Engine S/N", headerSnapshot.engineSN || "—")}
+                      ${snapshotBox("Engineer", headerSnapshot.engineer || "—")}
+                      ${snapshotBox("PPH", headerSnapshot.pph || "—")}
+                      ${snapshotBox("Test Cell", headerSnapshot.testCell || "—")}
+                      ${snapshotBox("Test Plan ID", headerSnapshot.testPlanId || "—")}
+                      ${snapshotBox("Technician", headerSnapshot.technician || "—")}
+                      ${snapshotBox("Shift", headerSnapshot.shift || "—")}
+                      ${snapshotBox("Date", headerSnapshot.date || "—")}
+                      ${snapshotBox("Start Time", headerSnapshot.startTime || "—")}
+                      ${snapshotBox("End Time", headerSnapshot.endTime || "—")}
+                      ${snapshotBox("Cell Hour Meter", headerSnapshot.cellHourMeter || "—")}
+                    </div>
                   </div>
-                  <div class="snapshot-grid">
-                    ${billableHourCategories.map(label => snapshotBox(label, hoursSnapshot[label] || "0.0")).join("")}
+                  <div class="snapshot">
+                    <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px">
+                      <div class="snapshot-title" style="margin-bottom:0">Billable Hours Snapshot</div>
+                      <div class="small" style="font-weight:700;color:#334155">Total: ${hoursTotalSnapshot}</div>
+                    </div>
+                    <div class="snapshot-scroll">
+                      <div class="snapshot-grid hours-snapshot-grid">
+                        ${billableHourCategories.map(label => snapshotBox(label, hoursSnapshot[label] || "0.0")).join("")}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </td>
@@ -485,7 +502,7 @@
       entries.unshift({
         ...formState,
         id: Date.now(),
-        time: formatCurrentTime(),
+        time: formState.time || formatCurrentTime(),
         source: "operator",
         locked: true,
         ignored: false,
@@ -511,7 +528,7 @@
         ignored: false,
         reviewState: template.status === "Monitoring" ? "Monitoring" : "Active",
         eventType: template.eventType,
-        time: formatCurrentTime(),
+        time: formState.time || formatCurrentTime(),
         run: formState.run || "—",
         cycle: formState.cycle || "—",
         torqueMap: formState.torqueMap || "—",
