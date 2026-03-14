@@ -73,7 +73,7 @@
     .action-stack{display:flex;flex-direction:column;gap:4px;min-width:92px}
     .action-stack button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 6px;font-size:10px;cursor:pointer}
     .details-row{background:#f8fafc}
-    .detail-sections{display:grid;grid-template-columns:minmax(260px,1.05fr) minmax(260px,1fr) minmax(320px,1.35fr);gap:10px;align-items:start}
+    .detail-sections{display:grid;grid-template-columns:minmax(280px,1fr) minmax(320px,1fr);gap:10px;align-items:start}
     .details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:0}
     .detail-box,.snapshot-box{border:1px solid #e2e8f0;border-radius:10px;background:#fff;padding:8px;font-size:11px}
     .detail-box span:first-child,.snapshot-box span:first-child{display:block;color:var(--muted);margin-bottom:4px}
@@ -87,6 +87,11 @@
     .followup-textarea{min-height:96px;background:#fafaf9}
     .section-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
     .section-title{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:700;margin-bottom:8px}
+    .view-tabs{display:flex;gap:8px;flex-wrap:wrap;padding:10px 12px;background:var(--soft);border:1px solid var(--line);border-radius:16px}
+    .tab-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:999px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer}
+    .tab-btn.active{background:#0f172a;color:#fff;border-color:#0f172a}
+    .tab-btn .tab-sub{display:block;font-size:10px;font-weight:600;opacity:.8;margin-top:2px}
+    .tab-view[hidden]{display:none !important}
     @media (max-width:1200px){
       .header-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
       .header-cell:nth-child(6n){border-right:1px solid var(--line)}
@@ -124,12 +129,24 @@
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.16-html</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.17-html</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
+    <div class="view-tabs" aria-label="Main views">
+      <button class="tab-btn active" type="button" data-tab-target="logbook">
+        Logbook
+        <span class="tab-sub">Running sheet + new entries</span>
+      </button>
+      <button class="tab-btn" type="button" data-tab-target="hours">
+        Cell Hours
+        <span class="tab-sub">Separate live daily tally</span>
+      </button>
+    </div>
+
+    <div id="tab-logbook" class="tab-view">
     <section class="panel">
       <div class="section-body">
         <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap">
@@ -171,22 +188,6 @@
           </label>
           <button class="secondary" id="auto-log-btn">Auto Log Event</button>
         </div>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="section-body">
-        <div class="hours-top">
-          <div>
-            <h2>Cell Hour / Billable Categories</h2>
-            <div class="small">Digital version of the paper-log hours block. Values entered here snapshot with each new entry.</div>
-          </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <span class="pill">Total Hours: <span id="hours-total" style="margin-left:6px">0.0</span></span>
-            <span class="pill">Cell Meter: <span id="hours-meter" style="margin-left:6px">094</span></span>
-          </div>
-        </div>
-        <div class="hours-wrap"><div class="hours-grid" id="hours-grid"></div></div>
       </div>
     </section>
 
@@ -234,10 +235,29 @@
         </div>
       </div>
     </section>
+    </div>
+
+    <div id="tab-hours" class="tab-view" hidden>
+      <section class="panel">
+        <div class="section-body">
+          <div class="hours-top">
+            <div>
+              <h2>Cell Hour / Billable Categories</h2>
+              <div class="small">Separate live shift/day worksheet. Update these throughout the day without tying them to each running-sheet entry.</div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <span class="pill">Total Hours: <span id="hours-total" style="margin-left:6px">0.0</span></span>
+              <span class="pill">Cell Meter: <span id="hours-meter" style="margin-left:6px">094</span></span>
+            </div>
+          </div>
+          <div class="hours-wrap"><div class="hours-grid" id="hours-grid"></div></div>
+        </div>
+      </section>
+    </div>
   </div>
 
   <script>
-    const VERSION = "1.0.16-html";
+    const VERSION = "1.0.17-html";
     document.getElementById("version-label").textContent = VERSION;
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
@@ -264,13 +284,13 @@
 
     let entries = [
       {
-        id:1,source:"system",locked:true,ignored:false,reviewState:"Active",eventType:"Cycle Start",time:"09:28 AM",run:"1229751",cycle:"605 Parent",torqueMap:"180.6",sump:"188.0",carbon:"-0.17",nox:"-0.010",thc:"-0.003",pm:"—",work:"56.05",filter:"00000",testMap:"19",category:"Test Update",status:"Open",noteHtml:"System event: cycle start registered and soak sequence initiated.",noteText:"System event: cycle start registered and soak sequence initiated.",headerSnapshot:structuredClone(bannerFields),billableHoursSnapshot:structuredClone(billableHours)
+        id:1,source:"system",locked:true,ignored:false,reviewState:"Active",eventType:"Cycle Start",time:"09:28 AM",run:"1229751",cycle:"605 Parent",torqueMap:"180.6",sump:"188.0",carbon:"-0.17",nox:"-0.010",thc:"-0.003",pm:"—",work:"56.05",filter:"00000",testMap:"19",category:"Test Update",status:"Open",noteHtml:"System event: cycle start registered and soak sequence initiated.",noteText:"System event: cycle start registered and soak sequence initiated.",headerSnapshot:structuredClone(bannerFields)
       },
       {
-        id:2,source:"operator",locked:true,ignored:false,reviewState:"Monitoring",eventType:"Operator Note",time:"10:16 AM",run:"1229753",cycle:"WHTP",torqueMap:"—",sump:"161.1",carbon:"-0.65",nox:"0.0054",thc:"0.0057",pm:"—",work:"40.87",filter:"—",testMap:"13",category:"Issue",status:"Monitoring",noteHtml:"Cut out around <strong>0.35C</strong>. Contacting engineering to see if this is normal.",noteText:"Cut out around 0.35C. Contacting engineering to see if this is normal.",headerSnapshot:structuredClone(bannerFields),billableHoursSnapshot:structuredClone(billableHours)
+        id:2,source:"operator",locked:true,ignored:false,reviewState:"Monitoring",eventType:"Operator Note",time:"10:16 AM",run:"1229753",cycle:"WHTP",torqueMap:"—",sump:"161.1",carbon:"-0.65",nox:"0.0054",thc:"0.0057",pm:"—",work:"40.87",filter:"—",testMap:"13",category:"Issue",status:"Monitoring",noteHtml:"Cut out around <strong>0.35C</strong>. Contacting engineering to see if this is normal.",noteText:"Cut out around 0.35C. Contacting engineering to see if this is normal.",headerSnapshot:structuredClone(bannerFields)
       },
       {
-        id:3,source:"system",locked:true,ignored:false,reviewState:"Active",eventType:"Post Processing",time:"05:15 PM",run:"1229756",cycle:"vLLC",torqueMap:"—",sump:"180.6",carbon:"-0.71",nox:"-0.010",thc:"-0.003",pm:"—",work:"56.05",filter:"—",testMap:"19",category:"Engineer Direction",status:"Open",noteHtml:"System event: rev 9.10 loaded. Post processing remains incomplete and requires review.",noteText:"System event: rev 9.10 loaded. Post processing remains incomplete and requires review.",headerSnapshot:structuredClone(bannerFields),billableHoursSnapshot:structuredClone(billableHours)
+        id:3,source:"system",locked:true,ignored:false,reviewState:"Active",eventType:"Post Processing",time:"05:15 PM",run:"1229756",cycle:"vLLC",torqueMap:"—",sump:"180.6",carbon:"-0.71",nox:"-0.010",thc:"-0.003",pm:"—",work:"56.05",filter:"—",testMap:"19",category:"Engineer Direction",status:"Open",noteHtml:"System event: rev 9.10 loaded. Post processing remains incomplete and requires review.",noteText:"System event: rev 9.10 loaded. Post processing remains incomplete and requires review.",headerSnapshot:structuredClone(bannerFields)
       }
     ];
 
@@ -289,6 +309,11 @@
     const followupTitle = document.getElementById("followup-title");
     const followupText = document.getElementById("followup-text");
     const searchInput = document.getElementById("search-input");
+    const tabButtons = Array.from(document.querySelectorAll("[data-tab-target]"));
+    const tabViews = {
+      logbook: document.getElementById("tab-logbook"),
+      hours: document.getElementById("tab-hours")
+    };
 
     function escapeHtml(str){return String(str ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
     function statusClass(status){return status === "Resolved" ? "status-resolved" : status === "Monitoring" ? "status-monitoring" : status === "Waiting" ? "status-waiting" : "status-open"}
@@ -383,9 +408,7 @@
       const shown = q ? entries.filter(entry => Object.values(entry).some(v => String(v).toLowerCase().includes(q))) : entries;
       entriesBody.innerHTML = shown.map(entry => {
         const detailsOpen = !!expandedRows[entry.id];
-        const hoursSnapshot = entry.billableHoursSnapshot || {};
         const headerSnapshot = entry.headerSnapshot || {};
-        const hoursTotalSnapshot = Object.values(hoursSnapshot).reduce((sum, value) => sum + (parseFloat(value) || 0), 0).toFixed(1);
         return `
           <tr class="${entry.ignored ? 'ignored-row' : ''}">
             <td>${entry.time || "—"}</td>
@@ -440,17 +463,6 @@
                       ${snapshotBox("Start Time", headerSnapshot.startTime || "—")}
                       ${snapshotBox("End Time", headerSnapshot.endTime || "—")}
                       ${snapshotBox("Cell Hour Meter", headerSnapshot.cellHourMeter || "—")}
-                    </div>
-                  </div>
-                  <div class="snapshot">
-                    <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px">
-                      <div class="snapshot-title" style="margin-bottom:0">Billable Hours Snapshot</div>
-                      <div class="small" style="font-weight:700;color:#334155">Total: ${hoursTotalSnapshot}</div>
-                    </div>
-                    <div class="snapshot-scroll">
-                      <div class="snapshot-grid hours-snapshot-grid">
-                        ${billableHourCategories.map(label => snapshotBox(label, hoursSnapshot[label] || "0.0")).join("")}
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -510,8 +522,7 @@
         eventType: "Operator Note",
         noteHtml: cleanedHtml,
         noteText: plainText,
-        headerSnapshot: structuredClone(bannerFields),
-        billableHoursSnapshot: structuredClone(billableHours)
+        headerSnapshot: structuredClone(bannerFields)
       });
       resetForm();
       renderEntries();
@@ -544,8 +555,7 @@
         status: template.status,
         noteHtml: template.note,
         noteText: template.note,
-        headerSnapshot: structuredClone(bannerFields),
-        billableHoursSnapshot: structuredClone(billableHours)
+        headerSnapshot: structuredClone(bannerFields)
       });
       renderEntries();
     }
@@ -568,13 +578,25 @@
         parentId: followUpTargetId,
         noteHtml: `<strong>Addendum to Entry ${followUpTargetId}:</strong> ${escapeHtml(cleaned)}`,
         noteText: `Addendum to Entry ${followUpTargetId}: ${cleaned}`,
-        headerSnapshot: structuredClone(parentEntry?.headerSnapshot || bannerFields),
-        billableHoursSnapshot: structuredClone(parentEntry?.billableHoursSnapshot || billableHours)
+        headerSnapshot: structuredClone(parentEntry?.headerSnapshot || bannerFields)
       });
       followUpTargetId = null;
       followupText.value = "";
       followupPanel.style.display = "none";
       renderEntries();
+    }
+
+    function switchTab(tabName){
+      Object.entries(tabViews).forEach(([name, view]) => {
+        view.hidden = name !== tabName;
+      });
+      tabButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.tabTarget === tabName));
+    }
+
+    function initTabs(){
+      tabButtons.forEach(btn => {
+        btn.addEventListener("click", () => switchTab(btn.dataset.tabTarget));
+      });
     }
 
     function initToolbar(){
@@ -597,6 +619,7 @@
     renderHeaderFields();
     renderForm();
     renderHours();
+    initTabs();
     initToolbar();
     resetForm();
     renderEntries();
