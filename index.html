@@ -73,15 +73,26 @@
     .action-stack{display:flex;flex-direction:column;gap:4px;min-width:92px}
     .action-stack button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 6px;font-size:10px;cursor:pointer}
     .details-row{background:#f8fafc}
-    .detail-sections{display:grid;grid-template-columns:minmax(280px,1fr) minmax(320px,1fr);gap:10px;align-items:start}
-    .details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:0}
+    .detail-sections{display:flex;flex-direction:column;gap:10px}
+    .details-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:0}
     .detail-box,.snapshot-box{border:1px solid #e2e8f0;border-radius:10px;background:#fff;padding:8px;font-size:11px}
     .detail-box span:first-child,.snapshot-box span:first-child{display:block;color:var(--muted);margin-bottom:4px}
-    .snapshot{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px;margin-top:10px}
+    .snapshot{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px;margin-top:0}
     .snapshot-title{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:700;margin-bottom:8px}
-    .snapshot-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;font-size:11px}
-    .snapshot-scroll{max-height:240px;overflow:auto;padding-right:4px}
+    .snapshot-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;font-size:11px}
     .snapshot-grid.hours-snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .filters-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .filters-row .search{max-width:260px}
+    .filters-row select{padding:7px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text);min-width:150px}
+    .review-attention{background:#fee2e2;color:#b91c1c;border-color:#fecaca}
+    .action-stack button.attention-btn{border-color:#fecaca;background:#fff7f7;color:#991b1b}
+    .handoff-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+    .handoff-list{display:flex;flex-direction:column;gap:8px}
+    .handoff-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
+    .handoff-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+    .handoff-columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+    .handoff-block{border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;padding:8px;font-size:12px}
+    .handoff-block strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
     .followup{padding:12px;display:flex;flex-direction:column;gap:8px}
     .followup-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
     .followup-textarea{min-height:96px;background:#fafaf9}
@@ -100,9 +111,11 @@
       .span-8,.span-6{grid-column:span 4}
       .actions-row{grid-template-columns:1fr 1fr}
       .hours-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
-      .detail-sections{grid-template-columns:1fr}
-      .details-grid,.snapshot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .details-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .snapshot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
       .snapshot-grid.hours-snapshot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .handoff-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .handoff-columns{grid-template-columns:1fr}
     }
     @media (max-width:800px){
       .header-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -112,9 +125,10 @@
       .span-8,.span-6,.span-4,.span-2{grid-column:span 2}
       .actions-row{grid-template-columns:1fr}
       .hours-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .detail-sections{grid-template-columns:1fr}
       .details-grid,.snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .snapshot-grid.hours-snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .handoff-grid,.handoff-columns{grid-template-columns:1fr}
+      .filters-row .search{max-width:none}
       table{font-size:11px}
     }
   </style>
@@ -129,7 +143,7 @@
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.18-html</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.19-html</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -195,9 +209,27 @@
       <div class="panel-head">
         <div>
           <h2>Running Sheet</h2>
-          <div class="small">Append-only record. Entries cannot be edited or deleted; they can only be reviewed, ignored, restored active, or followed up with an addendum.</div>
+          <div class="small">Append-only record. Entries cannot be edited or deleted; they can only be reviewed, marked needs attention, ignored, restored active, or followed up with an addendum.</div>
         </div>
-        <input id="search-input" class="search" placeholder="Search run, cycle, note, event..." style="max-width:320px" />
+        <div class="filters-row">
+          <input id="search-input" class="search" placeholder="Search run, cycle, note, event..." />
+          <select id="filter-source">
+            <option value="">All Sources</option>
+            <option value="system">System</option>
+            <option value="operator">Operator</option>
+          </select>
+          <select id="filter-category">
+            <option value="">All Categories</option>
+          </select>
+          <select id="filter-review">
+            <option value="">All Review States</option>
+            <option value="Active">Active</option>
+            <option value="Monitoring">Monitoring</option>
+            <option value="Needs Attention">Needs Attention</option>
+            <option value="Reviewed">Reviewed</option>
+            <option value="Ignored">Ignored</option>
+          </select>
+        </div>
       </div>
       <div class="table-wrap">
         <table>
@@ -235,6 +267,66 @@
         </div>
       </div>
     </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Shift Closeout / Handoff</h2>
+          <div class="small">Capture the few things the next shift actually needs without forcing them to hunt through every row in the running sheet.</div>
+        </div>
+        <div class="small" style="font-weight:700;color:#334155">Append-only handoff snapshots</div>
+      </div>
+      <div class="section-body">
+        <div class="handoff-grid">
+          <label class="field">
+            <label>Current Cell State</label>
+            <select id="handoff-state">
+              <option value="Running">Running</option>
+              <option value="Monitoring">Monitoring</option>
+              <option value="Waiting">Waiting</option>
+              <option value="Down">Down</option>
+              <option value="Ready for Next Shift">Ready for Next Shift</option>
+            </select>
+          </label>
+          <label class="field">
+            <label>Priority</label>
+            <select id="handoff-priority">
+              <option value="Normal">Normal</option>
+              <option value="Watch">Watch</option>
+              <option value="High">High</option>
+            </select>
+          </label>
+          <label class="field">
+            <label>Owner / Next Contact</label>
+            <input id="handoff-owner" placeholder="Engineer / technician / group" />
+          </label>
+          <label class="field">
+            <label>Ready Status</label>
+            <select id="handoff-ready">
+              <option value="Ready">Ready</option>
+              <option value="Not Ready">Not Ready</option>
+              <option value="Needs Review">Needs Review</option>
+            </select>
+          </label>
+          <label class="field span-2">
+            <label>Completed This Shift</label>
+            <textarea id="handoff-completed" class="followup-textarea" placeholder="What got completed or verified?"></textarea>
+          </label>
+          <label class="field span-2">
+            <label>Open Issues / Risks</label>
+            <textarea id="handoff-open" class="followup-textarea" placeholder="Anything unresolved, abnormal, or holding up progress?"></textarea>
+          </label>
+          <label class="field span-4">
+            <label>Watch / Next Shift Notes</label>
+            <textarea id="handoff-watch" class="followup-textarea" placeholder="What should the next shift watch first?"></textarea>
+          </label>
+        </div>
+        <div style="display:flex;justify-content:flex-end">
+          <button class="primary" id="handoff-save">Save Handoff Snapshot</button>
+        </div>
+        <div id="handoff-list" class="handoff-list"></div>
+      </div>
+    </section>
     </div>
 
     <div id="tab-hours" class="tab-view" hidden>
@@ -259,7 +351,7 @@
   </div>
 
   <script>
-    const VERSION = "1.0.18-html";
+    const VERSION = "1.0.19-html";
     document.getElementById("version-label").textContent = VERSION;
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
@@ -298,6 +390,7 @@
 
     let expandedRows = {};
     let followUpTargetId = null;
+    let handoffSnapshots = [];
 
     const headerGrid = document.getElementById("header-grid");
     const formGrid = document.getElementById("form-grid");
@@ -311,6 +404,17 @@
     const followupTitle = document.getElementById("followup-title");
     const followupText = document.getElementById("followup-text");
     const searchInput = document.getElementById("search-input");
+    const filterSource = document.getElementById("filter-source");
+    const filterCategory = document.getElementById("filter-category");
+    const filterReview = document.getElementById("filter-review");
+    const handoffState = document.getElementById("handoff-state");
+    const handoffPriority = document.getElementById("handoff-priority");
+    const handoffOwner = document.getElementById("handoff-owner");
+    const handoffReady = document.getElementById("handoff-ready");
+    const handoffCompleted = document.getElementById("handoff-completed");
+    const handoffOpen = document.getElementById("handoff-open");
+    const handoffWatch = document.getElementById("handoff-watch");
+    const handoffList = document.getElementById("handoff-list");
     const tabButtons = Array.from(document.querySelectorAll("[data-tab-target]"));
     const tabViews = {
       logbook: document.getElementById("tab-logbook"),
@@ -319,7 +423,7 @@
 
     function escapeHtml(str){return String(str ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
     function statusClass(status){return status === "Resolved" ? "status-resolved" : status === "Monitoring" ? "status-monitoring" : status === "Waiting" ? "status-waiting" : "status-open"}
-    function reviewClass(state){return state === "Ignored" ? "review-ignored" : state === "Reviewed" ? "review-reviewed" : state === "Monitoring" ? "review-monitoring" : "review-active"}
+    function reviewClass(state){return state === "Ignored" ? "review-ignored" : state === "Reviewed" ? "review-reviewed" : state === "Needs Attention" ? "review-attention" : state === "Monitoring" ? "review-monitoring" : "review-active"}
     function formatCurrentTime(){return new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",hour12:true})}
     function formatTimeForInput(value){
       const raw = (value || "").toUpperCase().replace(/[^0-9APM]/g, "");
@@ -405,9 +509,50 @@
     function detailBox(label, value){return `<div class="detail-box"><span>${label}</span><span style="font-weight:600">${escapeHtml(value || "—")}</span></div>`}
     function snapshotBox(label, value){return `<div class="snapshot-box"><span>${label}</span><span style="font-weight:600">${escapeHtml(value || "—")}</span></div>`}
 
+    function populateCategoryFilter(){
+      const categories = Array.from(new Set(entries.map(entry => entry.category).filter(Boolean))).sort((a,b) => a.localeCompare(b));
+      const current = filterCategory.value;
+      filterCategory.innerHTML = `<option value="">All Categories</option>` + categories.map(cat => `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`).join("");
+      if (categories.includes(current)) filterCategory.value = current;
+    }
+
+    function renderHandoffs(){
+      handoffList.innerHTML = handoffSnapshots.length ? handoffSnapshots.map(item => `
+        <div class="handoff-card">
+          <div class="handoff-meta">
+            <span class="pill">${item.time}</span>
+            <span class="badge ${item.priority === "High" ? "status-open" : item.priority === "Watch" ? "status-monitoring" : "review-reviewed"}">${item.priority}</span>
+            <span class="badge ${item.ready === "Ready" ? "status-resolved" : item.ready === "Not Ready" ? "status-open" : "status-monitoring"}">${item.ready}</span>
+            <span class="badge ${item.state === "Down" ? "status-open" : item.state === "Waiting" ? "status-waiting" : item.state === "Monitoring" ? "status-monitoring" : "status-resolved"}">${item.state}</span>
+            <span class="small">Owner: <strong style="color:#0f172a">${escapeHtml(item.owner || "—")}</strong></span>
+          </div>
+          <div class="handoff-columns">
+            <div class="handoff-block"><strong>Completed This Shift</strong>${escapeHtml(item.completed || "—")}</div>
+            <div class="handoff-block"><strong>Open Issues / Risks</strong>${escapeHtml(item.open || "—")}</div>
+            <div class="handoff-block"><strong>Watch / Next Shift Notes</strong>${escapeHtml(item.watch || "—")}</div>
+          </div>
+          <div class="small" style="margin-top:8px">Snapshot: ${escapeHtml(item.header.engineModel || "—")} • Cell ${escapeHtml(item.header.testCell || "—")} • ${escapeHtml(item.header.shift || "—")} • Meter ${escapeHtml(item.header.cellHourMeter || "—")}</div>
+        </div>
+      `).join("") : `<div class="section-card"><div class="small">No handoff snapshot saved yet.</div></div>`;
+    }
+
     function renderEntries(){
+      populateCategoryFilter();
       const q = searchInput.value.trim().toLowerCase();
-      const shown = q ? entries.filter(entry => Object.values(entry).some(v => String(v).toLowerCase().includes(q))) : entries;
+      const sourceFilter = filterSource.value;
+      const categoryFilter = filterCategory.value;
+      const reviewFilter = filterReview.value;
+      const shown = entries.filter(entry => {
+        const matchesSearch = !q || [
+          entry.time, entry.source, entry.eventType, entry.run, entry.cycle, entry.category,
+          entry.status, entry.reviewState, entry.noteText, entry.noteHtml
+        ].some(v => String(v || "").toLowerCase().includes(q));
+        const matchesSource = !sourceFilter || entry.source === sourceFilter;
+        const matchesCategory = !categoryFilter || entry.category === categoryFilter;
+        const matchesReview = !reviewFilter || entry.reviewState === reviewFilter;
+        return matchesSearch && matchesSource && matchesCategory && matchesReview;
+      });
+
       entriesBody.innerHTML = shown.map(entry => {
         const detailsOpen = !!expandedRows[entry.id];
         const headerSnapshot = entry.headerSnapshot || {};
@@ -425,6 +570,7 @@
             <td>
               <div class="action-stack">
                 <button data-action="details" data-id="${entry.id}">${detailsOpen ? "Less" : "Details"}</button>
+                <button data-action="attention" data-id="${entry.id}" class="attention-btn">Needs Attention</button>
                 <button data-action="reviewed" data-id="${entry.id}">Reviewed</button>
                 <button data-action="ignored" data-id="${entry.id}">Ignore</button>
                 <button data-action="restore" data-id="${entry.id}">Restore</button>
@@ -436,20 +582,6 @@
             <tr class="details-row">
               <td colspan="10">
                 <div class="detail-sections">
-                  <div class="section-card">
-                    <div class="section-title">Technical Values</div>
-                    <div class="details-grid">
-                      ${detailBox("Torque", entry.torqueMap)}
-                      ${detailBox("Sump", entry.sump)}
-                      ${detailBox("Carbon", entry.carbon)}
-                      ${detailBox("NOx", entry.nox)}
-                      ${detailBox("THC", entry.thc)}
-                      ${detailBox("PM", entry.pm)}
-                      ${detailBox("Work", entry.work)}
-                      ${detailBox("Filter", entry.filter)}
-                      ${detailBox("Test Map", entry.testMap)}
-                    </div>
-                  </div>
                   <div class="snapshot">
                     <div class="snapshot-title">Header Snapshot at Time of Entry</div>
                     <div class="snapshot-grid">
@@ -467,6 +599,20 @@
                       ${snapshotBox("Cell Hour Meter", headerSnapshot.cellHourMeter || "—")}
                     </div>
                   </div>
+                  <div class="section-card">
+                    <div class="section-title">Technical Values</div>
+                    <div class="details-grid">
+                      ${detailBox("Torque", entry.torqueMap)}
+                      ${detailBox("Sump", entry.sump)}
+                      ${detailBox("Carbon", entry.carbon)}
+                      ${detailBox("NOx", entry.nox)}
+                      ${detailBox("THC", entry.thc)}
+                      ${detailBox("PM", entry.pm)}
+                      ${detailBox("Work", entry.work)}
+                      ${detailBox("Filter", entry.filter)}
+                      ${detailBox("Test Map", entry.testMap)}
+                    </div>
+                  </div>
                 </div>
               </td>
             </tr>
@@ -481,6 +627,8 @@
           if (action === "details") {
             expandedRows[id] = !expandedRows[id];
             renderEntries();
+          } else if (action === "attention") {
+            updateReviewState(id, "Needs Attention");
           } else if (action === "reviewed") {
             updateReviewState(id, "Reviewed");
           } else if (action === "ignored") {
@@ -588,6 +736,27 @@
       renderEntries();
     }
 
+    function addHandoffSnapshot(){
+      const snapshot = {
+        id: Date.now(),
+        time: formatCurrentTime(),
+        state: handoffState.value,
+        priority: handoffPriority.value,
+        owner: handoffOwner.value.trim(),
+        ready: handoffReady.value,
+        completed: handoffCompleted.value.trim(),
+        open: handoffOpen.value.trim(),
+        watch: handoffWatch.value.trim(),
+        header: structuredClone(bannerFields)
+      };
+      if (!snapshot.completed && !snapshot.open && !snapshot.watch) return;
+      handoffSnapshots.unshift(snapshot);
+      handoffCompleted.value = "";
+      handoffOpen.value = "";
+      handoffWatch.value = "";
+      renderHandoffs();
+    }
+
     function switchTab(tabName){
       Object.entries(tabViews).forEach(([name, view]) => {
         view.hidden = name !== tabName;
@@ -616,11 +785,16 @@
     document.getElementById("clear-btn").addEventListener("click", resetForm);
     document.getElementById("followup-add").addEventListener("click", addFollowUp);
     document.getElementById("followup-close").addEventListener("click", () => { followUpTargetId = null; followupText.value = ""; followupPanel.style.display = "none"; });
+    document.getElementById("handoff-save").addEventListener("click", addHandoffSnapshot);
     searchInput.addEventListener("input", renderEntries);
+    filterSource.addEventListener("input", renderEntries);
+    filterCategory.addEventListener("input", renderEntries);
+    filterReview.addEventListener("input", renderEntries);
 
     renderHeaderFields();
     renderForm();
     renderHours();
+    renderHandoffs();
     initTabs();
     initToolbar();
     resetForm();
