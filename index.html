@@ -509,12 +509,12 @@
         <button type="button" id="ctc-pulse-run">Run Scan</button>
         <button type="button" id="ctc-pulse-copy">Copy Report</button>
       </div>
-      <pre class="debug-report" id="ctc-pulse-report">Press Run Scan to generate a report.</pre>
+      <pre class="debug-report" id="ctc-pulse-report">Press Run Scan to generate a report. A timestamp will appear when the scan completes.</pre>
     </div>
   </section>
 
   <script>
-    const VERSION = "1.0.25-html";
+    const VERSION = "1.0.26-html";
     document.getElementById("version-label").textContent = VERSION;
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
@@ -1238,7 +1238,13 @@
       const report = buildCtcPulseReport();
       ctcPulseReport.textContent = report;
       const allClear = readyText === "Ready" || readyText === "No target";
-      ctcPulseStatus.textContent = allClear ? "Scan complete · all clear" : `Scan complete · ${readyText}`;
+      const stamp = new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit", second:"2-digit"});
+      ctcPulseStatus.textContent = allClear ? `Scan complete at ${stamp} · all clear` : `Scan complete at ${stamp} · ${readyText}`;
+      const runBtn = document.getElementById("ctc-pulse-run");
+      if (runBtn){
+        runBtn.textContent = "Scan Complete";
+        setTimeout(() => { runBtn.textContent = "Run Scan"; }, 900);
+      }
     }
 
     function initCtcPulse(){
