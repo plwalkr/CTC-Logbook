@@ -488,6 +488,31 @@
     </div>
   </div>
 
+
+  <button class="debug-fab" id="ctc-pulse-fab" type="button" title="CTC Pulse">CTC Pulse</button>
+  <section class="debug-panel" id="ctc-pulse-panel" hidden>
+    <div class="debug-head">
+      <div>
+        <h3>CTC Pulse</h3>
+        <div class="debug-sub">Quick health scan for the current prototype</div>
+      </div>
+      <div class="debug-status" id="ctc-pulse-status">Ready</div>
+    </div>
+    <div class="debug-body">
+      <div class="debug-grid">
+        <div class="debug-card"><strong>Active Tab</strong><span id="dbg-active-tab">—</span></div>
+        <div class="debug-card"><strong>Visible Log Rows</strong><span id="dbg-log-rows">0</span></div>
+        <div class="debug-card"><strong>Hours Lines</strong><span id="dbg-hours-lines">0</span></div>
+        <div class="debug-card"><strong>Ready State</strong><span id="dbg-ready-state">—</span></div>
+      </div>
+      <div class="debug-actions">
+        <button type="button" id="ctc-pulse-run">Run Scan</button>
+        <button type="button" id="ctc-pulse-copy">Copy Report</button>
+      </div>
+      <pre class="debug-report" id="ctc-pulse-report">Press Run Scan to generate a report.</pre>
+    </div>
+  </section>
+
   <script>
     const VERSION = "1.0.22-html";
     document.getElementById("version-label").textContent = VERSION;
@@ -801,6 +826,40 @@
 
       renderHoursSummary();
       hoursMeter.textContent = bannerFields.cellHourMeter || "—";
+    }
+
+
+    function updateHoursRowDom(row){
+      const commentInput = hoursRowsBody.querySelector(`[data-hours-comment="${row.id}"]`);
+      const hoursInput = hoursRowsBody.querySelector(`[data-hours-value="${row.id}"]`);
+      const warningEl = commentInput ? commentInput.parentElement.querySelector("[data-hours-warning]") : null;
+      const rowEl = commentInput ? commentInput.closest("tr") : null;
+      const needsComment = requiresDowntimeComment(row);
+      const commentValid = !needsComment || validDowntimeComment(row.comment);
+
+      if (rowEl){
+        rowEl.classList.toggle("hours-row-downtime", row.status === "Downtime");
+        rowEl.classList.toggle("hours-row-running", row.status !== "Downtime");
+        rowEl.classList.toggle("hours-row-invalid", needsComment && !commentValid);
+      }
+      if (commentInput){
+        commentInput.placeholder = needsComment ? "Explain downtime / issue / hold reason..." : "Optional running note";
+      }
+      if (warningEl){
+        warningEl.className = needsComment ? (commentValid ? "hours-ok" : "hours-warning") : "small";
+        warningEl.textContent = needsComment
+          ? (commentValid ? "Downtime justification captured." : "Downtime requires a justification comment with at least 10 characters before hours unlock.")
+          : "Comment optional for running rows.";
+      }
+      if (hoursInput){
+        if (!commentValid){
+          row.hours = "";
+          hoursInput.value = "";
+          hoursInput.disabled = true;
+        } else {
+          hoursInput.disabled = false;
+        }
+      }
     }
 
     function renderHoursSummary(){
@@ -1132,12 +1191,91 @@
       renderEntries();
     });
 
+
+    const ctcPulseFab = document.getElementById("ctc-pulse-fab");
+    const ctcPulsePanel = document.getElementById("ctc-pulse-panel");
+    const ctcPulseStatus = document.getElementById("ctc-pulse-status");
+    const ctcPulseReport = document.getElementById("ctc-pulse-report");
+    const dbgActiveTab = document.getElementById("dbg-active-tab");
+    const dbgLogRows = document.getElementById("dbg-log-rows");
+    const dbgHoursLines = document.getElementById("dbg-hours-lines");
+    const dbgReadyState = document.getElementById("dbg-ready-state");
+
+    function getActiveTabName(){
+      const active = document.querySelector(".tab-btn.active");
+      return active ? active.dataset.tabTarget : "unknown";
+    }
+
+    function computeHoursReadyText(){
+      const expected = parseFloat(hoursSheet.expectedHours || 0) || 0;
+      const total = hoursRows.reduce((sum,row) => sum + (parseFloat(row.hours) || 0), 0);
+      const invalidDowntime = hoursRows.filter(row => requiresDowntimeComment(row) && !validDowntimeComment(row.comment)).length;
+      const incomplete = hoursRows.filter(row => row.status && row.detail && !String(row.hours || "").trim()).length;
+      const remaining = expected - total;
+      if (invalidDowntime) return "Needs comments";
+      if (incomplete) return "Incomplete rows";
+      if (expected > 0 && Math.abs(remaining) < 0.001 && total > 0) return "Ready";
+      if (expected > 0) return `Remaining ${remaining.toFixed(1)}`;
+      return "No target";
+    }
+
+    function buildCtcPulseReport(){
+      const activeTab = getActiveTabName();
+      const visibleRows = filteredEntries().length;
+      const invalidDowntime = hoursRows.filter(row => requiresDowntimeComment(row) && !validDowntimeComment(row.comment)).length;
+      const totalHours = hoursRows.reduce((sum,row) => sum + (parseFloat(row.hours) || 0), 0).toFixed(1);
+      const expected = (parseFloat(hoursSheet.expectedHours || 0) || 0).toFixed(1);
+      return [
+        `CTC Pulse Report`,
+        `Version: v1.0.23-html`,
+        `Active tab: ${activeTab}`,
+        `Visible log rows: ${visibleRows}`,
+        `Hours lines: ${hoursRows.length}`,
+        `Expected hours: ${expected}`,
+        `Logged hours: ${totalHours}`,
+        `Hours readiness: ${computeHoursReadyText()}`,
+        `Downtime rows missing valid comment: ${invalidDowntime}`,
+        `Header date: ${bannerFields.date || "n/a"}`,
+        `Timestamp: ${new Date().toLocaleString()}`
+      ].join("\n");
+    }
+
+    function runCtcPulseScan(){
+      dbgActiveTab.textContent = getActiveTabName();
+      dbgLogRows.textContent = String(filteredEntries().length);
+      dbgHoursLines.textContent = String(hoursRows.length);
+      dbgReadyState.textContent = computeHoursReadyText();
+      const report = buildCtcPulseReport();
+      ctcPulseReport.textContent = report;
+      ctcPulseStatus.textContent = "Scan complete";
+    }
+
+    function initCtcPulse(){
+      if (!ctcPulseFab) return;
+      ctcPulseFab.addEventListener("click", () => {
+        ctcPulsePanel.hidden = !ctcPulsePanel.hidden;
+        if (!ctcPulsePanel.hidden) runCtcPulseScan();
+      });
+      document.getElementById("ctc-pulse-run").addEventListener("click", runCtcPulseScan);
+      document.getElementById("ctc-pulse-copy").addEventListener("click", async () => {
+        const report = buildCtcPulseReport();
+        ctcPulseReport.textContent = report;
+        try {
+          await navigator.clipboard.writeText(report);
+          ctcPulseStatus.textContent = "Copied";
+        } catch (err) {
+          ctcPulseStatus.textContent = "Copy failed";
+        }
+      });
+    }
+
     renderHeaderFields();
     renderForm();
     renderHours();
     renderHandoffs();
     initTabs();
     initToolbar();
+    initCtcPulse();
     resetForm();
     renderEntries();
   </script>
