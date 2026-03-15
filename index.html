@@ -201,7 +201,7 @@
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.22-html</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.24-html</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -514,7 +514,7 @@
   </section>
 
   <script>
-    const VERSION = "1.0.22-html";
+    const VERSION = "1.0.24-html";
     document.getElementById("version-label").textContent = VERSION;
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
@@ -608,17 +608,6 @@
       logbook: document.getElementById("tab-logbook"),
       hours: document.getElementById("tab-hours")
     };
-    const ctcPulseToggle = document.getElementById("ctc-pulse-toggle");
-    const ctcPulsePanel = document.getElementById("ctc-pulse-panel");
-    const ctcPulseClose = document.getElementById("ctc-pulse-close");
-    const ctcPulseRun = document.getElementById("ctc-pulse-run");
-    const ctcPulseCopy = document.getElementById("ctc-pulse-copy");
-    const ctcPulseStatus = document.getElementById("ctc-pulse-status");
-    const ctcPulseLog = document.getElementById("ctc-pulse-log");
-    const debugActiveTab = document.getElementById("debug-active-tab");
-    const debugVisibleRows = document.getElementById("debug-visible-rows");
-    const debugHoursLines = document.getElementById("debug-hours-lines");
-    const debugReadiness = document.getElementById("debug-readiness");
 
     function escapeHtml(str){return String(str ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
     function statusClass(status){return status === "Resolved" ? "status-resolved" : status === "Monitoring" ? "status-monitoring" : status === "Waiting" ? "status-waiting" : "status-open"}
@@ -1227,7 +1216,7 @@
       const expected = (parseFloat(hoursSheet.expectedHours || 0) || 0).toFixed(1);
       return [
         `CTC Pulse Report`,
-        `Version: v1.0.23-html`,
+        `Version: v1.0.24-html`,
         `Active tab: ${activeTab}`,
         `Visible log rows: ${visibleRows}`,
         `Hours lines: ${hoursRows.length}`,
