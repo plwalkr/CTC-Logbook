@@ -514,7 +514,7 @@
   </section>
 
   <script>
-    const VERSION = "1.0.24-html";
+    const VERSION = "1.0.25-html";
     document.getElementById("version-label").textContent = VERSION;
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
@@ -1216,7 +1216,7 @@
       const expected = (parseFloat(hoursSheet.expectedHours || 0) || 0).toFixed(1);
       return [
         `CTC Pulse Report`,
-        `Version: v1.0.24-html`,
+        `Version: ${VERSION}`,
         `Active tab: ${activeTab}`,
         `Visible log rows: ${visibleRows}`,
         `Hours lines: ${hoursRows.length}`,
@@ -1233,17 +1233,26 @@
       dbgActiveTab.textContent = getActiveTabName();
       dbgLogRows.textContent = String(filteredEntries().length);
       dbgHoursLines.textContent = String(hoursRows.length);
-      dbgReadyState.textContent = computeHoursReadyText();
+      const readyText = computeHoursReadyText();
+      dbgReadyState.textContent = readyText;
       const report = buildCtcPulseReport();
       ctcPulseReport.textContent = report;
-      ctcPulseStatus.textContent = "Scan complete";
+      const allClear = readyText === "Ready" || readyText === "No target";
+      ctcPulseStatus.textContent = allClear ? "Scan complete · all clear" : `Scan complete · ${readyText}`;
     }
 
     function initCtcPulse(){
-      if (!ctcPulseFab) return;
-      ctcPulseFab.addEventListener("click", () => {
+      if (!ctcPulseFab || !ctcPulsePanel) return;
+      ctcPulseFab.addEventListener("click", (event) => {
+        event.stopPropagation();
         ctcPulsePanel.hidden = !ctcPulsePanel.hidden;
         if (!ctcPulsePanel.hidden) runCtcPulseScan();
+      });
+      ctcPulsePanel.addEventListener("click", (event) => {
+        event.stopPropagation();
+      });
+      document.addEventListener("click", () => {
+        if (!ctcPulsePanel.hidden) ctcPulsePanel.hidden = true;
       });
       document.getElementById("ctc-pulse-run").addEventListener("click", runCtcPulseScan);
       document.getElementById("ctc-pulse-copy").addEventListener("click", async () => {
@@ -1251,7 +1260,7 @@
         ctcPulseReport.textContent = report;
         try {
           await navigator.clipboard.writeText(report);
-          ctcPulseStatus.textContent = "Copied";
+          ctcPulseStatus.textContent = "Copied report";
         } catch (err) {
           ctcPulseStatus.textContent = "Copy failed";
         }
