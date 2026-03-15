@@ -1285,6 +1285,15 @@
     initCtcPulse();
     resetForm();
     renderEntries();
-  </script>
+  
+function setDebugStatus(message, ok){
+  if(!debugStatus) return;
+  const stamp = new Date().toLocaleTimeString();
+  debugStatus.textContent = message ? `${message} · ${stamp}` : `OK · Scan complete · ${stamp}`;
+  debugStatus.style.background = ok ? '#dcfce7' : '#fee2e2';
+  debugStatus.style.color = ok ? '#166534' : '#991b1b';
+  debugStatus.style.border = ok ? '1px solid #86efac' : '1px solid #fca5a5';
+}
+</script>
 </body>
 </html>
