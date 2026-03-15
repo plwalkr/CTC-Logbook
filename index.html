@@ -140,38 +140,23 @@
     .tab-btn .tab-sub{display:block;font-size:10px;font-weight:600;opacity:.8;margin-top:2px}
     .tab-view[hidden]{display:none !important}
     
-    .debug-fab{position:fixed;right:16px;bottom:16px;z-index:999;border:1px solid #0f172a;background:#0f172a;color:#fff;border-radius:999px;padding:10px 14px;font-size:12px;font-weight:800;letter-spacing:.04em;box-shadow:0 10px 25px rgba(15,23,42,.18);cursor:pointer;display:flex;align-items:center;gap:8px}
+    .debug-fab{position:fixed;right:16px;bottom:16px;z-index:999;border:1px solid #0f172a;background:#0f172a;color:#fff;border-radius:999px;padding:10px 14px;font-size:12px;font-weight:800;letter-spacing:.04em;box-shadow:0 10px 25px rgba(15,23,42,.18);cursor:pointer}
     .debug-fab:hover{transform:translateY(-1px)}
     .debug-panel{position:fixed;right:16px;bottom:68px;width:min(420px,calc(100vw - 24px));max-height:70vh;overflow-y:auto;overflow-x:hidden;z-index:998;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 16px 40px rgba(15,23,42,.22)}
-    .debug-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.15);z-index:997}
-    .debug-backdrop[hidden]{display:none !important}
     .debug-panel[hidden]{display:none !important}
     .debug-head{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);background:#f8fafc}
-    .debug-title{font-size:13px;font-weight:800;color:#0f172a}
     .debug-sub{font-size:11px;color:#64748b;margin-top:3px}
-    .debug-statusbar{margin:12px 14px 0 14px;padding:8px 10px;border-radius:10px;font-size:12px;font-weight:700;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}
+    .debug-status{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:800;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;text-align:center}
+    .debug-status.ok{background:#ecfdf5;color:#166534;border-color:#bbf7d0}
+    .debug-status.warn{background:#fff7ed;color:#9a3412;border-color:#fed7aa}
     .debug-body{padding:12px 14px 14px 14px;display:flex;flex-direction:column;gap:10px}
     .debug-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
     .debug-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
-    .debug-card-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
-    .debug-card-value{font-size:20px;font-weight:800;color:#0f172a}
+    .debug-card strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
+    .debug-card span{font-size:18px;font-weight:800;color:#0f172a}
     .debug-actions{display:flex;flex-wrap:wrap;gap:8px}
     .debug-actions button{border:1px solid var(--line);background:#fff;color:#0f172a;border-radius:10px;padding:9px 11px;font-size:12px;font-weight:700;cursor:pointer}
-    .debug-log{width:100%;min-height:150px;padding:10px;border:1px solid #dbe3ed;border-radius:12px;background:#0b1220;color:#dbeafe;font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap}
-
-    .debug-report{width:100%;min-height:150px;margin:0;padding:10px;border:1px solid #dbe3ed;border-radius:12px;background:#0b1220;color:#dbeafe;font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;overflow:auto}
-    .debug-status{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#f8fafc;margin:10px 0}
-    .debug-status strong{font-size:12px}
-    .debug-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;background:#e2e8f0;color:#0f172a;white-space:normal}
-    .debug-pill.ok{background:#dcfce7;color:#166534}
-    .debug-pill.warn{background:#fef3c7;color:#92400e}
-    .debug-pill.err{background:#fee2e2;color:#991b1b}
-    .debug-panel .row{display:flex;gap:8px;flex-wrap:wrap}
-    .debug-panel .row button{flex:1 1 120px}
-    .debug-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
-    .debug-meta .mini{padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:#fff}
-    .debug-meta .mini .k{font-size:11px;color:var(--muted)}
-    .debug-meta .mini .v{font-size:13px;font-weight:800;color:#0f172a;margin-top:2px}
+    .debug-report{width:100%;min-height:150px;margin:0;padding:10px;border:1px solid #dbe3ed;border-radius:12px;background:#0b1220;color:#dbeafe;font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;overflow:hidden}
 
     @media (max-width:1200px){
       .header-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -505,44 +490,32 @@
   </div>
 
 
-  <div class="debug-backdrop" id="ctc-pulse-backdrop" hidden></div>
-  <button class="debug-fab" id="ctc-pulse-fab" type="button" title="CTC Pulse">CTC Pulse <span id="ctc-pulse-fab-pill" class="debug-pill">Idle</span></button>
+  <button class="debug-fab" id="ctc-pulse-fab" type="button" title="CTC Pulse">CTC Pulse</button>
   <section class="debug-panel" id="ctc-pulse-panel" hidden>
-    <div class="card-body">
-      <div class="title-row">
-        <div>
-          <h3>CTC Pulse</h3>
-          <div class="small">Quick health scan for tabs, hours worksheet state, and visible issues.</div>
-        </div>
-        <button class="ghost" type="button" id="ctc-pulse-close" aria-label="Close CTC Pulse">Close</button>
+    <div class="debug-head">
+      <div>
+        <h3>CTC Pulse</h3>
+        <div class="debug-sub">Quick health scan for the current prototype</div>
       </div>
-
-      <div class="debug-status">
-        <div>
-          <strong id="ctc-pulse-status-text">Idle</strong>
-          <div class="small" id="ctc-pulse-status-sub">Press Run Scan to check the current page state.</div>
-        </div>
-        <span class="debug-pill" id="ctc-pulse-pill">Idle</span>
+      <div class="debug-status" id="ctc-pulse-status">Awaiting scan</div>
+    </div>
+    <div class="debug-body">
+      <div class="debug-grid">
+        <div class="debug-card"><strong>Active Tab</strong><span id="dbg-active-tab">—</span></div>
+        <div class="debug-card"><strong>Visible Log Rows</strong><span id="dbg-log-rows">0</span></div>
+        <div class="debug-card"><strong>Hours Lines</strong><span id="dbg-hours-lines">0</span></div>
+        <div class="debug-card"><strong>Ready State</strong><span id="dbg-ready-state">—</span></div>
       </div>
-
-      <div class="row">
+      <div class="debug-actions">
         <button type="button" id="ctc-pulse-run">Run Scan</button>
-        <button type="button" class="ghost" id="ctc-pulse-copy">Copy Report</button>
+        <button type="button" id="ctc-pulse-copy">Copy Report</button>
       </div>
-
-      <div class="debug-meta">
-        <div class="mini"><div class="k">Active tab</div><div class="v" id="ctc-pulse-tab">—</div></div>
-        <div class="mini"><div class="k">Visible log rows</div><div class="v" id="ctc-pulse-logrows">0</div></div>
-        <div class="mini"><div class="k">Hours lines</div><div class="v" id="ctc-pulse-hours">0</div></div>
-        <div class="mini"><div class="k">Readiness</div><div class="v" id="ctc-pulse-ready">—</div></div>
-      </div>
-
-      <pre class="debug-report" id="ctc-pulse-report">Press Run Scan to generate a report.</pre>
+      <pre class="debug-report" id="ctc-pulse-report">Press Run Scan to generate a report. A timestamp will appear when the scan completes.</pre>
     </div>
   </section>
 
   <script>
-    const VERSION = "1.0.31-html";
+    const VERSION = "1.0.32-html";
     document.getElementById("version-label").textContent = VERSION;
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
@@ -1210,27 +1183,30 @@
 
 
     const ctcPulseFab = document.getElementById("ctc-pulse-fab");
-    const ctcPulseFabPill = document.getElementById("ctc-pulse-fab-pill");
     const ctcPulsePanel = document.getElementById("ctc-pulse-panel");
-    const ctcPulseBackdrop = document.getElementById("ctc-pulse-backdrop");
-    const ctcPulseClose = document.getElementById("ctc-pulse-close");
-    const ctcPulsePill = document.getElementById("ctc-pulse-pill");
-    const ctcPulseStatusText = document.getElementById("ctc-pulse-status-text");
-    const ctcPulseStatusSub = document.getElementById("ctc-pulse-status-sub");
+    const ctcPulseStatus = document.getElementById("ctc-pulse-status");
     const ctcPulseReport = document.getElementById("ctc-pulse-report");
-    const ctcPulseTab = document.getElementById("ctc-pulse-tab");
-    const ctcPulseLogRows = document.getElementById("ctc-pulse-logrows");
-    const ctcPulseHours = document.getElementById("ctc-pulse-hours");
-    const ctcPulseReady = document.getElementById("ctc-pulse-ready");
-    const ctcPulseRun = document.getElementById("ctc-pulse-run");
-    const ctcPulseCopy = document.getElementById("ctc-pulse-copy");
+    const dbgActiveTab = document.getElementById("dbg-active-tab");
+    const dbgLogRows = document.getElementById("dbg-log-rows");
+    const dbgHoursLines = document.getElementById("dbg-hours-lines");
+    const dbgReadyState = document.getElementById("dbg-ready-state");
 
-    function setCtcPulseState(kind, headline, subline){
-      const klass = kind === "ok" ? "debug-pill ok" : kind === "warn" ? "debug-pill warn" : kind === "err" ? "debug-pill err" : "debug-pill";
-      if (ctcPulsePill) { ctcPulsePill.className = klass; ctcPulsePill.textContent = headline; }
-      if (ctcPulseFabPill) { ctcPulseFabPill.className = klass; ctcPulseFabPill.textContent = headline; }
-      if (ctcPulseStatusText) ctcPulseStatusText.textContent = headline;
-      if (ctcPulseStatusSub) ctcPulseStatusSub.textContent = subline;
+    function getActiveTabName(){
+      const active = document.querySelector(".tab-btn.active");
+      return active ? active.dataset.tabTarget : "unknown";
+    }
+
+    function computeHoursReadyText(){
+      const expected = parseFloat(hoursSheet.expectedHours || 0) || 0;
+      const total = hoursRows.reduce((sum,row) => sum + (parseFloat(row.hours) || 0), 0);
+      const invalidDowntime = hoursRows.filter(row => requiresDowntimeComment(row) && !validDowntimeComment(row.comment)).length;
+      const incomplete = hoursRows.filter(row => row.status && row.detail && !String(row.hours || "").trim()).length;
+      const remaining = expected - total;
+      if (invalidDowntime) return "Needs comments";
+      if (incomplete) return "Incomplete rows";
+      if (expected > 0 && Math.abs(remaining) < 0.001 && total > 0) return "Ready";
+      if (expected > 0) return `Remaining ${remaining.toFixed(1)}`;
+      return "No target";
     }
 
     function buildCtcPulseReport(){
@@ -1255,78 +1231,61 @@
     }
 
     function runCtcPulseScan(){
-      if (ctcPulseTab) ctcPulseTab.textContent = getActiveTabName();
-      if (ctcPulseLogRows) ctcPulseLogRows.textContent = String(filteredEntries().length);
-      if (ctcPulseHours) ctcPulseHours.textContent = String(hoursRows.length);
+      dbgActiveTab.textContent = getActiveTabName();
+      dbgLogRows.textContent = String(filteredEntries().length);
+      dbgHoursLines.textContent = String(hoursRows.length);
       const readyText = computeHoursReadyText();
-      if (ctcPulseReady) ctcPulseReady.textContent = readyText;
-      const invalidDowntime = hoursRows.filter(row => requiresDowntimeComment(row) && !validDowntimeComment(row.comment)).length;
-      const allClear = invalidDowntime === 0 && (readyText === "Ready" || readyText === "No target");
+      dbgReadyState.textContent = readyText;
+      const allClear = readyText === "Ready" || readyText === "No target";
       const stamp = new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit", second:"2-digit"});
-      setCtcPulseState(allClear ? "ok" : "warn", allClear ? "OK" : "Needs review", allClear ? `Scan complete at ${stamp} · all clear.` : `Scan complete at ${stamp} · ${readyText}.`);
+      const statusText = allClear ? `OK · All clear · ${stamp}` : `Needs review · ${readyText} · ${stamp}`;
+      ctcPulseStatus.textContent = statusText;
+      ctcPulseStatus.classList.toggle("ok", allClear);
+      ctcPulseStatus.classList.toggle("warn", !allClear);
       const report = buildCtcPulseReport();
-      if (ctcPulseReport) ctcPulseReport.textContent = `Last scan: ${stamp}\nStatus: ${allClear ? "OK / all clear" : readyText}\n\n${report}`;
-      if (ctcPulseRun){
-        const oldText = ctcPulseRun.textContent;
-        ctcPulseRun.textContent = allClear ? "OK" : "Checked";
-        setTimeout(() => { ctcPulseRun.textContent = oldText; }, 900);
+      ctcPulseReport.textContent = `Last scan: ${stamp}\nStatus: ${allClear ? "OK / all clear" : readyText}\n\n${report}`;
+      const runBtn = document.getElementById("ctc-pulse-run");
+      if (runBtn){
+        runBtn.textContent = allClear ? "OK" : "Checked";
+        setTimeout(() => { runBtn.textContent = "Run Scan"; }, 1200);
       }
-    }
-
-    function openCtcPulse(){
-      if (ctcPulsePanel) ctcPulsePanel.hidden = false;
-      if (ctcPulseBackdrop) ctcPulseBackdrop.hidden = false;
-    }
-
-    function closeCtcPulse(){
-      if (ctcPulsePanel) ctcPulsePanel.hidden = true;
-      if (ctcPulseBackdrop) ctcPulseBackdrop.hidden = true;
     }
 
     function initCtcPulse(){
       if (!ctcPulseFab || !ctcPulsePanel) return;
       ctcPulseFab.addEventListener("click", (event) => {
         event.stopPropagation();
-        const opening = ctcPulsePanel.hidden;
-        if (opening){
-          openCtcPulse();
-          runCtcPulseScan();
-        } else {
-          closeCtcPulse();
-        }
+        ctcPulsePanel.hidden = !ctcPulsePanel.hidden;
+        if (!ctcPulsePanel.hidden) runCtcPulseScan();
       });
-      ctcPulsePanel.addEventListener("click", (event) => event.stopPropagation());
+      ctcPulsePanel.addEventListener("click", (event) => {
+        event.stopPropagation();
+      });
       document.addEventListener("click", () => {
-        if (!ctcPulsePanel.hidden) closeCtcPulse();
+        if (!ctcPulsePanel.hidden) ctcPulsePanel.hidden = true;
       });
-      if (ctcPulseBackdrop) ctcPulseBackdrop.addEventListener("click", closeCtcPulse);
-      if (ctcPulseClose) ctcPulseClose.addEventListener("click", closeCtcPulse);
-      if (ctcPulseRun) ctcPulseRun.addEventListener("click", runCtcPulseScan);
-      if (ctcPulseCopy) ctcPulseCopy.addEventListener("click", async () => {
+      document.getElementById("ctc-pulse-run").addEventListener("click", runCtcPulseScan);
+      document.getElementById("ctc-pulse-copy").addEventListener("click", async () => {
+        const report = buildCtcPulseReport();
+        ctcPulseReport.textContent = report;
         try {
-          const report = buildCtcPulseReport();
           await navigator.clipboard.writeText(report);
-          if (ctcPulseReport) ctcPulseReport.textContent = report;
-          setCtcPulseState("ok", "Copied", "CTC Pulse report copied to clipboard.");
-        } catch (error) {
-          setCtcPulseState("err", "Copy failed", "Clipboard copy failed in this browser.");
+          ctcPulseStatus.textContent = "OK · Report copied"; ctcPulseStatus.classList.add("ok"); ctcPulseStatus.classList.remove("warn");
+        } catch (err) {
+          ctcPulseStatus.textContent = "Copy failed"; ctcPulseStatus.classList.add("warn"); ctcPulseStatus.classList.remove("ok");
         }
       });
-      setCtcPulseState("idle", "Idle", "Press Run Scan to check the current page state.");
     }
 
+    renderHeaderFields();
+    renderForm();
+    renderHours();
+    renderHandoffs();
+    initTabs();
+    initToolbar();
     initCtcPulse();
     resetForm();
     renderEntries();
-  
-function setDebugStatus(message, ok){
-  if(!debugStatus) return;
-  const stamp = new Date().toLocaleTimeString();
-  debugStatus.textContent = message ? `${message} · ${stamp}` : `OK · Scan complete · ${stamp}`;
-  debugStatus.style.background = ok ? '#dcfce7' : '#fee2e2';
-  debugStatus.style.color = ok ? '#166534' : '#991b1b';
-  debugStatus.style.border = ok ? '1px solid #86efac' : '1px solid #fca5a5';
-}
-</script>
+  </script>
 </body>
 </html>
