@@ -28,7 +28,7 @@
     .header-cell:nth-child(6n){border-right:none}
     .header-cell label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);margin-bottom:6px}
     input,select,textarea,button{font:inherit}
-    .header-cell input,.field input,.field select,.search,.followup-textarea,.hours-card input{width:100%;padding:7px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
+    .header-cell input,.field input,.field select,.search,.followup-textarea{width:100%;padding:7px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
     .section-body{padding:12px;display:flex;flex-direction:column;gap:10px}
     .form-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px}
     .field{display:flex;flex-direction:column;gap:4px}
@@ -45,11 +45,42 @@
     .actions-row{display:grid;grid-template-columns:auto auto 1fr auto;gap:8px;align-items:end;padding-top:8px;border-top:1px solid #e2e8f0}
     button.primary{background:#0f172a;color:#fff;border:1px solid #0f172a;border-radius:10px;padding:10px 14px;cursor:pointer}
     button.secondary{background:#fff;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px 14px;cursor:pointer}
-    .hours-wrap{max-height:none;overflow:visible;padding-right:0}
-    .hours-grid{display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:10px;align-items:start}
-    .hours-card{border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;padding:10px;display:flex;flex-direction:column;gap:6px;min-height:84px}
-    .hours-card label{font-size:11px;line-height:1.3;font-weight:600;color:#334155}
     .hours-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+    .hours-shell{display:flex;flex-direction:column;gap:12px}
+    .hours-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+    .hours-summary-card{border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;padding:10px}
+    .hours-summary-card .summary-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
+    .hours-summary-card .summary-value{font-size:22px;font-weight:800;color:#0f172a}
+    .hours-summary-card .summary-note{font-size:11px;color:#64748b;margin-top:4px}
+    .hours-entry-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+    .hours-entry-toolbar .toolbar-note{font-size:12px;color:#475569}
+    .hours-table-wrap{overflow:auto;border:1px solid #e2e8f0;border-radius:14px;background:#fff}
+    .hours-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:12px}
+    .hours-table th{background:#f8fafc;position:sticky;top:0;z-index:1}
+    .hours-table .col-status{width:12%}
+    .hours-table .col-detail{width:22%}
+    .hours-table .col-comment{width:36%}
+    .hours-table .col-hours{width:12%}
+    .hours-table .col-actions{width:18%}
+    .hours-table td{background:#fff}
+    .hours-row-running td{background:#eff6ff}
+    .hours-row-downtime td{background:#fff7ed}
+    .hours-row-invalid td{box-shadow:inset 0 0 0 9999px rgba(254,226,226,.55)}
+    .hours-inline-input,.hours-inline-select{width:100%;padding:7px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
+    .hours-inline-input:disabled,.hours-inline-select:disabled{background:#f1f5f9;color:#94a3b8}
+    .hours-row-actions{display:flex;gap:6px;flex-wrap:wrap}
+    .hours-row-actions button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px;font-size:11px;cursor:pointer}
+    .hours-warning{font-size:11px;color:#b91c1c;font-weight:700;margin-top:6px}
+    .hours-ok{font-size:11px;color:#166534;font-weight:700;margin-top:6px}
+    .hours-review-grid{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+    .hours-breakdown{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+    .hours-breakdown-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
+    .hours-breakdown-card h3{font-size:13px;margin:0 0 8px 0}
+    .hours-breakdown-list{display:flex;flex-direction:column;gap:6px;font-size:12px}
+    .hours-breakdown-item{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dashed #e2e8f0;padding-bottom:4px}
+    .hours-breakdown-item:last-child{border-bottom:none;padding-bottom:0}
+    .hours-sidebox{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
+    .hours-sidebox textarea{width:100%;min-height:84px;padding:8px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
     .pill{display:inline-flex;align-items:center;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:#f8fafc;font-size:12px;font-weight:600;color:#334155}
     .table-wrap{max-height:46vh;overflow-y:auto}
     table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:12px}
@@ -115,11 +146,12 @@
       .form-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
       .span-8,.span-6{grid-column:span 4}
       .actions-row{grid-template-columns:1fr 1fr}
-      .hours-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+      .hours-summary-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
       .details-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
       .snapshot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
       .snapshot-grid.hours-snapshot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
       .handoff-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .hours-review-grid{grid-template-columns:1fr}
       .handoff-columns{grid-template-columns:1fr}
     }
     @media (max-width:800px){
@@ -129,10 +161,11 @@
       .form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .span-8,.span-6,.span-4,.span-2{grid-column:span 2}
       .actions-row{grid-template-columns:1fr}
-      .hours-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .hours-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .details-grid,.snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .snapshot-grid.hours-snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .handoff-grid,.handoff-columns{grid-template-columns:1fr}
+      .hours-review-grid,.hours-breakdown{grid-template-columns:1fr}
       .filters-row .search{max-width:none}
       .date-filter-row{align-items:stretch}
       .date-filter-row .date-field{width:100%;justify-content:space-between}
@@ -351,19 +384,86 @@
 
     <div id="tab-hours" class="tab-view" hidden>
       <section class="panel">
-        <div class="section-body">
+        <div class="section-body hours-shell">
           <div class="hours-top">
             <div>
-              <h2>Cell Hour / Billable Categories</h2>
-              <div class="small">Separate live shift/day worksheet. Update these throughout the day without tying them to each running-sheet entry.</div>
+              <h2>Cell Hours Worksheet</h2>
+              <div class="small">Keep the carried-over session header, log row-based hours, and require justification only for downtime.</div>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <span class="pill">Total Hours: <span id="hours-total" style="margin-left:6px">0.0</span></span>
               <span class="pill">Cell Meter: <span id="hours-meter" style="margin-left:6px">094</span></span>
+              <span class="pill">Expected Shift Hours: <span id="hours-expected-pill" style="margin-left:6px">12.0</span></span>
             </div>
           </div>
-          <div class="hours-wrap">
-            <div class="hours-grid" id="hours-grid"></div>
+
+          <div class="hours-summary-grid">
+            <div class="hours-summary-card">
+              <div class="summary-label">Logged Hours</div>
+              <div class="summary-value" id="hours-total">0.0</div>
+              <div class="summary-note">All running + downtime rows currently entered.</div>
+            </div>
+            <div class="hours-summary-card">
+              <div class="summary-label">Remaining</div>
+              <div class="summary-value" id="hours-remaining">12.0</div>
+              <div class="summary-note">Difference between expected shift hours and logged hours.</div>
+            </div>
+            <div class="hours-summary-card">
+              <div class="summary-label">Downtime Hours</div>
+              <div class="summary-value" id="hours-downtime">0.0</div>
+              <div class="summary-note">Downtime entries require a 10+ character comment before hours unlock.</div>
+            </div>
+            <div class="hours-summary-card">
+              <div class="summary-label">Submission Readiness</div>
+              <div class="summary-value" id="hours-readiness">Not Ready</div>
+              <div class="summary-note" id="hours-readiness-note">Enter rows and reconcile the shift total.</div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="hours-entry-toolbar">
+              <div class="toolbar-note"><strong>Rule:</strong> Running details do not require comments. Downtime details require a justification comment with at least 10 characters before hours can be entered.</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+                <label class="small" style="display:flex;align-items:center;gap:6px">Expected Hours
+                  <input id="hours-expected" class="hours-inline-input" value="12" inputmode="decimal" style="width:84px" />
+                </label>
+                <button class="secondary" type="button" id="hours-add-row">Add Hours Row</button>
+              </div>
+            </div>
+            <div class="hours-table-wrap" style="margin-top:10px">
+              <table class="hours-table">
+                <thead>
+                  <tr>
+                    <th class="col-status">Status</th>
+                    <th class="col-detail">Status Detail</th>
+                    <th class="col-comment">Comment / Justification</th>
+                    <th class="col-hours">Hours</th>
+                    <th class="col-actions">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="hours-rows-body"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="hours-review-grid">
+            <div class="hours-sidebox">
+              <div class="section-title">Review Summary</div>
+              <div class="hours-breakdown">
+                <div class="hours-breakdown-card">
+                  <h3>Running Breakdown</h3>
+                  <div class="hours-breakdown-list" id="hours-running-breakdown"></div>
+                </div>
+                <div class="hours-breakdown-card">
+                  <h3>Downtime Breakdown</h3>
+                  <div class="hours-breakdown-list" id="hours-downtime-breakdown"></div>
+                </div>
+              </div>
+            </div>
+            <div class="hours-sidebox">
+              <div class="section-title">Shift Justification Note</div>
+              <textarea id="hours-shift-note" placeholder="Optional overall note for the shift review, coach handoff, or unusual reconciliation context."></textarea>
+              <div class="small" style="margin-top:8px">Use this only when the row comments alone do not tell the full story.</div>
+            </div>
           </div>
         </div>
       </section>
@@ -371,19 +471,25 @@
   </div>
 
   <script>
-    const VERSION = "1.0.20-html";
+    const VERSION = "1.0.21-hours-rules-html";
     document.getElementById("version-label").textContent = VERSION;
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
     const bannerConfig = [
       ["Engine Model","engineModel"],["Engine S/N","engineSN"],["Engineer","engineer"],["PPH","pph"],["Test Cell","testCell"],["Test Plan ID","testPlanId"],["Technician","technician"],["Shift","shift"],["Date","date"],["Start Time","startTime"],["End Time","endTime"],["Cell Hour Meter","cellHourMeter"]
     ];
-    const billableHourCategories = [
-      "Run Time","Running Per Plan","Engineer (DK/TP)","Engineer (Hardware)","Cold Soak Time","Rerun (Equipment)","Rerun (Operator)","No Operator","No Work (Test article)","No Work (No Q)","CBE","Facility Down","Air Handlers","Emissions Cart","Fuel Cart","Dyno","Cyflex","PM System","Filter Changer","Calterm / Cuty","Other (please note in log)","Engine Install","Cell Calibration Work"
+    const runningHourDetails = [
+      "Running Per Plan","Calibration (Engineer)","Data Review (Engineer)","Test Plan (Engineer)","Hardware (Engineer)","Cold Soak (On_T)"
+    ];
+    const downtimeHourDetails = [
+      "No Operator","No Work","Facility Down","Air Handlers","Emissions Cart","Dyno","Puma","PM System","AVL PM (415, 439, 483, 489)","Calterm / Cuty","Other (please note)","Install","Cell Calibration"
     ];
 
     let bannerFields = {engineModel:"Titanium",engineSN:"80728265",engineer:"A. McCalment",pph:"E6640",testCell:"204",testPlanId:"TIHD2A-EN-B2P10",technician:"Joey Poppe",shift:"6W",date:"2026-03-08",startTime:"07:00 AM",endTime:"07:00 PM",cellHourMeter:"094"};
-    let billableHours = Object.fromEntries(billableHourCategories.map(label => [label, ""]));
+    let hoursSheet = {expectedHours:"12", shiftNote:""};
+    let hoursRows = [
+      {id:1,status:"Running",detail:"Running Per Plan",comment:"",hours:"12"}
+    ];
     let formState = {time:"",run:"",cycle:"",torqueMap:"",sump:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"};
 
     const autoLogEventTemplates = [
@@ -416,8 +522,18 @@
     const formGrid = document.getElementById("form-grid");
     const noteEditor = document.getElementById("note-editor");
     const autoLogSelect = document.getElementById("auto-log-select");
-    const hoursGrid = document.getElementById("hours-grid");
     const hoursTotal = document.getElementById("hours-total");
+    const hoursRemaining = document.getElementById("hours-remaining");
+    const hoursDowntime = document.getElementById("hours-downtime");
+    const hoursReadiness = document.getElementById("hours-readiness");
+    const hoursReadinessNote = document.getElementById("hours-readiness-note");
+    const hoursExpectedInput = document.getElementById("hours-expected");
+    const hoursExpectedPill = document.getElementById("hours-expected-pill");
+    const hoursAddRow = document.getElementById("hours-add-row");
+    const hoursRowsBody = document.getElementById("hours-rows-body");
+    const hoursRunningBreakdown = document.getElementById("hours-running-breakdown");
+    const hoursDowntimeBreakdown = document.getElementById("hours-downtime-breakdown");
+    const hoursShiftNote = document.getElementById("hours-shift-note");
     const hoursMeter = document.getElementById("hours-meter");
     const entriesBody = document.getElementById("entries-body");
     const followupPanel = document.getElementById("followup-panel");
@@ -489,7 +605,25 @@
     }
     function sanitizeHtml(html){return html.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi,"").replace(/ on\w+="[^"]*"/gi,"").replace(/ on\w+='[^']*'/gi,"")}
     function plainTextFromHtml(html){const div = document.createElement("div"); div.innerHTML = html; return (div.textContent || div.innerText || "").trim()}
-    function totalHours(){return Object.values(billableHours).reduce((sum, value) => sum + (parseFloat(value) || 0), 0).toFixed(1)}
+    function sanitizeHourValue(value){
+      const cleaned = String(value || "").replace(/[^0-9.]/g, "");
+      const parts = cleaned.split(".");
+      return parts.length > 2 ? parts[0] + "." + parts.slice(1).join("") : cleaned;
+    }
+    function isDowntimeStatus(status){return status === "Downtime"}
+    function requiresDowntimeComment(row){return isDowntimeStatus(row.status)}
+    function validDowntimeComment(comment){return String(comment || "").trim().length >= 10}
+    function detailOptionsForStatus(status){return status === "Downtime" ? downtimeHourDetails : runningHourDetails}
+    function makeHoursRow(){return {id:Date.now() + Math.floor(Math.random()*1000),status:"Running",detail:"Running Per Plan",comment:"",hours:""}}
+    function totalHoursValue(){return hoursRows.reduce((sum,row) => sum + (parseFloat(row.hours) || 0), 0)}
+    function totalHours(){return totalHoursValue().toFixed(1)}
+    function breakdownForStatus(status){
+      const items = new Map();
+      hoursRows.filter(row => row.status === status && row.detail).forEach(row => {
+        items.set(row.detail, (items.get(row.detail) || 0) + (parseFloat(row.hours) || 0));
+      });
+      return Array.from(items.entries()).sort((a,b) => a[0].localeCompare(b[0]));
+    }
 
     function renderHeaderFields(){
       headerGrid.innerHTML = bannerConfig.map(([label,key]) => `
@@ -534,22 +668,135 @@
     }
 
     function renderHours(){
-      hoursGrid.innerHTML = billableHourCategories.map(category => `
-        <div class="hours-card">
-          <label>${category}</label>
-          <input data-hours="${escapeHtml(category)}" value="${escapeHtml(billableHours[category] || "")}" placeholder="0.0" inputmode="decimal" />
-        </div>
-      `).join("");
-      hoursGrid.querySelectorAll("[data-hours]").forEach(input => {
-        input.addEventListener("input", e => {
-          const key = e.target.dataset.hours;
-          billableHours[key] = e.target.value.replace(/[^0-9.]/g, "");
-          e.target.value = billableHours[key];
-          hoursTotal.textContent = totalHours();
+      hoursExpectedInput.value = hoursSheet.expectedHours;
+      hoursExpectedPill.textContent = parseFloat(hoursSheet.expectedHours || 0).toFixed(1);
+      hoursShiftNote.value = hoursSheet.shiftNote || "";
+      hoursRowsBody.innerHTML = hoursRows.map(row => {
+        const options = detailOptionsForStatus(row.status);
+        const needsComment = requiresDowntimeComment(row);
+        const commentValid = !needsComment || validDowntimeComment(row.comment);
+        const rowInvalid = needsComment && !commentValid;
+        const warning = needsComment ? (commentValid ? `<div class="hours-ok">Downtime justification captured.</div>` : `<div class="hours-warning">Downtime requires a justification comment with at least 10 characters before hours unlock.</div>`) : `<div class="small">Comment optional for running rows.</div>`;
+        return `
+          <tr class="${row.status === "Downtime" ? "hours-row-downtime" : "hours-row-running"} ${rowInvalid ? "hours-row-invalid" : ""}">
+            <td>
+              <select class="hours-inline-select" data-hours-status="${row.id}">
+                <option value="Running" ${row.status === "Running" ? "selected" : ""}>Running</option>
+                <option value="Downtime" ${row.status === "Downtime" ? "selected" : ""}>Downtime</option>
+              </select>
+            </td>
+            <td>
+              <select class="hours-inline-select" data-hours-detail="${row.id}">
+                ${options.map(opt => `<option value="${escapeHtml(opt)}" ${row.detail === opt ? "selected" : ""}>${escapeHtml(opt)}</option>`).join("")}
+              </select>
+            </td>
+            <td>
+              <input class="hours-inline-input" data-hours-comment="${row.id}" value="${escapeHtml(row.comment || "")}" placeholder="${needsComment ? "Explain downtime / issue / hold reason..." : "Optional running note"}" />
+              ${warning}
+            </td>
+            <td>
+              <input class="hours-inline-input" data-hours-value="${row.id}" value="${escapeHtml(row.hours || "")}" placeholder="0.0" inputmode="decimal" ${commentValid ? "" : "disabled"} />
+            </td>
+            <td>
+              <div class="hours-row-actions">
+                <button type="button" data-hours-duplicate="${row.id}">Duplicate</button>
+                <button type="button" data-hours-delete="${row.id}">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      hoursRowsBody.querySelectorAll("[data-hours-status]").forEach(el => {
+        el.addEventListener("change", e => {
+          const row = hoursRows.find(item => item.id === Number(e.target.dataset.hoursStatus));
+          if (!row) return;
+          row.status = e.target.value;
+          const opts = detailOptionsForStatus(row.status);
+          if (!opts.includes(row.detail)) row.detail = opts[0] || "";
+          if (requiresDowntimeComment(row) && !validDowntimeComment(row.comment)) row.hours = "";
+          renderHours();
         });
       });
-      hoursTotal.textContent = totalHours();
+      hoursRowsBody.querySelectorAll("[data-hours-detail]").forEach(el => {
+        el.addEventListener("change", e => {
+          const row = hoursRows.find(item => item.id === Number(e.target.dataset.hoursDetail));
+          if (!row) return;
+          row.detail = e.target.value;
+          renderHoursSummary();
+        });
+      });
+      hoursRowsBody.querySelectorAll("[data-hours-comment]").forEach(el => {
+        el.addEventListener("input", e => {
+          const row = hoursRows.find(item => item.id === Number(e.target.dataset.hoursComment));
+          if (!row) return;
+          row.comment = e.target.value;
+          if (requiresDowntimeComment(row) && !validDowntimeComment(row.comment)) row.hours = "";
+          renderHours();
+        });
+      });
+      hoursRowsBody.querySelectorAll("[data-hours-value]").forEach(el => {
+        el.addEventListener("input", e => {
+          const row = hoursRows.find(item => item.id === Number(e.target.dataset.hoursValue));
+          if (!row) return;
+          row.hours = sanitizeHourValue(e.target.value);
+          e.target.value = row.hours;
+          renderHoursSummary();
+        });
+      });
+      hoursRowsBody.querySelectorAll("[data-hours-duplicate]").forEach(el => {
+        el.addEventListener("click", e => {
+          const row = hoursRows.find(item => item.id === Number(e.target.dataset.hoursDuplicate));
+          if (!row) return;
+          hoursRows.splice(hoursRows.indexOf(row) + 1, 0, {...row, id:Date.now() + Math.floor(Math.random()*1000), hours:""});
+          renderHours();
+        });
+      });
+      hoursRowsBody.querySelectorAll("[data-hours-delete]").forEach(el => {
+        el.addEventListener("click", e => {
+          if (hoursRows.length === 1) {
+            hoursRows = [makeHoursRow()];
+          } else {
+            hoursRows = hoursRows.filter(item => item.id !== Number(e.target.dataset.hoursDelete));
+          }
+          renderHours();
+        });
+      });
+
+      renderHoursSummary();
       hoursMeter.textContent = bannerFields.cellHourMeter || "—";
+    }
+
+    function renderHoursSummary(){
+      const expected = parseFloat(hoursSheet.expectedHours) || 0;
+      const total = totalHoursValue();
+      const downtime = hoursRows.reduce((sum,row) => sum + (row.status === "Downtime" ? (parseFloat(row.hours) || 0) : 0), 0);
+      const remaining = expected - total;
+      const invalidDowntimeRows = hoursRows.filter(row => requiresDowntimeComment(row) && !validDowntimeComment(row.comment));
+      const incompleteRows = hoursRows.filter(row => !row.detail || !row.hours);
+      const ready = Math.abs(remaining) < 0.001 && invalidDowntimeRows.length === 0 && incompleteRows.length === 0 && total > 0;
+      hoursTotal.textContent = total.toFixed(1);
+      hoursRemaining.textContent = remaining.toFixed(1);
+      hoursDowntime.textContent = downtime.toFixed(1);
+      hoursReadiness.textContent = ready ? "Ready" : "Not Ready";
+      hoursReadiness.style.color = ready ? "#166534" : "#b91c1c";
+      if (ready) {
+        hoursReadinessNote.textContent = "Shift hours reconcile and downtime comments are complete.";
+      } else if (invalidDowntimeRows.length) {
+        hoursReadinessNote.textContent = `Downtime comments missing or too short on ${invalidDowntimeRows.length} row(s).`;
+      } else if (Math.abs(remaining) >= 0.001) {
+        hoursReadinessNote.textContent = remaining > 0 ? `${remaining.toFixed(1)} hour(s) still missing from the shift total.` : `${Math.abs(remaining).toFixed(1)} hour(s) over the expected shift total.`;
+      } else if (incompleteRows.length) {
+        hoursReadinessNote.textContent = `Complete all row details and hours before submission.`;
+      } else {
+        hoursReadinessNote.textContent = "Review the worksheet before submission.";
+      }
+
+      const renderBreakdown = (target, items, emptyText) => {
+        target.innerHTML = items.length ? items.map(([label, value]) => `<div class="hours-breakdown-item"><span>${escapeHtml(label)}</span><strong>${value.toFixed(1)}</strong></div>`).join("") : `<div class="small">${emptyText}</div>`;
+      };
+      renderBreakdown(hoursRunningBreakdown, breakdownForStatus("Running"), "No running hours logged yet.");
+      renderBreakdown(hoursDowntimeBreakdown, breakdownForStatus("Downtime"), "No downtime hours logged yet.");
     }
 
     function detailBox(label, value){return `<div class="detail-box"><span>${label}</span><span style="font-weight:600">${escapeHtml(value || "—")}</span></div>`}
