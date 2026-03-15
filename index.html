@@ -496,7 +496,7 @@
         <h3>CTC Pulse</h3>
         <div class="debug-sub">Quick health scan for the current prototype</div>
       </div>
-      <div class="debug-status" id="ctc-pulse-status">Ready</div>
+      <div class="debug-status" id="ctc-pulse-status">Awaiting scan</div>
     </div>
     <div class="debug-body">
       <div class="debug-grid">
@@ -514,7 +514,7 @@
   </section>
 
   <script>
-    const VERSION = "1.0.26-html";
+    const VERSION = "1.0.27-html";
     document.getElementById("version-label").textContent = VERSION;
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
@@ -530,7 +530,7 @@
 
     let bannerFields = {engineModel:"Titanium",engineSN:"80728265",engineer:"A. McCalment",pph:"E6640",testCell:"204",testPlanId:"TIHD2A-EN-B2P10",technician:"Joey Poppe",shift:"6W",date:"2026-03-08",startTime:"07:00 AM",endTime:"07:00 PM",cellHourMeter:"094"};
     let hoursSheet = {expectedHours:"12", shiftNote:""};
-    let hoursRows = Array.from({length:8}, (_, index) => ({
+    let hoursRows = Array.from({length:4}, (_, index) => ({
       id:Date.now() + index,
       status:"Running",
       detail:"Running Per Plan",
@@ -1235,15 +1235,18 @@
       dbgHoursLines.textContent = String(hoursRows.length);
       const readyText = computeHoursReadyText();
       dbgReadyState.textContent = readyText;
-      const report = buildCtcPulseReport();
-      ctcPulseReport.textContent = report;
       const allClear = readyText === "Ready" || readyText === "No target";
       const stamp = new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit", second:"2-digit"});
-      ctcPulseStatus.textContent = allClear ? `Scan complete at ${stamp} · all clear` : `Scan complete at ${stamp} · ${readyText}`;
+      const statusText = allClear ? `OK · Scan complete at ${stamp}` : `Needs review · ${readyText} · ${stamp}`;
+      ctcPulseStatus.textContent = statusText;
+      ctcPulseStatus.classList.toggle("ok", allClear);
+      ctcPulseStatus.classList.toggle("warn", !allClear);
+      const report = buildCtcPulseReport();
+      ctcPulseReport.textContent = `Last scan: ${stamp}\nStatus: ${allClear ? "OK / all clear" : readyText}\n\n${report}`;
       const runBtn = document.getElementById("ctc-pulse-run");
       if (runBtn){
-        runBtn.textContent = "Scan Complete";
-        setTimeout(() => { runBtn.textContent = "Run Scan"; }, 900);
+        runBtn.textContent = allClear ? "OK" : "Checked";
+        setTimeout(() => { runBtn.textContent = "Run Scan"; }, 1200);
       }
     }
 
