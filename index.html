@@ -72,6 +72,14 @@
     .hours-row-actions button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px;font-size:11px;cursor:pointer}
     .hours-warning{font-size:11px;color:#b91c1c;font-weight:700;margin-top:6px}
     .hours-ok{font-size:11px;color:#166534;font-weight:700;margin-top:6px}
+    .hours-caution{font-size:11px;color:#92400e;font-weight:700;margin-top:6px}
+    .hours-row-badge{display:inline-flex;align-items:center;justify-content:center;padding:4px 8px;border-radius:999px;border:1px solid #e2e8f0;background:#f8fafc;font-size:10px;font-weight:800;letter-spacing:.02em;margin-bottom:6px}
+    .hours-row-badge.ok{color:#166534;border-color:#bbf7d0;background:#f0fdf4}
+    .hours-row-badge.warn{color:#92400e;border-color:#fde68a;background:#fffbeb}
+    .hours-row-badge.blocked{color:#b91c1c;border-color:#fecaca;background:#fef2f2}
+    .hours-issues-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+    .hours-issue-item{border:1px solid #e2e8f0;border-radius:10px;background:#fff;padding:8px 10px;font-size:12px}
+    .hours-issue-item strong{color:#0f172a}
     .hours-review-grid{display:grid;grid-template-columns:2fr 1fr;gap:10px}
     .hours-breakdown{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
     .hours-breakdown-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
@@ -431,7 +439,7 @@
             <div class="hours-summary-card">
               <div class="summary-label">Downtime Hours</div>
               <div class="summary-value" id="hours-downtime">0.0</div>
-              <div class="summary-note">Downtime entries require a 10+ character comment before hours unlock.</div>
+              <div class="summary-note">Downtime entries require at least 15 characters. Other requires at least 20 before hours unlock.</div>
             </div>
             <div class="hours-summary-card">
               <div class="summary-label">Submission Readiness</div>
@@ -442,12 +450,12 @@
 
           <div class="section-card">
             <div class="hours-entry-toolbar">
-              <div class="toolbar-note"><strong>Rule:</strong> Running details do not require comments. Downtime details require a justification comment with at least 10 characters before hours can be entered.</div>
+              <div class="toolbar-note"><strong>Rule:</strong> Running details do not require comments. Downtime requires at least 15 characters, and Other requires at least 20 before hours can be entered.</div>
               <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
                 <label class="small" style="display:flex;align-items:center;gap:6px">Expected Hours
                   <input id="hours-expected" class="hours-inline-input" value="12" inputmode="decimal" style="width:84px" />
                 </label>
-                <button class="secondary" type="button" id="hours-add-row">Add Hours Row</button>
+                <button class="secondary" type="button" id="hours-add-row">Add Line</button>
               </div>
             </div>
             <div class="hours-table-wrap" style="margin-top:10px">
@@ -479,6 +487,7 @@
                   <div class="hours-breakdown-list" id="hours-downtime-breakdown"></div>
                 </div>
               </div>
+              <div class="hours-issues-list" id="hours-issues-list"></div>
             </div>
             <div class="hours-sidebox">
               <div class="section-title">Shift Justification Note</div>
@@ -518,7 +527,7 @@
   </section>
 
   <script>
-    const VERSION = "1.0.33-html";
+    const VERSION = "1.0.34-html";
     document.getElementById("version-label").textContent = VERSION;
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
@@ -586,6 +595,7 @@
     const hoursRowsBody = document.getElementById("hours-rows-body");
     const hoursRunningBreakdown = document.getElementById("hours-running-breakdown");
     const hoursDowntimeBreakdown = document.getElementById("hours-downtime-breakdown");
+    const hoursIssuesList = document.getElementById("hours-issues-list");
     const hoursShiftNote = document.getElementById("hours-shift-note");
     const hoursMeter = document.getElementById("hours-meter");
     const entriesBody = document.getElementById("entries-body");
@@ -664,8 +674,28 @@
       return parts.length > 2 ? parts[0] + "." + parts.slice(1).join("") : cleaned;
     }
     function isDowntimeStatus(status){return status === "Downtime"}
+    function isOtherDowntimeDetail(detail){return String(detail || "").trim() === "Other (please note)"}
+    function requiredCommentLength(row){return isOtherDowntimeDetail(row.detail) ? 20 : 15}
     function requiresDowntimeComment(row){return isDowntimeStatus(row.status)}
-    function validDowntimeComment(comment){return String(comment || "").trim().length >= 10}
+    function validDowntimeComment(rowOrComment, maybeDetail){
+      if (typeof rowOrComment === "object" && rowOrComment !== null) {
+        return String(rowOrComment.comment || "").trim().length >= requiredCommentLength(rowOrComment);
+      }
+      const comment = String(rowOrComment || "").trim();
+      return comment.length >= (String(maybeDetail || "").trim() === "Other (please note)" ? 20 : 15);
+    }
+    function rowValidationState(row){
+      const needsComment = requiresDowntimeComment(row);
+      const detailMissing = !String(row.detail || "").trim();
+      const hoursMissing = !String(row.hours || "").trim();
+      if (detailMissing) return {level:"blocked", text:"Choose a status detail.", short:"Choose detail"};
+      if (needsComment && !validDowntimeComment(row)) {
+        const min = requiredCommentLength(row);
+        return {level:"blocked", text:`${isOtherDowntimeDetail(row.detail) ? "Other downtime" : "Downtime"} requires at least ${min} characters before hours unlock.`, short:`Need ${min}+ chars`};
+      }
+      if (hoursMissing) return {level:"warn", text:"Enter hours for this line.", short:"Hours missing"};
+      return {level:"ok", text: needsComment ? "Downtime justification captured." : "Running line looks good.", short: needsComment ? "Justified" : "Ready"};
+    }
     function detailOptionsForStatus(status){return status === "Downtime" ? downtimeHourDetails : runningHourDetails}
     function makeHoursRow(){return {id:Date.now() + Math.floor(Math.random()*1000),status:"Running",detail:"Running Per Plan",comment:"",hours:""}}
     function totalHoursValue(){return hoursRows.reduce((sum,row) => sum + (parseFloat(row.hours) || 0), 0)}
@@ -727,9 +757,9 @@
       hoursRowsBody.innerHTML = hoursRows.map(row => {
         const options = detailOptionsForStatus(row.status);
         const needsComment = requiresDowntimeComment(row);
-        const commentValid = !needsComment || validDowntimeComment(row.comment);
-        const rowInvalid = needsComment && !commentValid;
-        const warning = needsComment ? (commentValid ? `<div class="hours-ok">Downtime justification captured.</div>` : `<div class="hours-warning">Downtime requires a justification comment with at least 10 characters before hours unlock.</div>`) : `<div class="small">Comment optional for running rows.</div>`;
+        const commentValid = !needsComment || validDowntimeComment(row);
+        const validation = rowValidationState(row);
+        const rowInvalid = validation.level === "blocked";
         return `
           <tr class="${row.status === "Downtime" ? "hours-row-downtime" : "hours-row-running"} ${rowInvalid ? "hours-row-invalid" : ""}">
             <td>
@@ -745,12 +775,13 @@
             </td>
             <td>
               <input class="hours-inline-input" data-hours-comment="${row.id}" value="${escapeHtml(row.comment || "")}" placeholder="${needsComment ? "Explain downtime / issue / hold reason..." : "Optional running note"}" />
-              <div data-hours-warning class="${needsComment ? (commentValid ? "hours-ok" : "hours-warning") : "small"}">${needsComment ? (commentValid ? "Downtime justification captured." : "Downtime requires a justification comment with at least 10 characters before hours unlock.") : "Comment optional for running rows."}</div>
+              <div data-hours-warning class="${validation.level === "ok" ? "hours-ok" : validation.level === "warn" ? "hours-caution" : needsComment ? "hours-warning" : "small"}">${validation.text}</div>
             </td>
             <td>
               <input class="hours-inline-input" data-hours-value="${row.id}" value="${escapeHtml(row.hours || "")}" placeholder="0.0" inputmode="decimal" ${commentValid ? "" : "disabled"} />
             </td>
             <td>
+              <div class="hours-row-badge ${validation.level}">${validation.short}</div>
               <div class="hours-row-actions">
                 <button type="button" data-hours-duplicate="${row.id}">Add Line</button>
                 <button type="button" data-hours-delete="${row.id}">Delete</button>
@@ -764,10 +795,13 @@
         el.addEventListener("change", e => {
           const row = hoursRows.find(item => item.id === Number(e.target.dataset.hoursStatus));
           if (!row) return;
+          const priorStatus = row.status;
+          const priorDetail = row.detail;
           row.status = e.target.value;
           const opts = detailOptionsForStatus(row.status);
           if (!opts.includes(row.detail)) row.detail = opts[0] || "";
-          if (requiresDowntimeComment(row) && !validDowntimeComment(row.comment)) row.hours = "";
+          if (String(row.hours || "").trim() && (priorStatus !== row.status || priorDetail !== row.detail)) row.hours = "";
+          if (requiresDowntimeComment(row) && !validDowntimeComment(row)) row.hours = "";
           renderHours();
         });
       });
@@ -775,8 +809,11 @@
         el.addEventListener("change", e => {
           const row = hoursRows.find(item => item.id === Number(e.target.dataset.hoursDetail));
           if (!row) return;
+          const priorDetail = row.detail;
           row.detail = e.target.value;
-          renderHoursSummary();
+          if (String(row.hours || "").trim() && priorDetail !== row.detail) row.hours = "";
+          if (requiresDowntimeComment(row) && !validDowntimeComment(row)) row.hours = "";
+          renderHours();
         });
       });
       hoursRowsBody.querySelectorAll("[data-hours-comment]").forEach(el => {
@@ -784,7 +821,7 @@
           const row = hoursRows.find(item => item.id === Number(e.target.dataset.hoursComment));
           if (!row) return;
           row.comment = e.target.value;
-          if (requiresDowntimeComment(row) && !validDowntimeComment(row.comment)) row.hours = "";
+          if (requiresDowntimeComment(row) && !validDowntimeComment(row)) row.hours = "";
           updateHoursRowDom(row);
           renderHoursSummary();
         });
@@ -828,21 +865,25 @@
       const warningEl = commentInput ? commentInput.parentElement.querySelector("[data-hours-warning]") : null;
       const rowEl = commentInput ? commentInput.closest("tr") : null;
       const needsComment = requiresDowntimeComment(row);
-      const commentValid = !needsComment || validDowntimeComment(row.comment);
+      const commentValid = !needsComment || validDowntimeComment(row);
+      const validation = rowValidationState(row);
+      const badgeEl = rowEl ? rowEl.querySelector(".hours-row-badge") : null;
 
       if (rowEl){
         rowEl.classList.toggle("hours-row-downtime", row.status === "Downtime");
         rowEl.classList.toggle("hours-row-running", row.status !== "Downtime");
-        rowEl.classList.toggle("hours-row-invalid", needsComment && !commentValid);
+        rowEl.classList.toggle("hours-row-invalid", validation.level === "blocked");
       }
       if (commentInput){
         commentInput.placeholder = needsComment ? "Explain downtime / issue / hold reason..." : "Optional running note";
       }
       if (warningEl){
-        warningEl.className = needsComment ? (commentValid ? "hours-ok" : "hours-warning") : "small";
-        warningEl.textContent = needsComment
-          ? (commentValid ? "Downtime justification captured." : "Downtime requires a justification comment with at least 10 characters before hours unlock.")
-          : "Comment optional for running rows.";
+        warningEl.className = validation.level === "ok" ? "hours-ok" : validation.level === "warn" ? "hours-caution" : needsComment ? "hours-warning" : "small";
+        warningEl.textContent = validation.text;
+      }
+      if (badgeEl){
+        badgeEl.className = `hours-row-badge ${validation.level}`;
+        badgeEl.textContent = validation.short;
       }
       if (hoursInput){
         if (!commentValid){
@@ -860,24 +901,30 @@
       const total = totalHoursValue();
       const downtime = hoursRows.reduce((sum,row) => sum + (row.status === "Downtime" ? (parseFloat(row.hours) || 0) : 0), 0);
       const remaining = expected - total;
-      const invalidDowntimeRows = hoursRows.filter(row => requiresDowntimeComment(row) && !validDowntimeComment(row.comment));
-      const incompleteRows = hoursRows.filter(row => !row.detail || !row.hours);
-      const ready = Math.abs(remaining) < 0.001 && invalidDowntimeRows.length === 0 && incompleteRows.length === 0 && total > 0;
+      const invalidDowntimeRows = hoursRows.filter(row => requiresDowntimeComment(row) && !validDowntimeComment(row));
+      const missingDetailRows = hoursRows.filter(row => !row.detail);
+      const missingHoursRows = hoursRows.filter(row => row.detail && !row.hours);
+      const issues = [];
+      if (invalidDowntimeRows.length) issues.push(`${invalidDowntimeRows.length} downtime row(s) still need stronger justification.`);
+      if (missingDetailRows.length) issues.push(`${missingDetailRows.length} row(s) still need a status detail.`);
+      if (missingHoursRows.length) issues.push(`${missingHoursRows.length} row(s) still need hours entered.`);
+      if (Math.abs(remaining) >= 0.001) issues.push(remaining > 0 ? `${remaining.toFixed(1)} hour(s) still missing from the expected shift total.` : `${Math.abs(remaining).toFixed(1)} hour(s) over the expected shift total.`);
+      const ready = issues.length === 0 && total > 0;
+      const readyState = ready ? "Ready" : invalidDowntimeRows.length || missingDetailRows.length ? "Blocked" : "Warning";
       hoursTotal.textContent = total.toFixed(1);
       hoursRemaining.textContent = remaining.toFixed(1);
       hoursDowntime.textContent = downtime.toFixed(1);
-      hoursReadiness.textContent = ready ? "Ready" : "Not Ready";
-      hoursReadiness.style.color = ready ? "#166534" : "#b91c1c";
+      hoursReadiness.textContent = ready ? "Ready" : readyState;
+      hoursReadiness.style.color = ready ? "#166534" : readyState === "Blocked" ? "#b91c1c" : "#92400e";
       if (ready) {
-        hoursReadinessNote.textContent = "Shift hours reconcile and downtime comments are complete.";
-      } else if (invalidDowntimeRows.length) {
-        hoursReadinessNote.textContent = `Downtime comments missing or too short on ${invalidDowntimeRows.length} row(s).`;
-      } else if (Math.abs(remaining) >= 0.001) {
-        hoursReadinessNote.textContent = remaining > 0 ? `${remaining.toFixed(1)} hour(s) still missing from the shift total.` : `${Math.abs(remaining).toFixed(1)} hour(s) over the expected shift total.`;
-      } else if (incompleteRows.length) {
-        hoursReadinessNote.textContent = `Complete all row details and hours before submission.`;
+        hoursReadinessNote.textContent = "Ready for review: totals reconcile and downtime comments meet the rule.";
       } else {
-        hoursReadinessNote.textContent = "Review the worksheet before submission.";
+        hoursReadinessNote.textContent = issues[0] || "Review the worksheet before submission.";
+      }
+      if (hoursIssuesList){
+        hoursIssuesList.innerHTML = ready
+          ? `<div class="hours-issue-item"><strong>All clear:</strong> totals reconcile, required comments are valid, and the sheet is ready for review.</div>`
+          : issues.map((issue, index) => `<div class="hours-issue-item"><strong>${index + 1}.</strong> ${escapeHtml(issue)}</div>`).join("");
       }
 
       const renderBreakdown = (target, items, emptyText) => {
