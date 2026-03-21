@@ -527,7 +527,7 @@
   </section>
 
   <script>
-    const VERSION = "1.0.37-syncfix";
+    const VERSION = "1.0.38-readyscanfix";
     document.getElementById("version-label").textContent = VERSION;
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
@@ -728,22 +728,26 @@
     function getHoursValidationSummary(){
       const expected = parseFloat(hoursSheet.expectedHours) || 0;
       const total = totalHoursValue();
-      const remaining = expected - total;
+      const remaining = Number((expected - total).toFixed(3));
       const validations = hoursRows.map(row => ({row, validation: rowValidationState(row)}));
       const blockedRows = validations.filter(item => item.validation.level === "blocked");
       const warningRows = validations.filter(item => item.validation.level === "warn");
       const invalidDowntimeRows = blockedRows.filter(item => requiresDowntimeComment(item.row));
       const missingDetailRows = blockedRows.filter(item => !String(item.row.detail || "").trim());
       const missingHoursRows = warningRows.filter(item => !String(item.row.hours || "").trim());
+      const totalMismatch = Math.abs(remaining) >= 0.001;
+      const overTarget = remaining < -0.001;
+      const underTarget = remaining > 0.001;
       const issues = [];
       if (invalidDowntimeRows.length) issues.push(`${invalidDowntimeRows.length} downtime row(s) still need stronger justification.`);
       if (missingDetailRows.length) issues.push(`${missingDetailRows.length} row(s) still need a status detail.`);
       if (missingHoursRows.length) issues.push(`${missingHoursRows.length} row(s) still need hours entered.`);
-      if (Math.abs(remaining) >= 0.001) issues.push(remaining > 0 ? `${remaining.toFixed(1)} hour(s) still missing from the expected shift total.` : `${Math.abs(remaining).toFixed(1)} hour(s) over the expected shift total.`);
-      const ready = issues.length === 0 && total > 0;
-      const readyState = ready ? "Ready" : blockedRows.length ? "Blocked" : "Warning";
+      if (underTarget) issues.push(`${remaining.toFixed(1)} hour(s) still missing from the expected shift total.`);
+      if (overTarget) issues.push(`${Math.abs(remaining).toFixed(1)} hour(s) over the expected shift total.`);
+      const ready = issues.length === 0 && total > 0 && !totalMismatch;
+      const readyState = ready ? "Ready" : blockedRows.length ? "Blocked" : totalMismatch ? (overTarget ? "Over target" : "Warning") : "Warning";
       const downtime = hoursRows.reduce((sum,row) => sum + (row.status === "Downtime" ? (parseFloat(row.hours) || 0) : 0), 0);
-      return {expected,total,remaining,downtime,validations,blockedRows,warningRows,invalidDowntimeRows,missingDetailRows,missingHoursRows,issues,ready,readyState};
+      return {expected,total,remaining,downtime,validations,blockedRows,warningRows,invalidDowntimeRows,missingDetailRows,missingHoursRows,issues,ready,readyState,totalMismatch,overTarget,underTarget};
     }
     function detailOptionsForStatus(status){return status === "Downtime" ? downtimeHourDetails : runningHourDetails}
     function makeHoursRow(){return {id:Date.now() + Math.floor(Math.random()*1000),status:"Running",detail:"Running Per Plan",comment:"",hours:""}}
@@ -951,10 +955,15 @@
       hoursTotal.textContent = summary.total.toFixed(1);
       hoursRemaining.textContent = summary.remaining.toFixed(1);
       hoursDowntime.textContent = summary.downtime.toFixed(1);
-      hoursReadiness.textContent = summary.ready ? "Ready" : summary.readyState;
-      hoursReadiness.style.color = summary.ready ? "#166534" : summary.readyState === "Blocked" ? "#b91c1c" : "#92400e";
+      const readinessLabel = summary.ready ? "Ready" : summary.overTarget ? "Over target" : summary.underTarget ? "Warning" : summary.readyState;
+      hoursReadiness.textContent = readinessLabel;
+      hoursReadiness.style.color = summary.ready ? "#166534" : summary.overTarget ? "#b91c1c" : summary.readyState === "Blocked" ? "#b91c1c" : "#92400e";
       if (summary.ready) {
         hoursReadinessNote.textContent = "Ready for review: totals reconcile and downtime comments meet the rule.";
+      } else if (summary.overTarget) {
+        hoursReadinessNote.textContent = `Over expected total by ${Math.abs(summary.remaining).toFixed(1)} hour(s). Reduce logged hours before review.`;
+      } else if (summary.underTarget) {
+        hoursReadinessNote.textContent = `${summary.remaining.toFixed(1)} hour(s) still need to be assigned before review.`;
       } else {
         hoursReadinessNote.textContent = summary.issues[0] || "Review the worksheet before submission.";
       }
@@ -969,6 +978,7 @@
       };
       renderBreakdown(hoursRunningBreakdown, breakdownForStatus("Running"), "No running hours logged yet.");
       renderBreakdown(hoursDowntimeBreakdown, breakdownForStatus("Downtime"), "No downtime hours logged yet.");
+      syncCtcPulseSnapshot();
     }
 
     function detailBox(label, value){return `<div class="detail-box"><span>${label}</span><span style="font-weight:600">${escapeHtml(value || "—")}</span></div>`}
@@ -1289,8 +1299,19 @@
       if (summary.ready) return "Ready";
       if (summary.invalidDowntimeRows.length) return "Needs comments";
       if (summary.missingHoursRows.length) return "Incomplete rows";
-      if (summary.expected > 0 && Math.abs(summary.remaining) >= 0.001) return `Remaining ${summary.remaining.toFixed(1)}`;
-      return summary.readyState || "No target";
+      if (summary.overTarget) return `Over by ${Math.abs(summary.remaining).toFixed(1)}`;
+      if (summary.underTarget) return `Remaining ${summary.remaining.toFixed(1)}`;
+      return summary.readyState || "Warning";
+    }
+
+    function syncCtcPulseSnapshot(){
+      if (!dbgActiveTab || !dbgLogRows || !dbgHoursLines || !dbgReadyState) return;
+      const summary = getHoursValidationSummary();
+      const visibleHoursRows = hoursRows.filter(row => String(row.detail || "").trim() || String(row.comment || "").trim() || String(row.hours || "").trim()).length;
+      dbgActiveTab.textContent = getActiveTabName();
+      dbgLogRows.textContent = String(typeof filteredEntries === "function" ? filteredEntries().length : 0);
+      dbgHoursLines.textContent = String(visibleHoursRows || hoursRows.length || 0);
+      dbgReadyState.textContent = computeHoursReadyText();
     }
 
     function buildCtcPulseReport(){
@@ -1324,12 +1345,9 @@
       ctcPulseStatus.classList.remove("ok","warn");
       window.setTimeout(() => {
         const summary = getHoursValidationSummary();
-        dbgActiveTab.textContent = getActiveTabName();
-        dbgLogRows.textContent = String(filteredEntries().length);
-        dbgHoursLines.textContent = String(hoursRows.length);
+        syncCtcPulseSnapshot();
         const readyText = computeHoursReadyText();
-        dbgReadyState.textContent = summary.ready ? "Ready" : readyText;
-        const allClear = readyText === "Ready" || readyText === "No target";
+        const allClear = summary.ready;
         const stamp = new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit", second:"2-digit"});
         const statusText = allClear ? `OK · All clear · ${stamp}` : `Needs review · ${readyText} · ${stamp}`;
         ctcPulseStatus.textContent = statusText;
@@ -1357,27 +1375,30 @@ ${report}`;
 
     function initCtcPulse(){
       if (!ctcPulseFab || !ctcPulsePanel) return;
-      ctcPulseFab.addEventListener("click", (event) => {
-        event.stopPropagation();
+      ctcPulseFab.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const opening = ctcPulsePanel.hidden;
         ctcPulsePanel.hidden = !ctcPulsePanel.hidden;
+        if (opening) syncCtcPulseSnapshot();
       });
-      ctcPulsePanel.addEventListener("click", (event) => {
-        event.stopPropagation();
-      });
-      document.addEventListener("click", () => {
-        if (!ctcPulsePanel.hidden) ctcPulsePanel.hidden = true;
-      });
-      document.getElementById("ctc-pulse-run").addEventListener("click", runCtcPulseScan);
-      document.getElementById("ctc-pulse-copy").addEventListener("click", async () => {
-        const report = buildCtcPulseReport();
-        ctcPulseReport.textContent = report;
+      ctcPulsePanel.addEventListener("click", (e) => e.stopPropagation());
+      const runBtn = document.getElementById("ctc-pulse-run");
+      const copyBtn = document.getElementById("ctc-pulse-copy");
+      if (runBtn) runBtn.addEventListener("click", runCtcPulseScan);
+      if (copyBtn) copyBtn.addEventListener("click", async () => {
         try {
-          await navigator.clipboard.writeText(report);
-          ctcPulseStatus.textContent = "OK · Report copied"; ctcPulseStatus.classList.add("ok"); ctcPulseStatus.classList.remove("warn");
-        } catch (err) {
-          ctcPulseStatus.textContent = "Copy failed"; ctcPulseStatus.classList.add("warn"); ctcPulseStatus.classList.remove("ok");
+          await navigator.clipboard.writeText(buildCtcPulseReport());
+          ctcPulseStatus.textContent = "Copied report";
+          ctcPulseStatus.classList.add("ok");
+        } catch {
+          ctcPulseStatus.textContent = "Copy failed";
+          ctcPulseStatus.classList.add("warn");
         }
       });
+      document.addEventListener("click", () => {
+        ctcPulsePanel.hidden = true;
+      });
+      syncCtcPulseSnapshot();
     }
 
     renderHeaderFields();
