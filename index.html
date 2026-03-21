@@ -527,7 +527,7 @@
   </section>
 
   <script>
-    const VERSION = "1.0.36-html";
+    const VERSION = "1.0.37-syncfix";
     document.getElementById("version-label").textContent = VERSION;
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
@@ -722,7 +722,28 @@
         return {level:"blocked", text:`${isOtherDowntimeDetail(row.detail) ? "Other downtime" : "Downtime"} requires at least ${min} characters before hours unlock.`, short:`Need ${min}+ chars`};
       }
       if (hoursMissing) return {level:"warn", text:"Enter hours for this line.", short:"Hours missing"};
-      return {level:"ok", text: needsComment ? "Downtime justification captured." : "Running line looks good.", short: needsComment ? "Justified" : "Ready"};
+      return {level:"ok", text: needsComment ? "Downtime justification captured." : "Running line looks good.", short:"Ready"};
+    }
+
+    function getHoursValidationSummary(){
+      const expected = parseFloat(hoursSheet.expectedHours) || 0;
+      const total = totalHoursValue();
+      const remaining = expected - total;
+      const validations = hoursRows.map(row => ({row, validation: rowValidationState(row)}));
+      const blockedRows = validations.filter(item => item.validation.level === "blocked");
+      const warningRows = validations.filter(item => item.validation.level === "warn");
+      const invalidDowntimeRows = blockedRows.filter(item => requiresDowntimeComment(item.row));
+      const missingDetailRows = blockedRows.filter(item => !String(item.row.detail || "").trim());
+      const missingHoursRows = warningRows.filter(item => !String(item.row.hours || "").trim());
+      const issues = [];
+      if (invalidDowntimeRows.length) issues.push(`${invalidDowntimeRows.length} downtime row(s) still need stronger justification.`);
+      if (missingDetailRows.length) issues.push(`${missingDetailRows.length} row(s) still need a status detail.`);
+      if (missingHoursRows.length) issues.push(`${missingHoursRows.length} row(s) still need hours entered.`);
+      if (Math.abs(remaining) >= 0.001) issues.push(remaining > 0 ? `${remaining.toFixed(1)} hour(s) still missing from the expected shift total.` : `${Math.abs(remaining).toFixed(1)} hour(s) over the expected shift total.`);
+      const ready = issues.length === 0 && total > 0;
+      const readyState = ready ? "Ready" : blockedRows.length ? "Blocked" : "Warning";
+      const downtime = hoursRows.reduce((sum,row) => sum + (row.status === "Downtime" ? (parseFloat(row.hours) || 0) : 0), 0);
+      return {expected,total,remaining,downtime,validations,blockedRows,warningRows,invalidDowntimeRows,missingDetailRows,missingHoursRows,issues,ready,readyState};
     }
     function detailOptionsForStatus(status){return status === "Downtime" ? downtimeHourDetails : runningHourDetails}
     function makeHoursRow(){return {id:Date.now() + Math.floor(Math.random()*1000),status:"Running",detail:"Running Per Plan",comment:"",hours:""}}
@@ -860,6 +881,7 @@
           if (!row) return;
           row.hours = sanitizeHourValue(e.target.value);
           e.target.value = row.hours;
+          updateHoursRowDom(row);
           renderHoursSummary();
         });
       });
@@ -925,34 +947,21 @@
     }
 
     function renderHoursSummary(){
-      const expected = parseFloat(hoursSheet.expectedHours) || 0;
-      const total = totalHoursValue();
-      const downtime = hoursRows.reduce((sum,row) => sum + (row.status === "Downtime" ? (parseFloat(row.hours) || 0) : 0), 0);
-      const remaining = expected - total;
-      const invalidDowntimeRows = hoursRows.filter(row => requiresDowntimeComment(row) && !validDowntimeComment(row));
-      const missingDetailRows = hoursRows.filter(row => !row.detail);
-      const missingHoursRows = hoursRows.filter(row => row.detail && !row.hours);
-      const issues = [];
-      if (invalidDowntimeRows.length) issues.push(`${invalidDowntimeRows.length} downtime row(s) still need stronger justification.`);
-      if (missingDetailRows.length) issues.push(`${missingDetailRows.length} row(s) still need a status detail.`);
-      if (missingHoursRows.length) issues.push(`${missingHoursRows.length} row(s) still need hours entered.`);
-      if (Math.abs(remaining) >= 0.001) issues.push(remaining > 0 ? `${remaining.toFixed(1)} hour(s) still missing from the expected shift total.` : `${Math.abs(remaining).toFixed(1)} hour(s) over the expected shift total.`);
-      const ready = issues.length === 0 && total > 0;
-      const readyState = ready ? "Ready" : invalidDowntimeRows.length || missingDetailRows.length ? "Blocked" : "Warning";
-      hoursTotal.textContent = total.toFixed(1);
-      hoursRemaining.textContent = remaining.toFixed(1);
-      hoursDowntime.textContent = downtime.toFixed(1);
-      hoursReadiness.textContent = ready ? "Ready" : readyState;
-      hoursReadiness.style.color = ready ? "#166534" : readyState === "Blocked" ? "#b91c1c" : "#92400e";
-      if (ready) {
+      const summary = getHoursValidationSummary();
+      hoursTotal.textContent = summary.total.toFixed(1);
+      hoursRemaining.textContent = summary.remaining.toFixed(1);
+      hoursDowntime.textContent = summary.downtime.toFixed(1);
+      hoursReadiness.textContent = summary.ready ? "Ready" : summary.readyState;
+      hoursReadiness.style.color = summary.ready ? "#166534" : summary.readyState === "Blocked" ? "#b91c1c" : "#92400e";
+      if (summary.ready) {
         hoursReadinessNote.textContent = "Ready for review: totals reconcile and downtime comments meet the rule.";
       } else {
-        hoursReadinessNote.textContent = issues[0] || "Review the worksheet before submission.";
+        hoursReadinessNote.textContent = summary.issues[0] || "Review the worksheet before submission.";
       }
       if (hoursIssuesList){
-        hoursIssuesList.innerHTML = ready
+        hoursIssuesList.innerHTML = summary.ready
           ? `<div class="hours-issue-item"><strong>All clear:</strong> totals reconcile, required comments are valid, and the sheet is ready for review.</div>`
-          : issues.map((issue, index) => `<div class="hours-issue-item"><strong>${index + 1}.</strong> ${escapeHtml(issue)}</div>`).join("");
+          : summary.issues.map((issue, index) => `<div class="hours-issue-item"><strong>${index + 1}.</strong> ${escapeHtml(issue)}</div>`).join("");
       }
 
       const renderBreakdown = (target, items, emptyText) => {
@@ -1276,16 +1285,12 @@
     }
 
     function computeHoursReadyText(){
-      const expected = parseFloat(hoursSheet.expectedHours || 0) || 0;
-      const total = hoursRows.reduce((sum,row) => sum + (parseFloat(row.hours) || 0), 0);
-      const invalidDowntime = hoursRows.filter(row => requiresDowntimeComment(row) && !validDowntimeComment(row.comment)).length;
-      const incomplete = hoursRows.filter(row => row.status && row.detail && !String(row.hours || "").trim()).length;
-      const remaining = expected - total;
-      if (invalidDowntime) return "Needs comments";
-      if (incomplete) return "Incomplete rows";
-      if (expected > 0 && Math.abs(remaining) < 0.001 && total > 0) return "Ready";
-      if (expected > 0) return `Remaining ${remaining.toFixed(1)}`;
-      return "No target";
+      const summary = getHoursValidationSummary();
+      if (summary.ready) return "Ready";
+      if (summary.invalidDowntimeRows.length) return "Needs comments";
+      if (summary.missingHoursRows.length) return "Incomplete rows";
+      if (summary.expected > 0 && Math.abs(summary.remaining) >= 0.001) return `Remaining ${summary.remaining.toFixed(1)}`;
+      return summary.readyState || "No target";
     }
 
     function buildCtcPulseReport(){
@@ -1318,11 +1323,12 @@
       ctcPulseStatus.textContent = "Scanning…";
       ctcPulseStatus.classList.remove("ok","warn");
       window.setTimeout(() => {
+        const summary = getHoursValidationSummary();
         dbgActiveTab.textContent = getActiveTabName();
         dbgLogRows.textContent = String(filteredEntries().length);
         dbgHoursLines.textContent = String(hoursRows.length);
         const readyText = computeHoursReadyText();
-        dbgReadyState.textContent = readyText;
+        dbgReadyState.textContent = summary.ready ? "Ready" : readyText;
         const allClear = readyText === "Ready" || readyText === "No target";
         const stamp = new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit", second:"2-digit"});
         const statusText = allClear ? `OK · All clear · ${stamp}` : `Needs review · ${readyText} · ${stamp}`;
