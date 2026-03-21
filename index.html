@@ -527,7 +527,7 @@
   </section>
 
   <script>
-    const VERSION = "1.0.38-readyscanfix";
+    const VERSION = "1.0.39-rowbadgecopyfix";
     document.getElementById("version-label").textContent = VERSION;
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
@@ -725,7 +725,41 @@
       return {level:"ok", text: needsComment ? "Downtime justification captured." : "Running line looks good.", short:"Ready"};
     }
 
-    function getHoursValidationSummary(){
+    
+    function isHoursRowStarted(row){
+      return Boolean(
+        String(row.hours || "").trim() ||
+        String(row.comment || "").trim() ||
+        String(row.status || "").trim() !== "Running" ||
+        String(row.detail || "").trim() !== "Running Per Plan"
+      );
+    }
+
+    function displayRowValidationState(row){
+      const base = rowValidationState(row);
+      const startedRows = hoursRows.filter(isHoursRowStarted);
+      const lastStarted = startedRows.length ? startedRows[startedRows.length - 1] : null;
+      if (base.level === "ok" && lastStarted && row.id === lastStarted.id){
+        const summary = getHoursValidationSummary();
+        if (summary.overTarget){
+          return {
+            level:"blocked",
+            text:`Shift total is over by ${Math.abs(summary.remaining).toFixed(1)} hour(s). Reduce logged hours before review.`,
+            short:"Over target"
+          };
+        }
+        if (summary.underTarget){
+          return {
+            level:"warn",
+            text:`${summary.remaining.toFixed(1)} hour(s) still need to be assigned before review.`,
+            short:"Low hours"
+          };
+        }
+      }
+      return base;
+    }
+
+function getHoursValidationSummary(){
       const expected = parseFloat(hoursSheet.expectedHours) || 0;
       const total = totalHoursValue();
       const remaining = Number((expected - total).toFixed(3));
@@ -811,7 +845,7 @@
         const options = detailOptionsForStatus(row.status);
         const needsComment = requiresDowntimeComment(row);
         const commentValid = !needsComment || validDowntimeComment(row);
-        const validation = rowValidationState(row);
+        const validation = displayRowValidationState(row);
         const rowInvalid = validation.level === "blocked";
         return `
           <tr class="${row.status === "Downtime" ? "hours-row-downtime" : "hours-row-running"} ${rowInvalid ? "hours-row-invalid" : ""}">
@@ -920,7 +954,7 @@
       const rowEl = commentInput ? commentInput.closest("tr") : null;
       const needsComment = requiresDowntimeComment(row);
       const commentValid = !needsComment || validDowntimeComment(row);
-      const validation = rowValidationState(row);
+      const validation = displayRowValidationState(row);
       const badgeEl = rowEl ? rowEl.querySelector(".hours-row-badge") : null;
 
       if (rowEl){
@@ -1386,14 +1420,36 @@ ${report}`;
       const copyBtn = document.getElementById("ctc-pulse-copy");
       if (runBtn) runBtn.addEventListener("click", runCtcPulseScan);
       if (copyBtn) copyBtn.addEventListener("click", async () => {
+        const report = buildCtcPulseReport();
+        const fallbackCopy = () => {
+          const ta = document.createElement("textarea");
+          ta.value = report;
+          ta.setAttribute("readonly", "");
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          ta.style.pointerEvents = "none";
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          let ok = false;
+          try { ok = document.execCommand("copy"); } catch {}
+          document.body.removeChild(ta);
+          return ok;
+        };
+        let copied = false;
         try {
-          await navigator.clipboard.writeText(buildCtcPulseReport());
-          ctcPulseStatus.textContent = "Copied report";
-          ctcPulseStatus.classList.add("ok");
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(report);
+            copied = true;
+          } else {
+            copied = fallbackCopy();
+          }
         } catch {
-          ctcPulseStatus.textContent = "Copy failed";
-          ctcPulseStatus.classList.add("warn");
+          copied = fallbackCopy();
         }
+        ctcPulseStatus.classList.remove("ok","warn");
+        ctcPulseStatus.textContent = copied ? "Copied report" : "Copy failed";
+        ctcPulseStatus.classList.add(copied ? "ok" : "warn");
       });
       document.addEventListener("click", () => {
         ctcPulsePanel.hidden = true;
