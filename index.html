@@ -527,7 +527,7 @@
   </section>
 
   <script>
-    const VERSION = "1.0.34-html";
+    const VERSION = "1.0.35-html";
     document.getElementById("version-label").textContent = VERSION;
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
@@ -677,12 +677,18 @@
     function isOtherDowntimeDetail(detail){return String(detail || "").trim() === "Other (please note)"}
     function requiredCommentLength(row){return isOtherDowntimeDetail(row.detail) ? 20 : 15}
     function requiresDowntimeComment(row){return isDowntimeStatus(row.status)}
+    function repeatedSingleCharacterComment(comment){
+      const normalized = String(comment || "").trim().replace(/\s+/g, "");
+      if (!normalized) return false;
+      return new Set(normalized.toLowerCase()).size === 1;
+    }
     function validDowntimeComment(rowOrComment, maybeDetail){
       if (typeof rowOrComment === "object" && rowOrComment !== null) {
-        return String(rowOrComment.comment || "").trim().length >= requiredCommentLength(rowOrComment);
+        const comment = String(rowOrComment.comment || "").trim();
+        return comment.length >= requiredCommentLength(rowOrComment) && !repeatedSingleCharacterComment(comment);
       }
       const comment = String(rowOrComment || "").trim();
-      return comment.length >= (String(maybeDetail || "").trim() === "Other (please note)" ? 20 : 15);
+      return comment.length >= (String(maybeDetail || "").trim() === "Other (please note)" ? 20 : 15) && !repeatedSingleCharacterComment(comment);
     }
     function rowValidationState(row){
       const needsComment = requiresDowntimeComment(row);
@@ -691,6 +697,10 @@
       if (detailMissing) return {level:"blocked", text:"Choose a status detail.", short:"Choose detail"};
       if (needsComment && !validDowntimeComment(row)) {
         const min = requiredCommentLength(row);
+        const comment = String(row.comment || "").trim();
+        if (comment.length >= min && repeatedSingleCharacterComment(comment)) {
+          return {level:"blocked", text:"Comment cannot be a repeated single character. Add a real justification before hours unlock.", short:"Need real comment"};
+        }
         return {level:"blocked", text:`${isOtherDowntimeDetail(row.detail) ? "Other downtime" : "Downtime"} requires at least ${min} characters before hours unlock.`, short:`Need ${min}+ chars`};
       }
       if (hoursMissing) return {level:"warn", text:"Enter hours for this line.", short:"Hours missing"};
