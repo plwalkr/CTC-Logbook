@@ -527,7 +527,7 @@
   </section>
 
   <script>
-    const VERSION = "1.0.41-hours-badge-sync";
+    const VERSION = "1.0.42-hours-overpulse";
     document.getElementById("version-label").textContent = VERSION;
 
 
@@ -745,11 +745,22 @@
       );
     }
 
+    function activeHoursRows(){
+      return hoursRows.filter(isHoursRowStarted);
+    }
+
+    function lastHoursBalanceRow(){
+      const candidates = activeHoursRows().filter(row => {
+        const base = rowValidationState(row);
+        return base.level === "ok" && String(row.hours || "").trim();
+      });
+      return candidates.length ? candidates[candidates.length - 1] : null;
+    }
+
     function displayRowValidationState(row){
       const base = rowValidationState(row);
-      const startedRows = hoursRows.filter(isHoursRowStarted);
-      const lastStarted = startedRows.length ? startedRows[startedRows.length - 1] : null;
-      if (base.level === "ok" && lastStarted && row.id === lastStarted.id){
+      const balanceRow = lastHoursBalanceRow();
+      if (base.level === "ok" && balanceRow && row.id === balanceRow.id){
         const summary = getHoursValidationSummary();
         if (summary.overTarget){
           return {
@@ -1314,6 +1325,20 @@ function getHoursValidationSummary(){
     document.getElementById("followup-add").addEventListener("click", addFollowUp);
     document.getElementById("followup-close").addEventListener("click", () => { followUpTargetId = null; followupText.value = ""; followupPanel.style.display = "none"; });
     document.getElementById("handoff-save").addEventListener("click", addHandoffSnapshot);
+    hoursExpectedInput.addEventListener("input", (e) => {
+      hoursSheet.expectedHours = sanitizeHourValue(e.target.value) || "0";
+      e.target.value = hoursSheet.expectedHours;
+      refreshHoursRowStates();
+      renderHoursSummary();
+    });
+    hoursAddRow.addEventListener("click", () => {
+      hoursRows.push(makeHoursRow());
+      renderHours();
+    });
+    hoursShiftNote.addEventListener("input", (e) => {
+      hoursSheet.shiftNote = e.target.value;
+      syncCtcPulseSnapshot();
+    });
     searchInput.addEventListener("input", renderEntries);
     filterSource.addEventListener("input", renderEntries);
     filterCategory.addEventListener("input", renderEntries);
@@ -1355,31 +1380,38 @@ function getHoursValidationSummary(){
     function syncCtcPulseSnapshot(){
       if (!dbgActiveTab || !dbgLogRows || !dbgHoursLines || !dbgReadyState) return;
       const summary = getHoursValidationSummary();
-      const visibleHoursRows = hoursRows.filter(row => String(row.detail || "").trim() || String(row.comment || "").trim() || String(row.hours || "").trim()).length;
+      const activeRows = activeHoursRows();
       dbgActiveTab.textContent = getActiveTabName();
       dbgLogRows.textContent = String(typeof filteredEntries === "function" ? filteredEntries().length : 0);
-      dbgHoursLines.textContent = String(visibleHoursRows || hoursRows.length || 0);
+      dbgHoursLines.textContent = `${activeRows.length}/${hoursRows.length}`;
       dbgReadyState.textContent = computeHoursReadyText();
     }
 
     function buildCtcPulseReport(){
       const activeTab = getActiveTabName();
-      const visibleRows = filteredEntries().length;
-      const invalidDowntime = hoursRows.filter(row => requiresDowntimeComment(row) && !validDowntimeComment(row.comment)).length;
-      const totalHours = hoursRows.reduce((sum,row) => sum + (parseFloat(row.hours) || 0), 0).toFixed(1);
-      const expected = (parseFloat(hoursSheet.expectedHours || 0) || 0).toFixed(1);
+      const summary = getHoursValidationSummary();
+      const activeRows = activeHoursRows();
+      const issues = summary.issues.length ? summary.issues.map((issue, index) => `${index + 1}. ${issue}`) : ["None"];
       return [
         `CTC Pulse Report`,
         `Version: ${VERSION}`,
         `Active tab: ${activeTab}`,
-        `Visible log rows: ${visibleRows}`,
-        `Hours lines: ${hoursRows.length}`,
-        `Expected hours: ${expected}`,
-        `Logged hours: ${totalHours}`,
+        `Visible log rows: ${filteredEntries().length}`,
+        `Active hours lines: ${activeRows.length}`,
+        `Total hours lines: ${hoursRows.length}`,
+        `Expected hours: ${summary.expected.toFixed(1)}`,
+        `Logged hours: ${summary.total.toFixed(1)}`,
+        `Remaining: ${summary.remaining.toFixed(1)}`,
+        `Downtime hours: ${summary.downtime.toFixed(1)}`,
         `Hours readiness: ${computeHoursReadyText()}`,
-        `Downtime rows missing valid comment: ${invalidDowntime}`,
+        `Downtime rows missing valid comment: ${summary.invalidDowntimeRows.length}`,
+        `Rows missing detail: ${summary.missingDetailRows.length}`,
+        `Rows missing hours: ${summary.missingHoursRows.length}`,
         `Header date: ${bannerFields.date || "n/a"}`,
-        `Timestamp: ${new Date().toLocaleString()}`
+        `Timestamp: ${new Date().toLocaleString()}`,
+        ``,
+        `Issues:`,
+        ...issues
       ].join("\n");
     }
 
