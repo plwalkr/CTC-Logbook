@@ -527,7 +527,7 @@
   </section>
 
   <script>
-    const VERSION = "1.0.40-autodate";
+    const VERSION = "1.0.41-hours-badge-sync";
     document.getElementById("version-label").textContent = VERSION;
 
 
@@ -919,7 +919,7 @@ function getHoursValidationSummary(){
           if (!row) return;
           row.comment = e.target.value;
           if (requiresDowntimeComment(row) && !validDowntimeComment(row)) row.hours = "";
-          updateHoursRowDom(row);
+          refreshHoursRowStates();
           renderHoursSummary();
         });
       });
@@ -929,7 +929,7 @@ function getHoursValidationSummary(){
           if (!row) return;
           row.hours = sanitizeHourValue(e.target.value);
           e.target.value = row.hours;
-          updateHoursRowDom(row);
+          refreshHoursRowStates();
           renderHoursSummary();
         });
       });
@@ -992,6 +992,10 @@ function getHoursValidationSummary(){
           hoursInput.disabled = false;
         }
       }
+    }
+
+    function refreshHoursRowStates(){
+      hoursRows.forEach(row => updateHoursRowDom(row));
     }
 
     function renderHoursSummary(){
