@@ -574,13 +574,13 @@
 
     let entries = [
       {
-        id:1,source:"system",locked:true,ignored:false,reviewState:"Active",eventType:"Cycle Start",time:"09:28 AM",run:"1229751",cycle:"605 Parent",torqueMap:"180.6",sump:"188.0",carbon:"-0.17",nox:"-0.010",thc:"-0.003",pm:"—",work:"56.05",filter:"00000",testMap:"19",category:"Test Update",status:"Open",noteHtml:"System event: cycle start registered and soak sequence initiated.",noteText:"System event: cycle start registered and soak sequence initiated.",headerSnapshot:structuredClone(bannerFields)
+        id:1,source:"system",locked:true,ignored:false,reviewState:"Active",eventType:"Cycle Start",time:"09:28 AM",run:"1229751",cycle:"605 Parent",torqueMap:"180.6",PanT:"188.0",carbon:"-0.17",nox:"-0.010",thc:"-0.003",pm:"—",work:"56.05",filter:"00000",testMap:"19",category:"Test Update",status:"Open",noteHtml:"System event: cycle start registered and soak sequence initiated.",noteText:"System event: cycle start registered and soak sequence initiated.",headerSnapshot:structuredClone(bannerFields)
       },
       {
-        id:2,source:"operator",locked:true,ignored:false,reviewState:"Monitoring",eventType:"Operator Note",time:"10:16 AM",run:"1229753",cycle:"WHTP",torqueMap:"—",sump:"161.1",carbon:"-0.65",nox:"0.0054",thc:"0.0057",pm:"—",work:"40.87",filter:"—",testMap:"13",category:"Issue",status:"Monitoring",noteHtml:"Cut out around <strong>0.35C</strong>. Contacting engineering to see if this is normal.",noteText:"Cut out around 0.35C. Contacting engineering to see if this is normal.",headerSnapshot:structuredClone(bannerFields)
+        id:2,source:"operator",locked:true,ignored:false,reviewState:"Monitoring",eventType:"Operator Note",time:"10:16 AM",run:"1229753",cycle:"WHTP",torqueMap:"—",PanT:"161.1",carbon:"-0.65",nox:"0.0054",thc:"0.0057",pm:"—",work:"40.87",filter:"—",testMap:"13",category:"Issue",status:"Monitoring",noteHtml:"Cut out around <strong>0.35C</strong>. Contacting engineering to see if this is normal.",noteText:"Cut out around 0.35C. Contacting engineering to see if this is normal.",headerSnapshot:structuredClone(bannerFields)
       },
       {
-        id:3,source:"system",locked:true,ignored:false,reviewState:"Active",eventType:"Post Processing",time:"05:15 PM",run:"1229756",cycle:"vLLC",torqueMap:"—",sump:"180.6",carbon:"-0.71",nox:"-0.010",thc:"-0.003",pm:"—",work:"56.05",filter:"—",testMap:"19",category:"Engineer Direction",status:"Open",noteHtml:"System event: rev 9.10 loaded. Post processing remains incomplete and requires review.",noteText:"System event: rev 9.10 loaded. Post processing remains incomplete and requires review.",headerSnapshot:structuredClone(bannerFields)
+        id:3,source:"system",locked:true,ignored:false,reviewState:"Active",eventType:"Post Processing",time:"05:15 PM",run:"1229756",cycle:"vLLC",torqueMap:"—",PanT:"180.6",carbon:"-0.71",nox:"-0.010",thc:"-0.003",pm:"—",work:"56.05",filter:"—",testMap:"19",category:"Engineer Direction",status:"Open",noteHtml:"System event: rev 9.10 loaded. Post processing remains incomplete and requires review.",noteText:"System event: rev 9.10 loaded. Post processing remains incomplete and requires review.",headerSnapshot:structuredClone(bannerFields)
       }
     ];
 
@@ -837,7 +837,7 @@ function getHoursValidationSummary(){
         <label class="field"><label>Run #</label><input id="field-run" value="${escapeHtml(formState.run)}" placeholder="Run #" /></label>
         <label class="field span-2"><label>Cycle Type</label><select id="field-cycle">${cycleOptions.map(opt => `<option value="${escapeHtml(opt)}" ${formState.cycle===opt?"selected":""}>${opt || "Select cycle"}</option>`).join("")}</select></label>
         <label class="field"><label>Torque</label><input id="field-torqueMap" value="${escapeHtml(formState.torqueMap)}" placeholder="Map" /></label>
-        <label class="field"><label>Sump</label><input id="field-sump" value="${escapeHtml(formState.sump)}" placeholder="°F" /></label>
+        <label class="field"><label>PanT</label><input id="field-PanT" value="${escapeHtml(formState.PanT)}" placeholder="°F" /></label>
         <label class="field"><label>Carbon</label><input id="field-carbon" value="${escapeHtml(formState.carbon)}" placeholder="Carbon" /></label>
         <label class="field"><label>NOx</label><input id="field-nox" value="${escapeHtml(formState.nox)}" placeholder="NOx" /></label>
         <label class="field"><label>THC</label><input id="field-thc" value="${escapeHtml(formState.thc)}" placeholder="THC" /></label>
@@ -1142,7 +1142,7 @@ function getHoursValidationSummary(){
                     <div class="section-title">Technical Values</div>
                     <div class="details-grid">
                       ${detailBox("Torque", entry.torqueMap)}
-                      ${detailBox("Sump", entry.sump)}
+                      ${detailBox("PanT", entry.PanT)}
                       ${detailBox("Carbon", entry.carbon)}
                       ${detailBox("NOx", entry.nox)}
                       ${detailBox("THC", entry.thc)}
@@ -1191,7 +1191,7 @@ function getHoursValidationSummary(){
     }
 
     function resetForm(){
-      Object.assign(formState, {time:formatCurrentTime(),run:"",cycle:"",torqueMap:"",sump:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"});
+      Object.assign(formState, {time:formatCurrentTime(),run:"",cycle:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"});
       renderForm();
       noteEditor.innerHTML = "";
     }
@@ -1232,7 +1232,7 @@ function getHoursValidationSummary(){
         run: formState.run || "—",
         cycle: formState.cycle || "—",
         torqueMap: formState.torqueMap || "—",
-        sump: formState.sump || "—",
+        PanT: formState.PanT || "—",
         carbon: formState.carbon || "—",
         nox: formState.nox || "—",
         thc: formState.thc || "—",
@@ -1261,7 +1261,7 @@ function getHoursValidationSummary(){
         reviewState: "Active",
         eventType: "Addendum",
         time: formatCurrentTime(),
-        run: "—", cycle: "—", torqueMap: "—", sump: "—", carbon: "—", nox: "—", thc: "—", pm: "—", work: "—", filter: "—", testMap: "—",
+        run: "—", cycle: "—", torqueMap: "—", PanT: "—", carbon: "—", nox: "—", thc: "—", pm: "—", work: "—", filter: "—", testMap: "—",
         category: "Follow-Up",
         status: "Open",
         parentId: followUpTargetId,
