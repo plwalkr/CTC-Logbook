@@ -28,7 +28,7 @@
     .header-cell:nth-child(6n){border-right:none}
     .header-cell label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);margin-bottom:6px}
     input,select,textarea,button{font:inherit}
-    .header-cell input,.field input,.field select,.search,.followup-textarea{width:100%;padding:7px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
+    .header-cell input,.header-cell select,.field input,.field select,.search,.followup-textarea{width:100%;padding:7px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
     .section-body{padding:12px;display:flex;flex-direction:column;gap:10px}
     .form-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px}
     .field{display:flex;flex-direction:column;gap:4px}
@@ -212,6 +212,22 @@
     .toggle-btn.active{border-color:#0f172a;box-shadow:0 0 0 2px rgba(15,23,42,.08);background:#f8fafc}
     .hours-reference-note{margin-top:10px;border:1px dashed var(--line);border-radius:12px;background:var(--soft);padding:10px 12px;font-size:12px;color:#334155;line-height:1.55}
     .hours-summary-grid--wide{grid-template-columns:repeat(6,minmax(0,1fr))}
+.hours-filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.hours-filter-row .search{max-width:260px}
+.hours-filter-row select,.hours-filter-row input[type="date"]{padding:7px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text);min-width:150px}
+.hours-view-section[hidden]{display:none !important}
+.trade-summary-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.trade-summary-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
+.trade-summary-card strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
+.trade-summary-card span{display:block;font-size:14px;font-weight:800;color:#0f172a;line-height:1.35}
+.trade-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.trade-group-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
+.trade-group-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px}
+.trade-group-list{display:flex;flex-direction:column;gap:6px}
+.trade-group-item{display:grid;grid-template-columns:minmax(0,1.25fr) auto;gap:8px;align-items:start;border-bottom:1px dashed #e2e8f0;padding-bottom:6px}
+.trade-group-item:last-child{border-bottom:none;padding-bottom:0}
+.trade-group-item .meta{font-size:11px;color:var(--muted);margin-top:2px}
+.trade-empty{font-size:12px;color:var(--muted)}
 
     body[data-theme="clarity"] .toggle-btn.active{border-color:#163b69;box-shadow:0 0 0 2px rgba(22,59,105,.12);background:#eef4ff}
     body[data-theme="clarity"] .panel-head,
@@ -239,9 +255,14 @@
     body[data-theme="clarity"] .hours-row-downtime td{background:#fff6da}
     body[data-theme="clarity"] .hours-row-invalid td{box-shadow:inset 0 0 0 9999px rgba(217,119,6,.12)}
     body[data-theme="clarity"] .action-stack button.attention-btn{background:#fff6da;color:#8a4b00;border-color:#facc15}
+    body[data-theme="clarity"] .trade-summary-card,
+    body[data-theme="clarity"] .trade-group-card,
     body[data-theme="clarity"] .hours-inline-input,
+    body[data-theme="clarity"] .hours-filter-row select,
+    body[data-theme="clarity"] .hours-filter-row input[type="date"],
     body[data-theme="clarity"] .hours-inline-select,
     body[data-theme="clarity"] .header-cell input,
+    body[data-theme="clarity"] .header-cell select,
     body[data-theme="clarity"] .field input,
     body[data-theme="clarity"] .field select,
     body[data-theme="clarity"] .search,
@@ -273,6 +294,8 @@
       .actions-row{grid-template-columns:1fr 1fr}
       .hours-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
       .hours-mode-grid{grid-template-columns:1fr}
+      .trade-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .trade-groups{grid-template-columns:1fr}
       .details-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
       .snapshot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
       .snapshot-grid.hours-snapshot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -289,11 +312,14 @@
       .actions-row{grid-template-columns:1fr}
       .hours-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .hours-mode-grid{grid-template-columns:1fr}
+      .trade-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .trade-groups{grid-template-columns:1fr}
       .details-grid,.snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .snapshot-grid.hours-snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .handoff-grid,.handoff-columns{grid-template-columns:1fr}
       .hours-review-grid,.hours-breakdown{grid-template-columns:1fr}
       .filters-row .search{max-width:none}
+      .hours-filter-row .search{max-width:none}
       .date-filter-row{align-items:stretch}
       .date-filter-row .date-field{width:100%;justify-content:space-between}
       table{font-size:11px}
@@ -513,131 +539,181 @@
     </section>
     </div>
 
-    <div id="tab-hours" class="tab-view" hidden>
-      <section class="panel">
-        <div class="section-body hours-shell">
-          <div class="hours-top">
-            <div>
-              <h2 id="hours-view-title">Cell Hours Worksheet</h2>
-              <div class="small" id="hours-view-copy">Technician logging stays simple while trade coverage logic remains visible as a separate reference.</div>
-            </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <span class="pill">Cell Meter: <span id="hours-meter" style="margin-left:6px">094</span></span>
-              <span class="pill">Tech Target: <span id="hours-expected-pill" style="margin-left:6px">12.0</span></span>
-              <span class="pill">Coverage Span: <span id="hours-coverage-pill" style="margin-left:6px">12.0</span></span>
+<div id="tab-hours" class="tab-view" hidden>
+  <section class="panel">
+    <div class="section-body hours-shell">
+      <div class="hours-top">
+        <div>
+          <h2 id="hours-view-title">Cell Hours Worksheet</h2>
+          <div class="small" id="hours-view-copy">Technician logging stays simple while trade coverage logic remains visible as a separate reference.</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span class="pill">Cell Meter: <span id="hours-meter" style="margin-left:6px">094</span></span>
+          <span class="pill">Tech Target: <span id="hours-expected-pill" style="margin-left:6px">12.0</span></span>
+          <span class="pill">Coverage Span: <span id="hours-coverage-pill" style="margin-left:6px">12.0</span></span>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title">Hours Basis</div>
+        <div class="hours-mode-grid">
+          <div class="hours-mode-card">
+            <div class="small" style="font-weight:700;color:#334155;margin-bottom:8px">View Mode</div>
+            <div class="toggle-bar" id="hours-view-mode-bar">
+              <button class="toggle-btn" type="button" data-hours-view-mode="tech">Technician Logging</button>
+              <button class="toggle-btn" type="button" data-hours-view-mode="trade">Trade Coverage View</button>
             </div>
           </div>
-
-          <div class="section-card">
-            <div class="section-title">Hours Basis</div>
-            <div class="hours-mode-grid">
-              <div class="hours-mode-card">
-                <div class="small" style="font-weight:700;color:#334155;margin-bottom:8px">View Mode</div>
-                <div class="toggle-bar" id="hours-view-mode-bar">
-                  <button class="toggle-btn" type="button" data-hours-view-mode="tech">Technician Logging</button>
-                  <button class="toggle-btn" type="button" data-hours-view-mode="trade">Trade Coverage View</button>
-                </div>
-              </div>
-              <div class="hours-mode-card">
-                <div class="small" style="font-weight:700;color:#334155;margin-bottom:8px">Work Pattern</div>
-                <div class="toggle-bar" id="hours-work-pattern-bar">
-                  <button class="toggle-btn" type="button" data-hours-work-pattern="5x8">5 × 8s</button>
-                  <button class="toggle-btn" type="button" data-hours-work-pattern="4x10">4 × 10s</button>
-                  <button class="toggle-btn" type="button" data-hours-work-pattern="3x12">3 × 12s</button>
-                </div>
-              </div>
-            </div>
-            <div class="hours-reference-note" id="hours-mode-note">Technician logging basis is separate from the trade coverage interpretation.</div>
-          </div>
-
-          <div class="hours-summary-grid hours-summary-grid--wide">
-            <div class="hours-summary-card">
-              <div class="summary-label">Logged Hours</div>
-              <div class="summary-value" id="hours-total">0.0</div>
-              <div class="summary-note">All running + downtime rows currently entered.</div>
-            </div>
-            <div class="hours-summary-card">
-              <div class="summary-label">Tech Logged Target</div>
-              <div class="summary-value" id="hours-target-hours">12.0</div>
-              <div class="summary-note" id="hours-target-note">Based on the selected work pattern.</div>
-            </div>
-            <div class="hours-summary-card">
-              <div class="summary-label">Target Difference</div>
-              <div class="summary-value" id="hours-remaining">12.0</div>
-              <div class="summary-note">Difference between the technician logging target and currently logged hours.</div>
-            </div>
-            <div class="hours-summary-card">
-              <div class="summary-label">Coverage Span</div>
-              <div class="summary-value" id="hours-coverage-hours">12.0</div>
-              <div class="summary-note" id="hours-coverage-note">Reference span for the selected log date.</div>
-            </div>
-            <div class="hours-summary-card">
-              <div class="summary-label">Span Difference</div>
-              <div class="summary-value" id="hours-span-difference">0.0</div>
-              <div class="summary-note" id="hours-span-difference-note">Trade reference compared against technician logged hours.</div>
-            </div>
-            <div class="hours-summary-card">
-              <div class="summary-label">Downtime Hours</div>
-              <div class="summary-value" id="hours-downtime">0.0</div>
-              <div class="summary-note">Downtime entries require at least 15 characters. Other requires at least 20 before hours unlock.</div>
-            </div>
-            <div class="hours-summary-card">
-              <div class="summary-label" id="hours-readiness-label">Technician Readiness</div>
-              <div class="summary-value" id="hours-readiness">Not Ready</div>
-              <div class="summary-note" id="hours-readiness-note">Enter rows and reconcile the selected technician logging target.</div>
-            </div>
-          </div>
-
-          <div class="section-card">
-            <div class="hours-entry-toolbar">
-              <div class="toolbar-note"><strong>Rule:</strong> Running details do not require comments. Downtime requires at least 15 characters, and Other requires at least 20 before hours can be entered.</div>
-              <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-                <label class="small" style="display:flex;align-items:center;gap:6px">Logged Target
-                  <input id="hours-expected" class="hours-inline-input" value="12" inputmode="decimal" style="width:84px" />
-                </label>
-                <button class="secondary" type="button" id="hours-add-row">Add Line</button>
-              </div>
-            </div>
-            <div class="hours-table-wrap" style="margin-top:10px">
-              <table class="hours-table">
-                <thead>
-                  <tr>
-                    <th class="col-status">Status</th>
-                    <th class="col-detail">Status Detail</th>
-                    <th class="col-comment">Comment / Justification</th>
-                    <th class="col-hours">Hours</th>
-                    <th class="col-actions">Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="hours-rows-body"></tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="hours-review-grid">
-            <div class="hours-sidebox">
-              <div class="section-title">Review Summary</div>
-              <div class="hours-breakdown">
-                <div class="hours-breakdown-card">
-                  <h3>Running Breakdown</h3>
-                  <div class="hours-breakdown-list" id="hours-running-breakdown"></div>
-                </div>
-                <div class="hours-breakdown-card">
-                  <h3>Downtime Breakdown</h3>
-                  <div class="hours-breakdown-list" id="hours-downtime-breakdown"></div>
-                </div>
-              </div>
-              <div class="hours-issues-list" id="hours-issues-list"></div>
-            </div>
-            <div class="hours-sidebox">
-              <div class="section-title">Reference Note</div>
-              <textarea id="hours-shift-note" placeholder="Optional note for trade review, coach handoff, or unusual coverage reconciliation context."></textarea>
-              <div class="small" id="hours-trade-reference-copy" style="margin-top:8px">Trades can review the coverage span here without changing the technician's logged basis.</div>
+          <div class="hours-mode-card">
+            <div class="small" style="font-weight:700;color:#334155;margin-bottom:8px">Work Pattern</div>
+            <div class="toggle-bar" id="hours-work-pattern-bar">
+              <button class="toggle-btn" type="button" data-hours-work-pattern="5x8">5 × 8s</button>
+              <button class="toggle-btn" type="button" data-hours-work-pattern="4x10">4 × 10s</button>
+              <button class="toggle-btn" type="button" data-hours-work-pattern="3x12">3 × 12s</button>
             </div>
           </div>
         </div>
-      </section>
+        <div class="hours-reference-note" id="hours-mode-note">Technician logging basis is separate from the trade coverage interpretation.</div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title">Hours Filters</div>
+        <div class="hours-filter-row">
+          <input id="hours-filter-search" class="search" placeholder="Search detail, comment, status, day, month, cell..." />
+          <select id="hours-filter-status">
+            <option value="">All Hour Types</option>
+            <option value="Running">Running</option>
+            <option value="Downtime">Downtime</option>
+          </select>
+          <div class="date-field">
+            <label for="hours-filter-date-from">From</label>
+            <input id="hours-filter-date-from" type="date" />
+          </div>
+          <div class="date-field">
+            <label for="hours-filter-date-to">To</label>
+            <input id="hours-filter-date-to" type="date" />
+          </div>
+          <button id="clear-hours-filters" class="filter-clear-btn" type="button">Clear Hours Filters</button>
+        </div>
+      </div>
+
+      <div class="hours-summary-grid hours-summary-grid--wide">
+        <div class="hours-summary-card">
+          <div class="summary-label">Logged Hours</div>
+          <div class="summary-value" id="hours-total">0.0</div>
+          <div class="summary-note">All running + downtime rows currently entered.</div>
+        </div>
+        <div class="hours-summary-card">
+          <div class="summary-label">Tech Logged Target</div>
+          <div class="summary-value" id="hours-target-hours">12.0</div>
+          <div class="summary-note" id="hours-target-note">Based on the selected work pattern.</div>
+        </div>
+        <div class="hours-summary-card">
+          <div class="summary-label">Target Difference</div>
+          <div class="summary-value" id="hours-remaining">12.0</div>
+          <div class="summary-note">Difference between the technician logging target and currently logged hours.</div>
+        </div>
+        <div class="hours-summary-card">
+          <div class="summary-label">Coverage Span</div>
+          <div class="summary-value" id="hours-coverage-hours">12.0</div>
+          <div class="summary-note" id="hours-coverage-note">Reference span for the selected log date.</div>
+        </div>
+        <div class="hours-summary-card">
+          <div class="summary-label">Span Difference</div>
+          <div class="summary-value" id="hours-span-difference">0.0</div>
+          <div class="summary-note" id="hours-span-difference-note">Trade reference compared against technician logged hours.</div>
+        </div>
+        <div class="hours-summary-card">
+          <div class="summary-label">Downtime Hours</div>
+          <div class="summary-value" id="hours-downtime">0.0</div>
+          <div class="summary-note">Downtime entries require at least 15 characters. Other requires at least 20 before hours unlock.</div>
+        </div>
+        <div class="hours-summary-card">
+          <div class="summary-label" id="hours-readiness-label">Technician Readiness</div>
+          <div class="summary-value" id="hours-readiness">Not Ready</div>
+          <div class="summary-note" id="hours-readiness-note">Enter rows and reconcile the selected technician logging target.</div>
+        </div>
+      </div>
+
+      <div id="hours-tech-section" class="hours-view-section">
+        <div class="section-card">
+          <div class="hours-entry-toolbar">
+            <div class="toolbar-note"><strong>Rule:</strong> Running details do not require comments. Downtime requires at least 15 characters, and Other requires at least 20 before hours can be entered.</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+              <label class="small" style="display:flex;align-items:center;gap:6px">Logged Target
+                <input id="hours-expected" class="hours-inline-input" value="12" inputmode="decimal" style="width:84px" />
+              </label>
+              <button class="secondary" type="button" id="hours-add-row">Add Line</button>
+            </div>
+          </div>
+          <div class="hours-table-wrap" style="margin-top:10px">
+            <table class="hours-table">
+              <thead>
+                <tr>
+                  <th class="col-status">Status</th>
+                  <th class="col-detail">Status Detail</th>
+                  <th class="col-comment">Comment / Justification</th>
+                  <th class="col-hours">Hours</th>
+                  <th class="col-actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="hours-rows-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="hours-review-grid">
+          <div class="hours-sidebox">
+            <div class="section-title">Review Summary</div>
+            <div class="hours-breakdown">
+              <div class="hours-breakdown-card">
+                <h3>Running Breakdown</h3>
+                <div class="hours-breakdown-list" id="hours-running-breakdown"></div>
+              </div>
+              <div class="hours-breakdown-card">
+                <h3>Downtime Breakdown</h3>
+                <div class="hours-breakdown-list" id="hours-downtime-breakdown"></div>
+              </div>
+            </div>
+            <div class="hours-issues-list" id="hours-issues-list"></div>
+          </div>
+          <div class="hours-sidebox">
+            <div class="section-title">Reference Note</div>
+            <textarea id="hours-shift-note" placeholder="Optional note for trade review, coach handoff, or unusual coverage reconciliation context."></textarea>
+            <div class="small" id="hours-trade-reference-copy" style="margin-top:8px">Trades can review the coverage span here without changing the technician's logged basis.</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="hours-trade-section" class="hours-view-section" hidden>
+        <div class="section-card">
+          <div class="section-title">Trade Coverage Summary</div>
+          <div class="trade-summary-grid" id="trade-summary-grid"></div>
+        </div>
+        <div class="trade-groups">
+          <div class="trade-group-card">
+            <div class="trade-group-head">
+              <h3>Running Hours Grouped</h3>
+              <span class="pill" id="trade-running-subtotal">0.0 hrs</span>
+            </div>
+            <div class="trade-group-list" id="trade-running-list"></div>
+          </div>
+          <div class="trade-group-card">
+            <div class="trade-group-head">
+              <h3>Downtime Hours Grouped</h3>
+              <span class="pill" id="trade-downtime-subtotal">0.0 hrs</span>
+            </div>
+            <div class="trade-group-list" id="trade-downtime-list"></div>
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="section-title">Trade Reference Note</div>
+          <div id="trade-reference-note" class="settings-note">Trade coverage view displays the same hours already entered, grouped into a cleaner day/cell summary.</div>
+        </div>
+      </div>
     </div>
+  </section>
+</div>
 
     <div id="tab-settings" class="tab-view" hidden>
       <section class="panel">
@@ -717,7 +793,7 @@
   </section>
 
   <script>
-    const VERSION = "1.0.47-buttonfix";
+    const VERSION = "1.0.48-tradeview-filters";
     function deepClone(value){
       if (typeof structuredClone === "function") return structuredClone(value);
       return JSON.parse(JSON.stringify(value));
@@ -732,6 +808,7 @@
       "4x10": { label: "4 × 10s", hours: 10, note: "Technician logging basis set to a 10-hour target." },
       "3x12": { label: "3 × 12s", hours: 12, note: "Technician logging basis set to a 12-hour target." }
     };
+    const TEST_CELL_OPTIONS = Array.from({length:16}, (_, index) => String(201 + index)).concat(Array.from({length:16}, (_, index) => String(301 + index)));
     document.getElementById("version-label").textContent = VERSION;
 
 
@@ -826,6 +903,19 @@
     const hoursIssuesList = document.getElementById("hours-issues-list");
     const hoursShiftNote = document.getElementById("hours-shift-note");
     const hoursMeter = document.getElementById("hours-meter");
+const hoursFilterSearch = document.getElementById("hours-filter-search");
+const hoursFilterStatus = document.getElementById("hours-filter-status");
+const hoursFilterDateFrom = document.getElementById("hours-filter-date-from");
+const hoursFilterDateTo = document.getElementById("hours-filter-date-to");
+const clearHoursFiltersBtn = document.getElementById("clear-hours-filters");
+const hoursTechSection = document.getElementById("hours-tech-section");
+const hoursTradeSection = document.getElementById("hours-trade-section");
+const tradeSummaryGrid = document.getElementById("trade-summary-grid");
+const tradeRunningList = document.getElementById("trade-running-list");
+const tradeDowntimeList = document.getElementById("trade-downtime-list");
+const tradeRunningSubtotal = document.getElementById("trade-running-subtotal");
+const tradeDowntimeSubtotal = document.getElementById("trade-downtime-subtotal");
+const tradeReferenceNote = document.getElementById("trade-reference-note");
     const entriesBody = document.getElementById("entries-body");
     const followupPanel = document.getElementById("followup-panel");
     const followupTitle = document.getElementById("followup-title");
@@ -880,6 +970,7 @@
         });
       }
       try { localStorage.setItem(DISPLAY_MODE_STORAGE_KEY, nextMode); } catch {}
+      renderTradeCoverageView();
       syncCtcPulseSnapshot();
     }
     function renderDisplayModeButtons(){
@@ -1101,25 +1192,37 @@ function getHoursValidationSummary(){
       return Array.from(items.entries()).sort((a,b) => a[0].localeCompare(b[0]));
     }
 
-    function renderHeaderFields(){
-      headerGrid.innerHTML = bannerConfig.map(([label,key]) => `
-        <div class="header-cell">
-          <label>${label}</label>
-          <input data-banner="${key}" type="${key === 'date' ? 'date' : 'text'}" value="${escapeHtml(key === 'date' ? normalizeDateValue(bannerFields[key] || "") : (bannerFields[key] || ""))}" />
-        </div>
-      `).join("");
-      headerGrid.querySelectorAll("[data-banner]").forEach(input => {
-        input.addEventListener("input", e => {
-          const key = e.target.dataset.banner;
-          bannerFields[key] = key === "date" ? normalizeDateValue(e.target.value) || e.target.value : e.target.value;
-          if (key === "date") e.target.value = normalizeDateValue(bannerFields[key] || "") || "";
-          hoursMeter.textContent = bannerFields.cellHourMeter || "—";
-          if (key === "date" || key === "cellHourMeter") renderHours();
-        });
-      });
+function renderHeaderFields(){
+  headerGrid.innerHTML = bannerConfig.map(([label,key]) => {
+    if (key === "testCell") {
+      return `
+    <div class="header-cell">
+      <label>${label}</label>
+      <select data-banner="${key}">
+        ${TEST_CELL_OPTIONS.map(option => `<option value="${option}" ${String(bannerFields[key] || "") === option ? "selected" : ""}>${option}</option>`).join("")}
+      </select>
+    </div>
+  `;
     }
+    return `
+    <div class="header-cell">
+      <label>${label}</label>
+      <input data-banner="${key}" type="${key === 'date' ? 'date' : 'text'}" value="${escapeHtml(key === 'date' ? normalizeDateValue(bannerFields[key] || "") : (bannerFields[key] || ""))}" />
+    </div>
+  `;
+  }).join("");
+  headerGrid.querySelectorAll("[data-banner]").forEach(input => {
+    input.addEventListener("input", e => {
+      const key = e.target.dataset.banner;
+      bannerFields[key] = key === "date" ? normalizeDateValue(e.target.value) || e.target.value : e.target.value;
+      if (key === "date") e.target.value = normalizeDateValue(bannerFields[key] || "") || "";
+      hoursMeter.textContent = bannerFields.cellHourMeter || "—";
+      if (key === "date" || key === "cellHourMeter" || key === "testCell") renderHours();
+    });
+  });
+}
 
-    function renderForm(){
+function renderForm(){
       formGrid.innerHTML = `
         <label class="field"><label>Time</label><input id="field-time" value="${escapeHtml(formState.time)}" placeholder="--:-- AM" /></label>
         <label class="field"><label>Run #</label><input id="field-run" value="${escapeHtml(formState.run)}" placeholder="Run #" /></label>
@@ -1149,20 +1252,108 @@ function getHoursValidationSummary(){
     function getWorkPatternConfig(){
       return WORK_PATTERNS[hoursSheet.workPattern] || WORK_PATTERNS["3x12"];
     }
-    function getCoverageWindowInfo(){
-      const iso = normalizeDateValue(bannerFields.date || "");
-      if (!iso) return { dayLabel:"No log date", window:"Set the session date to view coverage.", hours:0, note:"Coverage span uses the session date from the header." };
-      const date = new Date(`${iso}T12:00:00`);
-      if (Number.isNaN(date.getTime())) return { dayLabel:"Invalid date", window:"Update the session date.", hours:0, note:"Coverage span uses the session date from the header." };
-      const day = date.getDay();
-      const dayName = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][day];
-      if (day >= 1 && day <= 4) return { dayLabel:dayName, window:"5a–5p / 5p–5a", hours:12, note:`${dayName} follows the standard 12-hour day/night coverage blocks.` };
-      if (day === 5) return { dayLabel:dayName, window:"5a–7p", hours:14, note:"Friday coverage extends across a 14-hour daytime span for trade review." };
-      if (day === 6) return { dayLabel:dayName, window:"7a–7p / 7p–7a", hours:12, note:"Saturday is tracked as 12-hour day and night weekend blocks." };
-      return { dayLabel:dayName, window:"7p–5a", hours:10, note:"Sunday trade reference follows the 10-hour overnight span." };
-    }
+function getCoverageWindowInfo(){
+  const iso = normalizeDateValue(bannerFields.date || "");
+  if (!iso) return { dayLabel:"No log date", window:"Set the session date to view coverage.", hours:0, note:"Coverage span uses the session date from the header." };
+  const date = new Date(`${iso}T12:00:00`);
+  if (Number.isNaN(date.getTime())) return { dayLabel:"Invalid date", window:"Update the session date.", hours:0, note:"Coverage span uses the session date from the header." };
+  const day = date.getDay();
+  const dayName = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][day];
+  if (day >= 1 && day <= 4) return { dayLabel:dayName, window:"5a–5p / 5p–5a", hours:12, note:`${dayName} follows the standard 12-hour day/night coverage blocks.` };
+  if (day === 5) return { dayLabel:dayName, window:"5a–7p", hours:14, note:"Friday coverage extends across a 14-hour daytime span for trade review." };
+  if (day === 6) return { dayLabel:dayName, window:"7a–7p / 7p–7a", hours:12, note:"Saturday is tracked as 12-hour day and night weekend blocks." };
+  return { dayLabel:dayName, window:"7p–5a", hours:10, note:"Sunday trade reference follows the 10-hour overnight span." };
+}
+function getSessionDateInfo(){
+  const iso = normalizeDateValue(bannerFields.date || "");
+  const date = iso ? new Date(`${iso}T12:00:00`) : null;
+  const valid = date && !Number.isNaN(date.getTime());
+  return {
+    iso,
+    valid,
+    dayName: valid ? date.toLocaleDateString([], {weekday:"long"}) : "—",
+    monthName: valid ? date.toLocaleDateString([], {month:"long"}) : "—",
+    display: valid ? date.toLocaleDateString([], {weekday:"long", month:"long", day:"numeric", year:"numeric"}) : "No log date"
+  };
+}
+function getFilteredHoursRows(){
+  const query = String(hoursFilterSearch?.value || "").trim().toLowerCase();
+  const statusFilter = String(hoursFilterStatus?.value || "").trim();
+  const dateFrom = String(hoursFilterDateFrom?.value || "").trim();
+  const dateTo = String(hoursFilterDateTo?.value || "").trim();
+  const session = getSessionDateInfo();
+  const sessionTokens = [
+    session.display,
+    session.dayName,
+    session.monthName,
+    bannerFields.testCell || "",
+    bannerFields.shift || "",
+    bannerFields.cellHourMeter || "",
+    getWorkPatternConfig().label,
+    getCoverageWindowInfo().window
+  ].join(" ").toLowerCase();
+  const dateMatches = (!dateFrom || (session.iso && session.iso >= dateFrom)) && (!dateTo || (session.iso && session.iso <= dateTo));
+  if (!dateMatches) return [];
+  return hoursRows.filter(row => {
+    const matchesStatus = !statusFilter || row.status === statusFilter;
+    const haystack = [row.status, row.detail, row.comment, row.hours, sessionTokens].join(" ").toLowerCase();
+    const matchesQuery = !query || haystack.includes(query);
+    return matchesStatus && matchesQuery;
+  });
+}
+function summarizeHoursRows(rows, status){
+  const items = new Map();
+  rows.filter(row => row.status === status && row.detail).forEach(row => {
+    const key = row.detail;
+    const entry = items.get(key) || {hours:0, comments:[]};
+    entry.hours += parseFloat(row.hours) || 0;
+    if (String(row.comment || "").trim()) entry.comments.push(String(row.comment).trim());
+    items.set(key, entry);
+  });
+  return Array.from(items.entries()).sort((a,b) => a[0].localeCompare(b[0]));
+}
+function renderTradeCoverageView(){
+  if (!tradeSummaryGrid || !tradeRunningList || !tradeDowntimeList) return;
+  const session = getSessionDateInfo();
+  const coverage = getCoverageWindowInfo();
+  const workPattern = getWorkPatternConfig();
+  const filteredRows = getFilteredHoursRows();
+  const total = filteredRows.reduce((sum,row) => sum + (parseFloat(row.hours) || 0), 0);
+  const running = summarizeHoursRows(filteredRows, "Running");
+  const downtime = summarizeHoursRows(filteredRows, "Downtime");
+  const runningSubtotal = running.reduce((sum, [, data]) => sum + data.hours, 0);
+  const downtimeSubtotal = downtime.reduce((sum, [, data]) => sum + data.hours, 0);
+  tradeSummaryGrid.innerHTML = [
+    ["Log Date", session.display],
+    ["Day", session.dayName],
+    ["Month", session.monthName],
+    ["Test Cell", bannerFields.testCell || "—"],
+    ["Work Pattern", workPattern.label],
+    ["Logged Hours", `${total.toFixed(1)} hrs`],
+    ["Coverage Span", coverage.window],
+    ["Coverage Hours", `${coverage.hours.toFixed(1)} hrs`],
+    ["Shift", bannerFields.shift || "—"],
+    ["Cell Meter", bannerFields.cellHourMeter || "—"],
+    ["Filter Match Count", String(filteredRows.length)],
+    ["Tech Target", `${(parseFloat(hoursSheet.expectedHours) || 0).toFixed(1)} hrs`],
+  ].map(([label, value]) => `<div class="trade-summary-card"><strong>${escapeHtml(label)}</strong><span>${escapeHtml(value)}</span></div>`).join("");
 
-    function renderHours(){
+  const renderGroup = (target, items, emptyText) => {
+    target.innerHTML = items.length ? items.map(([label, data]) => {
+      const commentLine = data.comments.length ? `<div class="meta">${escapeHtml(data.comments[0])}${data.comments.length > 1 ? ` (+${data.comments.length - 1} more note${data.comments.length - 1 === 1 ? "" : "s"})` : ""}</div>` : "";
+      return `<div class="trade-group-item"><div><strong>${escapeHtml(label)}</strong>${commentLine}</div><div><strong>${data.hours.toFixed(1)}</strong></div></div>`;
+    }).join("") : `<div class="trade-empty">${escapeHtml(emptyText)}</div>`;
+  };
+  renderGroup(tradeRunningList, running, "No running hour lines match the current filters.");
+  renderGroup(tradeDowntimeList, downtime, "No downtime hour lines match the current filters.");
+  tradeRunningSubtotal.textContent = `${runningSubtotal.toFixed(1)} hrs`;
+  tradeDowntimeSubtotal.textContent = `${downtimeSubtotal.toFixed(1)} hrs`;
+  if (tradeReferenceNote) {
+    tradeReferenceNote.textContent = `${session.dayName} ${session.monthName !== "—" ? `• ${session.monthName}` : ""} • Cell ${bannerFields.testCell || "—"} • ${coverage.window}. Trade coverage view displays the already-entered hours in a cleaner grouped layout.`;
+  }
+}
+
+function renderHours(){
       const workPattern = getWorkPatternConfig();
       const coverage = getCoverageWindowInfo();
       hoursExpectedInput.value = hoursSheet.expectedHours;
@@ -1180,25 +1371,29 @@ function getHoursValidationSummary(){
           btn.setAttribute("aria-pressed", btn.dataset.hoursWorkPattern === hoursSheet.workPattern ? "true" : "false");
         });
       }
+      if (hoursTechSection) hoursTechSection.hidden = hoursSheet.viewMode !== "tech";
+      if (hoursTradeSection) hoursTradeSection.hidden = hoursSheet.viewMode !== "trade";
+      if (hoursExpectedInput) hoursExpectedInput.disabled = hoursSheet.viewMode === "trade";
+      if (hoursAddRow) hoursAddRow.disabled = hoursSheet.viewMode === "trade";
       if (hoursViewTitle) {
         hoursViewTitle.textContent = hoursSheet.viewMode === "trade" ? "Trade Coverage View" : "Technician Logging Worksheet";
       }
       if (hoursViewCopy) {
         hoursViewCopy.textContent = hoursSheet.viewMode === "trade"
-          ? "Trades can review the real coverage span against the technician's logged basis without changing what the technician entered."
+          ? "Trade coverage view is a cleaner grouped readout of the hours already entered, with day, month, date, and cell context visible for review."
           : "Technicians can log hours on their own work-pattern basis while keeping the trade coverage interpretation visible as a reference.";
       }
       if (hoursModeNote) {
         hoursModeNote.textContent = hoursSheet.viewMode === "trade"
-          ? `${coverage.dayLabel}: ${coverage.window}. Trades can reconcile this span separately while the technician stays on a ${workPattern.label} basis.`
+          ? `${coverage.dayLabel}: ${coverage.window}. Trade coverage view stays read-only and groups the current hours into a cleaner summary.`
           : `${workPattern.label} is active. Technicians log against ${workPattern.hours} hours here; trades can switch views to see the separate coverage span.`;
       }
       if (hoursTradeReferenceCopy) {
         hoursTradeReferenceCopy.textContent = hoursSheet.viewMode === "trade"
-          ? `Trade reference for ${coverage.dayLabel}: ${coverage.window}. Use this view to compare coverage span vs technician logged hours.`
+          ? `Trade reference for ${coverage.dayLabel}: ${coverage.window}. Filters can narrow the grouped readout by hour type, day range, and keywords.`
           : `Coverage reference for ${coverage.dayLabel}: ${coverage.window}. This remains visible without changing the technician's logged basis.`;
       }
-      
+
       hoursRowsBody.innerHTML = hoursRows.map(row => {
         const options = detailOptionsForStatus(row.status);
         const needsComment = requiresDowntimeComment(row);
@@ -1301,9 +1496,9 @@ function getHoursValidationSummary(){
       });
 
       renderHoursSummary();
+      renderTradeCoverageView();
       hoursMeter.textContent = bannerFields.cellHourMeter || "—";
     }
-
 
     function updateHoursRowDom(row){
       const commentInput = hoursRowsBody.querySelector(`[data-hours-comment="${row.id}"]`);
@@ -1657,6 +1852,7 @@ function getHoursValidationSummary(){
     }
 
     function switchTab(tabName){
+      currentTab = tabName;
       Object.entries(tabViews).forEach(([name, view]) => {
         view.hidden = name !== tabName;
       });
@@ -1699,6 +1895,17 @@ function getHoursValidationSummary(){
     hoursShiftNote.addEventListener("input", (e) => {
       hoursSheet.shiftNote = e.target.value;
       syncCtcPulseSnapshot();
+    });
+    hoursFilterSearch.addEventListener("input", renderHoursSummary);
+    hoursFilterStatus.addEventListener("input", renderHoursSummary);
+    hoursFilterDateFrom.addEventListener("input", renderHoursSummary);
+    hoursFilterDateTo.addEventListener("input", renderHoursSummary);
+    clearHoursFiltersBtn.addEventListener("click", () => {
+      hoursFilterSearch.value = "";
+      hoursFilterStatus.value = "";
+      hoursFilterDateFrom.value = "";
+      hoursFilterDateTo.value = "";
+      renderHoursSummary();
     });
     searchInput.addEventListener("input", renderEntries);
     filterSource.addEventListener("input", renderEntries);
