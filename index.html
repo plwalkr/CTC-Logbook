@@ -147,7 +147,42 @@
     .tab-btn.active{background:#0f172a;color:#fff;border-color:#0f172a}
     .tab-btn .tab-sub{display:block;font-size:10px;font-weight:600;opacity:.8;margin-top:2px}
     .tab-view[hidden]{display:none !important}
-    
+    .settings-grid{display:grid;grid-template-columns:1.35fr .9fr;gap:12px}
+    .display-mode-bar{display:flex;gap:8px;flex-wrap:wrap;padding:8px;border:1px solid var(--line);border-radius:14px;background:var(--soft)}
+    .display-mode-btn{flex:1 1 220px;text-align:left;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--text);padding:12px 14px;cursor:pointer;transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease}
+    .display-mode-btn:hover{transform:translateY(-1px)}
+    .display-mode-btn.active{border-color:#0f172a;box-shadow:0 0 0 2px rgba(15,23,42,.08)}
+    .display-mode-name{display:block;font-size:13px;font-weight:800;color:var(--text)}
+    .display-mode-copy{display:block;font-size:12px;color:var(--muted);margin-top:4px;line-height:1.45}
+    .theme-preview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+    .theme-chip{border:1px solid var(--line);border-radius:10px;background:#fff;padding:10px}
+    .theme-chip strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
+    .theme-chip .swatches{display:flex;gap:6px;flex-wrap:wrap}
+    .theme-swatch{width:28px;height:28px;border-radius:8px;border:1px solid rgba(15,23,42,.12)}
+    .settings-note{font-size:12px;color:#475569;line-height:1.55}
+    .settings-status{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;font-weight:700;color:#334155}
+
+    body[data-theme="clarity"]{--bg:#f6f7fb;--panel:#ffffff;--line:#9aa7bd;--text:#10233d;--muted:#44566f;--soft:#eef3fa}
+    body[data-theme="clarity"] .tab-btn.active{background:#163b69;color:#fff;border-color:#163b69}
+    body[data-theme="clarity"] .display-mode-btn.active{border-color:#163b69;box-shadow:0 0 0 2px rgba(22,59,105,.12)}
+    body[data-theme="clarity"] .source-system{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}
+    body[data-theme="clarity"] .source-operator{background:#eef2ff;color:#4338ca;border-color:#c7d2fe}
+    body[data-theme="clarity"] .status-open{background:#fff1cc;color:#8a4b00;border-color:#facc15}
+    body[data-theme="clarity"] .status-monitoring{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}
+    body[data-theme="clarity"] .status-resolved{background:#ede9fe;color:#6d28d9;border-color:#c4b5fd}
+    body[data-theme="clarity"] .status-waiting{background:#e0f2fe;color:#0f766e;border-color:#67e8f9}
+    body[data-theme="clarity"] .review-active{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}
+    body[data-theme="clarity"] .review-monitoring{background:#fff1cc;color:#8a4b00;border-color:#facc15}
+    body[data-theme="clarity"] .review-reviewed{background:#ede9fe;color:#6d28d9;border-color:#c4b5fd}
+    body[data-theme="clarity"] .review-ignored{background:#e5e7eb;color:#374151;border-color:#cbd5e1}
+    body[data-theme="clarity"] .review-attention{background:#ffe7c2;color:#9a3412;border-color:#fdba74}
+    body[data-theme="clarity"] .hours-row-running td{background:#eef4ff}
+    body[data-theme="clarity"] .hours-row-downtime td{background:#fff7e8}
+    body[data-theme="clarity"] .hours-row-invalid td{box-shadow:inset 0 0 0 9999px rgba(255,237,213,.75)}
+    body[data-theme="clarity"] .hours-row-badge.ok{color:#1d4ed8;border-color:#93c5fd;background:#eff6ff}
+    body[data-theme="clarity"] .hours-row-badge.warn{color:#8a4b00;border-color:#facc15;background:#fff8db}
+    body[data-theme="clarity"] .hours-row-badge.blocked{color:#9a3412;border-color:#fdba74;background:#fff1e8}
+
     .debug-fab{position:fixed;right:16px;bottom:16px;z-index:999;border:1px solid #0f172a;background:#0f172a;color:#fff;border-radius:999px;padding:10px 14px;font-size:12px;font-weight:800;letter-spacing:.04em;box-shadow:0 10px 25px rgba(15,23,42,.18);cursor:pointer}
     .debug-fab:hover{transform:translateY(-1px)}
     .debug-panel{position:fixed;right:16px;bottom:68px;width:min(420px,calc(100vw - 24px));max-height:70vh;overflow-y:auto;overflow-x:hidden;z-index:998;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 16px 40px rgba(15,23,42,.22)}
@@ -170,6 +205,7 @@
 
     @media (max-width:1200px){
       .header-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+      .settings-grid{grid-template-columns:1fr}
       .header-cell:nth-child(6n){border-right:1px solid var(--line)}
       .header-cell:nth-child(4n){border-right:none}
       .form-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -202,7 +238,7 @@
     }
   </style>
 </head>
-<body>
+<body data-theme="standard">
   <div class="app">
     <header class="panel">
       <div class="panel-head">
@@ -226,6 +262,10 @@
       <button class="tab-btn" type="button" data-tab-target="hours">
         Cell Hours
         <span class="tab-sub">Separate live daily tally</span>
+      </button>
+      <button class="tab-btn" type="button" data-tab-target="settings">
+        Settings
+        <span class="tab-sub">Display and accessibility</span>
       </button>
     </div>
 
@@ -498,6 +538,56 @@
         </div>
       </section>
     </div>
+
+    <div id="tab-settings" class="tab-view" hidden>
+      <section class="panel">
+        <div class="section-body">
+          <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap">
+            <div>
+              <h2>Settings</h2>
+              <div class="small">Keep display choices simple, professional, and easy to carry between sessions.</div>
+            </div>
+            <div class="settings-status">Current Display: <span id="display-mode-status">Standard</span></div>
+          </div>
+
+          <div class="settings-grid">
+            <div class="section-card">
+              <div class="section-title">Display Mode</div>
+              <div class="display-mode-bar" id="display-mode-bar"></div>
+              <div class="theme-preview" aria-hidden="true">
+                <div class="theme-chip">
+                  <strong>Standard Display</strong>
+                  <div class="swatches">
+                    <span class="theme-swatch" style="background:#ffffff"></span>
+                    <span class="theme-swatch" style="background:#f8fafc"></span>
+                    <span class="theme-swatch" style="background:#dcfce7"></span>
+                    <span class="theme-swatch" style="background:#ffe4e6"></span>
+                  </div>
+                </div>
+                <div class="theme-chip">
+                  <strong>Clarity Display</strong>
+                  <div class="swatches">
+                    <span class="theme-swatch" style="background:#ffffff"></span>
+                    <span class="theme-swatch" style="background:#eef3fa"></span>
+                    <span class="theme-swatch" style="background:#dbeafe"></span>
+                    <span class="theme-swatch" style="background:#fff1cc"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-card">
+              <div class="section-title">Mode Notes</div>
+              <div class="settings-note">
+                <p><strong>Standard Display</strong> keeps the current visual style and is the default presentation mode.</p>
+                <p><strong>Clarity Display</strong> uses stronger separation and reduces reliance on red/green-only signals for users who benefit from clearer differentiation.</p>
+                <p>The selected mode is saved in the browser so the same display comes back the next time the page is opened on that device.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 
 
@@ -527,7 +617,16 @@
   </section>
 
   <script>
-    const VERSION = "1.0.42-hours-overpulse";
+    const VERSION = "1.0.44-clickfix";
+    function deepClone(value){
+      if (typeof structuredClone === "function") return deepClone(value);
+      return JSON.parse(JSON.stringify(value));
+    }
+    const DISPLAY_MODE_STORAGE_KEY = "ctcDisplayMode";
+    const DISPLAY_MODES = [
+      { key: "standard", label: "Standard Display", copy: "Current default presentation style." },
+      { key: "clarity", label: "Clarity Display", copy: "Stronger separation with reduced red/green dependence." }
+    ];
     document.getElementById("version-label").textContent = VERSION;
 
 
@@ -574,13 +673,13 @@
 
     let entries = [
       {
-        id:1,source:"system",locked:true,ignored:false,reviewState:"Active",eventType:"Cycle Start",time:"09:28 AM",run:"1229751",cycle:"605 Parent",torqueMap:"180.6",PanT:"188.0",carbon:"-0.17",nox:"-0.010",thc:"-0.003",pm:"—",work:"56.05",filter:"00000",testMap:"19",category:"Test Update",status:"Open",noteHtml:"System event: cycle start registered and soak sequence initiated.",noteText:"System event: cycle start registered and soak sequence initiated.",headerSnapshot:structuredClone(bannerFields)
+        id:1,source:"system",locked:true,ignored:false,reviewState:"Active",eventType:"Cycle Start",time:"09:28 AM",run:"1229751",cycle:"605 Parent",torqueMap:"180.6",PanT:"188.0",carbon:"-0.17",nox:"-0.010",thc:"-0.003",pm:"—",work:"56.05",filter:"00000",testMap:"19",category:"Test Update",status:"Open",noteHtml:"System event: cycle start registered and soak sequence initiated.",noteText:"System event: cycle start registered and soak sequence initiated.",headerSnapshot:deepClone(bannerFields)
       },
       {
-        id:2,source:"operator",locked:true,ignored:false,reviewState:"Monitoring",eventType:"Operator Note",time:"10:16 AM",run:"1229753",cycle:"WHTP",torqueMap:"—",PanT:"161.1",carbon:"-0.65",nox:"0.0054",thc:"0.0057",pm:"—",work:"40.87",filter:"—",testMap:"13",category:"Issue",status:"Monitoring",noteHtml:"Cut out around <strong>0.35C</strong>. Contacting engineering to see if this is normal.",noteText:"Cut out around 0.35C. Contacting engineering to see if this is normal.",headerSnapshot:structuredClone(bannerFields)
+        id:2,source:"operator",locked:true,ignored:false,reviewState:"Monitoring",eventType:"Operator Note",time:"10:16 AM",run:"1229753",cycle:"WHTP",torqueMap:"—",PanT:"161.1",carbon:"-0.65",nox:"0.0054",thc:"0.0057",pm:"—",work:"40.87",filter:"—",testMap:"13",category:"Issue",status:"Monitoring",noteHtml:"Cut out around <strong>0.35C</strong>. Contacting engineering to see if this is normal.",noteText:"Cut out around 0.35C. Contacting engineering to see if this is normal.",headerSnapshot:deepClone(bannerFields)
       },
       {
-        id:3,source:"system",locked:true,ignored:false,reviewState:"Active",eventType:"Post Processing",time:"05:15 PM",run:"1229756",cycle:"vLLC",torqueMap:"—",PanT:"180.6",carbon:"-0.71",nox:"-0.010",thc:"-0.003",pm:"—",work:"56.05",filter:"—",testMap:"19",category:"Engineer Direction",status:"Open",noteHtml:"System event: rev 9.10 loaded. Post processing remains incomplete and requires review.",noteText:"System event: rev 9.10 loaded. Post processing remains incomplete and requires review.",headerSnapshot:structuredClone(bannerFields)
+        id:3,source:"system",locked:true,ignored:false,reviewState:"Active",eventType:"Post Processing",time:"05:15 PM",run:"1229756",cycle:"vLLC",torqueMap:"—",PanT:"180.6",carbon:"-0.71",nox:"-0.010",thc:"-0.003",pm:"—",work:"56.05",filter:"—",testMap:"19",category:"Engineer Direction",status:"Open",noteHtml:"System event: rev 9.10 loaded. Post processing remains incomplete and requires review.",noteText:"System event: rev 9.10 loaded. Post processing remains incomplete and requires review.",headerSnapshot:deepClone(bannerFields)
       }
     ];
 
@@ -627,16 +726,63 @@
     const handoffOpen = document.getElementById("handoff-open");
     const handoffWatch = document.getElementById("handoff-watch");
     const handoffList = document.getElementById("handoff-list");
+    const displayModeBar = document.getElementById("display-mode-bar");
+    const displayModeStatus = document.getElementById("display-mode-status");
     const tabButtons = Array.from(document.querySelectorAll("[data-tab-target]"));
     const tabViews = {
       logbook: document.getElementById("tab-logbook"),
-      hours: document.getElementById("tab-hours")
+      hours: document.getElementById("tab-hours"),
+      settings: document.getElementById("tab-settings")
     };
 
     function escapeHtml(str){return String(str ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
     function statusClass(status){return status === "Resolved" ? "status-resolved" : status === "Monitoring" ? "status-monitoring" : status === "Waiting" ? "status-waiting" : "status-open"}
     function reviewClass(state){return state === "Ignored" ? "review-ignored" : state === "Reviewed" ? "review-reviewed" : state === "Needs Attention" ? "review-attention" : state === "Monitoring" ? "review-monitoring" : "review-active"}
     function formatCurrentTime(){return new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",hour12:true})}
+    function getSavedDisplayMode(){
+      try {
+        const saved = localStorage.getItem(DISPLAY_MODE_STORAGE_KEY);
+        return DISPLAY_MODES.some(mode => mode.key === saved) ? saved : "standard";
+      } catch {
+        return "standard";
+      }
+    }
+    function applyDisplayMode(mode){
+      const nextMode = DISPLAY_MODES.some(item => item.key === mode) ? mode : "standard";
+      document.body.dataset.theme = nextMode;
+      if (displayModeStatus) {
+        const activeMode = DISPLAY_MODES.find(item => item.key === nextMode);
+        displayModeStatus.textContent = activeMode ? activeMode.label.replace(" Display", "") : "Standard";
+      }
+      if (displayModeBar) {
+        displayModeBar.querySelectorAll(".display-mode-btn").forEach(btn => {
+          btn.classList.toggle("active", btn.dataset.mode === nextMode);
+          btn.setAttribute("aria-pressed", btn.dataset.mode === nextMode ? "true" : "false");
+        });
+      }
+      try { localStorage.setItem(DISPLAY_MODE_STORAGE_KEY, nextMode); } catch {}
+      syncCtcPulseSnapshot();
+    }
+    function renderDisplayModeButtons(){
+      if (!displayModeBar) return;
+      displayModeBar.innerHTML = DISPLAY_MODES.map(mode => `
+        <button class="display-mode-btn" type="button" data-mode="${mode.key}" aria-pressed="false">
+          <span class="display-mode-name">${mode.label}</span>
+          <span class="display-mode-copy">${mode.copy}</span>
+        </button>
+      `).join("");
+    }
+    function initSettings(){
+      renderDisplayModeButtons();
+      if (displayModeBar) {
+        displayModeBar.addEventListener("click", (event) => {
+          const button = event.target.closest("[data-mode]");
+          if (!button) return;
+          applyDisplayMode(button.dataset.mode);
+        });
+      }
+      applyDisplayMode(getSavedDisplayMode());
+    }
     function formatTimeForInput(value){
       const raw = (value || "").toUpperCase().replace(/[^0-9APM]/g, "");
       const digits = raw.replace(/[^0-9]/g, "").slice(0, 4);
@@ -1211,7 +1357,7 @@ function getHoursValidationSummary(){
         eventType: "Operator Note",
         noteHtml: cleanedHtml,
         noteText: plainText,
-        headerSnapshot: structuredClone(bannerFields)
+        headerSnapshot: deepClone(bannerFields)
       });
       resetForm();
       renderEntries();
@@ -1244,7 +1390,7 @@ function getHoursValidationSummary(){
         status: template.status,
         noteHtml: template.note,
         noteText: template.note,
-        headerSnapshot: structuredClone(bannerFields)
+        headerSnapshot: deepClone(bannerFields)
       });
       renderEntries();
     }
@@ -1267,7 +1413,7 @@ function getHoursValidationSummary(){
         parentId: followUpTargetId,
         noteHtml: `<strong>Addendum to Entry ${followUpTargetId}:</strong> ${escapeHtml(cleaned)}`,
         noteText: `Addendum to Entry ${followUpTargetId}: ${cleaned}`,
-        headerSnapshot: structuredClone(parentEntry?.headerSnapshot || bannerFields)
+        headerSnapshot: deepClone(parentEntry?.headerSnapshot || bannerFields)
       });
       followUpTargetId = null;
       followupText.value = "";
@@ -1286,7 +1432,7 @@ function getHoursValidationSummary(){
         completed: handoffCompleted.value.trim(),
         open: handoffOpen.value.trim(),
         watch: handoffWatch.value.trim(),
-        header: structuredClone(bannerFields)
+        header: deepClone(bannerFields)
       };
       if (!snapshot.completed && !snapshot.open && !snapshot.watch) return;
       handoffSnapshots.unshift(snapshot);
@@ -1301,6 +1447,7 @@ function getHoursValidationSummary(){
         view.hidden = name !== tabName;
       });
       tabButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.tabTarget === tabName));
+      syncCtcPulseSnapshot();
     }
 
     function initTabs(){
@@ -1509,6 +1656,7 @@ ${report}`;
     renderHandoffs();
     initTabs();
     initToolbar();
+    initSettings();
     initCtcPulse();
     resetForm();
     renderEntries();
