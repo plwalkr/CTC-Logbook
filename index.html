@@ -216,18 +216,32 @@
 .hours-filter-row .search{max-width:260px}
 .hours-filter-row select,.hours-filter-row input[type="date"]{padding:7px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text);min-width:150px}
 .hours-view-section[hidden]{display:none !important}
-.trade-summary-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
-.trade-summary-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
-.trade-summary-card strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
-.trade-summary-card span{display:block;font-size:14px;font-weight:800;color:#0f172a;line-height:1.35}
-.trade-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.trade-group-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
-.trade-group-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px}
-.trade-group-list{display:flex;flex-direction:column;gap:6px}
-.trade-group-item{display:grid;grid-template-columns:minmax(0,1.25fr) auto;gap:8px;align-items:start;border-bottom:1px dashed #e2e8f0;padding-bottom:6px}
-.trade-group-item:last-child{border-bottom:none;padding-bottom:0}
-.trade-group-item .meta{font-size:11px;color:var(--muted);margin-top:2px}
+.trade-sheet{display:flex;flex-direction:column;gap:12px}
+.trade-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.trade-strip-item{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px 12px;min-height:72px;display:flex;flex-direction:column;justify-content:center}
+.trade-strip-item strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
+.trade-strip-item span{display:block;font-size:15px;font-weight:800;color:#0f172a;line-height:1.35}
+.trade-main-grid{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(280px,.9fr);gap:12px;align-items:start}
+.trade-sheet-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
+.trade-sheet-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px}
+.trade-sheet-sub{font-size:12px;color:var(--muted);line-height:1.5;margin-top:4px}
+.trade-table{width:100%;border-collapse:separate;border-spacing:0;font-size:12px;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden}
+.trade-table th{background:#f8fafc;color:#334155;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:10px 12px;text-align:left;border-bottom:1px solid #e2e8f0}
+.trade-table td{padding:10px 12px;border-bottom:1px solid #e2e8f0;vertical-align:top}
+.trade-table tr:last-child td{border-bottom:none}
+.trade-table .col-group{width:42%}
+.trade-table .col-hours{width:14%;text-align:right;white-space:nowrap;font-weight:800}
+.trade-table .col-notes{width:44%}
+.trade-table .section-row td{background:#f8fafc;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#475569}
+.trade-table .subtotal-row td,.trade-table .grandtotal-row td{font-weight:800;background:#fcfcfd}
+.trade-table .grandtotal-row td{font-size:13px}
 .trade-empty{font-size:12px;color:var(--muted)}
+.trade-summary-list{display:flex;flex-direction:column;gap:10px}
+.trade-summary-item{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding-bottom:8px;border-bottom:1px dashed #e2e8f0;font-size:12px}
+.trade-summary-item:last-child{border-bottom:none;padding-bottom:0}
+.trade-summary-item span{color:var(--muted)}
+.trade-summary-item strong{font-size:13px;color:#0f172a;text-align:right}
+.trade-note-box{margin-top:12px;padding:10px 12px;border:1px dashed var(--line);border-radius:12px;background:var(--soft);font-size:12px;color:#334155;line-height:1.55}
 
     body[data-theme="clarity"] .toggle-btn.active{border-color:#163b69;box-shadow:0 0 0 2px rgba(22,59,105,.12);background:#eef4ff}
     body[data-theme="clarity"] .panel-head,
@@ -256,8 +270,9 @@
     body[data-theme="clarity"] .hours-row-invalid td{box-shadow:inset 0 0 0 9999px rgba(217,119,6,.12)}
     body[data-theme="clarity"] .action-stack button.attention-btn{background:#fff6da;color:#8a4b00;border-color:#facc15}
     body[data-theme="clarity"] .trade-sheet-card,
-    body[data-theme="clarity"] .trade-strip,
     body[data-theme="clarity"] .trade-strip-item,
+    body[data-theme="clarity"] .trade-table th,
+    body[data-theme="clarity"] .trade-note-box,
     body[data-theme="clarity"] .hours-inline-input,
     body[data-theme="clarity"] .hours-filter-row select,
     body[data-theme="clarity"] .hours-filter-row input[type="date"],
@@ -295,9 +310,7 @@
       .actions-row{grid-template-columns:1fr 1fr}
       .hours-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
       .hours-mode-grid{grid-template-columns:1fr}
-      .trade-strip{grid-template-columns:repeat(4,minmax(0,1fr))}
-      .trade-strip-item:nth-child(7n){border-right:1px solid #e2e8f0}
-      .trade-strip-item:nth-child(4n){border-right:none}
+      .trade-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
       .trade-main-grid{grid-template-columns:1fr}
       .details-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
       .snapshot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -315,9 +328,7 @@
       .actions-row{grid-template-columns:1fr}
       .hours-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .hours-mode-grid{grid-template-columns:1fr}
-      .trade-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .trade-strip-item:nth-child(4n){border-right:1px solid #e2e8f0}
-      .trade-strip-item:nth-child(2n){border-right:none}
+      .trade-strip{grid-template-columns:1fr}
       .trade-main-grid{grid-template-columns:1fr}
       .details-grid,.snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .snapshot-grid.hours-snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -705,9 +716,9 @@
               <table class="trade-table">
                 <thead>
                   <tr>
-                    <th>Hour Group</th>
-                    <th class="col-notes">Notes</th>
+                    <th class="col-group">Hour Group</th>
                     <th class="col-hours">Hours</th>
+                    <th class="col-notes">Notes</th>
                   </tr>
                 </thead>
                 <tbody id="trade-sheet-body"></tbody>
@@ -803,7 +814,7 @@
   </section>
 
   <script>
-    const VERSION = "1.0.49-tradesheet-layout";
+    const VERSION = "1.0.50-tradeclean-layout";
     function deepClone(value){
       if (typeof structuredClone === "function") return structuredClone(value);
       return JSON.parse(JSON.stringify(value));
@@ -1334,23 +1345,16 @@ function renderTradeCoverageView(){
   const downtimeSubtotal = downtime.reduce((sum, [, data]) => sum + data.hours, 0);
   const techTarget = (parseFloat(hoursSheet.expectedHours) || 0);
   const spanDifference = Number((coverage.hours - total).toFixed(1));
-  const filterCount = filteredRows.length;
 
   tradeSummaryGrid.innerHTML = [
-    ["Date", session.display],
-    ["Day", session.dayName],
-    ["Month", session.monthName],
+    ["Log Date", session.display],
     ["Test Cell", bannerFields.testCell || "—"],
     ["Shift", bannerFields.shift || "—"],
-    ["Pattern", workPattern.label],
+    ["Work Pattern", workPattern.label],
     ["Logged Hours", `${total.toFixed(1)} hrs`],
     ["Coverage Span", coverage.window || "—"],
     ["Coverage Hours", `${coverage.hours.toFixed(1)} hrs`],
-    ["Tech Target", `${techTarget.toFixed(1)} hrs`],
-    ["Cell Meter", bannerFields.cellHourMeter || "—"],
-    ["Filter Match", String(filterCount)],
-    ["Technician", bannerFields.technician || "—"],
-    ["Engineer", bannerFields.engineer || "—"]
+    ["Cell Meter", bannerFields.cellHourMeter || "—"]
   ].map(([label, value]) => `<div class="trade-strip-item"><strong>${escapeHtml(label)}</strong><span>${escapeHtml(value)}</span></div>`).join("");
 
   const buildRows = (title, items, subtotal, emptyText) => {
@@ -1360,32 +1364,32 @@ function renderTradeCoverageView(){
     } else {
       rows.push(...items.map(([label, data]) => {
         const note = data.comments.length
-          ? `${escapeHtml(data.comments[0])}${data.comments.length > 1 ? ` (+${data.comments.length - 1} more)` : ""}`
+          ? escapeHtml(data.comments[0]) + (data.comments.length > 1 ? ` (+${data.comments.length - 1} more)` : "")
           : "—";
-        return `<tr><td><strong>${escapeHtml(label)}</strong></td><td>${note}</td><td class="hours">${data.hours.toFixed(1)}</td></tr>`;
+        return `<tr><td><strong>${escapeHtml(label)}</strong></td><td class="col-hours">${data.hours.toFixed(1)}</td><td>${note}</td></tr>`;
       }));
     }
-    rows.push(`<tr class="subtotal-row"><td colspan="2">${escapeHtml(title)} subtotal</td><td class="hours">${subtotal.toFixed(1)}</td></tr>`);
+    rows.push(`<tr class="subtotal-row"><td>${escapeHtml(title)} subtotal</td><td class="col-hours">${subtotal.toFixed(1)}</td><td>—</td></tr>`);
     return rows.join("");
   };
 
   tradeSheetBody.innerHTML = [
     buildRows("Running Hours", running, runningSubtotal, "No running hour lines match the current filters."),
     buildRows("Downtime Hours", downtime, downtimeSubtotal, "No downtime hour lines match the current filters."),
-    `<tr class="grandtotal-row"><td colspan="2">Total logged hours</td><td class="hours">${total.toFixed(1)}</td></tr>`
+    `<tr class="grandtotal-row"><td>Total logged hours</td><td class="col-hours">${total.toFixed(1)}</td><td>—</td></tr>`
   ].join("");
 
   tradeGrandTotal.textContent = `${total.toFixed(1)} hrs`;
   tradeSummaryList.innerHTML = [
     ["Running subtotal", `${runningSubtotal.toFixed(1)} hrs`],
     ["Downtime subtotal", `${downtimeSubtotal.toFixed(1)} hrs`],
-    ["Coverage reference", `${coverage.window} • ${coverage.hours.toFixed(1)} hrs`],
+    ["Tech target", `${techTarget.toFixed(1)} hrs`],
     ["Target difference", `${(techTarget - total).toFixed(1)} hrs`],
-    ["Span difference", `${spanDifference.toFixed(1)} hrs`],
+    ["Span difference", `${spanDifference.toFixed(1)} hrs`]
   ].map(([label, value]) => `<div class="trade-summary-item"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("");
 
   if (tradeReferenceNote) {
-    tradeReferenceNote.textContent = `${session.display} • Cell ${bannerFields.testCell || "—"} • ${coverage.window}. This trade review sheet shows the already-entered hours grouped for scanability without changing the technician logging basis.`;
+    tradeReferenceNote.textContent = `${session.display} • ${coverage.window} • Cell ${bannerFields.testCell || "—"}. This view keeps the hour groups and totals clean for trade review without changing technician-entered hours.`;
   }
 }
 
