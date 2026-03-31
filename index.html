@@ -613,7 +613,7 @@
         </div>
       </div>
 
-      <div class="hours-summary-grid hours-summary-grid--wide">
+      <div class="hours-summary-grid hours-summary-grid--wide" id="hours-summary-grid">
         <div class="hours-summary-card">
           <div class="summary-label">Logged Hours</div>
           <div class="summary-value" id="hours-total">0.0</div>
@@ -814,7 +814,7 @@
   </section>
 
   <script>
-    const VERSION = "1.0.50-tradeclean-layout";
+    const VERSION = "1.0.51-tradequiet-summary";
     function deepClone(value){
       if (typeof structuredClone === "function") return structuredClone(value);
       return JSON.parse(JSON.stringify(value));
@@ -936,6 +936,8 @@ const tradeSheetBody = document.getElementById("trade-sheet-body");
 const tradeSummaryList = document.getElementById("trade-summary-list");
 const tradeGrandTotal = document.getElementById("trade-grand-total");
 const tradeReferenceNote = document.getElementById("trade-reference-note");
+const hoursSummaryGrid = document.getElementById("hours-summary-grid");
+const hoursReadinessCard = document.getElementById("hours-readiness-card");
     const entriesBody = document.getElementById("entries-body");
     const followupPanel = document.getElementById("followup-panel");
     const followupTitle = document.getElementById("followup-title");
@@ -1389,7 +1391,7 @@ function renderTradeCoverageView(){
   ].map(([label, value]) => `<div class="trade-summary-item"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("");
 
   if (tradeReferenceNote) {
-    tradeReferenceNote.textContent = `${session.display} • ${coverage.window} • Cell ${bannerFields.testCell || "—"}. This view keeps the hour groups and totals clean for trade review without changing technician-entered hours.`;
+    tradeReferenceNote.textContent = `${session.display} • ${coverage.window} • Cell ${bannerFields.testCell || "—"}. This keeps the trade view quieter while preserving the grouped hour totals and cell context.`;
   }
 }
 
@@ -1413,6 +1415,8 @@ function renderHours(){
       }
       if (hoursTechSection) hoursTechSection.hidden = hoursSheet.viewMode !== "tech";
       if (hoursTradeSection) hoursTradeSection.hidden = hoursSheet.viewMode !== "trade";
+      if (hoursSummaryGrid) hoursSummaryGrid.hidden = hoursSheet.viewMode === "trade";
+      if (hoursReadinessCard) hoursReadinessCard.hidden = hoursSheet.viewMode === "trade";
       if (hoursExpectedInput) hoursExpectedInput.disabled = hoursSheet.viewMode === "trade";
       if (hoursAddRow) hoursAddRow.disabled = hoursSheet.viewMode === "trade";
       if (hoursViewTitle) {
@@ -1425,12 +1429,12 @@ function renderHours(){
       }
       if (hoursModeNote) {
         hoursModeNote.textContent = hoursSheet.viewMode === "trade"
-          ? `${coverage.dayLabel}: ${coverage.window}. Trade coverage view stays read-only and groups the current hours into a cleaner summary.`
+          ? `Trade coverage view is active. The detailed reference stays below in the grouped review sheet instead of above the main hours area.`
           : `${workPattern.label} is active. Technicians log against ${workPattern.hours} hours here; trades can switch views to see the separate coverage span.`;
       }
       if (hoursTradeReferenceCopy) {
         hoursTradeReferenceCopy.textContent = hoursSheet.viewMode === "trade"
-          ? `Trade reference for ${coverage.dayLabel}: ${coverage.window}. Filters can narrow the grouped readout by hour type, day range, and keywords.`
+          ? `Trade reference stays below the grouped sheet so the main review area remains cleaner and easier to scan.`
           : `Coverage reference for ${coverage.dayLabel}: ${coverage.window}. This remains visible without changing the technician's logged basis.`;
       }
 
