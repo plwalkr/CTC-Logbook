@@ -185,7 +185,7 @@
 
     .debug-fab{position:fixed;right:16px;bottom:16px;z-index:999;border:1px solid #0f172a;background:#0f172a;color:#fff;border-radius:999px;padding:10px 14px;font-size:12px;font-weight:800;letter-spacing:.04em;box-shadow:0 10px 25px rgba(15,23,42,.18);cursor:pointer}
     .debug-fab:hover{transform:translateY(-1px)}
-    .debug-panel{position:fixed;right:16px;bottom:68px;width:min(420px,calc(100vw - 24px));max-height:70vh;overflow-y:auto;overflow-x:hidden;z-index:998;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 16px 40px rgba(15,23,42,.22)}
+    .debug-panel{position:fixed;right:16px;bottom:68px;width:min(580px,calc(100vw - 24px));max-height:78vh;overflow-y:auto;overflow-x:hidden;z-index:998;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 16px 40px rgba(15,23,42,.22)}
     .debug-panel[hidden]{display:none !important}
     .debug-head{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);background:#f8fafc}
     .debug-sub{font-size:11px;color:#64748b;margin-top:3px}
@@ -193,15 +193,18 @@
     .debug-status.ok{background:#ecfdf5;color:#166534;border-color:#bbf7d0}
     .debug-status.warn{background:#fff7ed;color:#9a3412;border-color:#fed7aa}
     .debug-body{padding:12px 14px 14px 14px;display:flex;flex-direction:column;gap:10px}
-    .debug-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+    .debug-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
     .debug-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
     .debug-card strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
     .debug-card span{font-size:18px;font-weight:800;color:#0f172a}
     .debug-actions{display:flex;flex-wrap:wrap;gap:8px}
-    .debug-actions button{border:1px solid var(--line);background:#fff;color:#0f172a;border-radius:10px;padding:9px 11px;font-size:12px;font-weight:700;cursor:pointer}
-    .debug-report{width:100%;min-height:150px;margin:0;padding:10px;border:1px solid #dbe3ed;border-radius:12px;background:#0b1220;color:#dbeafe;font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;overflow:hidden;transition:box-shadow .18s ease,border-color .18s ease}
+    .debug-actions button{border:1px solid var(--line);background:#fff;color:#0f172a;border-radius:10px;padding:11px 14px;font-size:13px;font-weight:800;cursor:pointer;transition:transform .16s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease}
+    .debug-report{width:100%;min-height:220px;margin:0;padding:12px;border:1px solid #dbe3ed;border-radius:12px;background:#0b1220;color:#dbeafe;font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;overflow:auto;transition:box-shadow .18s ease,border-color .18s ease}
     .debug-scan-line{font-size:12px;font-weight:700;color:#0f172a;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;padding:8px 10px}
     .scan-flash{box-shadow:0 0 0 3px rgba(34,197,94,.18);border-color:#86efac !important}
+    .debug-actions button.flash-ok{background:#ecfdf5;border-color:#86efac;box-shadow:0 0 0 3px rgba(34,197,94,.18);transform:translateY(-1px)}
+    .debug-actions button.flash-warn{background:#fff7ed;border-color:#fdba74;box-shadow:0 0 0 3px rgba(249,115,22,.18);transform:translateY(-1px)}
+
 
 
     .hours-mode-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
@@ -334,6 +337,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
       .hours-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
       .hours-mode-grid{grid-template-columns:1fr}
       .hours-tech-summary{grid-template-columns:1fr}
+      .debug-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .trade-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
       .trade-main-grid{grid-template-columns:1fr}
       .details-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -353,6 +357,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
       .hours-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .hours-mode-grid{grid-template-columns:1fr}
       .hours-tech-summary{grid-template-columns:1fr}
+      .debug-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .trade-strip{grid-template-columns:1fr}
       .trade-main-grid{grid-template-columns:1fr}
       .details-grid,.snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -791,12 +796,12 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
         <button type="button" id="ctc-pulse-copy">Copy Report</button>
       </div>
       <div class="debug-scan-line" id="ctc-pulse-lastscan">No scan run yet</div>
-      <pre class="debug-report" id="ctc-pulse-report">Press Run Scan to generate a report. A timestamp will appear when the scan completes.</pre>
+      <pre class="debug-report" id="ctc-pulse-report" tabindex="0">Press Run Scan to generate a report. A timestamp will appear when the scan completes.</pre>
     </div>
   </section>
 
   <script>
-    const VERSION = "1.0.59-copyfix";
+    const VERSION = "1.0.60-debugtool-rebuild";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2105,6 +2110,15 @@ function renderHours(){
     const dbgHoursLines = document.getElementById("dbg-hours-lines");
     const dbgReadyState = document.getElementById("dbg-ready-state");
 
+
+    function pulseButtonFeedback(btn, mode = "ok"){
+      if (!btn) return;
+      btn.classList.remove("flash-ok","flash-warn");
+      void btn.offsetWidth;
+      btn.classList.add(mode === "warn" ? "flash-warn" : "flash-ok");
+      window.setTimeout(() => btn.classList.remove("flash-ok","flash-warn"), 700);
+    }
+
     function getActiveTabName(){
       const active = document.querySelector(".tab-btn.active");
       return active ? active.dataset.tabTarget : "unknown";
@@ -2167,31 +2181,52 @@ function renderHours(){
       ctcPulseStatus.textContent = "Scanning…";
       ctcPulseStatus.classList.remove("ok","warn");
       window.setTimeout(() => {
-        const summary = getHoursValidationSummary();
-        syncCtcPulseSnapshot();
-        const readyText = computeHoursReadyText();
-        const allClear = summary.ready;
-        const stamp = new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit", second:"2-digit"});
-        const statusText = allClear ? `OK · All clear · ${stamp}` : `Needs review · ${readyText} · ${stamp}`;
-        ctcPulseStatus.textContent = statusText;
-        ctcPulseStatus.classList.toggle("ok", allClear);
-        ctcPulseStatus.classList.toggle("warn", !allClear);
-        if (ctcPulseLastScan){
-          ctcPulseLastScan.textContent = allClear ? `✓ Scan complete at ${stamp} · all clear` : `✓ Scan complete at ${stamp} · ${readyText}`;
-          ctcPulseLastScan.classList.add("scan-flash");
-          window.setTimeout(() => ctcPulseLastScan.classList.remove("scan-flash"), 900);
-        }
-        const report = buildCtcPulseReport();
-        ctcPulseReport.textContent = `Last scan: ${stamp}
+        try {
+          const summary = getHoursValidationSummary();
+          syncCtcPulseSnapshot();
+          const readyText = computeHoursReadyText();
+          const allClear = !!summary.ready;
+          const stamp = new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit", second:"2-digit"});
+          const report = buildCtcPulseReport();
+          const statusText = allClear ? `OK · All clear · ${stamp}` : `Needs review · ${readyText} · ${stamp}`;
+          ctcPulseStatus.textContent = statusText;
+          ctcPulseStatus.classList.toggle("ok", allClear);
+          ctcPulseStatus.classList.toggle("warn", !allClear);
+          if (ctcPulseLastScan){
+            ctcPulseLastScan.textContent = allClear ? `✓ Scan complete at ${stamp} · all clear` : `✓ Scan complete at ${stamp} · ${readyText}`;
+            ctcPulseLastScan.classList.add("scan-flash");
+            window.setTimeout(() => ctcPulseLastScan.classList.remove("scan-flash"), 900);
+          }
+          if (ctcPulseReport){
+            ctcPulseReport.textContent = `Last scan: ${stamp}
 Status: ${allClear ? "OK / all clear" : readyText}
 
 ${report}`;
-        ctcPulseReport.classList.add("scan-flash");
-        window.setTimeout(() => ctcPulseReport.classList.remove("scan-flash"), 900);
-        if (runBtn){
-          runBtn.textContent = allClear ? "OK" : "Checked";
-          runBtn.disabled = false;
-          window.setTimeout(() => { runBtn.textContent = "Run Scan"; }, 1200);
+            ctcPulseReport.classList.add("scan-flash");
+            window.setTimeout(() => ctcPulseReport.classList.remove("scan-flash"), 900);
+          }
+          pulseButtonFeedback(runBtn, allClear ? "ok" : "warn");
+        } catch (err) {
+          const stamp = new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit", second:"2-digit"});
+          ctcPulseStatus.textContent = `Debug error · ${stamp}`;
+          ctcPulseStatus.classList.add("warn");
+          if (ctcPulseLastScan) ctcPulseLastScan.textContent = `Scan failed at ${stamp}`;
+          if (ctcPulseReport) {
+            ctcPulseReport.textContent = [
+              "CTC Pulse Error",
+              `Version: ${VERSION}`,
+              `Timestamp: ${new Date().toLocaleString()}`,
+              "",
+              String(err && err.stack ? err.stack : err)
+            ].join("
+");
+          }
+          pulseButtonFeedback(runBtn, "warn");
+        } finally {
+          if (runBtn){
+            runBtn.textContent = "Run Scan";
+            runBtn.disabled = false;
+          }
         }
       }, 140);
     }
@@ -2209,8 +2244,10 @@ ${report}`;
       const copyBtn = document.getElementById("ctc-pulse-copy");
       if (runBtn) runBtn.addEventListener("click", runCtcPulseScan);
       if (copyBtn) copyBtn.addEventListener("click", async () => {
-        const report = buildCtcPulseReport();
         const pulseReport = document.getElementById("ctc-pulse-report");
+        const report = pulseReport && pulseReport.textContent && !pulseReport.textContent.startsWith("Press Run Scan")
+          ? pulseReport.textContent
+          : buildCtcPulseReport();
 
         const selectReportText = () => {
           if (!pulseReport) return false;
@@ -2220,6 +2257,7 @@ ${report}`;
             range.selectNodeContents(pulseReport);
             selection.removeAllRanges();
             selection.addRange(range);
+            pulseReport.focus?.();
             return true;
           } catch {
             return false;
@@ -2237,7 +2275,6 @@ ${report}`;
           ta.style.height = "1px";
           ta.style.opacity = "0.01";
           ta.style.pointerEvents = "none";
-          ta.style.zIndex = "-1";
           document.body.appendChild(ta);
           ta.focus();
           ta.select();
@@ -2245,14 +2282,6 @@ ${report}`;
           let ok = false;
           try { ok = document.execCommand("copy"); } catch {}
           document.body.removeChild(ta);
-          return ok;
-        };
-
-        const fallbackSelectedPreCopy = () => {
-          const selected = selectReportText();
-          if (!selected) return false;
-          let ok = false;
-          try { ok = document.execCommand("copy"); } catch {}
           return ok;
         };
 
@@ -2265,20 +2294,24 @@ ${report}`;
         } catch {}
 
         if (!copied) copied = fallbackTextareaCopy();
-        if (!copied) copied = fallbackSelectedPreCopy();
+
+        if (!copied && pulseReport) {
+          selectReportText();
+        }
 
         ctcPulseStatus.classList.remove("ok","warn");
         if (copied) {
           ctcPulseStatus.textContent = "Copied report";
           ctcPulseStatus.classList.add("ok");
+          pulseButtonFeedback(copyBtn, "ok");
         } else {
           ctcPulseStatus.textContent = "Select and copy";
           ctcPulseStatus.classList.add("warn");
           if (pulseReport) {
             pulseReport.textContent = report;
-            pulseReport.focus?.();
             selectReportText();
           }
+          pulseButtonFeedback(copyBtn, "warn");
         }
       });
       document.addEventListener("click", () => {
