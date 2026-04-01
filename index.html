@@ -777,7 +777,13 @@
   </section>
 
   <script>
-    const VERSION = "1.0.53-summarycards-removed";
+    const VERSION = "1.0.54-summarycards-removed-clickfix";
+    function setText(el, value){
+      if (el) el.textContent = value;
+    }
+    function setHtml(el, value){
+      if (el) el.innerHTML = value;
+    }
     function deepClone(value){
       if (typeof structuredClone === "function") return structuredClone(value);
       return JSON.parse(JSON.stringify(value));
@@ -1546,36 +1552,36 @@ function renderHours(){
       const tradeUnder = spanDifference > 0.001;
       const tradeOver = spanDifference < -0.001;
 
-      hoursTotal.textContent = summary.total.toFixed(1);
-      hoursRemaining.textContent = summary.remaining.toFixed(1);
-      hoursDowntime.textContent = summary.downtime.toFixed(1);
-      hoursTargetHours.textContent = summary.expected.toFixed(1);
-      hoursCoverageHours.textContent = coverage.hours.toFixed(1);
+      setText(hoursTotal, summary.total.toFixed(1));
+      setText(hoursRemaining, summary.remaining.toFixed(1));
+      setText(hoursDowntime, summary.downtime.toFixed(1));
+      setText(hoursTargetHours, summary.expected.toFixed(1));
+      setText(hoursCoverageHours, coverage.hours.toFixed(1));
       hoursCoveragePill.textContent = coverage.hours ? `${coverage.hours.toFixed(1)} • ${coverage.window}` : '—';
       hoursExpectedPill.textContent = summary.expected.toFixed(1);
-      hoursSpanDifference.textContent = Math.abs(spanDifference).toFixed(1);
-      hoursTargetNote.textContent = `${workPattern.label} selected. Tech logging stays on its own basis.`;
-      hoursCoverageNote.textContent = `${coverage.dayLabel}: ${coverage.window}. ${coverage.note}`;
+      setText(hoursSpanDifference, Math.abs(spanDifference).toFixed(1));
+      setText(hoursTargetNote, `${workPattern.label} selected. Tech logging stays on its own basis.`);
+      setText(hoursCoverageNote, `${coverage.dayLabel}: ${coverage.window}. ${coverage.note}`);
       if (tradeUnder) {
-        hoursSpanDifferenceNote.textContent = `${Math.abs(spanDifference).toFixed(1)} hour(s) of additional coverage exist beyond the technician's logged total.`;
+        setText(hoursSpanDifferenceNote, `${Math.abs(spanDifference).toFixed(1)} hour(s) of additional coverage exist beyond the technician's logged total.`);
       } else if (tradeOver) {
-        hoursSpanDifferenceNote.textContent = `Technician logged hours exceed the trade coverage span by ${Math.abs(spanDifference).toFixed(1)} hour(s).`;
+        setText(hoursSpanDifferenceNote, `Technician logged hours exceed the trade coverage span by ${Math.abs(spanDifference).toFixed(1)} hour(s).`);
       } else {
-        hoursSpanDifferenceNote.textContent = 'Technician logged hours and the trade coverage span are aligned.';
+        setText(hoursSpanDifferenceNote, 'Technician logged hours and the trade coverage span are aligned.');
       }
 
       const readinessLabel = summary.ready ? "Ready" : summary.overTarget ? "Over target" : summary.underTarget ? "Warning" : summary.readyState;
-      hoursReadiness.textContent = readinessLabel;
+      setText(hoursReadiness, readinessLabel);
       hoursReadiness.style.color = summary.ready ? "#166534" : summary.overTarget ? "#b91c1c" : summary.readyState === "Blocked" ? "#b91c1c" : "#92400e";
       hoursReadinessLabel.textContent = hoursSheet.viewMode === "trade" ? "Technician Basis Status" : "Technician Readiness";
       if (summary.ready) {
-        hoursReadinessNote.textContent = "Ready for review: totals reconcile and downtime comments meet the selected technician logging target.";
+        setText(hoursReadinessNote, "Ready for review: totals reconcile and downtime comments meet the selected technician logging target.");
       } else if (summary.overTarget) {
-        hoursReadinessNote.textContent = `Over technician target by ${Math.abs(summary.remaining).toFixed(1)} hour(s). Reduce logged hours before review.`;
+        setText(hoursReadinessNote, `Over technician target by ${Math.abs(summary.remaining).toFixed(1)} hour(s). Reduce logged hours before review.`);
       } else if (summary.underTarget) {
-        hoursReadinessNote.textContent = `${summary.remaining.toFixed(1)} hour(s) still need to be assigned before review.`;
+        setText(hoursReadinessNote, `${summary.remaining.toFixed(1)} hour(s) still need to be assigned before review.`);
       } else {
-        hoursReadinessNote.textContent = summary.issues[0] || "Review the worksheet before submission.";
+        setText(hoursReadinessNote, summary.issues[0] || "Review the worksheet before submission.");
       }
       if (hoursIssuesList){
         const tradeNote = coverage.hours ? `<div class="hours-issue-item"><strong>Coverage Reference:</strong> ${escapeHtml(coverage.dayLabel)} uses ${escapeHtml(coverage.window)} (${coverage.hours.toFixed(1)} hours). Technician logging remains separate from this trade view.</div>` : '';
