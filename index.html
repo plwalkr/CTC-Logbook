@@ -212,6 +212,7 @@
     .toggle-btn.active{border-color:#0f172a;box-shadow:0 0 0 2px rgba(15,23,42,.08);background:#f8fafc}
     .hours-reference-note{margin-top:10px;border:1px dashed var(--line);border-radius:12px;background:var(--soft);padding:10px 12px;font-size:12px;color:#334155;line-height:1.55}
     .hours-summary-grid--wide{grid-template-columns:repeat(6,minmax(0,1fr))}
+    #hours-summary-grid{display:none !important}
 .hours-filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .hours-filter-row .search{max-width:260px}
 .hours-filter-row select,.hours-filter-row input[type="date"]{padding:7px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text);min-width:150px}
@@ -613,44 +614,6 @@
         </div>
       </div>
 
-      <div class="hours-summary-grid hours-summary-grid--wide" id="hours-summary-grid" hidden>
-        <div class="hours-summary-card">
-          <div class="summary-label">Logged Hours</div>
-          <div class="summary-value" id="hours-total">0.0</div>
-          <div class="summary-note">All running + downtime rows currently entered.</div>
-        </div>
-        <div class="hours-summary-card">
-          <div class="summary-label">Tech Logged Target</div>
-          <div class="summary-value" id="hours-target-hours">12.0</div>
-          <div class="summary-note" id="hours-target-note">Based on the selected work pattern.</div>
-        </div>
-        <div class="hours-summary-card">
-          <div class="summary-label">Target Difference</div>
-          <div class="summary-value" id="hours-remaining">12.0</div>
-          <div class="summary-note">Difference between the technician logging target and currently logged hours.</div>
-        </div>
-        <div class="hours-summary-card">
-          <div class="summary-label">Coverage Span</div>
-          <div class="summary-value" id="hours-coverage-hours">12.0</div>
-          <div class="summary-note" id="hours-coverage-note">Reference span for the selected log date.</div>
-        </div>
-        <div class="hours-summary-card">
-          <div class="summary-label">Span Difference</div>
-          <div class="summary-value" id="hours-span-difference">0.0</div>
-          <div class="summary-note" id="hours-span-difference-note">Trade reference compared against technician logged hours.</div>
-        </div>
-        <div class="hours-summary-card">
-          <div class="summary-label">Downtime Hours</div>
-          <div class="summary-value" id="hours-downtime">0.0</div>
-          <div class="summary-note">Downtime entries require at least 15 characters. Other requires at least 20 before hours unlock.</div>
-        </div>
-        <div class="hours-summary-card">
-          <div class="summary-label" id="hours-readiness-label">Technician Readiness</div>
-          <div class="summary-value" id="hours-readiness">Not Ready</div>
-          <div class="summary-note" id="hours-readiness-note">Enter rows and reconcile the selected technician logging target.</div>
-        </div>
-      </div>
-
       <div id="hours-tech-section" class="hours-view-section">
         <div class="section-card">
           <div class="hours-entry-toolbar">
@@ -814,7 +777,7 @@
   </section>
 
   <script>
-    const VERSION = "1.0.52-tradeside-tightened";
+    const VERSION = "1.0.53-summarycards-removed";
     function deepClone(value){
       if (typeof structuredClone === "function") return structuredClone(value);
       return JSON.parse(JSON.stringify(value));
@@ -936,8 +899,6 @@ const tradeSheetBody = document.getElementById("trade-sheet-body");
 const tradeSummaryList = document.getElementById("trade-summary-list");
 const tradeGrandTotal = document.getElementById("trade-grand-total");
 const tradeReferenceNote = document.getElementById("trade-reference-note");
-const hoursSummaryGrid = document.getElementById("hours-summary-grid");
-const hoursReadinessCard = document.getElementById("hours-readiness-card");
     const entriesBody = document.getElementById("entries-body");
     const followupPanel = document.getElementById("followup-panel");
     const followupTitle = document.getElementById("followup-title");
@@ -1409,8 +1370,6 @@ function renderHours(){
       }
       if (hoursTechSection) hoursTechSection.hidden = hoursSheet.viewMode !== "tech";
       if (hoursTradeSection) hoursTradeSection.hidden = hoursSheet.viewMode !== "trade";
-      if (hoursSummaryGrid) hoursSummaryGrid.hidden = true;
-      if (hoursReadinessCard) hoursReadinessCard.hidden = true;
       if (hoursExpectedInput) hoursExpectedInput.disabled = hoursSheet.viewMode === "trade";
       if (hoursAddRow) hoursAddRow.disabled = hoursSheet.viewMode === "trade";
       if (hoursViewTitle) {
