@@ -796,7 +796,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
   </section>
 
   <script>
-    const VERSION = "1.0.58-trades-allcells";
+    const VERSION = "1.0.59-copyfix";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2210,20 +2210,36 @@ ${report}`;
       if (runBtn) runBtn.addEventListener("click", runCtcPulseScan);
       if (copyBtn) copyBtn.addEventListener("click", async () => {
         const report = buildCtcPulseReport();
-        const fallbackCopy = () => {
+        const pulseReport = document.getElementById("ctc-pulse-report");
+
+        const selectReportText = () => {
+          if (!pulseReport) return false;
+          try {
+            const selection = window.getSelection();
+            const range = document.createRange();
+            range.selectNodeContents(pulseReport);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            return true;
+          } catch {
+            return false;
+          }
+        };
+
+        const fallbackTextareaCopy = () => {
           const ta = document.createElement("textarea");
           ta.value = report;
           ta.setAttribute("readonly", "");
           ta.style.position = "fixed";
-          ta.style.top = "0";
-          ta.style.left = "0";
+          ta.style.top = "12px";
+          ta.style.left = "12px";
           ta.style.width = "1px";
           ta.style.height = "1px";
-          ta.style.opacity = "0";
+          ta.style.opacity = "0.01";
           ta.style.pointerEvents = "none";
           ta.style.zIndex = "-1";
           document.body.appendChild(ta);
-          ta.focus({ preventScroll:true });
+          ta.focus();
           ta.select();
           ta.setSelectionRange(0, ta.value.length);
           let ok = false;
@@ -2231,23 +2247,38 @@ ${report}`;
           document.body.removeChild(ta);
           return ok;
         };
+
+        const fallbackSelectedPreCopy = () => {
+          const selected = selectReportText();
+          if (!selected) return false;
+          let ok = false;
+          try { ok = document.execCommand("copy"); } catch {}
+          return ok;
+        };
+
         let copied = false;
         try {
-          if (navigator.clipboard && typeof navigator.clipboard.writeText === "function" && window.isSecureContext) {
+          if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
             await navigator.clipboard.writeText(report);
             copied = true;
-          } else {
-            copied = fallbackCopy();
           }
-        } catch {
-          copied = fallbackCopy();
-        }
+        } catch {}
+
+        if (!copied) copied = fallbackTextareaCopy();
+        if (!copied) copied = fallbackSelectedPreCopy();
+
         ctcPulseStatus.classList.remove("ok","warn");
-        ctcPulseStatus.textContent = copied ? "Copied report" : "Copy failed";
-        ctcPulseStatus.classList.add(copied ? "ok" : "warn");
-        const pulseReport = document.getElementById("ctc-pulse-report");
-        if (!copied && pulseReport) {
-          pulseReport.focus?.();
+        if (copied) {
+          ctcPulseStatus.textContent = "Copied report";
+          ctcPulseStatus.classList.add("ok");
+        } else {
+          ctcPulseStatus.textContent = "Select and copy";
+          ctcPulseStatus.classList.add("warn");
+          if (pulseReport) {
+            pulseReport.textContent = report;
+            pulseReport.focus?.();
+            selectReportText();
+          }
         }
       });
       document.addEventListener("click", () => {
