@@ -250,7 +250,17 @@
 .trade-summary-item:last-child{border-bottom:none;padding-bottom:0}
 .trade-summary-item span{color:var(--muted)}
 .trade-summary-item strong{font-size:13px;color:#0f172a;text-align:right}
+
 .trade-note-box{margin-top:12px;padding:10px 12px;border:1px dashed var(--line);border-radius:12px;background:var(--soft);font-size:12px;color:#334155;line-height:1.55}
+.trade-collection{display:flex;flex-direction:column;gap:12px}
+.trade-cell-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
+.trade-cell-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap}
+.trade-cell-title{font-size:18px;font-weight:800;color:#0f172a}
+.trade-cell-meta{font-size:12px;color:var(--muted);line-height:1.55}
+.trade-empty-card{border:1px dashed var(--line);border-radius:14px;background:var(--soft);padding:18px 16px;font-size:13px;color:#475569}
+.trade-mini-strip{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.trade-mini-pill{display:inline-flex;align-items:center;padding:5px 10px;border:1px solid var(--line);border-radius:999px;background:#f8fafc;font-size:11px;font-weight:700;color:#334155}
+
 
     body[data-theme="clarity"] .toggle-btn.active{border-color:#163b69;box-shadow:0 0 0 2px rgba(22,59,105,.12);background:#eef4ff}
     body[data-theme="clarity"] .panel-head,
@@ -306,7 +316,12 @@
     body[data-theme="clarity"] .hours-caution{color:#8a4b00}
     body[data-theme="clarity"] .hours-warning{color:#8a4b00}
     body[data-theme="clarity"] .review-attention{background:#fff1cc;color:#8a4b00;border-color:#facc15}
-    body[data-theme="clarity"] .debug-fab{background:#163b69;border-color:#163b69}
+    
+body[data-theme="clarity"] .debug-fab{background:#163b69;border-color:#163b69}
+body[data-theme="clarity"] .trade-cell-card,
+body[data-theme="clarity"] .trade-empty-card{background:#f7faff;border-color:#9aa7bd}
+body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff;color:#10233d}
+
 
     @media (max-width:1200px){
       .header-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -695,32 +710,8 @@
       <div id="hours-trade-section" class="hours-view-section" hidden>
         <div class="trade-sheet">
           <div class="trade-strip" id="trade-summary-grid"></div>
-          <div class="trade-main-grid">
-            <div class="trade-sheet-card">
-              <div class="trade-sheet-head">
-                <div>
-                  <h3>Trade Hours Review Sheet</h3>
-                  <div class="trade-sheet-sub">Grouped from the technician-entered hour lines so trades can scan the day, cell, and totals in one pass.</div>
-                </div>
-                <span class="pill" id="trade-grand-total">0.0 hrs</span>
-              </div>
-              <table class="trade-table">
-                <thead>
-                  <tr>
-                    <th class="col-group">Hour Group</th>
-                    <th class="col-hours">Hours</th>
-                    <th class="col-notes">Notes</th>
-                  </tr>
-                </thead>
-                <tbody id="trade-sheet-body"></tbody>
-              </table>
-            </div>
-            <div class="trade-sheet-card">
-              <div class="section-title">Trade Summary</div>
-              <div class="trade-summary-list" id="trade-summary-list"></div>
-              <div id="trade-reference-note" class="trade-note-box">Trade coverage view displays the same hours already entered in a cleaner grouped worksheet.</div>
-            </div>
-          </div>
+          <div id="trade-collection" class="trade-collection"></div>
+          <div id="trade-reference-note" class="trade-note-box">Trades review all logged cells for the selected date range here. Each cell keeps its own grouped hours, shift, pattern, and meter context.</div>
         </div>
       </div>
     </div>
@@ -805,7 +796,7 @@
   </section>
 
   <script>
-    const VERSION = "1.0.57-hoursbasis-flattened";
+    const VERSION = "1.0.58-trades-allcells";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -859,7 +850,67 @@
       comment:"",
       hours:""
     }));
+
     let formState = {time:"",run:"",cycle:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"};
+    const hoursCellSheets = {};
+    function currentHoursSheetKey(fields = bannerFields){
+      const iso = normalizeDateValue(fields?.date || "") || "no-date";
+      const cell = String(fields?.testCell || "no-cell");
+      return `${iso}|${cell}`;
+    }
+    function snapshotBannerForHours(fields = bannerFields){
+      return {
+        date: normalizeDateValue(fields?.date || "") || "",
+        testCell: String(fields?.testCell || ""),
+        shift: String(fields?.shift || ""),
+        cellHourMeter: String(fields?.cellHourMeter || ""),
+        technician: String(fields?.technician || ""),
+        engineer: String(fields?.engineer || "")
+      };
+    }
+    function cloneHoursSheetState(sheet = hoursSheet){
+      return {
+        expectedHours: String(sheet?.expectedHours || "0"),
+        shiftNote: String(sheet?.shiftNote || ""),
+        workPattern: sheet?.workPattern || "3x12",
+        viewMode: sheet?.viewMode || "tech"
+      };
+    }
+    function normalizeHoursRows(rows){
+      if (!Array.isArray(rows) || !rows.length) return Array.from({length:4}, (_, index) => ({id:Date.now() + index,status:"Running",detail:"Running Per Plan",comment:"",hours:""}));
+      return rows.map(row => ({
+        id: Number(row?.id) || (Date.now() + Math.floor(Math.random()*1000)),
+        status: row?.status === "Downtime" ? "Downtime" : "Running",
+        detail: String(row?.detail || (row?.status === "Downtime" ? "No Operator" : "Running Per Plan")),
+        comment: String(row?.comment || ""),
+        hours: String(row?.hours || "")
+      }));
+    }
+    function saveCurrentHoursSheet(fields = bannerFields){
+      const key = currentHoursSheetKey(fields);
+      hoursCellSheets[key] = {
+        bannerSnapshot: snapshotBannerForHours(fields),
+        hoursSheet: cloneHoursSheetState(hoursSheet),
+        hoursRows: deepClone(hoursRows)
+      };
+    }
+    function loadHoursSheetForCurrentContext(){
+      const key = currentHoursSheetKey();
+      const stored = hoursCellSheets[key];
+      if (stored){
+        hoursSheet = cloneHoursSheetState(stored.hoursSheet);
+        hoursRows = normalizeHoursRows(deepClone(stored.hoursRows));
+      } else {
+        const basePattern = hoursSheet?.workPattern || "3x12";
+        const baseHours = (WORK_PATTERNS[basePattern] || WORK_PATTERNS["3x12"]).hours;
+        hoursSheet = {expectedHours:String(baseHours), shiftNote:"", workPattern:basePattern, viewMode:hoursSheet?.viewMode || "tech"};
+        hoursRows = Array.from({length:4}, (_, index) => ({id:Date.now() + index,status:"Running",detail:"Running Per Plan",comment:"",hours:""}));
+        saveCurrentHoursSheet();
+      }
+    }
+
+
+    saveCurrentHoursSheet();
 
     const autoLogEventTemplates = [
       {label:"Prep to Cal → 1065 Checks",eventType:"1065 Check",category:"Emissions",status:"Open",note:"System event: prep to cal command completed and 1065 checks auto-populated for review."},
@@ -931,9 +982,7 @@ const hoursTechSection = document.getElementById("hours-tech-section");
 const hoursTechSummary = document.getElementById("hours-tech-summary");
 const hoursTradeSection = document.getElementById("hours-trade-section");
 const tradeSummaryGrid = document.getElementById("trade-summary-grid");
-const tradeSheetBody = document.getElementById("trade-sheet-body");
-const tradeSummaryList = document.getElementById("trade-summary-list");
-const tradeGrandTotal = document.getElementById("trade-grand-total");
+const tradeCollection = document.getElementById("trade-collection");
 const tradeReferenceNote = document.getElementById("trade-reference-note");
     const entriesBody = document.getElementById("entries-body");
     const followupPanel = document.getElementById("followup-panel");
@@ -990,6 +1039,8 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       }
       try { localStorage.setItem(DISPLAY_MODE_STORAGE_KEY, nextMode); } catch {}
       renderTradeCoverageView();
+      saveCurrentHoursSheet();
+      renderTradeCoverageView();
       syncCtcPulseSnapshot();
     }
     function renderDisplayModeButtons(){
@@ -1007,6 +1058,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
           const button = event.target.closest("[data-hours-view-mode]");
           if (!button) return;
           hoursSheet.viewMode = button.dataset.hoursViewMode;
+          saveCurrentHoursSheet();
           renderHours();
         });
       }
@@ -1017,6 +1069,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
           hoursSheet.workPattern = button.dataset.hoursWorkPattern;
           const pattern = getWorkPatternConfig();
           hoursSheet.expectedHours = String(pattern.hours);
+          saveCurrentHoursSheet();
           renderHours();
         });
       }
@@ -1233,10 +1286,18 @@ function renderHeaderFields(){
   headerGrid.querySelectorAll("[data-banner]").forEach(input => {
     input.addEventListener("input", e => {
       const key = e.target.dataset.banner;
+      const previousFields = deepClone(bannerFields);
       bannerFields[key] = key === "date" ? normalizeDateValue(e.target.value) || e.target.value : e.target.value;
       if (key === "date") e.target.value = normalizeDateValue(bannerFields[key] || "") || "";
-      hoursMeter.textContent = bannerFields.cellHourMeter || "—";
-      if (key === "date" || key === "cellHourMeter" || key === "testCell") renderHours();
+      if (key === "date" || key === "testCell") {
+        saveCurrentHoursSheet(previousFields);
+        loadHoursSheetForCurrentContext();
+        renderHours();
+      } else {
+        saveCurrentHoursSheet();
+        hoursMeter.textContent = bannerFields.cellHourMeter || "—";
+        if (["shift","cellHourMeter","technician","engineer"].includes(key)) renderHours();
+      }
     });
   });
 }
@@ -1271,8 +1332,8 @@ function renderForm(){
     function getWorkPatternConfig(){
       return WORK_PATTERNS[hoursSheet.workPattern] || WORK_PATTERNS["3x12"];
     }
-function getCoverageWindowInfo(){
-  const iso = normalizeDateValue(bannerFields.date || "");
+function getCoverageWindowInfo(fields = bannerFields){
+  const iso = normalizeDateValue(fields?.date || "");
   if (!iso) return { dayLabel:"No log date", window:"Set the session date to view coverage.", hours:0, note:"Coverage span uses the session date from the header." };
   const date = new Date(`${iso}T12:00:00`);
   if (Number.isNaN(date.getTime())) return { dayLabel:"Invalid date", window:"Update the session date.", hours:0, note:"Coverage span uses the session date from the header." };
@@ -1283,8 +1344,8 @@ function getCoverageWindowInfo(){
   if (day === 6) return { dayLabel:dayName, window:"7a–7p / 7p–7a", hours:12, note:"Saturday is tracked as 12-hour day and night weekend blocks." };
   return { dayLabel:dayName, window:"7p–5a", hours:10, note:"Sunday trade reference follows the 10-hour overnight span." };
 }
-function getSessionDateInfo(){
-  const iso = normalizeDateValue(bannerFields.date || "");
+function getSessionDateInfo(fields = bannerFields){
+  const iso = normalizeDateValue(fields?.date || "");
   const date = iso ? new Date(`${iso}T12:00:00`) : null;
   const valid = date && !Number.isNaN(date.getTime());
   return {
@@ -1320,6 +1381,47 @@ function getFilteredHoursRows(){
     return matchesStatus && matchesQuery;
   });
 }
+
+function getHoursTradeRecords(){
+  saveCurrentHoursSheet();
+  const query = String(hoursFilterSearch?.value || "").trim().toLowerCase();
+  const statusFilter = String(hoursFilterStatus?.value || "").trim();
+  const dateFrom = String(hoursFilterDateFrom?.value || "").trim();
+  const dateTo = String(hoursFilterDateTo?.value || "").trim();
+  return Object.values(hoursCellSheets).map(record => {
+    const banner = record.bannerSnapshot || {};
+    const session = getSessionDateInfo(banner);
+    const coverage = getCoverageWindowInfo(banner);
+    const sheet = cloneHoursSheetState(record.hoursSheet || {});
+    const tokens = [
+      session.display,
+      session.dayName,
+      session.monthName,
+      banner.testCell || "",
+      banner.shift || "",
+      banner.cellHourMeter || "",
+      banner.technician || "",
+      banner.engineer || "",
+      (WORK_PATTERNS[sheet.workPattern] || WORK_PATTERNS["3x12"]).label,
+      coverage.window
+    ].join(" ").toLowerCase();
+    const dateMatches = (!dateFrom || (session.iso && session.iso >= dateFrom)) && (!dateTo || (session.iso && session.iso <= dateTo));
+    if (!dateMatches) return null;
+    const activeRows = normalizeHoursRows(record.hoursRows || []).filter(row => {
+      const haystack = [row.status, row.detail, row.comment, row.hours, tokens].join(" ").toLowerCase();
+      const matchesQuery = !query || haystack.includes(query);
+      const matchesStatus = !statusFilter || row.status === statusFilter;
+      return matchesQuery && matchesStatus && (
+        String(row.hours || "").trim() ||
+        String(row.comment || "").trim() ||
+        row.status !== "Running" ||
+        row.detail !== "Running Per Plan"
+      );
+    });
+    return {banner, session, coverage, sheet, rows:activeRows};
+  }).filter(Boolean).filter(record => record.rows.length).sort((a, b) => Number(a.banner.testCell || 0) - Number(b.banner.testCell || 0));
+}
+
 function summarizeHoursRows(rows, status){
   const items = new Map();
   rows.filter(row => row.status === status && row.detail).forEach(row => {
@@ -1332,25 +1434,23 @@ function summarizeHoursRows(rows, status){
   return Array.from(items.entries()).sort((a,b) => a[0].localeCompare(b[0]));
 }
 function renderTradeCoverageView(){
-  if (!tradeSummaryGrid || !tradeSheetBody || !tradeSummaryList) return;
-  const session = getSessionDateInfo();
-  const coverage = getCoverageWindowInfo();
-  const workPattern = getWorkPatternConfig();
-  const filteredRows = getFilteredHoursRows();
-  const total = filteredRows.reduce((sum,row) => sum + (parseFloat(row.hours) || 0), 0);
-  const running = summarizeHoursRows(filteredRows, "Running");
-  const downtime = summarizeHoursRows(filteredRows, "Downtime");
-  const runningSubtotal = running.reduce((sum, [, data]) => sum + data.hours, 0);
-  const downtimeSubtotal = downtime.reduce((sum, [, data]) => sum + data.hours, 0);
-  const techTarget = (parseFloat(hoursSheet.expectedHours) || 0);
-  const spanDifference = Number((coverage.hours - total).toFixed(1));
-
+  if (!tradeSummaryGrid || !tradeCollection) return;
+  const records = getHoursTradeRecords();
+  const totalHours = records.reduce((sum, record) => sum + record.rows.reduce((rowSum, row) => rowSum + (parseFloat(row.hours) || 0), 0), 0);
+  const activeCells = records.length;
+  const dateLabel = [hoursFilterDateFrom?.value || normalizeDateValue(bannerFields.date || ""), hoursFilterDateTo?.value || ""].filter(Boolean).join(hoursFilterDateTo?.value ? " → " : "");
   tradeSummaryGrid.innerHTML = [
-    ["Log Date", session.display],
-    ["Test Cell", bannerFields.testCell || "—"],
-    ["Logged Hours", `${total.toFixed(1)} hrs`],
-    ["Coverage", `${coverage.window || "—"} • ${coverage.hours.toFixed(1)} hrs`]
+    ["Dates", dateLabel || "Current log date"],
+    ["Active Cells", String(activeCells)],
+    ["Total Logged", `${totalHours.toFixed(1)} hrs`],
+    ["Filter", hoursFilterStatus?.value || "All Hour Types"]
   ].map(([label, value]) => `<div class="trade-strip-item"><strong>${escapeHtml(label)}</strong><span>${escapeHtml(value)}</span></div>`).join("");
+
+  if (!records.length) {
+    tradeCollection.innerHTML = `<div class="trade-empty-card">No logged cell hours match the current trades filters yet. Enter hours on the billable worksheet, or widen the date/hour filters.</div>`;
+    if (tradeReferenceNote) tradeReferenceNote.textContent = "Trades view will show one clean grouped sheet per active test cell.";
+    return;
+  }
 
   const buildRows = (title, items, subtotal, emptyText) => {
     const rows = [`<tr class="section-row"><td colspan="3">${escapeHtml(title)}</td></tr>`];
@@ -1368,21 +1468,53 @@ function renderTradeCoverageView(){
     return rows.join("");
   };
 
-  tradeSheetBody.innerHTML = [
-    buildRows("Running Hours", running, runningSubtotal, "No running hour lines match the current filters."),
-    buildRows("Downtime Hours", downtime, downtimeSubtotal, "No downtime hour lines match the current filters."),
-    `<tr class="grandtotal-row"><td>Total logged hours</td><td class="col-hours">${total.toFixed(1)}</td><td>—</td></tr>`
-  ].join("");
-
-  tradeGrandTotal.textContent = `${total.toFixed(1)} hrs`;
-  tradeSummaryList.innerHTML = [
-    ["Running subtotal", `${runningSubtotal.toFixed(1)} hrs`],
-    ["Downtime subtotal", `${downtimeSubtotal.toFixed(1)} hrs`],
-    ["Span difference", `${spanDifference.toFixed(1)} hrs`]
-  ].map(([label, value]) => `<div class="trade-summary-item"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("");
+  tradeCollection.innerHTML = records.map(record => {
+    const running = summarizeHoursRows(record.rows, "Running");
+    const downtime = summarizeHoursRows(record.rows, "Downtime");
+    const runningSubtotal = running.reduce((sum, [, data]) => sum + data.hours, 0);
+    const downtimeSubtotal = downtime.reduce((sum, [, data]) => sum + data.hours, 0);
+    const total = runningSubtotal + downtimeSubtotal;
+    const workPattern = WORK_PATTERNS[record.sheet.workPattern] || WORK_PATTERNS["3x12"];
+    const meta = [
+      record.session.display,
+      `Shift ${record.banner.shift || "—"}`,
+      `Pattern ${workPattern.label}`,
+      `Meter ${record.banner.cellHourMeter || "—"}`,
+      `Coverage ${record.coverage.window}`
+    ].join(" • ");
+    return `
+      <section class="trade-cell-card">
+        <div class="trade-cell-head">
+          <div>
+            <div class="trade-cell-title">Cell ${escapeHtml(record.banner.testCell || "—")}</div>
+            <div class="trade-cell-meta">${escapeHtml(meta)}</div>
+          </div>
+          <div class="trade-mini-strip">
+            <span class="trade-mini-pill">Logged ${total.toFixed(1)} hrs</span>
+            <span class="trade-mini-pill">Running ${runningSubtotal.toFixed(1)}</span>
+            <span class="trade-mini-pill">Downtime ${downtimeSubtotal.toFixed(1)}</span>
+          </div>
+        </div>
+        <table class="trade-table">
+          <thead>
+            <tr>
+              <th class="col-group">Hour Group</th>
+              <th class="col-hours">Hours</th>
+              <th class="col-notes">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${buildRows("Running Hours", running, runningSubtotal, "No running lines logged for this cell.")}
+            ${buildRows("Downtime Hours", downtime, downtimeSubtotal, "No downtime lines logged for this cell.")}
+            <tr class="grandtotal-row"><td>Total logged hours</td><td class="col-hours">${total.toFixed(1)}</td><td>${escapeHtml(record.banner.technician || "—")}</td></tr>
+          </tbody>
+        </table>
+      </section>
+    `;
+  }).join("");
 
   if (tradeReferenceNote) {
-    tradeReferenceNote.textContent = `${session.display} • ${coverage.window} • Cell ${bannerFields.testCell || "—"}. This keeps the trade view quieter while preserving the grouped hour totals and cell context.`;
+    tradeReferenceNote.textContent = `${activeCells} active cell(s) shown. Trades can scan every logged cell in one pass while billable entry remains tied to each cell on the technician side.`;
   }
 }
 
@@ -1476,6 +1608,7 @@ function renderHours(){
           if (!opts.includes(row.detail)) row.detail = opts[0] || "";
           if (String(row.hours || "").trim() && (priorStatus !== row.status || priorDetail !== row.detail)) row.hours = "";
           if (requiresDowntimeComment(row) && !validDowntimeComment(row)) row.hours = "";
+          saveCurrentHoursSheet();
           renderHours();
         });
       });
@@ -1487,6 +1620,7 @@ function renderHours(){
           row.detail = e.target.value;
           if (String(row.hours || "").trim() && priorDetail !== row.detail) row.hours = "";
           if (requiresDowntimeComment(row) && !validDowntimeComment(row)) row.hours = "";
+          saveCurrentHoursSheet();
           renderHours();
         });
       });
@@ -1497,6 +1631,7 @@ function renderHours(){
           row.comment = e.target.value;
           if (requiresDowntimeComment(row) && !validDowntimeComment(row)) row.hours = "";
           refreshHoursRowStates();
+          saveCurrentHoursSheet();
           renderHoursSummary();
         });
       });
@@ -1507,6 +1642,7 @@ function renderHours(){
           row.hours = sanitizeHourValue(e.target.value);
           e.target.value = row.hours;
           refreshHoursRowStates();
+          saveCurrentHoursSheet();
           renderHoursSummary();
         });
       });
@@ -1515,6 +1651,7 @@ function renderHours(){
           const row = hoursRows.find(item => item.id === Number(e.target.dataset.hoursDuplicate));
           if (!row) return;
           hoursRows.splice(hoursRows.indexOf(row) + 1, 0, {...row, id:Date.now() + Math.floor(Math.random()*1000), hours:""});
+          saveCurrentHoursSheet();
           renderHours();
         });
       });
@@ -1525,6 +1662,7 @@ function renderHours(){
           } else {
             hoursRows = hoursRows.filter(item => item.id !== Number(e.target.dataset.hoursDelete));
           }
+          saveCurrentHoursSheet();
           renderHours();
         });
       });
@@ -1920,14 +2058,17 @@ function renderHours(){
       hoursSheet.expectedHours = sanitizeHourValue(e.target.value) || "0";
       e.target.value = hoursSheet.expectedHours;
       refreshHoursRowStates();
+      saveCurrentHoursSheet();
       renderHoursSummary();
     });
     hoursAddRow.addEventListener("click", () => {
       hoursRows.push(makeHoursRow());
+      saveCurrentHoursSheet();
       renderHours();
     });
     hoursShiftNote.addEventListener("input", (e) => {
       hoursSheet.shiftNote = e.target.value;
+      saveCurrentHoursSheet();
       syncCtcPulseSnapshot();
     });
     hoursFilterSearch.addEventListener("input", renderHoursSummary);
