@@ -801,7 +801,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
   </section>
 
   <script>
-    const VERSION = "1.0.61-debugtool-syntaxfix";
+    const VERSION = "1.0.62-debugreport-fix";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2148,12 +2148,22 @@ function renderHours(){
       const activeTab = getActiveTabName();
       const summary = getHoursValidationSummary();
       const activeRows = activeHoursRows();
-      const issues = summary.issues.length ? summary.issues.map((issue, index) => `${index + 1}. ${issue}`) : ["None"];
+      const issues = Array.isArray(summary.issues) && summary.issues.length
+        ? summary.issues.map((issue, index) => `${index + 1}. ${issue}`)
+        : ["None"];
+      const visibleLogRows = (() => {
+        try {
+          if (typeof filteredEntries === "function") return filteredEntries().length;
+          if (typeof getFilteredEntries === "function") return getFilteredEntries().length;
+          if (typeof entries !== "undefined" && Array.isArray(entries)) return entries.length;
+        } catch {}
+        return 0;
+      })();
       return [
         `CTC Pulse Report`,
         `Version: ${VERSION}`,
         `Active tab: ${activeTab}`,
-        `Visible log rows: ${filteredEntries().length}`,
+        `Visible log rows: ${visibleLogRows}`,
         `Active hours lines: ${activeRows.length}`,
         `Total hours lines: ${hoursRows.length}`,
         `Expected hours: ${summary.expected.toFixed(1)}`,
@@ -2165,11 +2175,13 @@ function renderHours(){
         `Rows missing detail: ${summary.missingDetailRows.length}`,
         `Rows missing hours: ${summary.missingHoursRows.length}`,
         `Header date: ${bannerFields.date || "n/a"}`,
+        `Header cell: ${bannerFields.testCell || "n/a"}`,
         `Timestamp: ${new Date().toLocaleString()}`,
         ``,
         `Issues:`,
         ...issues
-      ].join("\n");
+      ].join("
+");
     }
 
     function runCtcPulseScan(){
