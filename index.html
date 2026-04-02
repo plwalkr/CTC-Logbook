@@ -801,7 +801,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
   </section>
 
   <script>
-    const VERSION = "1.0.62-debugreport-fix";
+    const VERSION = "1.0.63-stable-recovery";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2134,12 +2134,22 @@ function renderHours(){
       return summary.readyState || "Warning";
     }
 
+
+    function getVisibleLogRowCount(){
+      try {
+        if (typeof filteredEntries === "function") return filteredEntries().length;
+        if (typeof getFilteredEntries === "function") return getFilteredEntries().length;
+        if (typeof entries !== "undefined" && Array.isArray(entries)) return entries.length;
+      } catch {}
+      return 0;
+    }
+
     function syncCtcPulseSnapshot(){
       if (!dbgActiveTab || !dbgLogRows || !dbgHoursLines || !dbgReadyState) return;
       const summary = getHoursValidationSummary();
       const activeRows = activeHoursRows();
       dbgActiveTab.textContent = getActiveTabName();
-      dbgLogRows.textContent = String(typeof filteredEntries === "function" ? filteredEntries().length : 0);
+      dbgLogRows.textContent = String(getVisibleLogRowCount());
       dbgHoursLines.textContent = `${activeRows.length}/${hoursRows.length}`;
       dbgReadyState.textContent = computeHoursReadyText();
     }
@@ -2148,22 +2158,12 @@ function renderHours(){
       const activeTab = getActiveTabName();
       const summary = getHoursValidationSummary();
       const activeRows = activeHoursRows();
-      const issues = Array.isArray(summary.issues) && summary.issues.length
-        ? summary.issues.map((issue, index) => `${index + 1}. ${issue}`)
-        : ["None"];
-      const visibleLogRows = (() => {
-        try {
-          if (typeof filteredEntries === "function") return filteredEntries().length;
-          if (typeof getFilteredEntries === "function") return getFilteredEntries().length;
-          if (typeof entries !== "undefined" && Array.isArray(entries)) return entries.length;
-        } catch {}
-        return 0;
-      })();
+      const issues = summary.issues.length ? summary.issues.map((issue, index) => `${index + 1}. ${issue}`) : ["None"];
       return [
         `CTC Pulse Report`,
         `Version: ${VERSION}`,
         `Active tab: ${activeTab}`,
-        `Visible log rows: ${visibleLogRows}`,
+        `Visible log rows: ${getVisibleLogRowCount()}`,
         `Active hours lines: ${activeRows.length}`,
         `Total hours lines: ${hoursRows.length}`,
         `Expected hours: ${summary.expected.toFixed(1)}`,
@@ -2175,13 +2175,11 @@ function renderHours(){
         `Rows missing detail: ${summary.missingDetailRows.length}`,
         `Rows missing hours: ${summary.missingHoursRows.length}`,
         `Header date: ${bannerFields.date || "n/a"}`,
-        `Header cell: ${bannerFields.testCell || "n/a"}`,
         `Timestamp: ${new Date().toLocaleString()}`,
         ``,
         `Issues:`,
         ...issues
-      ].join("
-");
+      ].join("\n");
     }
 
     function runCtcPulseScan(){
