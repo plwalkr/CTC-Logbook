@@ -801,7 +801,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
   </section>
 
   <script>
-    const VERSION = "1.0.63-stable-recovery";
+    const VERSION = "1.0.64-debug-interaction-fix";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2251,8 +2251,9 @@ ${report}`;
       ctcPulsePanel.addEventListener("click", (e) => e.stopPropagation());
       const runBtn = document.getElementById("ctc-pulse-run");
       const copyBtn = document.getElementById("ctc-pulse-copy");
-      if (runBtn) runBtn.addEventListener("click", runCtcPulseScan);
-      if (copyBtn) copyBtn.addEventListener("click", async () => {
+      if (runBtn) runBtn.addEventListener("click", (e) => { e.stopPropagation(); runCtcPulseScan(); });
+      if (copyBtn) copyBtn.addEventListener("click", async (e) => {
+        e.stopPropagation();
         const pulseReport = document.getElementById("ctc-pulse-report");
         const report = pulseReport && pulseReport.textContent && !pulseReport.textContent.startsWith("Press Run Scan")
           ? pulseReport.textContent
@@ -2320,11 +2321,14 @@ ${report}`;
             pulseReport.textContent = report;
             selectReportText();
           }
+          try { window.prompt("Copy CTC Pulse report:", report); } catch {}
           pulseButtonFeedback(copyBtn, "warn");
         }
       });
-      document.addEventListener("click", () => {
-        ctcPulsePanel.hidden = true;
+      document.addEventListener("click", (e) => {
+        if (!ctcPulsePanel.hidden && !ctcPulsePanel.contains(e.target) && e.target !== ctcPulseFab) {
+          ctcPulsePanel.hidden = true;
+        }
       });
       syncCtcPulseSnapshot();
     }
