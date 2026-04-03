@@ -331,9 +331,9 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
     .weekend-toolbar{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
     .weekend-toolbar .small strong{color:var(--text)}
     .weekend-meta-strip{display:flex;gap:8px;flex-wrap:wrap}
-    .weekend-table-wrap{overflow:auto;border:1px solid #e2e8f0;border-radius:14px;background:#fff}
+    .weekend-table-wrap{overflow:auto;max-height:68vh;border:1px solid #e2e8f0;border-radius:14px;background:#fff}
     .weekend-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:12px}
-    .weekend-table th{background:#f8fafc;position:sticky;top:0;z-index:1}
+    .weekend-table th{background:#f8fafc;position:sticky;top:0;z-index:3;box-shadow:0 1px 0 #e2e8f0}
     .weekend-table th,.weekend-table td{padding:8px 10px;border-bottom:1px solid #e2e8f0;border-right:1px solid #e2e8f0;vertical-align:middle}
     .weekend-table th:last-child,.weekend-table td:last-child{border-right:none}
     .weekend-table .col-cell{width:8%}
@@ -429,7 +429,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.66-weekend-board-fix</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.67-weekend-input-stickyhead</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -891,7 +891,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
   </section>
 
   <script>
-    const VERSION = "1.0.66-weekend-board-fix";
+    const VERSION = "1.0.67-weekend-input-stickyhead";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -1433,8 +1433,7 @@ function renderWeekendDailyUpdate(){
     `;
   }).join("");
   weekendRowsBody.querySelectorAll("[data-weekend-field]").forEach(control => {
-    const eventName = control.tagName === "SELECT" ? "change" : "input";
-    control.addEventListener(eventName, e => {
+    const commitWeekendField = e => {
       const idx = Number(e.target.dataset.weekendIndex);
       const field = e.target.dataset.weekendField;
       const rowsRef = getWeekendRowsForCurrentDate();
@@ -1445,7 +1444,14 @@ function renderWeekendDailyUpdate(){
       saveWeekendUpdateStore(weekendUpdateStore);
       renderWeekendDailyUpdate();
       syncCtcPulseSnapshot();
-    });
+    };
+
+    if (control.tagName === "SELECT") {
+      control.addEventListener("change", commitWeekendField);
+    } else {
+      control.addEventListener("change", commitWeekendField);
+      control.addEventListener("blur", commitWeekendField);
+    }
   });
 }
 
