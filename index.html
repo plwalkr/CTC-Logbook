@@ -429,7 +429,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.72-debug-hardened</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.70c-safe-rollback</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -891,36 +891,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
   </section>
 
   <script>
-    const VERSION = "1.0.72-debug-hardened";
-    const DEBUG_ERROR_BUFFER = [];
-    function rememberDebugError(kind, detail){
-      try {
-        const message = String(detail || "").trim() || "Unknown error";
-        DEBUG_ERROR_BUFFER.unshift({
-          kind,
-          message,
-          timestamp: new Date().toLocaleString()
-        });
-        if (DEBUG_ERROR_BUFFER.length > 12) DEBUG_ERROR_BUFFER.length = 12;
-      } catch {}
-    }
-    window.addEventListener("error", (event) => {
-      const parts = [
-        event?.message || "Script error",
-        event?.filename ? `@ ${event.filename}` : "",
-        Number.isFinite(event?.lineno) ? `:${event.lineno}` : "",
-        Number.isFinite(event?.colno) ? `:${event.colno}` : ""
-      ].filter(Boolean).join("");
-      rememberDebugError("window.error", parts);
-    });
-    window.addEventListener("unhandledrejection", (event) => {
-      const reason = event?.reason;
-      const message = typeof reason === "string"
-        ? reason
-        : String(reason?.stack || reason?.message || reason || "Unhandled promise rejection");
-      rememberDebugError("promise", message);
-    });
-
+    const VERSION = "1.0.70c-safe-rollback";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2329,12 +2300,6 @@ function renderHours(){
     const dbgReadyState = document.getElementById("dbg-ready-state");
 
 
-
-    function debugErrorLines(){
-      if (!DEBUG_ERROR_BUFFER.length) return ["None"];
-      return DEBUG_ERROR_BUFFER.map((entry, index) => `${index + 1}. [${entry.kind}] ${entry.timestamp} — ${entry.message}`);
-    }
-
     function pulseButtonFeedback(btn, mode = "ok"){
       if (!btn) return;
       btn.classList.remove("flash-ok","flash-warn");
@@ -2387,59 +2352,48 @@ function renderHours(){
 
     function buildCtcPulseReport(){
       const activeTab = getActiveTabName();
-      const errorLines = debugErrorLines();
+      const summary = getHoursValidationSummary();
+      const activeRows = activeHoursRows();
       if (activeTab === "weekend") {
-        const rows = typeof getWeekendRowsForCurrentDate === "function" ? getWeekendRowsForCurrentDate() : [];
+        const rows = getWeekendRowsForCurrentDate();
         const helpCount = rows.filter(row => row.helpNeeded === "Yes").length;
         const statusCount = rows.filter(row => String(row.tcStatus || "").trim()).length;
         return [
           `CTC Pulse Report`,
           `Version: ${VERSION}`,
           `Active tab: ${activeTab}`,
+          `Board date: ${normalizeDateValue(weekendDateInput?.value || "") || "n/a"}`,
           `Weekend rows: ${rows.length}`,
           `Rows with status: ${statusCount}`,
           `Active help requests: ${helpCount}`,
           `Timestamp: ${new Date().toLocaleString()}`,
           ``,
-          `Recent JS errors:`,
-          ...errorLines
-        ].join("
-");
+          `Issues:`,
+          `None`
+        ].join("\n");
       }
-
-      const summary = typeof getHoursValidationSummary === "function"
-        ? getHoursValidationSummary()
-        : {expected:0,total:0,remaining:0,downtime:0,issues:["Hours validation summary unavailable."],invalidDowntimeRows:[],missingDetailRows:[],missingHoursRows:[],ready:false};
-      const activeRows = typeof activeHoursRows === "function" ? activeHoursRows() : [];
-      const issues = Array.isArray(summary.issues) && summary.issues.length
-        ? summary.issues.map((issue, index) => `${index + 1}. ${issue}`)
-        : ["None"];
-
+      const issues = summary.issues.length ? summary.issues.map((issue, index) => `${index + 1}. ${issue}`) : ["None"];
       return [
         `CTC Pulse Report`,
         `Version: ${VERSION}`,
         `Active tab: ${activeTab}`,
-        `Visible log rows: ${typeof getVisibleLogRowCount === "function" ? getVisibleLogRowCount() : 0}`,
+        `Visible log rows: ${getVisibleLogRowCount()}`,
         `Active hours lines: ${activeRows.length}`,
-        `Total hours lines: ${Array.isArray(hoursRows) ? hoursRows.length : 0}`,
-        `Expected hours: ${Number(summary.expected || 0).toFixed(1)}`,
-        `Logged hours: ${Number(summary.total || 0).toFixed(1)}`,
-        `Remaining: ${Number(summary.remaining || 0).toFixed(1)}`,
-        `Downtime hours: ${Number(summary.downtime || 0).toFixed(1)}`,
-        `Hours readiness: ${typeof computeHoursReadyText === "function" ? computeHoursReadyText() : "Unavailable"}`,
-        `Downtime rows missing valid comment: ${summary.invalidDowntimeRows?.length || 0}`,
-        `Rows missing detail: ${summary.missingDetailRows?.length || 0}`,
-        `Rows missing hours: ${summary.missingHoursRows?.length || 0}`,
-        `Header date: ${bannerFields?.date || "n/a"}`,
+        `Total hours lines: ${hoursRows.length}`,
+        `Expected hours: ${summary.expected.toFixed(1)}`,
+        `Logged hours: ${summary.total.toFixed(1)}`,
+        `Remaining: ${summary.remaining.toFixed(1)}`,
+        `Downtime hours: ${summary.downtime.toFixed(1)}`,
+        `Hours readiness: ${computeHoursReadyText()}`,
+        `Downtime rows missing valid comment: ${summary.invalidDowntimeRows.length}`,
+        `Rows missing detail: ${summary.missingDetailRows.length}`,
+        `Rows missing hours: ${summary.missingHoursRows.length}`,
+        `Header date: ${bannerFields.date || "n/a"}`,
         `Timestamp: ${new Date().toLocaleString()}`,
         ``,
         `Issues:`,
-        ...issues,
-        ``,
-        `Recent JS errors:`,
-        ...errorLines
-      ].join("
-");
+        ...issues
+      ].join("\n");
     }
 
 function runCtcPulseScan(){
@@ -2506,12 +2460,7 @@ ${report}`;
         e.stopPropagation();
         const opening = ctcPulsePanel.hidden;
         ctcPulsePanel.hidden = !ctcPulsePanel.hidden;
-        if (opening) {
-          syncCtcPulseSnapshot();
-          if (ctcPulseReport && ctcPulseReport.textContent.startsWith("Press Run Scan")) {
-            ctcPulseReport.textContent = buildCtcPulseReport();
-          }
-        }
+        if (opening) syncCtcPulseSnapshot();
       });
       ctcPulsePanel.addEventListener("click", (e) => e.stopPropagation());
       const runBtn = document.getElementById("ctc-pulse-run");
