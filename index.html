@@ -207,7 +207,7 @@
 
 
 
-    .hours-mode-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .hours-mode-grid{display:grid;grid-template-columns:1fr;gap:10px}
     .hours-mode-card{border:none;border-radius:0;background:transparent;padding:0}
     .hours-mode-card .small{margin-bottom:6px !important}
     .toggle-bar{display:flex;gap:8px;flex-wrap:wrap;padding:0;border:none;border-radius:0;background:transparent}
@@ -217,14 +217,7 @@
     .toggle-btn:hover{transform:translateY(-1px)}
     .toggle-btn.active{border-color:#0f172a;box-shadow:0 0 0 2px rgba(15,23,42,.08);background:#f8fafc}
     .hours-reference-note{margin-top:10px;border:1px dashed var(--line);border-radius:12px;background:var(--soft);padding:10px 12px;font-size:12px;color:#334155;line-height:1.55}
-    .shift-selector-wrap{display:flex;flex-direction:column;gap:6px}
-    .shift-button-bar{display:flex;gap:8px;flex-wrap:wrap}
-    .shift-btn{flex:1 1 160px;text-align:center;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--text);padding:10px 12px;font-size:12px;font-weight:800;cursor:pointer;transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease}
-    .shift-btn:hover{transform:translateY(-1px)}
-    .shift-btn.active{border-color:#0f172a;box-shadow:0 0 0 2px rgba(15,23,42,.08);background:#f8fafc}
-    body[data-theme="clarity"] .shift-btn{border-color:#8ea2bf;background:#fff;color:#10233d}
-    body[data-theme="clarity"] .shift-btn.active{border-color:#163b69;box-shadow:0 0 0 2px rgba(22,59,105,.12);background:#eef4ff}
-    .hours-basis-shell.hidden-on-trade{display:none !important}
+                                .hours-basis-shell.hidden-on-trade{display:none !important}
 
     .hours-summary-grid--wide{grid-template-columns:repeat(6,minmax(0,1fr))}
     .hours-tech-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}
@@ -449,7 +442,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.69-shiftfix-helpqueue</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.70-auto-shift-coverage</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -672,41 +665,17 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
       </div>
 
       <div class="section-card hours-basis-shell" id="hours-basis-shell">
-        <div class="section-title">Hours Basis</div>
+        <div class="section-title">View Mode</div>
         <div class="hours-mode-grid">
           <div class="hours-mode-card">
-            <div class="small" style="font-weight:700;color:#334155;margin-bottom:8px">View Mode</div>
+            <div class="small" style="font-weight:700;color:#334155;margin-bottom:8px">Cell Hours View</div>
             <div class="toggle-bar" id="hours-view-mode-bar">
               <button class="toggle-btn" type="button" data-hours-view-mode="tech">Technician Logging</button>
               <button class="toggle-btn" type="button" data-hours-view-mode="trade">Trade Coverage View</button>
             </div>
           </div>
-          <div class="hours-mode-card">
-            <div class="small" style="font-weight:700;color:#334155;margin-bottom:8px">Work Pattern</div>
-            <div class="toggle-bar" id="hours-work-pattern-bar">
-              <button class="toggle-btn" type="button" data-hours-work-pattern="5x8">5 × 8s</button>
-              <button class="toggle-btn" type="button" data-hours-work-pattern="4x10">4 × 10s</button>
-              <button class="toggle-btn" type="button" data-hours-work-pattern="3x12">3 × 12s</button>
-            </div>
-          </div>
         </div>
-        <div class="hours-reference-note" id="hours-mode-note">Technician logging basis is separate from the trade coverage interpretation.</div>
-      </div>
-
-      <div class="section-card">
-        <div class="section-title">Shift Basis</div>
-        <div class="shift-selector-wrap">
-          <div class="small" style="font-weight:700;color:#334155">Shift Window</div>
-          <div class="shift-button-bar" id="hours-shift-basis-bar">
-            <button class="shift-btn" type="button" data-shift-basis="weekday-day">Weekday Day Shift (5a–5p)</button>
-            <button class="shift-btn" type="button" data-shift-basis="weekday-night">Weekday Night Shift (5p–5a)</button>
-            <button class="shift-btn" type="button" data-shift-basis="weekend-day">Weekend Day Shift (7a–7p)</button>
-            <button class="shift-btn" type="button" data-shift-basis="weekend-night">Weekend Night Shift (7p–7a)</button>
-            <button class="shift-btn" type="button" data-shift-basis="friday-extended">Friday Coverage (5a–7p)</button>
-            <button class="shift-btn" type="button" data-shift-basis="sunday-night">Sunday Night Coverage (7p–5a)</button>
-          </div>
-          <div class="hours-reference-note" id="hours-shift-basis-note">Selected shift basis drives the trade-side coverage window for this cell and date.</div>
-        </div>
+        <div class="hours-reference-note" id="hours-mode-note">Technician logging stays simple. Trade coverage is interpreted automatically from the selected date and header start time.</div>
       </div>
 
       <div class="section-card">
@@ -927,7 +896,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
   </section>
 
   <script>
-    const VERSION = "1.0.69-shiftfix-helpqueue";
+    const VERSION = "1.0.70-auto-shift-coverage";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -951,14 +920,6 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
     const WEEKEND_UPDATE_STORAGE_KEY = "ctcWeekendDailyUpdate";
     const WEEKEND_TC_STATUS_OPTIONS = ["","Cell Cal","Cold Soak","Data Review","Down, Not Running","Emission Carts","Facilities","Install","No Engine","Parts","Running"];
     const WEEKEND_HELP_OPTIONS = ["","No","Yes"];
-    const SHIFT_BASIS_OPTIONS = {
-      "weekday-day": { label: "Weekday Day Shift", window: "5a–5p", coverageHours: 12, startHour: 5, endHour: 17 },
-      "weekday-night": { label: "Weekday Night Shift", window: "5p–5a", coverageHours: 12, startHour: 17, endHour: 5 },
-      "weekend-day": { label: "Weekend Day Shift", window: "7a–7p", coverageHours: 12, startHour: 7, endHour: 19 },
-      "weekend-night": { label: "Weekend Night Shift", window: "7p–7a", coverageHours: 12, startHour: 19, endHour: 7 },
-      "friday-extended": { label: "Friday Coverage", window: "5a–7p", coverageHours: 14, startHour: 5, endHour: 19 },
-      "sunday-night": { label: "Sunday Night Coverage", window: "7p–5a", coverageHours: 10, startHour: 19, endHour: 5 }
-    };
     const TEST_CELL_OPTIONS = Array.from({length:16}, (_, index) => String(201 + index)).concat(Array.from({length:16}, (_, index) => String(301 + index))).concat(["417"]);
     document.getElementById("version-label").textContent = VERSION;
 
@@ -984,7 +945,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
 
     let bannerFields = {engineModel:"Titanium",engineSN:"80728265",engineer:"A. McCalment",pph:"E6640",testCell:"204",testPlanId:"TIHD2A-EN-B2P10",technician:"Joey Poppe",shift:"6W",date:getTodayISO(),startTime:"07:00 AM",endTime:"07:00 PM",cellHourMeter:"094"};
     bannerFields.date = normalizeDateValue(bannerFields.date) || getTodayISO();
-    let hoursSheet = {expectedHours:"12", shiftNote:"", workPattern:"3x12", viewMode:"tech", shiftBasis:"weekday-day"};
+    let hoursSheet = {expectedHours:"12", shiftNote:"", workPattern:"3x12", viewMode:"tech"};
     let hoursRows = Array.from({length:4}, (_, index) => ({
       id:Date.now() + index,
       status:"Running",
@@ -1013,7 +974,8 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
     function currentHoursSheetKey(fields = bannerFields){
       const iso = normalizeDateValue(fields?.date || "") || "no-date";
       const cell = String(fields?.testCell || "no-cell");
-      return `${iso}|${cell}`;
+      const start = String(fields?.startTime || "unspecified");
+      return `${iso}|${cell}|${start}`;
     }
     function snapshotBannerForHours(fields = bannerFields){
       return {
@@ -1022,7 +984,9 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
         shift: String(fields?.shift || ""),
         cellHourMeter: String(fields?.cellHourMeter || ""),
         technician: String(fields?.technician || ""),
-        engineer: String(fields?.engineer || "")
+        engineer: String(fields?.engineer || ""),
+        startTime: String(fields?.startTime || ""),
+        endTime: String(fields?.endTime || "")
       };
     }
     function cloneHoursSheetState(sheet = hoursSheet){
@@ -1030,8 +994,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
         expectedHours: String(sheet?.expectedHours || "0"),
         shiftNote: String(sheet?.shiftNote || ""),
         workPattern: sheet?.workPattern || "3x12",
-        viewMode: sheet?.viewMode || "tech",
-        shiftBasis: sheet?.shiftBasis || "weekday-day"
+        viewMode: sheet?.viewMode || "tech"
       };
     }
     function normalizeHoursRows(rows){
@@ -1061,7 +1024,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
       } else {
         const basePattern = hoursSheet?.workPattern || "3x12";
         const baseHours = (WORK_PATTERNS[basePattern] || WORK_PATTERNS["3x12"]).hours;
-        hoursSheet = {expectedHours:String(baseHours), shiftNote:"", workPattern:basePattern, viewMode:hoursSheet?.viewMode || "tech", shiftBasis:hoursSheet?.shiftBasis || "weekday-day"};
+        hoursSheet = {expectedHours:String(baseHours), shiftNote:"", workPattern:basePattern, viewMode:hoursSheet?.viewMode || "tech"};
         hoursRows = Array.from({length:4}, (_, index) => ({id:Date.now() + index,status:"Running",detail:"Running Per Plan",comment:"",hours:""}));
         saveCurrentHoursSheet();
       }
@@ -1125,9 +1088,6 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
     const hoursViewCopy = document.getElementById("hours-view-copy");
     const hoursTradeReferenceCopy = document.getElementById("hours-trade-reference-copy");
 const hoursBasisShell = document.getElementById("hours-basis-shell");
-const hoursShiftBasisSection = document.getElementById("hours-shift-basis-bar")?.closest(".section-card");
-const hoursShiftBasisBar = document.getElementById("hours-shift-basis-bar");
-const hoursShiftBasisNote = document.getElementById("hours-shift-basis-note");
     const hoursAddRow = document.getElementById("hours-add-row");
     const hoursRowsBody = document.getElementById("hours-rows-body");
     const hoursRunningBreakdown = document.getElementById("hours-running-breakdown");
@@ -1224,27 +1184,6 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       `).join("");
     }
     
-function initShiftBasisControls(){
-      if (!hoursShiftBasisBar) return;
-      const applyShiftButtons = () => {
-        hoursShiftBasisBar.querySelectorAll("[data-shift-basis]").forEach(btn => {
-          btn.classList.toggle("active", btn.dataset.shiftBasis === hoursSheet.shiftBasis);
-        });
-        const selected = SHIFT_BASIS_OPTIONS[hoursSheet.shiftBasis] || SHIFT_BASIS_OPTIONS["weekday-day"];
-        if (hoursShiftBasisNote) {
-          hoursShiftBasisNote.textContent = `${selected.label} sets the trade-side coverage window to ${selected.window} (${selected.coverageHours} hours) for this cell/date.`;
-        }
-      };
-      hoursShiftBasisBar.querySelectorAll("[data-shift-basis]").forEach(btn => {
-        btn.addEventListener("click", () => {
-          hoursSheet.shiftBasis = btn.dataset.shiftBasis;
-          saveCurrentHoursSheet();
-          renderHours();
-          applyShiftButtons();
-        });
-      });
-      applyShiftButtons();
-    }
 
 function initHoursModeControls(){
       if (hoursViewModeBar) {
@@ -1580,7 +1519,7 @@ function renderHeaderFields(){
       const previousFields = deepClone(bannerFields);
       bannerFields[key] = key === "date" ? normalizeDateValue(e.target.value) || e.target.value : e.target.value;
       if (key === "date") e.target.value = normalizeDateValue(bannerFields[key] || "") || "";
-      if (key === "date" || key === "testCell") {
+      if (key === "date" || key === "testCell" || key === "startTime") {
         saveCurrentHoursSheet(previousFields);
         loadHoursSheetForCurrentContext();
         renderHours();
@@ -1625,17 +1564,67 @@ function renderForm(){
       return WORK_PATTERNS[hoursSheet.workPattern] || WORK_PATTERNS["3x12"];
     }
 function getCoverageWindowInfo(fields = bannerFields){
-  const iso = normalizeDateValue(fields?.date || "");
-  if (!iso) return { dayLabel:"No log date", window:"Set the session date to view coverage.", hours:0, note:"Coverage span uses the session date from the header." };
-  const date = new Date(`${iso}T12:00:00`);
-  if (Number.isNaN(date.getTime())) return { dayLabel:"Invalid date", window:"Update the session date.", hours:0, note:"Coverage span uses the session date from the header." };
-  const day = date.getDay();
-  const dayName = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][day];
-  if (day >= 1 && day <= 4) return { dayLabel:dayName, window:"5a–5p / 5p–5a", hours:12, note:`${dayName} follows the standard 12-hour day/night coverage blocks.` };
-  if (day === 5) return { dayLabel:dayName, window:"5a–7p", hours:14, note:"Friday coverage extends across a 14-hour daytime span for trade review." };
-  if (day === 6) return { dayLabel:dayName, window:"7a–7p / 7p–7a", hours:12, note:"Saturday is tracked as 12-hour day and night weekend blocks." };
-  return { dayLabel:dayName, window:"7p–5a", hours:10, note:"Sunday trade reference follows the 10-hour overnight span." };
-}
+      const iso = normalizeDateValue(fields?.date || "");
+      const parsed = iso ? new Date(`${iso}T12:00:00`) : new Date();
+      const dayIndex = parsed.getDay();
+      const dayName = parsed.toLocaleDateString(undefined, { weekday:"long" });
+      const monthName = parsed.toLocaleDateString(undefined, { month:"long" });
+      const startText = String(fields?.startTime || "").toLowerCase().trim();
+
+      function parseHour24(value){
+        const match = value.match(/(\d{1,2})(?::(\d{2}))?\s*([ap]m)?/i);
+        if (!match) return null;
+        let hour = Number(match[1]) % 12;
+        const meridiem = (match[3] || "").toLowerCase();
+        if (meridiem === "pm") hour += 12;
+        if (meridiem === "am" && Number(match[1]) === 12) hour = 0;
+        return hour;
+      }
+
+      const startHour = parseHour24(startText);
+      let shiftLabel = "Schedule Reference";
+      let window = "5a–5p / 5p–5a";
+      let coverageHours = 12;
+
+      if (dayIndex >= 1 && dayIndex <= 4) {
+        if (startHour !== null && startHour >= 12) {
+          shiftLabel = "Weekday Night Shift";
+          window = "5p–5a";
+          coverageHours = 12;
+        } else {
+          shiftLabel = "Weekday Day Shift";
+          window = "5a–5p";
+          coverageHours = 12;
+        }
+      } else if (dayIndex === 5) {
+        if (startHour !== null && startHour >= 12) {
+          shiftLabel = "Friday Night Shift";
+          window = "5p–5a";
+          coverageHours = 12;
+        } else {
+          shiftLabel = "Friday Coverage";
+          window = "5a–7p";
+          coverageHours = 14;
+        }
+      } else if (dayIndex === 6) {
+        if (startHour !== null && startHour >= 12) {
+          shiftLabel = "Weekend Night Shift";
+          window = "7p–7a";
+          coverageHours = 12;
+        } else {
+          shiftLabel = "Weekend Day Shift";
+          window = "7a–7p";
+          coverageHours = 12;
+        }
+      } else if (dayIndex === 0) {
+        shiftLabel = "Sunday Night Coverage";
+        window = "7p–5a";
+        coverageHours = 10;
+      }
+
+      return { dayName, monthName, window, coverageHours, shiftLabel, startHour };
+    }
+
 function getSessionDateInfo(fields = bannerFields){
   const iso = normalizeDateValue(fields?.date || "");
   const date = iso ? new Date(`${iso}T12:00:00`) : null;
@@ -1684,7 +1673,7 @@ function getHoursTradeRecords(){
     const banner = record.bannerSnapshot || {};
     const session = getSessionDateInfo(banner);
     const sheet = cloneHoursSheetState(record.hoursSheet || {});
-    const coverage = getCoverageWindowInfo(banner, sheet);
+    const coverage = getCoverageWindowInfo(banner);
     const tokens = [
       session.display,
       session.dayName,
@@ -1740,7 +1729,7 @@ function renderTradeCoverageView(){
 
   if (!records.length) {
     tradeCollection.innerHTML = `<div class="trade-empty-card">No logged cell hours match the current trades filters yet. Enter hours on the billable worksheet, or widen the date/hour filters.</div>`;
-    if (tradeReferenceNote) tradeReferenceNote.textContent = "Trades view will show one clean grouped sheet per active test cell.";
+    if (tradeReferenceNote) tradeReferenceNote.textContent = "Trades view will show one clean grouped sheet per active test cell and saved shift.";
     return;
   }
 
@@ -1830,8 +1819,6 @@ function renderHours(){
       }
       if (hoursTechSection) hoursTechSection.hidden = hoursSheet.viewMode !== "tech";
       if (hoursTradeSection) hoursTradeSection.hidden = hoursSheet.viewMode !== "trade";
-      if (hoursBasisShell) hoursBasisShell.classList.toggle("hidden-on-trade", hoursSheet.viewMode === "trade");
-      if (hoursShiftBasisSection) hoursShiftBasisSection.classList.toggle("hidden-on-trade", hoursSheet.viewMode === "trade");
       if (hoursTechSummary) hoursTechSummary.hidden = hoursSheet.viewMode === "trade";
       if (hoursExpectedInput) hoursExpectedInput.disabled = hoursSheet.viewMode === "trade";
       if (hoursAddRow) hoursAddRow.disabled = hoursSheet.viewMode === "trade";
@@ -2662,7 +2649,6 @@ ${report}`;
     renderHours();
     renderHandoffs();
     initTabs();
-    initShiftBasisControls();
     initToolbar();
     initSettings();
     initHoursModeControls();
