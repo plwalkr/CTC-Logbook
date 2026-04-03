@@ -207,7 +207,7 @@
 
 
 
-    .hours-mode-grid{display:grid;grid-template-columns:1fr;gap:10px}
+    .hours-mode-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
     .hours-mode-card{border:none;border-radius:0;background:transparent;padding:0}
     .hours-mode-card .small{margin-bottom:6px !important}
     .toggle-bar{display:flex;gap:8px;flex-wrap:wrap;padding:0;border:none;border-radius:0;background:transparent}
@@ -217,7 +217,7 @@
     .toggle-btn:hover{transform:translateY(-1px)}
     .toggle-btn.active{border-color:#0f172a;box-shadow:0 0 0 2px rgba(15,23,42,.08);background:#f8fafc}
     .hours-reference-note{margin-top:10px;border:1px dashed var(--line);border-radius:12px;background:var(--soft);padding:10px 12px;font-size:12px;color:#334155;line-height:1.55}
-                                .hours-basis-shell.hidden-on-trade{display:none !important}
+    .hours-basis-shell.hidden-on-trade{display:none !important}
 
     .hours-summary-grid--wide{grid-template-columns:repeat(6,minmax(0,1fr))}
     .hours-tech-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}
@@ -442,7 +442,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.70-auto-shift-coverage</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.70b-auto-shift-safe</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -665,17 +665,25 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
       </div>
 
       <div class="section-card hours-basis-shell" id="hours-basis-shell">
-        <div class="section-title">View Mode</div>
+        <div class="section-title">Hours Basis</div>
         <div class="hours-mode-grid">
           <div class="hours-mode-card">
-            <div class="small" style="font-weight:700;color:#334155;margin-bottom:8px">Cell Hours View</div>
+            <div class="small" style="font-weight:700;color:#334155;margin-bottom:8px">View Mode</div>
             <div class="toggle-bar" id="hours-view-mode-bar">
               <button class="toggle-btn" type="button" data-hours-view-mode="tech">Technician Logging</button>
               <button class="toggle-btn" type="button" data-hours-view-mode="trade">Trade Coverage View</button>
             </div>
           </div>
+          <div class="hours-mode-card">
+            <div class="small" style="font-weight:700;color:#334155;margin-bottom:8px">Work Pattern</div>
+            <div class="toggle-bar" id="hours-work-pattern-bar">
+              <button class="toggle-btn" type="button" data-hours-work-pattern="5x8">5 × 8s</button>
+              <button class="toggle-btn" type="button" data-hours-work-pattern="4x10">4 × 10s</button>
+              <button class="toggle-btn" type="button" data-hours-work-pattern="3x12">3 × 12s</button>
+            </div>
+          </div>
         </div>
-        <div class="hours-reference-note" id="hours-mode-note">Technician logging stays simple. Trade coverage is interpreted automatically from the selected date and header start time.</div>
+        <div class="hours-reference-note" id="hours-mode-note">Technician logging basis is separate from the trade coverage interpretation.</div>
       </div>
 
       <div class="section-card">
@@ -896,7 +904,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
   </section>
 
   <script>
-    const VERSION = "1.0.70-auto-shift-coverage";
+    const VERSION = "1.0.70b-auto-shift-safe";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -1673,7 +1681,7 @@ function getHoursTradeRecords(){
     const banner = record.bannerSnapshot || {};
     const session = getSessionDateInfo(banner);
     const sheet = cloneHoursSheetState(record.hoursSheet || {});
-    const coverage = getCoverageWindowInfo(banner);
+    const coverage = getCoverageWindowInfo(banner, sheet);
     const tokens = [
       session.display,
       session.dayName,
