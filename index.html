@@ -260,6 +260,17 @@
 .trade-cell-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap}
 .trade-cell-title{font-size:18px;font-weight:800;color:#0f172a}
 .trade-cell-stamp{font-size:11px;color:var(--muted);line-height:1.45;margin-top:4px}
+.hours-day-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.hours-day-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800;cursor:pointer}
+.hours-day-input{padding:8px 10px;border:1px solid #dbe3ed;border-radius:10px;background:#fff;color:var(--text)}
+.hours-day-note{font-size:12px;color:#475569}
+.trade-session-chunk{border-top:1px dashed #e2e8f0;padding-top:12px;margin-top:12px}
+.trade-session-chunk:first-of-type{border-top:none;padding-top:0;margin-top:0}
+.trade-session-stamp{font-size:11px;color:var(--muted);line-height:1.45;margin-bottom:8px}
+body[data-theme="clarity"] .hours-day-btn,
+body[data-theme="clarity"] .hours-day-input{border-color:#8ea2bf;background:#fff;color:#10233d}
+body[data-theme="clarity"] .trade-session-chunk{border-top-color:#9aa7bd}
+
 .trade-strip[hidden]{display:none !important}
 .trade-cell-head{margin-bottom:12px}
 .trade-mini-strip{margin-top:2px}
@@ -452,7 +463,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.75-trades-runlogic-colors</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.76-dayselector-tradechunks</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -697,6 +708,18 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       </div>
 
       <div class="section-card">
+        <div class="section-title">Input Day</div>
+        <div class="hours-day-bar">
+          <button class="hours-day-btn" type="button" id="hours-day-today">Today</button>
+          <button class="hours-day-btn" type="button" id="hours-day-prev">Previous Day</button>
+          <button class="hours-day-btn" type="button" id="hours-day-next">Next Day</button>
+          <input class="hours-day-input" id="hours-day-input" type="date" />
+          <span class="pill">Selected Day: <span id="hours-selected-day-label" style="margin-left:6px">—</span></span>
+        </div>
+        <div class="hours-day-note">This stays synced to the log date used for billable entry and trade grouping.</div>
+      </div>
+
+      <div class="section-card">
         <div class="section-title">Hours Filters</div>
         <div class="hours-filter-row">
           <input id="hours-filter-search" class="search" placeholder="Search detail, comment, status, day, month, cell..." />
@@ -924,7 +947,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.75-trades-runlogic-colors";
+    const VERSION = "1.0.76-dayselector-tradechunks";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -1116,6 +1139,11 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     const hoursViewTitle = document.getElementById("hours-view-title");
     const hoursViewCopy = document.getElementById("hours-view-copy");
     const hoursTradeReferenceCopy = document.getElementById("hours-trade-reference-copy");
+    const hoursDayTodayBtn = document.getElementById("hours-day-today");
+    const hoursDayPrevBtn = document.getElementById("hours-day-prev");
+    const hoursDayNextBtn = document.getElementById("hours-day-next");
+    const hoursDayInput = document.getElementById("hours-day-input");
+    const hoursSelectedDayLabel = document.getElementById("hours-selected-day-label");
     const hoursAddRow = document.getElementById("hours-add-row");
     const hoursRowsBody = document.getElementById("hours-rows-body");
     const hoursRunningBreakdown = document.getElementById("hours-running-breakdown");
@@ -1526,6 +1554,33 @@ function renderWeekendDailyUpdate(){
   });
 }
 
+
+function syncHoursDayControls(){
+  const iso = normalizeDateValue(bannerFields.date || "") || getTodayISO();
+  const info = getSessionDateInfo({ date: iso });
+  if (hoursDayInput) hoursDayInput.value = iso;
+  if (hoursSelectedDayLabel) hoursSelectedDayLabel.textContent = info.display;
+}
+
+function setHoursInputDay(nextIso){
+  const normalized = normalizeDateValue(nextIso);
+  if (!normalized) return;
+  const previousFields = deepClone(bannerFields);
+  bannerFields.date = normalized;
+  saveCurrentHoursSheet(previousFields);
+  loadHoursSheetForCurrentContext();
+  renderHeaderFields();
+  renderHours();
+  syncHoursDayControls();
+}
+
+function shiftHoursInputDay(offsetDays){
+  const baseIso = normalizeDateValue(bannerFields.date || "") || getTodayISO();
+  const baseDate = new Date(`${baseIso}T12:00:00`);
+  baseDate.setDate(baseDate.getDate() + offsetDays);
+  setHoursInputDay(baseDate.toISOString().slice(0,10));
+}
+
 function renderHeaderFields(){
   headerGrid.innerHTML = bannerConfig.map(([label,key]) => {
     if (key === "testCell") {
@@ -1563,6 +1618,7 @@ function renderHeaderFields(){
       }
     });
   });
+  syncHoursDayControls();
 }
 
 function renderForm(){
@@ -1797,6 +1853,13 @@ function renderTradeCoverageView(){
     return;
   }
 
+  const grouped = records.reduce((map, record) => {
+    const cell = String(record.banner.testCell || "—");
+    if (!map.has(cell)) map.set(cell, []);
+    map.get(cell).push(record);
+    return map;
+  }, new Map());
+
   const buildRows = (title, slotLabels, itemsMap, subtotal) => {
     const rows = [`<tr class="section-row"><td colspan="3">${escapeHtml(title)}</td></tr>`];
     slotLabels.forEach(label => {
@@ -1811,54 +1874,73 @@ function renderTradeCoverageView(){
     return rows.join("");
   };
 
-  tradeCollection.innerHTML = records.map(record => {
-    const runningEntries = summarizeHoursRows(record.rows, "Running");
-    const downtimeEntries = summarizeHoursRows(record.rows, "Downtime");
-    const runningMap = new Map(runningEntries);
-    const downtimeMap = new Map(downtimeEntries);
-    const runningSubtotal = runningEntries.reduce((sum, [, data]) => sum + data.hours, 0);
-    const downtimeSubtotal = downtimeEntries.reduce((sum, [, data]) => sum + data.hours, 0);
-    const total = runningSubtotal + downtimeSubtotal;
+  tradeCollection.innerHTML = Array.from(grouped.entries()).sort((a,b) => Number(a[0]) - Number(b[0])).map(([cell, cellRecords]) => {
+    const chunks = cellRecords.sort((a,b) => {
+      const dateCmp = String(a.session.iso || "").localeCompare(String(b.session.iso || ""));
+      if (dateCmp !== 0) return dateCmp;
+      return String(a.banner.startTime || "").localeCompare(String(b.banner.startTime || ""));
+    }).map(record => {
+      const runningEntries = summarizeHoursRows(record.rows, "Running");
+      const downtimeEntries = summarizeHoursRows(record.rows, "Downtime");
+      const runningMap = new Map(runningEntries);
+      const downtimeMap = new Map(downtimeEntries);
+      const runningSubtotal = runningEntries.reduce((sum, [, data]) => sum + data.hours, 0);
+      const downtimeSubtotal = downtimeEntries.reduce((sum, [, data]) => sum + data.hours, 0);
+      const total = runningSubtotal + downtimeSubtotal;
 
-    const shortDate = record.session.valid
-      ? new Date(`${record.session.iso}T12:00:00`).toLocaleDateString([], {weekday:"short", month:"short", day:"numeric"})
-      : record.session.display;
+      const shortDate = record.session.valid
+        ? new Date(`${record.session.iso}T12:00:00`).toLocaleDateString([], {weekday:"short", month:"short", day:"numeric"})
+        : record.session.display;
 
-    const stamp = [shortDate].filter(Boolean).join(" · ");
+      const stamp = [
+        shortDate,
+        record.banner.shift ? `Shift ${record.banner.shift}` : null,
+        record.banner.startTime ? `Start ${record.banner.startTime}${record.banner.endTime ? " → " + record.banner.endTime : ""}` : null,
+        record.banner.cellHourMeter ? `Meter ${record.banner.cellHourMeter}` : null,
+        `Coverage ${record.coverage.window}`
+      ].filter(Boolean).join(" · ");
 
-    return `
-      <section class="trade-cell-card">
-        <div class="trade-cell-head">
-          <div>
-            <div class="trade-cell-title">Cell ${escapeHtml(record.banner.testCell || "—")}</div>
-            <div class="trade-cell-stamp">${escapeHtml(stamp)}</div>
-          </div>
+      return `
+        <div class="trade-session-chunk">
+          <div class="trade-session-stamp">${escapeHtml(stamp)}</div>
           <div class="trade-mini-strip">
             <span class="trade-mini-pill">Tech ${escapeHtml(record.coverage.techHours.toFixed(1))}h · ${escapeHtml(record.coverage.techWindow)}</span>
             <span class="trade-mini-pill">${escapeHtml(record.coverage.tradeRunLabel)} · ${escapeHtml(record.coverage.hours.toFixed(1))}h</span>
             <span class="trade-mini-pill">Logged ${total.toFixed(1)} hrs</span>
           </div>
+          <table class="trade-table">
+            <thead>
+              <tr>
+                <th class="col-group">Hour Group</th>
+                <th class="col-hours">Hours</th>
+                <th class="col-notes">Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${buildRows("Running Hours", runningHourDetails, runningMap, runningSubtotal)}
+              ${buildRows("Downtime Hours", downtimeHourDetails, downtimeMap, downtimeSubtotal)}
+              <tr class="grandtotal-row"><td>Total logged hours</td><td class="col-hours">${total.toFixed(1)}</td><td>${escapeHtml(record.banner.technician || "—")}</td></tr>
+            </tbody>
+          </table>
         </div>
-        <table class="trade-table">
-          <thead>
-            <tr>
-              <th class="col-group">Hour Group</th>
-              <th class="col-hours">Hours</th>
-              <th class="col-notes">Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${buildRows("Running Hours", runningHourDetails, runningMap, runningSubtotal)}
-            ${buildRows("Downtime Hours", downtimeHourDetails, downtimeMap, downtimeSubtotal)}
-            <tr class="grandtotal-row"><td>Total logged hours</td><td class="col-hours">${total.toFixed(1)}</td><td>${escapeHtml(record.banner.technician || "—")}</td></tr>
-          </tbody>
-        </table>
+      `;
+    }).join("");
+
+    return `
+      <section class="trade-cell-card">
+        <div class="trade-cell-head">
+          <div>
+            <div class="trade-cell-title">Cell ${escapeHtml(cell)}</div>
+            <div class="trade-cell-stamp">All saved day/shift chunks for this test cell stay together in one review bubble.</div>
+          </div>
+        </div>
+        ${chunks}
       </section>
     `;
   }).join("");
 
   if (tradeReferenceNote) {
-    tradeReferenceNote.textContent = `${records.length} active cell bubble(s) shown. Trades now separate confirmed 10-hour, 12-hour, and Thu→Fri 14-hour runs while keeping each saved cell shift in one review card.`;
+    tradeReferenceNote.textContent = `${records.length} active saved shift chunk(s) shown. Trades now keep each test cell in one bubble, with separate day/shift chunks inside it.`;
   }
 }
 
@@ -2699,6 +2781,12 @@ ${report}`;
       });
       syncCtcPulseSnapshot();
     }
+
+
+    if (hoursDayTodayBtn) hoursDayTodayBtn.addEventListener("click", () => setHoursInputDay(getTodayISO()));
+    if (hoursDayPrevBtn) hoursDayPrevBtn.addEventListener("click", () => shiftHoursInputDay(-1));
+    if (hoursDayNextBtn) hoursDayNextBtn.addEventListener("click", () => shiftHoursInputDay(1));
+    if (hoursDayInput) hoursDayInput.addEventListener("input", () => setHoursInputDay(hoursDayInput.value));
 
     if (weekendDateInput) {
       weekendDateInput.value = normalizeDateValue(bannerFields.date || "") || getTodayISO();
