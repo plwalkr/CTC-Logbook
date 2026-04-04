@@ -356,15 +356,15 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     .weekend-inline-input.comments{min-width:240px}
     .weekend-status-pill{display:inline-flex;align-items:center;justify-content:center;padding:6px 9px;border-radius:999px;border:1px solid #e2e8f0;background:#f8fafc;font-size:11px;font-weight:800;letter-spacing:.02em}
     .weekend-row-status-running .weekend-status-pill{background:#dcfce7;color:#166534;border-color:#bbf7d0}
-    .weekend-row-status-datareview .weekend-status-pill{background:#fee2e2;color:#b91c1c;border-color:#fecaca}
-    .weekend-row-status-downnotrunning .weekend-status-pill{background:#dcfce7;color:#166534;border-color:#86efac}
+    .weekend-row-status-datareview .weekend-status-pill{background:#fef3c7;color:#92400e;border-color:#fde68a}
+    .weekend-row-status-downnotrunning .weekend-status-pill{background:#fee2e2;color:#b91c1c;border-color:#fecaca}
     .weekend-row-status-coldsoak .weekend-status-pill{background:#dbeafe;color:#1d4ed8;border-color:#bfdbfe}
     .weekend-row-status-cellcal .weekend-status-pill{background:#fef3c7;color:#92400e;border-color:#fde68a}
     .weekend-row-status-emissioncarts .weekend-status-pill,
     .weekend-row-status-facilities .weekend-status-pill,
     .weekend-row-status-install .weekend-status-pill,
     .weekend-row-status-noengine .weekend-status-pill,
-    .weekend-row-status-parts .weekend-status-pill{background:#f1f5f9;color:#334155;border-color:#cbd5e1}
+    .weekend-row-status-parts .weekend-status-pill{background:#d1d5db;color:#374151;border-color:#9ca3af}
     .weekend-row-help-yes td{background:rgba(254,242,242,.55)}
     .weekend-header-note{font-size:12px;color:#475569;line-height:1.55}
     .weekend-help-panel{border:1px solid #fecaca;border-radius:14px;background:#fff7f7;padding:12px}
@@ -377,6 +377,9 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     .weekend-help-empty{font-size:12px;color:#7f1d1d}
     body[data-theme="clarity"] .weekend-help-panel,
     body[data-theme="clarity"] .weekend-help-card{border-color:#fdba74;background:#fffaf5}
+    body[data-theme="clarity"] .weekend-row-status-datareview .weekend-status-pill{background:#fff1cc;color:#8a4b00;border-color:#facc15}
+    body[data-theme="clarity"] .weekend-row-status-downnotrunning .weekend-status-pill{background:#fee2e2;color:#b91c1c;border-color:#fecaca}
+    body[data-theme="clarity"] .weekend-row-status-parts .weekend-status-pill{background:#d1d5db;color:#374151;border-color:#9ca3af}
 
     .weekend-empty-note{padding:18px 16px;border:1px dashed var(--line);border-radius:12px;background:var(--soft);font-size:13px;color:#475569}
 
@@ -449,7 +452,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.74b-tradebubble-slots-safe</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.75-trades-runlogic-colors</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -921,7 +924,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.74b-tradebubble-slots-safe";
+    const VERSION = "1.0.75-trades-runlogic-colors";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -999,7 +1002,8 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     function currentHoursSheetKey(fields = bannerFields){
       const iso = normalizeDateValue(fields?.date || "") || "no-date";
       const cell = String(fields?.testCell || "no-cell");
-      return `${iso}|${cell}`;
+      const start = String(fields?.startTime || "unspecified");
+      return `${iso}|${cell}|${start}`;
     }
     function snapshotBannerForHours(fields = bannerFields){
       return {
@@ -1008,7 +1012,9 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         shift: String(fields?.shift || ""),
         cellHourMeter: String(fields?.cellHourMeter || ""),
         technician: String(fields?.technician || ""),
-        engineer: String(fields?.engineer || "")
+        engineer: String(fields?.engineer || ""),
+        startTime: String(fields?.startTime || ""),
+        endTime: String(fields?.endTime || "")
       };
     }
     function cloneHoursSheetState(sheet = hoursSheet){
@@ -1105,6 +1111,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     const hoursReadinessCard = document.getElementById("hours-readiness-card");
     const hoursViewModeBar = document.getElementById("hours-view-mode-bar");
     const hoursWorkPatternBar = document.getElementById("hours-work-pattern-bar");
+    const hoursWorkPatternSection = hoursWorkPatternBar ? hoursWorkPatternBar.closest(".hours-mode-card") : null;
     const hoursModeNote = document.getElementById("hours-mode-note");
     const hoursViewTitle = document.getElementById("hours-view-title");
     const hoursViewCopy = document.getElementById("hours-view-copy");
@@ -1544,7 +1551,7 @@ function renderHeaderFields(){
       const previousFields = deepClone(bannerFields);
       bannerFields[key] = key === "date" ? normalizeDateValue(e.target.value) || e.target.value : e.target.value;
       if (key === "date") e.target.value = normalizeDateValue(bannerFields[key] || "") || "";
-      if (key === "date" || key === "testCell") {
+      if (key === "date" || key === "testCell" || key === "startTime") {
         saveCurrentHoursSheet(previousFields);
         loadHoursSheetForCurrentContext();
         renderHours();
@@ -1590,16 +1597,98 @@ function renderForm(){
     }
 function getCoverageWindowInfo(fields = bannerFields){
   const iso = normalizeDateValue(fields?.date || "");
-  if (!iso) return { dayLabel:"No log date", window:"Set the session date to view coverage.", hours:0, note:"Coverage span uses the session date from the header." };
+  if (!iso) return { dayLabel:"No log date", window:"Set the session date to view coverage.", hours:0, note:"Coverage span uses the session date from the header.", shiftLabel:"No shift", techWindow:"—", techHours:0, tradeRunLabel:"No run" };
   const date = new Date(`${iso}T12:00:00`);
-  if (Number.isNaN(date.getTime())) return { dayLabel:"Invalid date", window:"Update the session date.", hours:0, note:"Coverage span uses the session date from the header." };
+  if (Number.isNaN(date.getTime())) return { dayLabel:"Invalid date", window:"Update the session date.", hours:0, note:"Coverage span uses the session date from the header.", shiftLabel:"Invalid date", techWindow:"—", techHours:0, tradeRunLabel:"Invalid run" };
+
   const day = date.getDay();
   const dayName = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][day];
-  if (day >= 1 && day <= 4) return { dayLabel:dayName, window:"5a–5p / 5p–5a", hours:12, note:`${dayName} follows the standard 12-hour day/night coverage blocks.` };
-  if (day === 5) return { dayLabel:dayName, window:"5a–7p", hours:14, note:"Friday coverage extends across a 14-hour daytime span for trade review." };
-  if (day === 6) return { dayLabel:dayName, window:"7a–7p / 7p–7a", hours:12, note:"Saturday is tracked as 12-hour day and night weekend blocks." };
-  return { dayLabel:dayName, window:"7p–5a", hours:10, note:"Sunday trade reference follows the 10-hour overnight span." };
+  const startText = String(fields?.startTime || "").toLowerCase().trim();
+
+  function parseHour24(value){
+    const match = value.match(/(\d{1,2})(?::(\d{2}))?\s*([ap]m)?/i);
+    if (!match) return null;
+    let hour = Number(match[1]) % 12;
+    const meridiem = (match[3] || "").toLowerCase();
+    if (meridiem === "pm") hour += 12;
+    if (meridiem === "am" && Number(match[1]) === 12) hour = 0;
+    return hour;
+  }
+
+  const startHour = parseHour24(startText);
+  const isNight = startHour !== null && startHour >= 12;
+  const isWeekday = day >= 1 && day <= 4;
+  const isWeekendSchedule = day === 5 || day === 6 || day === 0;
+
+  let shiftLabel = "Tech Shift";
+  let techWindow = "—";
+  let techHours = 0;
+  let tradeRunLabel = "Trade Run";
+  let tradeWindow = "—";
+  let tradeHours = 0;
+  let note = "Trade interpretation follows the confirmed tech schedule and trade tracking rules.";
+
+  if (isWeekday) {
+    if (isNight) {
+      shiftLabel = "Weekday Night Tech Shift";
+      techWindow = "5p–3a";
+      techHours = 10;
+      if (day === 4) {
+        tradeRunLabel = "Thu→Fri Transition Run";
+        tradeWindow = "Thu 5p–Fri 7a";
+        tradeHours = 14;
+        note = "Thursday night carries into Friday and is tracked as a 14-hour trade transition run.";
+      } else {
+        tradeRunLabel = "Weekday 10-Hour Run";
+        tradeWindow = "5p–5a";
+        tradeHours = 10;
+        note = "Weekday nights are tracked by trades as part of the weekday 10-hour run logic.";
+      }
+    } else {
+      shiftLabel = "Weekday Day Tech Shift";
+      techWindow = "7a–5p";
+      techHours = 10;
+      tradeRunLabel = "Weekday 10-Hour Run";
+      tradeWindow = "7a–5p";
+      tradeHours = 10;
+      note = "Weekday day shifts are logged as 10-hour runs on the trade side.";
+    }
+  } else if (isWeekendSchedule) {
+    if (isNight) {
+      shiftLabel = "Weekend Night Tech Shift";
+      techWindow = "7p–7a";
+      techHours = 12;
+    } else {
+      shiftLabel = "Weekend Day Tech Shift";
+      techWindow = "7a–7p";
+      techHours = 12;
+    }
+
+    if (day === 5 && !isNight) {
+      tradeRunLabel = "Thu→Fri Transition Run";
+      tradeWindow = "Thu 5p–Fri 7a";
+      tradeHours = 14;
+      note = "Friday daytime trade review uses the Thu→Fri 14-hour transition run.";
+    } else {
+      tradeRunLabel = "Weekend 12-Hour Run";
+      tradeWindow = techWindow;
+      tradeHours = 12;
+      note = "Saturday and Sunday trade review uses the 12-hour weekend run logic.";
+    }
+  }
+
+  return {
+    dayLabel: dayName,
+    window: tradeWindow,
+    hours: tradeHours,
+    note,
+    shiftLabel,
+    techWindow,
+    techHours,
+    tradeRunLabel
+  };
 }
+
 function getSessionDateInfo(fields = bannerFields){
   const iso = normalizeDateValue(fields?.date || "");
   const date = iso ? new Date(`${iso}T12:00:00`) : null;
@@ -1658,6 +1747,8 @@ function getHoursTradeRecords(){
       banner.cellHourMeter || "",
       banner.technician || "",
       banner.engineer || "",
+      banner.startTime || "",
+      banner.endTime || "",
       (WORK_PATTERNS[sheet.workPattern] || WORK_PATTERNS["3x12"]).label,
       coverage.window
     ].join(" ").toLowerCase();
@@ -1675,7 +1766,11 @@ function getHoursTradeRecords(){
       );
     });
     return {banner, session, coverage, sheet, rows:activeRows};
-  }).filter(Boolean).filter(record => record.rows.length).sort((a, b) => Number(a.banner.testCell || 0) - Number(b.banner.testCell || 0));
+  }).filter(Boolean).filter(record => record.rows.length).sort((a, b) => {
+    const cellDiff = Number(a.banner.testCell || 0) - Number(b.banner.testCell || 0);
+    if (cellDiff !== 0) return cellDiff;
+    return String(a.banner.startTime || "").localeCompare(String(b.banner.startTime || ""));
+  });
 }
 
 function summarizeHoursRows(rows, status){
@@ -1693,7 +1788,6 @@ function renderTradeCoverageView(){
   if (!tradeSummaryGrid || !tradeCollection) return;
   const records = getHoursTradeRecords();
 
-  // Keep the older summary strip mounted but hidden so the rest of the page stays stable.
   tradeSummaryGrid.hidden = true;
   tradeSummaryGrid.innerHTML = "";
 
@@ -1730,13 +1824,7 @@ function renderTradeCoverageView(){
       ? new Date(`${record.session.iso}T12:00:00`).toLocaleDateString([], {weekday:"short", month:"short", day:"numeric"})
       : record.session.display;
 
-    const stamp = [
-      shortDate,
-      record.banner.shift ? `Shift ${record.banner.shift}` : null,
-      record.banner.startTime ? `Start ${record.banner.startTime}${record.banner.endTime ? " → " + record.banner.endTime : ""}` : null,
-      record.banner.cellHourMeter ? `Meter ${record.banner.cellHourMeter}` : null,
-      `Coverage ${record.coverage.window}`
-    ].filter(Boolean).join(" · ");
+    const stamp = [shortDate].filter(Boolean).join(" · ");
 
     return `
       <section class="trade-cell-card">
@@ -1746,9 +1834,9 @@ function renderTradeCoverageView(){
             <div class="trade-cell-stamp">${escapeHtml(stamp)}</div>
           </div>
           <div class="trade-mini-strip">
+            <span class="trade-mini-pill">Tech ${escapeHtml(record.coverage.techHours.toFixed(1))}h · ${escapeHtml(record.coverage.techWindow)}</span>
+            <span class="trade-mini-pill">${escapeHtml(record.coverage.tradeRunLabel)} · ${escapeHtml(record.coverage.hours.toFixed(1))}h</span>
             <span class="trade-mini-pill">Logged ${total.toFixed(1)} hrs</span>
-            <span class="trade-mini-pill">Running ${runningSubtotal.toFixed(1)}</span>
-            <span class="trade-mini-pill">Downtime ${downtimeSubtotal.toFixed(1)}</span>
           </div>
         </div>
         <table class="trade-table">
@@ -1770,7 +1858,7 @@ function renderTradeCoverageView(){
   }).join("");
 
   if (tradeReferenceNote) {
-    tradeReferenceNote.textContent = `${records.length} active cell bubble(s) shown. Each saved cell shift keeps its date stamp, grouped trade slots, and totals together in one review card.`;
+    tradeReferenceNote.textContent = `${records.length} active cell bubble(s) shown. Trades now separate confirmed 10-hour, 12-hour, and Thu→Fri 14-hour runs while keeping each saved cell shift in one review card.`;
   }
 }
 
@@ -1795,6 +1883,7 @@ function renderHours(){
       if (hoursTechSection) hoursTechSection.hidden = hoursSheet.viewMode !== "tech";
       if (hoursTradeSection) hoursTradeSection.hidden = hoursSheet.viewMode !== "trade";
       if (hoursTechSummary) hoursTechSummary.hidden = hoursSheet.viewMode === "trade";
+      if (hoursWorkPatternSection) hoursWorkPatternSection.hidden = hoursSheet.viewMode === "trade";
       if (hoursExpectedInput) hoursExpectedInput.disabled = hoursSheet.viewMode === "trade";
       if (hoursAddRow) hoursAddRow.disabled = hoursSheet.viewMode === "trade";
       if (hoursViewTitle) {
@@ -1807,13 +1896,13 @@ function renderHours(){
       }
       if (hoursModeNote) {
         hoursModeNote.textContent = hoursSheet.viewMode === "trade"
-          ? `Trade coverage view is active. The detailed reference stays below in the grouped review sheet instead of above the main hours area.`
+          ? `Trade coverage view is active. The grouped bubbles now separate confirmed 10-hour, 12-hour, and Thu→Fri 14-hour runs automatically.`
           : `${workPattern.label} is active. Technicians log against ${workPattern.hours} hours here; trades can switch views to see the separate coverage span.`;
       }
       if (hoursTradeReferenceCopy) {
         hoursTradeReferenceCopy.textContent = hoursSheet.viewMode === "trade"
           ? `Trade reference stays below the grouped sheet so the main review area remains cleaner and easier to scan.`
-          : `Coverage reference for ${coverage.dayLabel}: ${coverage.window}. This remains visible without changing the technician's logged basis.`;
+          : `Coverage reference for ${coverage.dayLabel}: ${coverage.tradeRunLabel} uses ${coverage.window} (${coverage.hours.toFixed(1)} hours). This remains visible without changing the technician's logged basis.`;
       }
 
       hoursRowsBody.innerHTML = hoursRows.map(row => {
