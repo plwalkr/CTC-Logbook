@@ -259,6 +259,14 @@
 .trade-cell-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
 .trade-cell-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap}
 .trade-cell-title{font-size:18px;font-weight:800;color:#0f172a}
+.trade-cell-stamp{font-size:11px;color:var(--muted);line-height:1.45;margin-top:4px}
+.trade-strip[hidden]{display:none !important}
+.trade-cell-head{margin-bottom:12px}
+.trade-mini-strip{margin-top:2px}
+.trade-table td{vertical-align:middle}
+.trade-table .slot-zero td{color:#64748b}
+.trade-table .slot-zero .col-hours{font-weight:700}
+
 .trade-cell-meta{font-size:12px;color:var(--muted);line-height:1.55}
 .trade-empty-card{border:1px dashed var(--line);border-radius:14px;background:var(--soft);padding:18px 16px;font-size:13px;color:#475569}
 .trade-mini-strip{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
@@ -324,65 +332,8 @@ body[data-theme="clarity"] .debug-fab{background:#163b69;border-color:#163b69}
 body[data-theme="clarity"] .trade-cell-card,
 body[data-theme="clarity"] .trade-empty-card{background:#f7faff;border-color:#9aa7bd}
 body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff;color:#10233d}
+body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
-
-
-    .weekend-board{display:flex;flex-direction:column;gap:12px}
-    .weekend-toolbar{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
-    .weekend-toolbar .small strong{color:var(--text)}
-    .weekend-meta-strip{display:flex;gap:8px;flex-wrap:wrap}
-    .weekend-table-wrap{overflow:auto;max-height:68vh;border:1px solid #e2e8f0;border-radius:14px;background:#fff}
-    .weekend-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:12px}
-    .weekend-table th{background:#f8fafc;position:sticky;top:0;z-index:3;box-shadow:0 1px 0 #e2e8f0}
-    .weekend-table th,.weekend-table td{padding:8px 10px;border-bottom:1px solid #e2e8f0;border-right:1px solid #e2e8f0;vertical-align:middle}
-    .weekend-table th:last-child,.weekend-table td:last-child{border-right:none}
-    .weekend-table .col-cell{width:8%}
-    .weekend-table .col-status{width:17%}
-    .weekend-table .col-help{width:12%}
-    .weekend-table .col-comments{width:43%}
-    .weekend-table .col-update{width:10%}
-    .weekend-table .col-wwid{width:10%}
-    .weekend-table .cell-id{font-weight:800;color:#0f172a}
-    .weekend-inline-input,.weekend-inline-select{width:100%;padding:7px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
-    .weekend-inline-input.comments{min-width:240px}
-    .weekend-status-pill{display:inline-flex;align-items:center;justify-content:center;padding:6px 9px;border-radius:999px;border:1px solid #e2e8f0;background:#f8fafc;font-size:11px;font-weight:800;letter-spacing:.02em}
-    .weekend-row-status-running .weekend-status-pill{background:#dcfce7;color:#166534;border-color:#bbf7d0}
-    .weekend-row-status-datareview .weekend-status-pill{background:#fee2e2;color:#b91c1c;border-color:#fecaca}
-    .weekend-row-status-downnotrunning .weekend-status-pill{background:#dcfce7;color:#166534;border-color:#86efac}
-    .weekend-row-status-coldsoak .weekend-status-pill{background:#dbeafe;color:#1d4ed8;border-color:#bfdbfe}
-    .weekend-row-status-cellcal .weekend-status-pill{background:#fef3c7;color:#92400e;border-color:#fde68a}
-    .weekend-row-status-emissioncarts .weekend-status-pill,
-    .weekend-row-status-facilities .weekend-status-pill,
-    .weekend-row-status-install .weekend-status-pill,
-    .weekend-row-status-noengine .weekend-status-pill,
-    .weekend-row-status-parts .weekend-status-pill{background:#f1f5f9;color:#334155;border-color:#cbd5e1}
-    .weekend-row-help-yes td{background:rgba(254,242,242,.55)}
-    .weekend-header-note{font-size:12px;color:#475569;line-height:1.55}
-    .weekend-help-panel{border:1px solid #fecaca;border-radius:14px;background:#fff7f7;padding:12px}
-    .weekend-help-panel[hidden]{display:none !important}
-    .weekend-help-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
-    .weekend-help-card{display:grid;grid-template-columns:110px 160px minmax(0,1fr) 100px;gap:8px;align-items:start;border:1px solid #fecaca;border-radius:12px;background:#fff;padding:10px}
-    .weekend-help-card strong{font-size:15px;color:#991b1b}
-    .weekend-help-meta{font-size:11px;color:#7f1d1d;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
-    .weekend-help-comment{font-size:12px;color:#334155;line-height:1.45}
-    .weekend-help-empty{font-size:12px;color:#7f1d1d}
-    body[data-theme="clarity"] .weekend-help-panel,
-    body[data-theme="clarity"] .weekend-help-card{border-color:#fdba74;background:#fffaf5}
-
-    .weekend-empty-note{padding:18px 16px;border:1px dashed var(--line);border-radius:12px;background:var(--soft);font-size:13px;color:#475569}
-
-    body.weekend-focus #main-session-header{display:none}
-    .weekend-table tbody tr:nth-child(even){background:#fcfcfd}
-    .weekend-table tbody tr:hover{background:#f8fafc}
-
-    body[data-theme="clarity"] .weekend-table-wrap,
-    body[data-theme="clarity"] .weekend-table th,
-    body[data-theme="clarity"] .weekend-table td,
-    body[data-theme="clarity"] .weekend-empty-note{border-color:#9aa7bd}
-    body[data-theme="clarity"] .weekend-table th{background:#e8f0fb;color:#10233d}
-    body[data-theme="clarity"] .weekend-inline-input,
-    body[data-theme="clarity"] .weekend-inline-select{border-color:#8ea2bf;background:#fff;color:#10233d}
-    body[data-theme="clarity"] .weekend-status-pill{border-color:#8ea2bf}
 
     @media (max-width:1200px){
       .header-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -432,7 +383,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
 </head>
 <body data-theme="standard">
   <div class="app">
-    <header class="panel" id="main-session-header">
+    <header class="panel">
       <div class="panel-head">
         <div>
           <div class="eyebrow">CTC Prototype</div>
@@ -440,7 +391,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.73-trades-autoshift-safe</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.25-html</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -454,10 +405,6 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
       <button class="tab-btn" type="button" data-tab-target="hours">
         Cell Hours
         <span class="tab-sub">Separate live daily tally</span>
-      </button>
-      <button class="tab-btn" type="button" data-tab-target="weekend">
-        Weekend Days Daily Update
-        <span class="tab-sub">Pilot weekend status board</span>
       </button>
       <button class="tab-btn" type="button" data-tab-target="settings">
         Settings
@@ -785,55 +732,6 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
   </section>
 </div>
 
-
-    <div id="tab-weekend" class="tab-view" hidden>
-      <section class="panel">
-        <div class="section-body weekend-board">
-          <div class="weekend-toolbar">
-            <div>
-              <h2>Weekend Days Daily Update</h2>
-              <div class="weekend-header-note">Pilot weekend status board for EML lab cells. This tab stands on its own and does not need the engine/session header carried into it.</div>
-            </div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
-              <label class="field" style="min-width:180px">
-                <label>Board Date</label>
-                <input id="weekend-date-input" type="date" />
-              </label>
-              <div class="weekend-meta-strip">
-                <span class="pill">Board Date: <span id="weekend-board-date" style="margin-left:6px">—</span></span>
-                <span class="pill">Active Help Requests: <span id="weekend-help-count" style="margin-left:6px">0</span></span>
-              </div>
-            </div>
-          </div>
-          <div class="weekend-help-panel" id="weekend-help-panel" hidden>
-            <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap">
-              <div>
-                <h3>Needs Immediate Help</h3>
-                <div class="weekend-header-note">Rows marked <strong>Help Needed = Yes</strong> are mirrored here first so techs and trades can spot them immediately.</div>
-              </div>
-              <span class="pill">Priority Count: <span id="weekend-help-priority-count" style="margin-left:6px">0</span></span>
-            </div>
-            <div class="weekend-help-list" id="weekend-help-list"></div>
-          </div>
-          <div class="weekend-table-wrap">
-            <table class="weekend-table">
-              <thead>
-                <tr>
-                  <th class="col-cell">Test Cell</th>
-                  <th class="col-status">TC Status</th>
-                  <th class="col-help">Help Needed</th>
-                  <th class="col-comments">Comments</th>
-                  <th class="col-update">Last Update</th>
-                  <th class="col-wwid">WWID</th>
-                </tr>
-              </thead>
-              <tbody id="weekend-rows-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-    </div>
-
     <div id="tab-settings" class="tab-view" hidden>
       <section class="panel">
         <div class="section-body">
@@ -912,7 +810,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
   </section>
 
   <script>
-    const VERSION = "1.0.73-trades-autoshift-safe";
+    const VERSION = "1.0.74-tradebubble-slots";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -933,10 +831,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
       "4x10": { label: "4 × 10s", hours: 10, note: "Technician logging basis set to a 10-hour target." },
       "3x12": { label: "3 × 12s", hours: 12, note: "Technician logging basis set to a 12-hour target." }
     };
-    const WEEKEND_UPDATE_STORAGE_KEY = "ctcWeekendDailyUpdate";
-    const WEEKEND_TC_STATUS_OPTIONS = ["","Cell Cal","Cold Soak","Data Review","Down, Not Running","Emission Carts","Facilities","Install","No Engine","Parts","Running"];
-    const WEEKEND_HELP_OPTIONS = ["","No","Yes"];
-    const TEST_CELL_OPTIONS = Array.from({length:16}, (_, index) => String(201 + index)).concat(Array.from({length:16}, (_, index) => String(301 + index))).concat(["417"]);
+    const TEST_CELL_OPTIONS = Array.from({length:16}, (_, index) => String(201 + index)).concat(Array.from({length:16}, (_, index) => String(301 + index)));
     document.getElementById("version-label").textContent = VERSION;
 
 
@@ -971,27 +866,11 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
     }));
 
     let formState = {time:"",run:"",cycle:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"};
-    function createWeekendUpdateRows(){
-      return TEST_CELL_OPTIONS.map(cell => ({ testCell: cell, tcStatus: "", helpNeeded: "", comments: "", lastUpdate: "", wwid: "" }));
-    }
-    function loadWeekendUpdateStore(){
-      try {
-        const parsed = JSON.parse(localStorage.getItem(WEEKEND_UPDATE_STORAGE_KEY) || "{}");
-        return parsed && typeof parsed === "object" ? parsed : {};
-      } catch {
-        return {};
-      }
-    }
-    function saveWeekendUpdateStore(store){
-      try { localStorage.setItem(WEEKEND_UPDATE_STORAGE_KEY, JSON.stringify(store)); } catch {}
-    }
-    let weekendUpdateStore = loadWeekendUpdateStore();
     const hoursCellSheets = {};
     function currentHoursSheetKey(fields = bannerFields){
       const iso = normalizeDateValue(fields?.date || "") || "no-date";
       const cell = String(fields?.testCell || "no-cell");
-      const start = String(fields?.startTime || "unspecified");
-      return `${iso}|${cell}|${start}`;
+      return `${iso}|${cell}`;
     }
     function snapshotBannerForHours(fields = bannerFields){
       return {
@@ -1000,9 +879,7 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
         shift: String(fields?.shift || ""),
         cellHourMeter: String(fields?.cellHourMeter || ""),
         technician: String(fields?.technician || ""),
-        engineer: String(fields?.engineer || ""),
-        startTime: String(fields?.startTime || ""),
-        endTime: String(fields?.endTime || "")
+        engineer: String(fields?.engineer || "")
       };
     }
     function cloneHoursSheetState(sheet = hoursSheet){
@@ -1099,7 +976,6 @@ body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff
     const hoursReadinessCard = document.getElementById("hours-readiness-card");
     const hoursViewModeBar = document.getElementById("hours-view-mode-bar");
     const hoursWorkPatternBar = document.getElementById("hours-work-pattern-bar");
-    const hoursWorkPatternSection = hoursWorkPatternBar ? hoursWorkPatternBar.closest(".hours-mode-card") : null;
     const hoursModeNote = document.getElementById("hours-mode-note");
     const hoursViewTitle = document.getElementById("hours-view-title");
     const hoursViewCopy = document.getElementById("hours-view-copy");
@@ -1144,18 +1020,9 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     const displayModeBar = document.getElementById("display-mode-bar");
     const displayModeStatus = document.getElementById("display-mode-status");
     const tabButtons = Array.from(document.querySelectorAll("[data-tab-target]"));
-    const mainSessionHeader = document.getElementById("main-session-header");
-    const weekendBoardDate = document.getElementById("weekend-board-date");
-    const weekendDateInput = document.getElementById("weekend-date-input");
-    const weekendHelpCount = document.getElementById("weekend-help-count");
-    const weekendRowsBody = document.getElementById("weekend-rows-body");
-    const weekendHelpPanel = document.getElementById("weekend-help-panel");
-    const weekendHelpList = document.getElementById("weekend-help-list");
-    const weekendHelpPriorityCount = document.getElementById("weekend-help-priority-count");
     const tabViews = {
       logbook: document.getElementById("tab-logbook"),
       hours: document.getElementById("tab-hours"),
-      weekend: document.getElementById("tab-weekend"),
       settings: document.getElementById("tab-settings")
     };
 
@@ -1411,109 +1278,6 @@ function getHoursValidationSummary(){
       return Array.from(items.entries()).sort((a,b) => a[0].localeCompare(b[0]));
     }
 
-
-function getWeekendBoardKey(){
-  return normalizeDateValue(weekendDateInput?.value || "") || getTodayISO();
-}
-function syncWeekendDateInput(){
-  if (weekendDateInput && !weekendDateInput.value) weekendDateInput.value = getTodayISO();
-}
-function getWeekendRowsForCurrentDate(){
-  syncWeekendDateInput();
-  const key = getWeekendBoardKey();
-  if (!Array.isArray(weekendUpdateStore[key]) || weekendUpdateStore[key].length !== TEST_CELL_OPTIONS.length) {
-    weekendUpdateStore[key] = createWeekendUpdateRows();
-    saveWeekendUpdateStore(weekendUpdateStore);
-  }
-  return weekendUpdateStore[key];
-}
-function weekendStatusClass(status){
-  return String(status || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
-}
-function renderWeekendDailyUpdate(){
-  if (!weekendRowsBody) return;
-  syncWeekendDateInput();
-  const iso = getWeekendBoardKey();
-  const session = getSessionDateInfo({ date: iso });
-  const rows = getWeekendRowsForCurrentDate();
-  const helpRows = rows.filter(row => row.helpNeeded === "Yes");
-
-  if (weekendBoardDate) weekendBoardDate.textContent = session.display;
-  if (weekendHelpCount) weekendHelpCount.textContent = String(helpRows.length);
-  if (weekendHelpPriorityCount) weekendHelpPriorityCount.textContent = String(helpRows.length);
-  if (weekendHelpPanel) weekendHelpPanel.hidden = !helpRows.length;
-
-  if (weekendHelpList) {
-    weekendHelpList.innerHTML = helpRows.length
-      ? helpRows.map(row => `
-          <div class="weekend-help-card">
-            <div>
-              <div class="weekend-help-meta">Test Cell</div>
-              <strong>${escapeHtml(row.testCell)}</strong>
-            </div>
-            <div>
-              <div class="weekend-help-meta">TC Status</div>
-              <div>${escapeHtml(row.tcStatus || "—")}</div>
-            </div>
-            <div>
-              <div class="weekend-help-meta">Comments</div>
-              <div class="weekend-help-comment">${escapeHtml(row.comments || "No comment entered yet.")}</div>
-            </div>
-            <div>
-              <div class="weekend-help-meta">Last Update</div>
-              <div>${escapeHtml(row.lastUpdate || "—")}</div>
-            </div>
-          </div>
-        `).join("")
-      : `<div class="weekend-help-empty">No weekend cells are currently marked as needing help.</div>`;
-  }
-
-  weekendRowsBody.innerHTML = rows.map((row, index) => {
-    const statusClassName = weekendStatusClass(row.tcStatus);
-    const helpClass = row.helpNeeded === "Yes" ? "weekend-row-help-yes" : "";
-    return `
-      <tr class="weekend-row-status-${statusClassName} ${helpClass}" data-weekend-index="${index}">
-        <td><span class="cell-id">${escapeHtml(row.testCell)}</span></td>
-        <td>
-          <select class="weekend-inline-select" data-weekend-field="tcStatus" data-weekend-index="${index}">
-            ${WEEKEND_TC_STATUS_OPTIONS.map(option => `<option value="${option}" ${row.tcStatus === option ? "selected" : ""}>${option || "Select status"}</option>`).join("")}
-          </select>
-        </td>
-        <td>
-          <select class="weekend-inline-select" data-weekend-field="helpNeeded" data-weekend-index="${index}">
-            ${WEEKEND_HELP_OPTIONS.map(option => `<option value="${option}" ${row.helpNeeded === option ? "selected" : ""}>${option || "Select"}</option>`).join("")}
-          </select>
-        </td>
-        <td><input class="weekend-inline-input comments" data-weekend-field="comments" data-weekend-index="${index}" value="${escapeHtml(row.comments)}" placeholder="Comment / daily update" /></td>
-        <td><span class="weekend-status-pill">${escapeHtml(row.lastUpdate || "—")}</span></td>
-        <td><input class="weekend-inline-input" data-weekend-field="wwid" data-weekend-index="${index}" value="${escapeHtml(row.wwid)}" placeholder="WWID" /></td>
-      </tr>
-    `;
-  }).join("");
-
-  weekendRowsBody.querySelectorAll("[data-weekend-field]").forEach(control => {
-    const commitWeekendField = e => {
-      const idx = Number(e.target.dataset.weekendIndex);
-      const field = e.target.dataset.weekendField;
-      const rowsRef = getWeekendRowsForCurrentDate();
-      if (!rowsRef[idx]) return;
-      rowsRef[idx][field] = e.target.value;
-      if (field !== "lastUpdate") rowsRef[idx].lastUpdate = new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
-      weekendUpdateStore[getWeekendBoardKey()] = rowsRef;
-      saveWeekendUpdateStore(weekendUpdateStore);
-      renderWeekendDailyUpdate();
-      syncCtcPulseSnapshot();
-    };
-
-    if (control.tagName === "SELECT") {
-      control.addEventListener("change", commitWeekendField);
-    } else {
-      control.addEventListener("change", commitWeekendField);
-      control.addEventListener("blur", commitWeekendField);
-    }
-  });
-}
-
 function renderHeaderFields(){
   headerGrid.innerHTML = bannerConfig.map(([label,key]) => {
     if (key === "testCell") {
@@ -1539,11 +1303,10 @@ function renderHeaderFields(){
       const previousFields = deepClone(bannerFields);
       bannerFields[key] = key === "date" ? normalizeDateValue(e.target.value) || e.target.value : e.target.value;
       if (key === "date") e.target.value = normalizeDateValue(bannerFields[key] || "") || "";
-      if (key === "date" || key === "testCell" || key === "startTime") {
+      if (key === "date" || key === "testCell") {
         saveCurrentHoursSheet(previousFields);
         loadHoursSheetForCurrentContext();
         renderHours();
-        if (key === "date" && currentTab !== "weekend") renderWeekendDailyUpdate();
       } else {
         saveCurrentHoursSheet();
         hoursMeter.textContent = bannerFields.cellHourMeter || "—";
@@ -1585,40 +1348,16 @@ function renderForm(){
     }
 function getCoverageWindowInfo(fields = bannerFields){
   const iso = normalizeDateValue(fields?.date || "");
-  if (!iso) return { dayLabel:"No log date", window:"Set the session date to view coverage.", hours:0, note:"Coverage span uses the session date from the header.", shiftLabel:"No shift basis" };
+  if (!iso) return { dayLabel:"No log date", window:"Set the session date to view coverage.", hours:0, note:"Coverage span uses the session date from the header." };
   const date = new Date(`${iso}T12:00:00`);
-  if (Number.isNaN(date.getTime())) return { dayLabel:"Invalid date", window:"Update the session date.", hours:0, note:"Coverage span uses the session date from the header.", shiftLabel:"Invalid date" };
-
+  if (Number.isNaN(date.getTime())) return { dayLabel:"Invalid date", window:"Update the session date.", hours:0, note:"Coverage span uses the session date from the header." };
   const day = date.getDay();
   const dayName = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][day];
-  const startText = String(fields?.startTime || "").toLowerCase().trim();
-
-  function parseHour24(value){
-    const match = value.match(/(\d{1,2})(?::(\d{2}))?\s*([ap]m)?/i);
-    if (!match) return null;
-    let hour = Number(match[1]) % 12;
-    const meridiem = (match[3] || "").toLowerCase();
-    if (meridiem === "pm") hour += 12;
-    if (meridiem === "am" && Number(match[1]) === 12) hour = 0;
-    return hour;
-  }
-
-  const startHour = parseHour24(startText);
-  if (day >= 1 && day <= 4) {
-    if (startHour !== null && startHour >= 12) return { dayLabel:dayName, window:"5p–5a", hours:12, note:`${dayName} night shift reference inferred from the header start time.`, shiftLabel:"Weekday Night Shift" };
-    return { dayLabel:dayName, window:"5a–5p", hours:12, note:`${dayName} day shift reference inferred from the header start time.`, shiftLabel:"Weekday Day Shift" };
-  }
-  if (day === 5) {
-    if (startHour !== null && startHour >= 12) return { dayLabel:dayName, window:"5p–5a", hours:12, note:"Friday night shift reference inferred from the header start time.", shiftLabel:"Friday Night Shift" };
-    return { dayLabel:dayName, window:"5a–7p", hours:14, note:"Friday extended daytime coverage inferred from the header start time.", shiftLabel:"Friday Coverage" };
-  }
-  if (day === 6) {
-    if (startHour !== null && startHour >= 12) return { dayLabel:dayName, window:"7p–7a", hours:12, note:"Saturday night shift reference inferred from the header start time.", shiftLabel:"Weekend Night Shift" };
-    return { dayLabel:dayName, window:"7a–7p", hours:12, note:"Saturday day shift reference inferred from the header start time.", shiftLabel:"Weekend Day Shift" };
-  }
-  return { dayLabel:dayName, window:"7p–5a", hours:10, note:"Sunday overnight coverage reference inferred from the header date.", shiftLabel:"Sunday Night Coverage" };
+  if (day >= 1 && day <= 4) return { dayLabel:dayName, window:"5a–5p / 5p–5a", hours:12, note:`${dayName} follows the standard 12-hour day/night coverage blocks.` };
+  if (day === 5) return { dayLabel:dayName, window:"5a–7p", hours:14, note:"Friday coverage extends across a 14-hour daytime span for trade review." };
+  if (day === 6) return { dayLabel:dayName, window:"7a–7p / 7p–7a", hours:12, note:"Saturday is tracked as 12-hour day and night weekend blocks." };
+  return { dayLabel:dayName, window:"7p–5a", hours:10, note:"Sunday trade reference follows the 10-hour overnight span." };
 }
-
 function getSessionDateInfo(fields = bannerFields){
   const iso = normalizeDateValue(fields?.date || "");
   const date = iso ? new Date(`${iso}T12:00:00`) : null;
@@ -1677,8 +1416,6 @@ function getHoursTradeRecords(){
       banner.cellHourMeter || "",
       banner.technician || "",
       banner.engineer || "",
-      banner.startTime || "",
-      banner.endTime || "",
       (WORK_PATTERNS[sheet.workPattern] || WORK_PATTERNS["3x12"]).label,
       coverage.window
     ].join(" ").toLowerCase();
@@ -1696,11 +1433,7 @@ function getHoursTradeRecords(){
       );
     });
     return {banner, session, coverage, sheet, rows:activeRows};
-  }).filter(Boolean).filter(record => record.rows.length).sort((a, b) => {
-    const cellDiff = Number(a.banner.testCell || 0) - Number(b.banner.testCell || 0);
-    if (cellDiff !== 0) return cellDiff;
-    return String(a.banner.startTime || "").localeCompare(String(b.banner.startTime || ""));
-  });
+  }).filter(Boolean).filter(record => record.rows.length).sort((a, b) => Number(a.banner.testCell || 0) - Number(b.banner.testCell || 0));
 }
 
 function summarizeHoursRows(rows, status){
@@ -1717,15 +1450,10 @@ function summarizeHoursRows(rows, status){
 function renderTradeCoverageView(){
   if (!tradeSummaryGrid || !tradeCollection) return;
   const records = getHoursTradeRecords();
-  const totalHours = records.reduce((sum, record) => sum + record.rows.reduce((rowSum, row) => rowSum + (parseFloat(row.hours) || 0), 0), 0);
-  const activeCells = records.length;
-  const dateLabel = [hoursFilterDateFrom?.value || normalizeDateValue(bannerFields.date || ""), hoursFilterDateTo?.value || ""].filter(Boolean).join(hoursFilterDateTo?.value ? " → " : "");
-  tradeSummaryGrid.innerHTML = [
-    ["Dates", dateLabel || "Current log date"],
-    ["Active Cells", String(activeCells)],
-    ["Total Logged", `${totalHours.toFixed(1)} hrs`],
-    ["Filter", hoursFilterStatus?.value || "All Hour Types"]
-  ].map(([label, value]) => `<div class="trade-strip-item"><strong>${escapeHtml(label)}</strong><span>${escapeHtml(value)}</span></div>`).join("");
+  if (tradeSummaryGrid) {
+    tradeSummaryGrid.hidden = true;
+    tradeSummaryGrid.innerHTML = "";
+  }
 
   if (!records.length) {
     tradeCollection.innerHTML = `<div class="trade-empty-card">No logged cell hours match the current trades filters yet. Enter hours on the billable worksheet, or widen the date/hour filters.</div>`;
@@ -1733,43 +1461,47 @@ function renderTradeCoverageView(){
     return;
   }
 
-  const buildRows = (title, items, subtotal, emptyText) => {
+  const buildRows = (title, slotLabels, itemsMap, subtotal) => {
     const rows = [`<tr class="section-row"><td colspan="3">${escapeHtml(title)}</td></tr>`];
-    if (!items.length) {
-      rows.push(`<tr><td colspan="3" class="trade-empty">${escapeHtml(emptyText)}</td></tr>`);
-    } else {
-      rows.push(...items.map(([label, data]) => {
-        const note = data.comments.length
-          ? escapeHtml(data.comments[0]) + (data.comments.length > 1 ? ` (+${data.comments.length - 1} more)` : "")
-          : "—";
-        return `<tr><td><strong>${escapeHtml(label)}</strong></td><td class="col-hours">${data.hours.toFixed(1)}</td><td>${note}</td></tr>`;
-      }));
-    }
+    slotLabels.forEach(label => {
+      const data = itemsMap.get(label) || {hours:0, comments:[]};
+      const note = data.comments.length
+        ? escapeHtml(data.comments[0]) + (data.comments.length > 1 ? ` (+${data.comments.length - 1} more)` : "")
+        : "—";
+      const zeroClass = data.hours === 0 ? "slot-zero" : "";
+      rows.push(`<tr class="${zeroClass}"><td><strong>${escapeHtml(label)}</strong></td><td class="col-hours">${data.hours.toFixed(1)}</td><td>${note}</td></tr>`);
+    });
     rows.push(`<tr class="subtotal-row"><td>${escapeHtml(title)} subtotal</td><td class="col-hours">${subtotal.toFixed(1)}</td><td>—</td></tr>`);
     return rows.join("");
   };
 
   tradeCollection.innerHTML = records.map(record => {
-    const running = summarizeHoursRows(record.rows, "Running");
-    const downtime = summarizeHoursRows(record.rows, "Downtime");
-    const runningSubtotal = running.reduce((sum, [, data]) => sum + data.hours, 0);
-    const downtimeSubtotal = downtime.reduce((sum, [, data]) => sum + data.hours, 0);
+    const runningEntries = summarizeHoursRows(record.rows, "Running");
+    const downtimeEntries = summarizeHoursRows(record.rows, "Downtime");
+    const runningMap = new Map(runningEntries);
+    const downtimeMap = new Map(downtimeEntries);
+    const runningSubtotal = runningEntries.reduce((sum, [, data]) => sum + data.hours, 0);
+    const downtimeSubtotal = downtimeEntries.reduce((sum, [, data]) => sum + data.hours, 0);
     const total = runningSubtotal + downtimeSubtotal;
-    const workPattern = WORK_PATTERNS[record.sheet.workPattern] || WORK_PATTERNS["3x12"];
-    const meta = [
-      record.session.display,
-      `${record.coverage.shiftLabel || "Shift"}${record.banner.shift ? " • " + record.banner.shift : ""}`,
-      `Start ${record.banner.startTime || "—"}${record.banner.endTime ? " → " + record.banner.endTime : ""}`,
-      `Pattern ${workPattern.label}`,
-      `Meter ${record.banner.cellHourMeter || "—"}`,
+
+    const shortDate = record.session.valid
+      ? new Date(`${record.session.iso}T12:00:00`).toLocaleDateString([], {weekday:"short", month:"short", day:"numeric"})
+      : record.session.display;
+
+    const stamp = [
+      shortDate,
+      record.banner.shift ? `Shift ${record.banner.shift}` : null,
+      record.banner.startTime ? `Start ${record.banner.startTime}${record.banner.endTime ? " → " + record.banner.endTime : ""}` : null,
+      record.banner.cellHourMeter ? `Meter ${record.banner.cellHourMeter}` : null,
       `Coverage ${record.coverage.window}`
-    ].join(" • ");
+    ].filter(Boolean).join(" · ");
+
     return `
       <section class="trade-cell-card">
         <div class="trade-cell-head">
           <div>
             <div class="trade-cell-title">Cell ${escapeHtml(record.banner.testCell || "—")}</div>
-            <div class="trade-cell-meta">${escapeHtml(meta)}</div>
+            <div class="trade-cell-stamp">${escapeHtml(stamp)}</div>
           </div>
           <div class="trade-mini-strip">
             <span class="trade-mini-pill">Logged ${total.toFixed(1)} hrs</span>
@@ -1786,8 +1518,8 @@ function renderTradeCoverageView(){
             </tr>
           </thead>
           <tbody>
-            ${buildRows("Running Hours", running, runningSubtotal, "No running lines logged for this cell.")}
-            ${buildRows("Downtime Hours", downtime, downtimeSubtotal, "No downtime lines logged for this cell.")}
+            ${buildRows("Running Hours", runningHourDetails, runningMap, runningSubtotal)}
+            ${buildRows("Downtime Hours", downtimeHourDetails, downtimeMap, downtimeSubtotal)}
             <tr class="grandtotal-row"><td>Total logged hours</td><td class="col-hours">${total.toFixed(1)}</td><td>${escapeHtml(record.banner.technician || "—")}</td></tr>
           </tbody>
         </table>
@@ -1796,7 +1528,7 @@ function renderTradeCoverageView(){
   }).join("");
 
   if (tradeReferenceNote) {
-    tradeReferenceNote.textContent = `${activeCells} active cell(s) shown. Trades can scan every logged cell in one pass while billable entry remains tied to each cell on the technician side.`;
+    tradeReferenceNote.textContent = `${records.length} active cell shift bubble(s) shown. Each saved cell shift keeps its own date stamp, grouped trade slots, and totals together in one review card.`;
   }
 }
 
@@ -1821,7 +1553,6 @@ function renderHours(){
       if (hoursTechSection) hoursTechSection.hidden = hoursSheet.viewMode !== "tech";
       if (hoursTradeSection) hoursTradeSection.hidden = hoursSheet.viewMode !== "trade";
       if (hoursTechSummary) hoursTechSummary.hidden = hoursSheet.viewMode === "trade";
-      if (hoursWorkPatternSection) hoursWorkPatternSection.hidden = hoursSheet.viewMode === "trade";
       if (hoursExpectedInput) hoursExpectedInput.disabled = hoursSheet.viewMode === "trade";
       if (hoursAddRow) hoursAddRow.disabled = hoursSheet.viewMode === "trade";
       if (hoursViewTitle) {
@@ -1834,8 +1565,8 @@ function renderHours(){
       }
       if (hoursModeNote) {
         hoursModeNote.textContent = hoursSheet.viewMode === "trade"
-          ? `Trade coverage view is active. Coverage is inferred automatically from the selected date and header start time for each saved cell shift.`
-          : `${workPattern.label} is active. Technicians log against ${workPattern.hours} hours here; trades can switch views to see the separate coverage span automatically.`;
+          ? `Trade coverage view is active. The detailed reference stays below in the grouped review sheet instead of above the main hours area.`
+          : `${workPattern.label} is active. Technicians log against ${workPattern.hours} hours here; trades can switch views to see the separate coverage span.`;
       }
       if (hoursTradeReferenceCopy) {
         hoursTradeReferenceCopy.textContent = hoursSheet.viewMode === "trade"
@@ -2311,8 +2042,6 @@ function renderHours(){
       Object.entries(tabViews).forEach(([name, view]) => {
         view.hidden = name !== tabName;
       });
-      document.body.classList.toggle("weekend-focus", tabName === "weekend");
-      if (tabName === "weekend") renderWeekendDailyUpdate();
       tabButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.tabTarget === tabName));
       syncCtcPulseSnapshot();
     }
@@ -2426,16 +2155,9 @@ function renderHours(){
 
     function syncCtcPulseSnapshot(){
       if (!dbgActiveTab || !dbgLogRows || !dbgHoursLines || !dbgReadyState) return;
-      const activeTab = getActiveTabName();
-      dbgActiveTab.textContent = activeTab;
-      if (activeTab === "weekend") {
-        const rows = getWeekendRowsForCurrentDate();
-        dbgLogRows.textContent = String(getVisibleLogRowCount());
-        dbgHoursLines.textContent = `${rows.filter(row => String(row.tcStatus || "").trim()).length}/${rows.length}`;
-        dbgReadyState.textContent = `${rows.filter(row => row.helpNeeded === "Yes").length} help`;
-        return;
-      }
+      const summary = getHoursValidationSummary();
       const activeRows = activeHoursRows();
+      dbgActiveTab.textContent = getActiveTabName();
       dbgLogRows.textContent = String(getVisibleLogRowCount());
       dbgHoursLines.textContent = `${activeRows.length}/${hoursRows.length}`;
       dbgReadyState.textContent = computeHoursReadyText();
@@ -2445,24 +2167,6 @@ function renderHours(){
       const activeTab = getActiveTabName();
       const summary = getHoursValidationSummary();
       const activeRows = activeHoursRows();
-      if (activeTab === "weekend") {
-        const rows = getWeekendRowsForCurrentDate();
-        const helpCount = rows.filter(row => row.helpNeeded === "Yes").length;
-        const statusCount = rows.filter(row => String(row.tcStatus || "").trim()).length;
-        return [
-          `CTC Pulse Report`,
-          `Version: ${VERSION}`,
-          `Active tab: ${activeTab}`,
-          `Board date: ${normalizeDateValue(weekendDateInput?.value || "") || "n/a"}`,
-          `Weekend rows: ${rows.length}`,
-          `Rows with status: ${statusCount}`,
-          `Active help requests: ${helpCount}`,
-          `Timestamp: ${new Date().toLocaleString()}`,
-          ``,
-          `Issues:`,
-          `None`
-        ].join("\n");
-      }
       const issues = summary.issues.length ? summary.issues.map((issue, index) => `${index + 1}. ${issue}`) : ["None"];
       return [
         `CTC Pulse Report`,
@@ -2487,7 +2191,7 @@ function renderHours(){
       ].join("\n");
     }
 
-function runCtcPulseScan(){
+    function runCtcPulseScan(){
       const runBtn = document.getElementById("ctc-pulse-run");
       if (runBtn){
         runBtn.disabled = true;
@@ -2636,14 +2340,6 @@ ${report}`;
         }
       });
       syncCtcPulseSnapshot();
-    }
-
-    if (weekendDateInput) {
-      weekendDateInput.value = normalizeDateValue(bannerFields.date || "") || getTodayISO();
-      weekendDateInput.addEventListener("input", () => {
-        renderWeekendDailyUpdate();
-        syncCtcPulseSnapshot();
-      });
     }
 
     renderHeaderFields();
