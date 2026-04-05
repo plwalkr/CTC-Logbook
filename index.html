@@ -463,7 +463,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.76-dayselector-tradechunks</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.77-autotechhours-tradecompact</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -947,7 +947,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.76-dayselector-tradechunks";
+    const VERSION = "1.0.77-autotechhours-tradecompact";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -1651,6 +1651,18 @@ function renderForm(){
     function getWorkPatternConfig(){
       return WORK_PATTERNS[hoursSheet.workPattern] || WORK_PATTERNS["3x12"];
     }
+function syncAutoTechHoursFromSchedule(){
+      const coverage = getCoverageWindowInfo();
+      const techHours = Number(coverage.techHours || 0);
+      if (techHours > 0) {
+        hoursSheet.expectedHours = String(techHours);
+        if (techHours === 8) hoursSheet.workPattern = "5x8";
+        else if (techHours === 10) hoursSheet.workPattern = "4x10";
+        else if (techHours === 12) hoursSheet.workPattern = "3x12";
+      }
+      return coverage;
+    }
+
 function getCoverageWindowInfo(fields = bannerFields){
   const iso = normalizeDateValue(fields?.date || "");
   if (!iso) return { dayLabel:"No log date", window:"Set the session date to view coverage.", hours:0, note:"Coverage span uses the session date from the header.", shiftLabel:"No shift", techWindow:"—", techHours:0, tradeRunLabel:"No run" };
@@ -1945,8 +1957,8 @@ function renderTradeCoverageView(){
 }
 
 function renderHours(){
+      const coverage = syncAutoTechHoursFromSchedule();
       const workPattern = getWorkPatternConfig();
-      const coverage = getCoverageWindowInfo();
       hoursExpectedInput.value = hoursSheet.expectedHours;
       hoursExpectedPill.textContent = parseFloat(hoursSheet.expectedHours || 0).toFixed(1);
       hoursShiftNote.value = hoursSheet.shiftNote || "";
@@ -1965,8 +1977,8 @@ function renderHours(){
       if (hoursTechSection) hoursTechSection.hidden = hoursSheet.viewMode !== "tech";
       if (hoursTradeSection) hoursTradeSection.hidden = hoursSheet.viewMode !== "trade";
       if (hoursTechSummary) hoursTechSummary.hidden = hoursSheet.viewMode === "trade";
-      if (hoursWorkPatternSection) hoursWorkPatternSection.hidden = hoursSheet.viewMode === "trade";
-      if (hoursExpectedInput) hoursExpectedInput.disabled = hoursSheet.viewMode === "trade";
+      if (hoursWorkPatternSection) hoursWorkPatternSection.hidden = true;
+      if (hoursExpectedInput) hoursExpectedInput.disabled = true;
       if (hoursAddRow) hoursAddRow.disabled = hoursSheet.viewMode === "trade";
       if (hoursViewTitle) {
         hoursViewTitle.textContent = hoursSheet.viewMode === "trade" ? "Trade Coverage View" : "Technician Logging Worksheet";
@@ -1974,12 +1986,12 @@ function renderHours(){
       if (hoursViewCopy) {
         hoursViewCopy.textContent = hoursSheet.viewMode === "trade"
           ? "Trade coverage view is a cleaner grouped readout of the hours already entered, with day, month, date, and cell context visible for review."
-          : "Technicians can log hours on their own work-pattern basis while keeping the trade coverage interpretation visible as a reference.";
+          : "Technician target hours are now auto-set from the selected day and shift timing, while the trade coverage interpretation stays visible as a reference.";
       }
       if (hoursModeNote) {
         hoursModeNote.textContent = hoursSheet.viewMode === "trade"
           ? `Trade coverage view is active. The grouped bubbles now separate confirmed 10-hour, 12-hour, and Thu→Fri 14-hour runs automatically.`
-          : `${workPattern.label} is active. Technicians log against ${workPattern.hours} hours here; trades can switch views to see the separate coverage span.`;
+          : `${coverage.shiftLabel} is active. Technician target hours auto-set to ${coverage.techHours.toFixed(1)} based on the selected day and shift timing.`;
       }
       if (hoursTradeReferenceCopy) {
         hoursTradeReferenceCopy.textContent = hoursSheet.viewMode === "trade"
@@ -2156,7 +2168,7 @@ function renderHours(){
       hoursCoveragePill.textContent = coverage.hours ? `${coverage.hours.toFixed(1)} • ${coverage.window}` : '—';
       hoursExpectedPill.textContent = summary.expected.toFixed(1);
       setText(hoursSpanDifference, Math.abs(spanDifference).toFixed(1));
-      setText(hoursTargetNote, `${workPattern.label} selected. Tech logging stays on its own basis.`);
+      setText(hoursTargetNote, `${coverage.shiftLabel} auto-sets the technician target to ${coverage.techHours.toFixed(1)} hour(s).`);
       setText(hoursCoverageNote, `${coverage.dayLabel}: ${coverage.window}. ${coverage.note}`);
       if (tradeUnder) {
         setText(hoursSpanDifferenceNote, `${Math.abs(spanDifference).toFixed(1)} hour(s) of additional coverage exist beyond the technician's logged total.`);
