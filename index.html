@@ -264,6 +264,12 @@
 .hours-day-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800;cursor:pointer}
 .hours-day-input{padding:8px 10px;border:1px solid #dbe3ed;border-radius:10px;background:#fff;color:var(--text)}
 .hours-day-note{font-size:12px;color:#475569}
+.tech-shift-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.tech-shift-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800;cursor:pointer}
+.tech-shift-btn.active{border-color:#0f172a;box-shadow:0 0 0 2px rgba(15,23,42,.08);background:#f8fafc}
+body[data-theme="clarity"] .tech-shift-btn{border-color:#8ea2bf;background:#fff;color:#10233d}
+body[data-theme="clarity"] .tech-shift-btn.active{border-color:#163b69;box-shadow:0 0 0 2px rgba(22,59,105,.12);background:#eef4ff}
+
 .trade-session-chunk{border-top:1px dashed #e2e8f0;padding-top:12px;margin-top:12px}
 .trade-session-chunk:first-of-type{border-top:none;padding-top:0;margin-top:0}
 .trade-session-stamp{font-size:11px;color:var(--muted);line-height:1.45;margin-bottom:8px}
@@ -463,7 +469,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.77-autotechhours-tradecompact</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.78-techshift-buttons-tradehidezero</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -716,7 +722,13 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
           <input class="hours-day-input" id="hours-day-input" type="date" />
           <span class="pill">Selected Day: <span id="hours-selected-day-label" style="margin-left:6px">—</span></span>
         </div>
-        <div class="hours-day-note">This stays synced to the log date used for billable entry and trade grouping.</div>
+        <div class="tech-shift-bar" id="hours-tech-shift-bar">
+          <button class="tech-shift-btn" type="button" data-tech-shift="weekday-day">Weekday</button>
+          <button class="tech-shift-btn" type="button" data-tech-shift="weekday-night">Weekday - Nights</button>
+          <button class="tech-shift-btn" type="button" data-tech-shift="weekend-day">Weekend Day</button>
+          <button class="tech-shift-btn" type="button" data-tech-shift="weekend-night">Weekend Nights</button>
+        </div>
+        <div class="hours-day-note" id="hours-tech-shift-note">Select the day and shift. The tech target hours and shift times auto-correspond from the confirmed schedule.</div>
       </div>
 
       <div class="section-card">
@@ -947,7 +959,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.77-autotechhours-tradecompact";
+    const VERSION = "1.0.78-techshift-buttons-tradehidezero";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -967,6 +979,12 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       "5x8": { label: "5 × 8s", hours: 8, note: "Technician logging basis set to an 8-hour target." },
       "4x10": { label: "4 × 10s", hours: 10, note: "Technician logging basis set to a 10-hour target." },
       "3x12": { label: "3 × 12s", hours: 12, note: "Technician logging basis set to a 12-hour target." }
+    };
+    const TECH_SHIFT_OPTIONS = {
+      "weekday-day": { label: "Weekday", startTime: "07:00 AM", endTime: "05:00 PM", techHours: 10, workPattern: "4x10" },
+      "weekday-night": { label: "Weekday - Nights", startTime: "05:00 PM", endTime: "03:00 AM", techHours: 10, workPattern: "4x10" },
+      "weekend-day": { label: "Weekend Day", startTime: "07:00 AM", endTime: "07:00 PM", techHours: 12, workPattern: "3x12" },
+      "weekend-night": { label: "Weekend Nights", startTime: "07:00 PM", endTime: "07:00 AM", techHours: 12, workPattern: "3x12" }
     };
     const WEEKEND_UPDATE_STORAGE_KEY = "ctcWeekendDailyUpdate";
     const WEEKEND_TC_STATUS_OPTIONS = ["","Cell Cal","Cold Soak","Data Review","Down, Not Running","Emission Carts","Facilities","Install","No Engine","Parts","Running"];
@@ -996,7 +1014,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     let bannerFields = {engineModel:"Titanium",engineSN:"80728265",engineer:"A. McCalment",pph:"E6640",testCell:"204",testPlanId:"TIHD2A-EN-B2P10",technician:"Joey Poppe",shift:"6W",date:getTodayISO(),startTime:"07:00 AM",endTime:"07:00 PM",cellHourMeter:"094"};
     bannerFields.date = normalizeDateValue(bannerFields.date) || getTodayISO();
-    let hoursSheet = {expectedHours:"12", shiftNote:"", workPattern:"3x12", viewMode:"tech"};
+    let hoursSheet = {expectedHours:"12", shiftNote:"", workPattern:"3x12", viewMode:"tech", techShift:"weekday-day"};
     let hoursRows = Array.from({length:4}, (_, index) => ({
       id:Date.now() + index,
       status:"Running",
@@ -1045,7 +1063,8 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         expectedHours: String(sheet?.expectedHours || "0"),
         shiftNote: String(sheet?.shiftNote || ""),
         workPattern: sheet?.workPattern || "3x12",
-        viewMode: sheet?.viewMode || "tech"
+        viewMode: sheet?.viewMode || "tech",
+        techShift: sheet?.techShift || "weekday-day"
       };
     }
     function normalizeHoursRows(rows){
@@ -1075,7 +1094,8 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       } else {
         const basePattern = hoursSheet?.workPattern || "3x12";
         const baseHours = (WORK_PATTERNS[basePattern] || WORK_PATTERNS["3x12"]).hours;
-        hoursSheet = {expectedHours:String(baseHours), shiftNote:"", workPattern:basePattern, viewMode:hoursSheet?.viewMode || "tech"};
+        const defaultShift = getDefaultTechShiftForDate(bannerFields?.date);
+        hoursSheet = {expectedHours:String(baseHours), shiftNote:"", workPattern:basePattern, viewMode:hoursSheet?.viewMode || "tech", techShift: defaultShift};
         hoursRows = Array.from({length:4}, (_, index) => ({id:Date.now() + index,status:"Running",detail:"Running Per Plan",comment:"",hours:""}));
         saveCurrentHoursSheet();
       }
@@ -1144,6 +1164,8 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     const hoursDayNextBtn = document.getElementById("hours-day-next");
     const hoursDayInput = document.getElementById("hours-day-input");
     const hoursSelectedDayLabel = document.getElementById("hours-selected-day-label");
+    const hoursTechShiftBar = document.getElementById("hours-tech-shift-bar");
+    const hoursTechShiftNote = document.getElementById("hours-tech-shift-note");
     const hoursAddRow = document.getElementById("hours-add-row");
     const hoursRowsBody = document.getElementById("hours-rows-body");
     const hoursRunningBreakdown = document.getElementById("hours-running-breakdown");
@@ -1240,6 +1262,16 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       `).join("");
     }
     function initHoursModeControls(){
+      if (hoursTechShiftBar) {
+        hoursTechShiftBar.querySelectorAll("[data-tech-shift]").forEach(btn => {
+          btn.classList.toggle("active", btn.dataset.techShift === hoursSheet.techShift);
+          btn.setAttribute("aria-pressed", btn.dataset.techShift === hoursSheet.techShift ? "true" : "false");
+        });
+      }
+      if (hoursTechShiftNote) {
+        const preset = TECH_SHIFT_OPTIONS[hoursSheet.techShift] || TECH_SHIFT_OPTIONS["weekday-day"];
+        hoursTechShiftNote.textContent = `${preset.label} auto-sets the tech shift to ${preset.startTime}–${preset.endTime} and ${preset.techHours} logged hours.`;
+      }
       if (hoursViewModeBar) {
         hoursViewModeBar.addEventListener("click", (event) => {
           const button = event.target.closest("[data-hours-view-mode]");
@@ -1555,6 +1587,44 @@ function renderWeekendDailyUpdate(){
 }
 
 
+
+function getDefaultTechShiftForDate(iso = bannerFields?.date){
+  const normalized = normalizeDateValue(iso || "");
+  if (!normalized) return "weekday-day";
+  const date = new Date(`${normalized}T12:00:00`);
+  const day = date.getDay();
+  return day >= 1 && day <= 4 ? "weekday-day" : "weekend-day";
+}
+
+function normalizeTechShiftForDate(currentShift, iso = bannerFields?.date){
+  const normalized = normalizeDateValue(iso || "");
+  if (!normalized) return currentShift || "weekday-day";
+  const date = new Date(`${normalized}T12:00:00`);
+  const isWeekday = date.getDay() >= 1 && date.getDay() <= 4;
+  if (isWeekday) {
+    if (currentShift === "weekend-day") return "weekday-day";
+    if (currentShift === "weekend-night") return "weekday-night";
+    return currentShift || "weekday-day";
+  }
+  if (currentShift === "weekday-day") return "weekend-day";
+  if (currentShift === "weekday-night") return "weekend-night";
+  return currentShift || "weekend-day";
+}
+
+function applyTechShiftSelection(shiftKey, shouldRerender = true){
+  const preset = TECH_SHIFT_OPTIONS[shiftKey] || TECH_SHIFT_OPTIONS["weekday-day"];
+  hoursSheet.techShift = shiftKey;
+  hoursSheet.workPattern = preset.workPattern;
+  hoursSheet.expectedHours = String(preset.techHours);
+  bannerFields.startTime = preset.startTime;
+  bannerFields.endTime = preset.endTime;
+  if (shouldRerender) {
+    renderHeaderFields();
+    saveCurrentHoursSheet();
+    renderHours();
+  }
+}
+
 function syncHoursDayControls(){
   const iso = normalizeDateValue(bannerFields.date || "") || getTodayISO();
   const info = getSessionDateInfo({ date: iso });
@@ -1569,7 +1639,10 @@ function setHoursInputDay(nextIso){
   bannerFields.date = normalized;
   saveCurrentHoursSheet(previousFields);
   loadHoursSheetForCurrentContext();
+  hoursSheet.techShift = normalizeTechShiftForDate(hoursSheet.techShift, normalized);
+  applyTechShiftSelection(hoursSheet.techShift, false);
   renderHeaderFields();
+  saveCurrentHoursSheet();
   renderHours();
   syncHoursDayControls();
 }
@@ -1874,14 +1947,19 @@ function renderTradeCoverageView(){
 
   const buildRows = (title, slotLabels, itemsMap, subtotal) => {
     const rows = [`<tr class="section-row"><td colspan="3">${escapeHtml(title)}</td></tr>`];
+    let shown = 0;
     slotLabels.forEach(label => {
       const data = itemsMap.get(label) || {hours:0, comments:[]};
+      if (data.hours <= 0) return;
       const note = data.comments.length
         ? escapeHtml(data.comments[0]) + (data.comments.length > 1 ? ` (+${data.comments.length - 1} more)` : "")
         : "—";
-      const zeroClass = data.hours === 0 ? "slot-zero" : "";
-      rows.push(`<tr class="${zeroClass}"><td><strong>${escapeHtml(label)}</strong></td><td class="col-hours">${data.hours.toFixed(1)}</td><td>${note}</td></tr>`);
+      shown += 1;
+      rows.push(`<tr><td><strong>${escapeHtml(label)}</strong></td><td class="col-hours">${data.hours.toFixed(1)}</td><td>${note}</td></tr>`);
     });
+    if (!shown) {
+      rows.push(`<tr><td colspan="3" class="trade-empty">No logged lines in this section.</td></tr>`);
+    }
     rows.push(`<tr class="subtotal-row"><td>${escapeHtml(title)} subtotal</td><td class="col-hours">${subtotal.toFixed(1)}</td><td>—</td></tr>`);
     return rows.join("");
   };
@@ -2799,6 +2877,13 @@ ${report}`;
     if (hoursDayPrevBtn) hoursDayPrevBtn.addEventListener("click", () => shiftHoursInputDay(-1));
     if (hoursDayNextBtn) hoursDayNextBtn.addEventListener("click", () => shiftHoursInputDay(1));
     if (hoursDayInput) hoursDayInput.addEventListener("input", () => setHoursInputDay(hoursDayInput.value));
+    if (hoursTechShiftBar) {
+      hoursTechShiftBar.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-tech-shift]");
+        if (!button) return;
+        applyTechShiftSelection(button.dataset.techShift);
+      });
+    }
 
     if (weekendDateInput) {
       weekendDateInput.value = normalizeDateValue(bannerFields.date || "") || getTodayISO();
