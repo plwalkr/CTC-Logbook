@@ -161,6 +161,27 @@
     .theme-swatch{width:28px;height:28px;border-radius:8px;border:1px solid rgba(15,23,42,.12)}
     .settings-note{font-size:12px;color:#475569;line-height:1.55}
     .settings-status{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;font-weight:700;color:#334155}
+    .manager-shell{display:flex;flex-direction:column;gap:12px}
+    .manager-topline{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+    .manager-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+    .manager-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
+    .manager-card h3{font-size:14px;margin:0 0 8px 0}
+    .manager-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
+    .manager-value{font-size:24px;font-weight:800;color:#0f172a}
+    .manager-list{display:flex;flex-direction:column;gap:8px}
+    .manager-item{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding-bottom:8px;border-bottom:1px dashed #e2e8f0;font-size:12px}
+    .manager-item:last-child{border-bottom:none;padding-bottom:0}
+    .manager-item strong{color:#0f172a}
+    .manager-layout{display:grid;grid-template-columns:1.2fr .95fr;gap:12px}
+    .manager-note{font-size:12px;color:#475569;line-height:1.55}
+    .manager-empty{font-size:12px;color:#64748b}
+    .settings-compact-head{display:flex;justify-content:flex-end;gap:10px;align-items:flex-start;flex-wrap:wrap}
+    .settings-quickref{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+    .settings-mini-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
+    .settings-mini-card h3{font-size:13px;margin:0 0 8px 0}
+    body[data-theme="clarity"] .manager-card,
+    body[data-theme="clarity"] .settings-mini-card{background:#f7faff;border-color:#9aa7bd}
+
 
     body[data-theme="clarity"]{--bg:#f6f7fb;--panel:#ffffff;--line:#9aa7bd;--text:#10233d;--muted:#44566f;--soft:#eef3fa}
     body[data-theme="clarity"] .tab-btn.active{background:#163b69;color:#fff;border-color:#163b69}
@@ -453,6 +474,9 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       .snapshot-grid.hours-snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .handoff-grid,.handoff-columns{grid-template-columns:1fr}
       .hours-review-grid,.hours-breakdown{grid-template-columns:1fr}
+      .manager-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .manager-layout{grid-template-columns:1fr}
+      .settings-quickref{grid-template-columns:1fr}
       .filters-row .search{max-width:none}
       .hours-filter-row .search{max-width:none}
       .date-filter-row{align-items:stretch}
@@ -471,7 +495,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.80-techshift-contextfix</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.81-manager-tab-settings-clean</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -489,6 +513,10 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       <button class="tab-btn" type="button" data-tab-target="weekend">
         Weekend Days Daily Update
         <span class="tab-sub">Pilot weekend status board</span>
+      </button>
+      <button class="tab-btn" type="button" data-tab-target="manager">
+        Manager / Coaches
+        <span class="tab-sub">Read-only trends + summaries</span>
       </button>
       <button class="tab-btn" type="button" data-tab-target="settings">
         Settings
@@ -883,14 +911,74 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       </section>
     </div>
 
+
+    <div id="tab-manager" class="tab-view" hidden>
+      <section class="panel">
+        <div class="section-body manager-shell">
+          <div class="manager-topline">
+            <div>
+              <h2>Manager / Coaches</h2>
+              <div class="small">Read-only summaries built from the existing logbook, cell hours, weekend update board, and saved trade shift chunks.</div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <span class="pill">Active Cells: <span id="manager-active-cells" style="margin-left:6px">0</span></span>
+              <span class="pill">Help Needed: <span id="manager-help-needed" style="margin-left:6px">0</span></span>
+              <span class="pill">Visible Log Rows: <span id="manager-visible-log-rows" style="margin-left:6px">0</span></span>
+            </div>
+          </div>
+
+          <div class="manager-grid">
+            <div class="manager-card">
+              <div class="manager-label">Logged Hours</div>
+              <div class="manager-value" id="manager-total-logged">0.0</div>
+              <div class="manager-note">All saved billable shift chunks currently available under the selected data set.</div>
+            </div>
+            <div class="manager-card">
+              <div class="manager-label">Downtime Hours</div>
+              <div class="manager-value" id="manager-total-downtime">0.0</div>
+              <div class="manager-note">Pulled from the downtime rows already entered on the billable side.</div>
+            </div>
+            <div class="manager-card">
+              <div class="manager-label">Saved Shift Chunks</div>
+              <div class="manager-value" id="manager-shift-count">0</div>
+              <div class="manager-note">Every saved day / test cell / shift context currently represented.</div>
+            </div>
+            <div class="manager-card">
+              <div class="manager-label">Weekend Status Rows</div>
+              <div class="manager-value" id="manager-status-count">0</div>
+              <div class="manager-note">Rows on the daily update board that currently have a TC status selected.</div>
+            </div>
+          </div>
+
+          <div class="manager-layout">
+            <div class="manager-card">
+              <h3>Top Downtime Categories</h3>
+              <div class="manager-list" id="manager-downtime-list"></div>
+            </div>
+            <div class="manager-card">
+              <h3>Most Active Test Cells</h3>
+              <div class="manager-list" id="manager-cells-list"></div>
+            </div>
+          </div>
+
+          <div class="manager-layout">
+            <div class="manager-card">
+              <h3>Weekend Help Queue Snapshot</h3>
+              <div class="manager-list" id="manager-help-list"></div>
+            </div>
+            <div class="manager-card">
+              <h3>Recent Downtime Notes</h3>
+              <div class="manager-list" id="manager-notes-list"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
     <div id="tab-settings" class="tab-view" hidden>
       <section class="panel">
         <div class="section-body">
-          <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap">
-            <div>
-              <h2>Settings</h2>
-              <div class="small">Keep display choices simple, professional, and easy to carry between sessions.</div>
-            </div>
+          <div class="settings-compact-head">
             <div class="settings-status">Current Display: <span id="display-mode-status">Standard</span></div>
           </div>
 
@@ -929,6 +1017,17 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
               </div>
             </div>
           </div>
+
+          <div class="settings-quickref">
+            <div class="settings-mini-card">
+              <h3>Confirmed Tech Schedule</h3>
+              <div class="manager-note">Mon–Thu: 7a–5p / 5p–3a<br>Fri–Sun: 7a–7p / 7p–7a</div>
+            </div>
+            <div class="settings-mini-card">
+              <h3>Trade Tracking Reminder</h3>
+              <div class="manager-note">Weekdays track 10-hour runs, Thu→Fri carries a 14-hour transition run, and weekend runs track 12-hour chunks.</div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -961,7 +1060,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.80-techshift-contextfix";
+    const VERSION = "1.0.81-manager-tab-settings-clean";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -1216,10 +1315,22 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     const weekendHelpPanel = document.getElementById("weekend-help-panel");
     const weekendHelpList = document.getElementById("weekend-help-list");
     const weekendHelpPriorityCount = document.getElementById("weekend-help-priority-count");
+    const managerActiveCells = document.getElementById("manager-active-cells");
+    const managerHelpNeeded = document.getElementById("manager-help-needed");
+    const managerVisibleLogRows = document.getElementById("manager-visible-log-rows");
+    const managerTotalLogged = document.getElementById("manager-total-logged");
+    const managerTotalDowntime = document.getElementById("manager-total-downtime");
+    const managerShiftCount = document.getElementById("manager-shift-count");
+    const managerStatusCount = document.getElementById("manager-status-count");
+    const managerDowntimeList = document.getElementById("manager-downtime-list");
+    const managerCellsList = document.getElementById("manager-cells-list");
+    const managerHelpList = document.getElementById("manager-help-list");
+    const managerNotesList = document.getElementById("manager-notes-list");
     const tabViews = {
       logbook: document.getElementById("tab-logbook"),
       hours: document.getElementById("tab-hours"),
       weekend: document.getElementById("tab-weekend"),
+      manager: document.getElementById("tab-manager"),
       settings: document.getElementById("tab-settings")
     };
 
@@ -1253,6 +1364,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       saveCurrentHoursSheet();
       renderTradeCoverageView();
       syncCtcPulseSnapshot();
+      renderManagerTab();
     }
     function renderDisplayModeButtons(){
       if (!displayModeBar) return;
@@ -1572,6 +1684,7 @@ function renderWeekendDailyUpdate(){
       saveWeekendUpdateStore(weekendUpdateStore);
       renderWeekendDailyUpdate();
       syncCtcPulseSnapshot();
+      renderManagerTab();
     };
 
     if (control.tagName === "SELECT") {
@@ -1672,6 +1785,93 @@ function shiftHoursInputDay(offsetDays){
   const baseDate = new Date(`${baseIso}T12:00:00`);
   baseDate.setDate(baseDate.getDate() + offsetDays);
   setHoursInputDay(baseDate.toISOString().slice(0,10));
+}
+
+
+function aggregateManagerData(){
+  const visibleLogRows = typeof getVisibleLogRowCount === "function" ? getVisibleLogRowCount() : (Array.isArray(entries) ? entries.length : 0);
+  const savedShiftRecords = typeof getHoursTradeRecords === "function" ? getHoursTradeRecords() : [];
+  const totalLogged = savedShiftRecords.reduce((sum, record) => sum + record.rows.reduce((rowSum, row) => rowSum + (parseFloat(row.hours) || 0), 0), 0);
+  const totalDowntime = savedShiftRecords.reduce((sum, record) => sum + record.rows.filter(row => row.status === "Downtime").reduce((rowSum, row) => rowSum + (parseFloat(row.hours) || 0), 0), 0);
+
+  const downtimeBuckets = new Map();
+  const cellBuckets = new Map();
+  const noteItems = [];
+
+  savedShiftRecords.forEach(record => {
+    const cell = String(record.banner?.testCell || "—");
+    const cellTotal = record.rows.reduce((rowSum, row) => rowSum + (parseFloat(row.hours) || 0), 0);
+    cellBuckets.set(cell, (cellBuckets.get(cell) || 0) + cellTotal);
+
+    record.rows.forEach(row => {
+      const hours = parseFloat(row.hours) || 0;
+      if (row.status === "Downtime" && hours > 0) {
+        const key = String(row.detail || "Downtime");
+        downtimeBuckets.set(key, (downtimeBuckets.get(key) || 0) + hours);
+        if (String(row.comment || "").trim()) {
+          noteItems.push({
+            cell,
+            detail: key,
+            hours,
+            comment: String(row.comment || "").trim()
+          });
+        }
+      }
+    });
+  });
+
+  const weekendRows = typeof getWeekendRowsForCurrentDate === "function" ? getWeekendRowsForCurrentDate() : [];
+  const helpRows = weekendRows.filter(row => row.helpNeeded === "Yes");
+  const statusRows = weekendRows.filter(row => String(row.tcStatus || "").trim());
+
+  return {
+    visibleLogRows,
+    totalLogged,
+    totalDowntime,
+    savedShiftCount: savedShiftRecords.length,
+    activeCells: new Set(savedShiftRecords.map(record => String(record.banner?.testCell || ""))).size,
+    helpNeededCount: helpRows.length,
+    statusRowCount: statusRows.length,
+    topDowntime: Array.from(downtimeBuckets.entries()).sort((a,b) => b[1] - a[1]).slice(0,5),
+    topCells: Array.from(cellBuckets.entries()).sort((a,b) => b[1] - a[1]).slice(0,5),
+    helpRows: helpRows.slice(0,5),
+    recentNotes: noteItems.slice(-5).reverse()
+  };
+}
+
+function renderManagerTab(){
+  const summary = aggregateManagerData();
+  if (managerActiveCells) managerActiveCells.textContent = String(summary.activeCells);
+  if (managerHelpNeeded) managerHelpNeeded.textContent = String(summary.helpNeededCount);
+  if (managerVisibleLogRows) managerVisibleLogRows.textContent = String(summary.visibleLogRows);
+  if (managerTotalLogged) managerTotalLogged.textContent = summary.totalLogged.toFixed(1);
+  if (managerTotalDowntime) managerTotalDowntime.textContent = summary.totalDowntime.toFixed(1);
+  if (managerShiftCount) managerShiftCount.textContent = String(summary.savedShiftCount);
+  if (managerStatusCount) managerStatusCount.textContent = String(summary.statusRowCount);
+
+  if (managerDowntimeList) {
+    managerDowntimeList.innerHTML = summary.topDowntime.length
+      ? summary.topDowntime.map(([label, hours]) => `<div class="manager-item"><span>${escapeHtml(label)}</span><strong>${hours.toFixed(1)} hrs</strong></div>`).join("")
+      : `<div class="manager-empty">No downtime categories logged yet.</div>`;
+  }
+
+  if (managerCellsList) {
+    managerCellsList.innerHTML = summary.topCells.length
+      ? summary.topCells.map(([cell, hours]) => `<div class="manager-item"><span>Cell ${escapeHtml(cell)}</span><strong>${hours.toFixed(1)} hrs</strong></div>`).join("")
+      : `<div class="manager-empty">No active test cells yet.</div>`;
+  }
+
+  if (managerHelpList) {
+    managerHelpList.innerHTML = summary.helpRows.length
+      ? summary.helpRows.map(row => `<div class="manager-item"><span>Cell ${escapeHtml(row.testCell)} · ${escapeHtml(row.tcStatus || "No status")}</span><strong>${escapeHtml(row.lastUpdate || "—")}</strong></div>`).join("")
+      : `<div class="manager-empty">No weekend help-needed rows are active.</div>`;
+  }
+
+  if (managerNotesList) {
+    managerNotesList.innerHTML = summary.recentNotes.length
+      ? summary.recentNotes.map(item => `<div class="manager-item"><span>Cell ${escapeHtml(item.cell)} · ${escapeHtml(item.detail)}<br><span class="manager-note">${escapeHtml(item.comment)}</span></span><strong>${item.hours.toFixed(1)} hrs</strong></div>`).join("")
+      : `<div class="manager-empty">No downtime notes are available yet.</div>`;
+  }
 }
 
 function renderHeaderFields(){
