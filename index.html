@@ -555,14 +555,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.93-temp-test-fill</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.94-temp-fill-shift-aware</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">1.0.93-temp-test-fill</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">1.0.94-temp-fill-shift-aware</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -944,7 +944,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.93-temp-test-fill</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.94-temp-fill-shift-aware</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1002,7 +1002,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.93-temp-test-fill</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.94-temp-fill-shift-aware</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1129,7 +1129,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.93-temp-test-fill</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.94-temp-fill-shift-aware</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1256,7 +1256,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.93-temp-test-fill";
+    const VERSION = "1.0.94-temp-fill-shift-aware";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2327,16 +2327,45 @@ function renderManagerTab(){
       priorDate.setDate(priorDate.getDate() - 1);
       const priorIso = priorDate.toISOString().slice(0,10);
 
+      const activeShiftKey = normalizeTechShiftForDate(hoursSheet?.techShift || getDefaultTechShiftForDate(baseIso), baseIso);
+      const activePreset = TECH_SHIFT_OPTIONS[activeShiftKey] || TECH_SHIFT_OPTIONS['weekday-day'];
+      const activeExpected = Number(activePreset.techHours || 10);
+
+      const currentRows = activeExpected >= 12
+        ? [
+            {id:7101,status:'Running',detail:'Running Per Plan',comment:'',hours:'6.5'},
+            {id:7102,status:'Downtime',detail:'Emissions Cart',comment:'Emissions cart comms dropped during verification and needed a quick reconnect before testing resumed.',hours:'1.0'},
+            {id:7103,status:'Running',detail:'Calibration (Engineer)',comment:'Engineer requested one comparison pass after reconnect.',hours:'3.0'},
+            {id:7104,status:'Running',detail:'Data Review (Engineer)',comment:'',hours:'1.5'}
+          ]
+        : [
+            {id:7101,status:'Running',detail:'Running Per Plan',comment:'',hours:'5.5'},
+            {id:7102,status:'Downtime',detail:'Emissions Cart',comment:'Emissions cart comms dropped during verification and needed a quick reconnect before testing resumed.',hours:'1.0'},
+            {id:7103,status:'Running',detail:'Calibration (Engineer)',comment:'Engineer requested one comparison pass after reconnect.',hours:'2.5'},
+            {id:7104,status:'Running',detail:'Data Review (Engineer)',comment:'',hours:'1.0'}
+          ];
+
       const baseFields = {
-        engineModel:'Titanium', engineSN:'80728265', engineer:'A. McCalment', pph:'E6640', testCell:'204', testPlanId:'TIHD2A-EN-B2P10', technician:'Joey Poppe', shift:'Weekday', date:baseIso, startTime:'07:00 AM', endTime:'05:00 PM', cellHourMeter:'106'
+        engineModel:'Titanium',
+        engineSN:'80728265',
+        engineer:'A. McCalment',
+        pph:'E6640',
+        testCell:'204',
+        testPlanId:'TIHD2A-EN-B2P10',
+        technician:'Joey Poppe',
+        shift:activePreset.label,
+        date:baseIso,
+        startTime:activePreset.startTime,
+        endTime:activePreset.endTime,
+        cellHourMeter:'106'
       };
-      const currentSheet = {expectedHours:'10', shiftNote:'Sample coverage includes one downtime row so review cards, comments, and readiness all have something real to show.', workPattern:'4x10', viewMode:currentViewMode, techShift:'weekday-day'};
-      const currentRows = [
-        {id:7101,status:'Running',detail:'Running Per Plan',comment:'',hours:'5.5'},
-        {id:7102,status:'Downtime',detail:'Emissions Cart',comment:'Emissions cart comms dropped during verification and needed a quick reconnect before testing resumed.',hours:'1.0'},
-        {id:7103,status:'Running',detail:'Calibration (Engineer)',comment:'Engineer requested one comparison pass after reconnect.',hours:'2.5'},
-        {id:7104,status:'Running',detail:'Data Review (Engineer)',comment:'',hours:'1.0'}
-      ];
+      const currentSheet = {
+        expectedHours:String(activeExpected),
+        shiftNote:`Sample coverage follows the selected ${activePreset.label.toLowerCase()} context so review cards, comments, and readiness stay aligned for testing.`,
+        workPattern:activePreset.workPattern,
+        viewMode:currentViewMode,
+        techShift:activeShiftKey
+      };
 
       const secondFields = {...baseFields, testCell:'207', cellHourMeter:'084', startTime:'05:00 PM', endTime:'03:00 AM', shift:'Weekday - Nights'};
       const secondSheet = {expectedHours:'10', shiftNote:'Night shift had a short dyno interruption and then returned to plan.', workPattern:'4x10', viewMode:'trade', techShift:'weekday-night'};
