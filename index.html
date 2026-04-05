@@ -471,7 +471,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.79-techshift-activefix</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.79b-techshift-pill-highlight</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -961,7 +961,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.79-techshift-activefix";
+    const VERSION = "1.0.79b-techshift-pill-highlight";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -1264,14 +1264,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       `).join("");
     }
     function initHoursModeControls(){
-      if (hoursTechShiftBar) {
-        hoursTechShiftBar.querySelectorAll("[data-tech-shift]").forEach(btn => {
-          const isActive = btn.dataset.techShift === hoursSheet.techShift;
-          btn.classList.toggle("active", isActive);
-          btn.setAttribute("data-active", isActive ? "true" : "false");
-          btn.setAttribute("aria-pressed", isActive ? "true" : "false");
-        });
-      }
+      refreshTechShiftButtons();
       if (hoursTechShiftNote) {
         const preset = TECH_SHIFT_OPTIONS[hoursSheet.techShift] || TECH_SHIFT_OPTIONS["weekday-day"];
         hoursTechShiftNote.textContent = `${preset.label} auto-sets the tech shift to ${preset.startTime}–${preset.endTime} and ${preset.techHours} logged hours.`;
@@ -1615,6 +1608,17 @@ function normalizeTechShiftForDate(currentShift, iso = bannerFields?.date){
   return currentShift || "weekend-day";
 }
 
+
+function refreshTechShiftButtons(){
+  if (!hoursTechShiftBar) return;
+  hoursTechShiftBar.querySelectorAll("[data-tech-shift]").forEach(btn => {
+    const isActive = btn.dataset.techShift === hoursSheet.techShift;
+    btn.classList.toggle("active", isActive);
+    btn.setAttribute("data-active", isActive ? "true" : "false");
+    btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+  });
+}
+
 function applyTechShiftSelection(shiftKey, shouldRerender = true){
   const preset = TECH_SHIFT_OPTIONS[shiftKey] || TECH_SHIFT_OPTIONS["weekday-day"];
   hoursSheet.techShift = shiftKey;
@@ -1622,6 +1626,7 @@ function applyTechShiftSelection(shiftKey, shouldRerender = true){
   hoursSheet.expectedHours = String(preset.techHours);
   bannerFields.startTime = preset.startTime;
   bannerFields.endTime = preset.endTime;
+  refreshTechShiftButtons();
   if (shouldRerender) {
     renderHeaderFields();
     saveCurrentHoursSheet();
