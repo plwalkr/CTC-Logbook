@@ -1075,7 +1075,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.87-pulse-context-aware";
+    const VERSION = "1.0.88-manager-pulse-cleanup";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2958,7 +2958,6 @@ function renderHours(){
         const managerSummary = aggregateManagerData();
         const managerIssues = [];
         if (managerSummary.helpNeededCount) managerIssues.push(`${managerSummary.helpNeededCount} weekend row(s) currently need help.`);
-        if (!managerSummary.savedShiftCount) managerIssues.push(`No saved shift chunks are available yet.`);
         return [
           `CTC Pulse Report`,
           `Version: ${VERSION}`,
