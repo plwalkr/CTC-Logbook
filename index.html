@@ -555,14 +555,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.94-temp-fill-shift-aware</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.95-temp-fill-varied-context</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">1.0.94-temp-fill-shift-aware</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">1.0.95-temp-fill-varied-context</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -944,7 +944,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.94-temp-fill-shift-aware</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.95-temp-fill-varied-context</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1002,7 +1002,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.94-temp-fill-shift-aware</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.95-temp-fill-varied-context</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1129,7 +1129,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.94-temp-fill-shift-aware</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.95-temp-fill-varied-context</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1256,7 +1256,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.94-temp-fill-shift-aware";
+    const VERSION = "1.0.95-temp-fill-varied-context";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2319,71 +2319,234 @@ function renderManagerTab(){
       if (handoffWatch) handoffWatch.value = 'Verify dyno response on the first run of the next shift.';
     }
 
-    function seedDemoHoursState(){
-      const baseIso = normalizeDateValue((hoursDayInput && hoursDayInput.value) || bannerFields.date || '') || getTodayISO();
-      const currentViewMode = hoursSheet?.viewMode || 'tech';
+    
+    function randomChoice(list){
+      return Array.isArray(list) && list.length ? list[Math.floor(Math.random() * list.length)] : null;
+    }
+
+    function randomWWID(){
+      const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const first = letters[Math.floor(Math.random() * letters.length)];
+      const second = letters[Math.floor(Math.random() * letters.length)];
+      const digits = String(Math.floor(Math.random() * 1000)).padStart(3,'0');
+      return `${first}${second}${digits}`;
+    }
+
+    function getCurrentHoursTempContext(){
+      const date = normalizeDateValue((hoursDayInput && hoursDayInput.value) || bannerFields.date || '') || getTodayISO();
+      const techShift = normalizeTechShiftForDate(hoursSheet?.techShift || getDefaultTechShiftForDate(date), date);
+      const testCell = TEST_CELL_OPTIONS.includes(String(bannerFields?.testCell || '')) ? String(bannerFields.testCell) : '204';
+      return {
+        date,
+        techShift,
+        viewMode: hoursSheet?.viewMode || 'tech',
+        testCell
+      };
+    }
+
+    function getCurrentWeekendTempDate(){
+      return normalizeDateValue((weekendDateInput && weekendDateInput.value) || getTodayISO()) || getTodayISO();
+    }
+
+    function getNeighboringTestCells(baseCell){
+      const list = TEST_CELL_OPTIONS.slice();
+      const index = Math.max(0, list.indexOf(String(baseCell || '204')));
+      return [
+        list[index],
+        list[(index + 3) % list.length],
+        list[(index + 8) % list.length]
+      ];
+    }
+
+    function makeDemoRow(id, status, detail, comment, hours){
+      return { id, status, detail, comment, hours };
+    }
+
+    function materializeScenarioRows(templateRows, baseId){
+      return (templateRows || []).map((row, index) => makeDemoRow(
+        baseId + index + 1,
+        row.status,
+        row.detail,
+        row.comment,
+        row.hours
+      ));
+    }
+
+    function buildPrimaryHoursScenario(expectedHours){
+      const otherComments = [
+        'Nathan is updating the TRI and loading in the new Rev so the file meets the release check before the next sweep starts.',
+        'Nathan is loading in the new Rev and validating the TRI changes before the next comparison pass resumes.',
+        'Nathan is updating the TRI while the new Rev is loaded so the requested release path stays clean for the next run.'
+      ];
+      const tenHourScenarios = [
+        [
+          {status:'Running', detail:'Running Per Plan', comment:'', hours:'4.5'},
+          {status:'Downtime', detail:'Other (please note)', comment:randomChoice(otherComments), hours:'0.5'},
+          {status:'Running', detail:'Calibration (Engineer)', comment:'Engineer requested a short offset confirmation after the Rev update.', hours:'2.0'},
+          {status:'Running', detail:'Data Review (Engineer)', comment:'Review stayed open while the last file was compared against the updated release.', hours:'3.0'}
+        ],
+        [
+          {status:'Running', detail:'Running Per Plan', comment:'', hours:'3.5'},
+          {status:'Downtime', detail:'Dyno', comment:'Dyno controller needed a quick recycle before the next stable pull was approved.', hours:'1.0'},
+          {status:'Running', detail:'Test Plan (Engineer)', comment:'Engineer adjusted the sequence and held one extra pass for confirmation.', hours:'2.5'},
+          {status:'Running', detail:'Cold Soak (On_T)', comment:'Cell returned to plan after the soak release was cleared.', hours:'3.0'}
+        ],
+        [
+          {status:'Running', detail:'Running Per Plan', comment:'', hours:'6.0'},
+          {status:'Downtime', detail:'Emissions Cart', comment:'Cart comms dropped briefly and needed a reconnect before the sheet could continue.', hours:'1.5'},
+          {status:'Running', detail:'Hardware (Engineer)', comment:'Engineer wanted one quick visual check after the reconnect.', hours:'1.0'},
+          {status:'Running', detail:'Data Review (Engineer)', comment:'The last points were reviewed before the final run block was released.', hours:'1.5'}
+        ]
+      ];
+      const twelveHourScenarios = [
+        [
+          {status:'Running', detail:'Running Per Plan', comment:'', hours:'5.5'},
+          {status:'Downtime', detail:'Other (please note)', comment:randomChoice(otherComments), hours:'1.0'},
+          {status:'Running', detail:'Calibration (Engineer)', comment:'Engineer wanted a clean compare after the update before the longer block resumed.', hours:'2.5'},
+          {status:'Running', detail:'Data Review (Engineer)', comment:'The extra review window stayed open while the final release notes were checked.', hours:'3.0'}
+        ],
+        [
+          {status:'Running', detail:'Running Per Plan', comment:'', hours:'4.0'},
+          {status:'Downtime', detail:'Facility Down', comment:'Facility support cleared a short utility dip before the cell could come fully back online.', hours:'2.0'},
+          {status:'Running', detail:'Test Plan (Engineer)', comment:'Engineer realigned the active points after the facility interruption ended.', hours:'3.5'},
+          {status:'Running', detail:'Cold Soak (On_T)', comment:'The overnight block resumed once the support checks were complete.', hours:'2.5'}
+        ],
+        [
+          {status:'Running', detail:'Running Per Plan', comment:'', hours:'6.5'},
+          {status:'Downtime', detail:'No Operator', comment:'Coverage paused briefly during a break overlap before the staffed window picked the cell back up.', hours:'0.5'},
+          {status:'Running', detail:'Hardware (Engineer)', comment:'Engineer asked for a quick clamp verification before sending the next load step.', hours:'2.0'},
+          {status:'Running', detail:'Data Review (Engineer)', comment:'Review time stayed open while the longer shift wrapped comparison notes.', hours:'3.0'}
+        ]
+      ];
+      return materializeScenarioRows(randomChoice(expectedHours >= 12 ? twelveHourScenarios : tenHourScenarios), 7100);
+    }
+
+    function buildSecondaryHoursScenario(expectedHours){
+      const tenHourScenarios = [
+        [
+          {status:'Running', detail:'Running Per Plan', comment:'', hours:'4.0'},
+          {status:'Downtime', detail:'Cyflex', comment:'Cyflex was reloaded after a command path hung during the restart sequence.', hours:'1.5'},
+          {status:'Running', detail:'Test Plan (Engineer)', comment:'Engineer requested another trimmed sweep before the shift closed out.', hours:'2.0'},
+          {status:'Running', detail:'Cell Calibration', comment:'Quick calibration touch-up completed before the final block.', hours:'2.5'}
+        ],
+        [
+          {status:'Running', detail:'Running Per Plan', comment:'', hours:'5.0'},
+          {status:'Downtime', detail:'Cell Calibration', comment:'Cell calibration drift was corrected before the next clean point was logged.', hours:'1.0'},
+          {status:'Running', detail:'Hardware (Engineer)', comment:'Engineer cleared the hardware check and returned the block to plan.', hours:'1.5'},
+          {status:'Running', detail:'Cold Soak (On_T)', comment:'Cold soak timing was released and the cell came back into sequence.', hours:'2.5'}
+        ]
+      ];
+      const twelveHourScenarios = [
+        [
+          {status:'Running', detail:'Running Per Plan', comment:'', hours:'5.0'},
+          {status:'Downtime', detail:'Dyno', comment:'Dyno needed a restart after a transient fault and support confirmed the recoveries looked clean.', hours:'1.5'},
+          {status:'Running', detail:'Test Plan (Engineer)', comment:'Engineer stretched the block for one more comparison segment.', hours:'3.0'},
+          {status:'Running', detail:'Cell Calibration', comment:'Calibration wrap-up finished before the last two hours of the shift.', hours:'2.5'}
+        ],
+        [
+          {status:'Running', detail:'Running Per Plan', comment:'', hours:'6.0'},
+          {status:'Downtime', detail:'PM System', comment:'PM system check held the cell briefly until the readings matched the target condition again.', hours:'1.0'},
+          {status:'Running', detail:'Hardware (Engineer)', comment:'Engineer signed off the hardware note and released the next chunk.', hours:'2.0'},
+          {status:'Running', detail:'Cold Soak (On_T)', comment:'Shift closed with one final soak-related sequence before handoff.', hours:'3.0'}
+        ]
+      ];
+      return materializeScenarioRows(randomChoice(expectedHours >= 12 ? twelveHourScenarios : tenHourScenarios), 7200);
+    }
+
+    function buildThirdHoursScenario(expectedHours){
+      const twelveHourScenarios = [
+        [
+          {status:'Running', detail:'Running Per Plan', comment:'', hours:'7.0'},
+          {status:'Downtime', detail:'No Operator', comment:'Operator coverage paused during a break overlap before the next staffed window resumed the cell.', hours:'1.0'},
+          {status:'Downtime', detail:'Facility Down', comment:'Facility steam fluctuation held the cell until utilities confirmed a stable condition again.', hours:'1.5'},
+          {status:'Running', detail:'Data Review (Engineer)', comment:'Engineer completed the last review note before releasing the remaining block.', hours:'2.5'}
+        ],
+        [
+          {status:'Running', detail:'Running Per Plan', comment:'', hours:'5.5'},
+          {status:'Downtime', detail:'Air Handlers', comment:'Air handler recovery held the room conditions outside the ready band for a short window.', hours:'1.5'},
+          {status:'Running', detail:'Calibration (Engineer)', comment:'Engineer rechecked the offset after room conditions returned to target.', hours:'2.0'},
+          {status:'Running', detail:'Data Review (Engineer)', comment:'Final comparison review stayed open at the end of the night block.', hours:'3.0'}
+        ]
+      ];
+      return materializeScenarioRows(randomChoice(twelveHourScenarios), 7300);
+    }
+
+    function seedDemoHoursState(context = getCurrentHoursTempContext()){
+      const baseIso = normalizeDateValue(context?.date || (hoursDayInput && hoursDayInput.value) || bannerFields.date || '') || getTodayISO();
+      const currentViewMode = context?.viewMode || hoursSheet?.viewMode || 'tech';
       const currentDate = new Date(`${baseIso}T12:00:00`);
       const priorDate = new Date(currentDate);
       priorDate.setDate(priorDate.getDate() - 1);
       const priorIso = priorDate.toISOString().slice(0,10);
 
-      const activeShiftKey = normalizeTechShiftForDate(hoursSheet?.techShift || getDefaultTechShiftForDate(baseIso), baseIso);
+      const activeShiftKey = normalizeTechShiftForDate(context?.techShift || hoursSheet?.techShift || getDefaultTechShiftForDate(baseIso), baseIso);
       const activePreset = TECH_SHIFT_OPTIONS[activeShiftKey] || TECH_SHIFT_OPTIONS['weekday-day'];
       const activeExpected = Number(activePreset.techHours || 10);
+      const [primaryCell, secondCell, thirdCell] = getNeighboringTestCells(context?.testCell || bannerFields?.testCell || '204');
 
-      const currentRows = activeExpected >= 12
-        ? [
-            {id:7101,status:'Running',detail:'Running Per Plan',comment:'',hours:'6.5'},
-            {id:7102,status:'Downtime',detail:'Emissions Cart',comment:'Emissions cart comms dropped during verification and needed a quick reconnect before testing resumed.',hours:'1.0'},
-            {id:7103,status:'Running',detail:'Calibration (Engineer)',comment:'Engineer requested one comparison pass after reconnect.',hours:'3.0'},
-            {id:7104,status:'Running',detail:'Data Review (Engineer)',comment:'',hours:'1.5'}
-          ]
-        : [
-            {id:7101,status:'Running',detail:'Running Per Plan',comment:'',hours:'5.5'},
-            {id:7102,status:'Downtime',detail:'Emissions Cart',comment:'Emissions cart comms dropped during verification and needed a quick reconnect before testing resumed.',hours:'1.0'},
-            {id:7103,status:'Running',detail:'Calibration (Engineer)',comment:'Engineer requested one comparison pass after reconnect.',hours:'2.5'},
-            {id:7104,status:'Running',detail:'Data Review (Engineer)',comment:'',hours:'1.0'}
-          ];
-
+      const currentRows = buildPrimaryHoursScenario(activeExpected);
       const baseFields = {
         engineModel:'Titanium',
         engineSN:'80728265',
         engineer:'A. McCalment',
         pph:'E6640',
-        testCell:'204',
+        testCell:primaryCell,
         testPlanId:'TIHD2A-EN-B2P10',
         technician:'Joey Poppe',
         shift:activePreset.label,
         date:baseIso,
         startTime:activePreset.startTime,
         endTime:activePreset.endTime,
-        cellHourMeter:'106'
+        cellHourMeter:String(100 + Math.floor(Math.random() * 90)),
       };
       const currentSheet = {
         expectedHours:String(activeExpected),
-        shiftNote:`Sample coverage follows the selected ${activePreset.label.toLowerCase()} context so review cards, comments, and readiness stay aligned for testing.`,
+        shiftNote:`Temp fill follows the selected ${activePreset.label.toLowerCase()} context so the sheet, trade view, and debug all line up during testing.`,
         workPattern:activePreset.workPattern,
         viewMode:currentViewMode,
         techShift:activeShiftKey
       };
 
-      const secondFields = {...baseFields, testCell:'207', cellHourMeter:'084', startTime:'05:00 PM', endTime:'03:00 AM', shift:'Weekday - Nights'};
-      const secondSheet = {expectedHours:'10', shiftNote:'Night shift had a short dyno interruption and then returned to plan.', workPattern:'4x10', viewMode:'trade', techShift:'weekday-night'};
-      const secondRows = [
-        {id:7201,status:'Running',detail:'Running Per Plan',comment:'',hours:'4.0'},
-        {id:7202,status:'Downtime',detail:'Dyno',comment:'Dyno controller needed a reset after a transient fault and operators waited for the restart window.',hours:'1.5'},
-        {id:7203,status:'Running',detail:'Test Plan (Engineer)',comment:'',hours:'3.0'},
-        {id:7204,status:'Running',detail:'Cold Soak (On_T)',comment:'',hours:'1.5'}
-      ];
+      const companionShiftKey = activeShiftKey.endsWith('night')
+        ? (activeShiftKey.startsWith('weekend') ? 'weekend-day' : 'weekday-day')
+        : (activeShiftKey.startsWith('weekend') ? 'weekend-night' : 'weekday-night');
+      const companionPreset = TECH_SHIFT_OPTIONS[companionShiftKey] || TECH_SHIFT_OPTIONS['weekday-night'];
+      const secondFields = {
+        ...baseFields,
+        testCell:secondCell,
+        cellHourMeter:String(80 + Math.floor(Math.random() * 70)),
+        startTime:companionPreset.startTime,
+        endTime:companionPreset.endTime,
+        shift:companionPreset.label
+      };
+      const secondSheet = {
+        expectedHours:String(companionPreset.techHours),
+        shiftNote:'Companion demo sheet adds a second context so the trade grouping and manager rollups have more to read.',
+        workPattern:companionPreset.workPattern,
+        viewMode:'trade',
+        techShift:companionShiftKey
+      };
+      const secondRows = buildSecondaryHoursScenario(Number(companionPreset.techHours || 10));
 
-      const thirdFields = {...baseFields, date:priorIso, testCell:'301', cellHourMeter:'152', startTime:'07:00 PM', endTime:'07:00 AM', shift:'Weekend Nights'};
-      const thirdSheet = {expectedHours:'12', shiftNote:'Weekend sample adds another cell and downtime note so trades and manager views do not look empty.', workPattern:'3x12', viewMode:'trade', techShift:'weekend-night'};
-      const thirdRows = [
-        {id:7301,status:'Running',detail:'Running Per Plan',comment:'',hours:'7.0'},
-        {id:7302,status:'Downtime',detail:'No Operator',comment:'Operator coverage paused during a break overlap before the next staffed window picked the cell back up.',hours:'1.0'},
-        {id:7303,status:'Downtime',detail:'Facility Down',comment:'Facility steam fluctuation held the cell until support confirmed stable utility conditions.',hours:'1.5'},
-        {id:7304,status:'Running',detail:'Data Review (Engineer)',comment:'',hours:'2.5'}
-      ];
+      const thirdShiftKey = 'weekend-night';
+      const thirdPreset = TECH_SHIFT_OPTIONS[thirdShiftKey] || TECH_SHIFT_OPTIONS['weekend-night'];
+      const thirdFields = {
+        ...baseFields,
+        date:priorIso,
+        testCell:thirdCell,
+        cellHourMeter:String(140 + Math.floor(Math.random() * 40)),
+        startTime:thirdPreset.startTime,
+        endTime:thirdPreset.endTime,
+        shift:thirdPreset.label
+      };
+      const thirdSheet = {
+        expectedHours:String(thirdPreset.techHours),
+        shiftNote:'Additional prior-shift demo gives trades and managers one more saved chunk to scan.',
+        workPattern:thirdPreset.workPattern,
+        viewMode:'trade',
+        techShift:thirdShiftKey
+      };
+      const thirdRows = buildThirdHoursScenario(Number(thirdPreset.techHours || 12));
 
       const demoSheets = {};
       [buildHoursRecord(baseFields, currentSheet, currentRows), buildHoursRecord(secondFields, secondSheet, secondRows), buildHoursRecord(thirdFields, thirdSheet, thirdRows)].forEach(record => {
@@ -2394,16 +2557,16 @@ function renderManagerTab(){
       hoursSheet = deepClone(currentSheet);
       hoursRows = normalizeHoursRows(currentRows);
       saveCurrentHoursSheet();
+      syncHoursDayControls();
     }
 
-    function seedDemoWeekendState(){
-      const boardIso = getTodayISO();
+    function seedDemoWeekendState(boardIso = getCurrentWeekendTempDate()){
       const rows = createWeekendUpdateRows();
       const fill = {
-        '204': {tcStatus:'Running', helpNeeded:'No', comments:'Validation sweep is active and the cell is running clean after the late cart reconnect.', lastUpdate:'07:18 AM', wwid:'JP01'},
-        '207': {tcStatus:'Down, Not Running', helpNeeded:'Yes', comments:'Dyno restart completed but the cell still needs visible support before the next run window opens.', lastUpdate:'09:42 AM', wwid:'JP01'},
-        '301': {tcStatus:'Data Review', helpNeeded:'No', comments:'Engineer is reviewing the last file before the next weekend chunk is released.', lastUpdate:'10:11 AM', wwid:'AS17'},
-        '417': {tcStatus:'Parts', helpNeeded:'No', comments:'Waiting on one replacement fitting before this cell returns to install activity.', lastUpdate:'11:36 AM', wwid:'TR05'}
+        '204': {tcStatus:'Running', helpNeeded:'No', comments:'Validation sweep is active and the cell is running clean after the late cart reconnect.', lastUpdate:'07:18 AM', wwid:randomWWID()},
+        '207': {tcStatus:'Down, Not Running', helpNeeded:'Yes', comments:'Nathan is updating the TRI and loading in the new Rev before the next weekend run window opens.', lastUpdate:'09:42 AM', wwid:randomWWID()},
+        '301': {tcStatus:'Data Review', helpNeeded:'No', comments:'Engineer is reviewing the latest file and holding one compare point before the next chunk is released.', lastUpdate:'10:11 AM', wwid:randomWWID()},
+        '417': {tcStatus:'Parts', helpNeeded:'No', comments:'Waiting on one replacement fitting before this cell returns to install activity.', lastUpdate:'11:36 AM', wwid:randomWWID()}
       };
       rows.forEach(row => {
         if (fill[row.testCell]) Object.assign(row, fill[row.testCell]);
@@ -2413,9 +2576,6 @@ function renderManagerTab(){
       if (weekendDateInput) weekendDateInput.value = boardIso;
     }
 
-    function seedDemoSettingsState(){
-      applyDisplayMode('clarity');
-    }
 
     function finalizeTempScenario(activeTabName){
       renderHeaderFields();
@@ -2431,18 +2591,20 @@ function renderManagerTab(){
 
     function runTempFillScenario(kind){
       rememberTempTestBaseline();
+      const preservedHoursContext = getCurrentHoursTempContext();
+      const preservedWeekendDate = getCurrentWeekendTempDate();
       applyPrototypeSnapshot(deepClone(tempTestBaseline));
       const activeTabName = kind === 'hours' ? 'hours' : kind === 'weekend' ? 'weekend' : kind === 'manager' ? 'manager' : kind === 'settings' ? 'settings' : 'logbook';
       if (kind === 'logbook') {
         seedDemoLogbookState();
       } else if (kind === 'hours') {
-        seedDemoHoursState();
+        seedDemoHoursState(preservedHoursContext);
       } else if (kind === 'weekend') {
-        seedDemoWeekendState();
+        seedDemoWeekendState(preservedWeekendDate);
       } else if (kind === 'manager') {
         seedDemoLogbookState();
-        seedDemoHoursState();
-        seedDemoWeekendState();
+        seedDemoHoursState(preservedHoursContext);
+        seedDemoWeekendState(preservedWeekendDate);
       } else if (kind === 'settings') {
         seedDemoSettingsState();
       }
@@ -2455,45 +2617,7 @@ function renderManagerTab(){
       tempTestBaseline = null;
     }
 
-function renderHeaderFields(){
-  headerGrid.innerHTML = bannerConfig.map(([label,key]) => {
-    if (key === "testCell") {
-      return `
-    <div class="header-cell">
-      <label>${label}</label>
-      <select data-banner="${key}">
-        ${TEST_CELL_OPTIONS.map(option => `<option value="${option}" ${String(bannerFields[key] || "") === option ? "selected" : ""}>${option}</option>`).join("")}
-      </select>
-    </div>
-  `;
-    }
-    return `
-    <div class="header-cell">
-      <label>${label}</label>
-      <input data-banner="${key}" type="${key === 'date' ? 'date' : 'text'}" value="${escapeHtml(key === 'date' ? normalizeDateValue(bannerFields[key] || "") : (bannerFields[key] || ""))}" />
-    </div>
-  `;
-  }).join("");
-  headerGrid.querySelectorAll("[data-banner]").forEach(input => {
-    input.addEventListener("input", e => {
-      const key = e.target.dataset.banner;
-      const previousFields = deepClone(bannerFields);
-      bannerFields[key] = key === "date" ? normalizeDateValue(e.target.value) || e.target.value : e.target.value;
-      if (key === "date") e.target.value = normalizeDateValue(bannerFields[key] || "") || "";
-      if (key === "date" || key === "testCell" || key === "startTime") {
-        saveCurrentHoursSheet(previousFields);
-        loadHoursSheetForCurrentContext();
-        renderHours();
-        if (key === "date" && currentTab !== "weekend") renderWeekendDailyUpdate();
-      } else {
-        saveCurrentHoursSheet();
-        hoursMeter.textContent = bannerFields.cellHourMeter || "—";
-        if (["shift","cellHourMeter","technician","engineer"].includes(key)) renderHours();
-      }
-    });
-  });
-  syncHoursDayControls();
-}
+
 
 function renderForm(){
       formGrid.innerHTML = `
