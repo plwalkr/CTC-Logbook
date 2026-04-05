@@ -160,6 +160,7 @@
     .theme-chip .swatches{display:flex;gap:6px;flex-wrap:wrap}
     .theme-swatch{width:28px;height:28px;border-radius:8px;border:1px solid rgba(15,23,42,.12)}
     .settings-note{font-size:12px;color:#475569;line-height:1.55}
+    .settings-copy{font-size:12px;color:#475569;line-height:1.55}
     .settings-status{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;font-weight:700;color:#334155}
     .manager-shell{display:flex;flex-direction:column;gap:12px}
     .manager-topline{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
@@ -374,6 +375,9 @@ body[data-theme="clarity"] .trade-empty-card{background:#f7faff;border-color:#9a
 body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff;color:#10233d}
 body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
+    body[data-active-tab="weekend"] #main-session-header,
+    body[data-active-tab="manager"] #main-session-header,
+    body[data-active-tab="settings"] #main-session-header{display:none !important}
 
 
     .weekend-board{display:flex;flex-direction:column;gap:12px}
@@ -495,7 +499,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.83-settings-value-compact-views</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.84-settings-refined-headerfix</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -979,7 +983,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
               <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
                 <span class="pill">Current Display: <span id="display-mode-status" style="margin-left:6px">Standard</span></span>
                 <span class="pill">Saved Locally</span>
-                <span class="pill">Compact Views: Weekend / Manager / Settings</span>
+                <span class="pill">Compact Headers: Weekend / Manager / Settings</span>
               </div>
               <div class="theme-preview" aria-hidden="true">
                 <div class="theme-chip">
@@ -1004,12 +1008,12 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             </div>
 
             <div class="section-card">
-              <div class="section-title">Mode Notes</div>
+              <div class="section-title">What Settings Is For</div>
               <div class="settings-note">
-                <p><strong>Standard Display</strong> keeps the current visual style and is the default presentation mode.</p>
-                <p><strong>Clarity Display</strong> uses stronger separation and reduces reliance on red/green-only signals for users who benefit from clearer differentiation.</p>
-                <p>The selected mode is saved in the browser so the same display comes back the next time the page is opened on that device.</p>
-                <p><strong>Compact views</strong> intentionally hide the engine/session header on Weekend, Manager, and Settings so those tabs stay cleaner and more scan-friendly.</p>
+                <p><strong>This tab is for page controls and quick reference</strong>, not analytics.</p>
+                <p>Use it to change the display mode, confirm how compact tabs behave, and keep a short operating reference in one clean spot.</p>
+                <p><strong>Manager / Coaches stays separate</strong> so rollups, downtime patterns, help-needed items, and other read-only intelligence live there instead of cluttering Settings.</p>
+                <p>The selected display mode is saved in the browser so the same display returns the next time this file is opened on that device.</p>
               </div>
             </div>
           </div>
@@ -1017,19 +1021,19 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
           <div class="settings-quickref">
             <div class="settings-mini-card">
               <h3>Confirmed Tech Schedule</h3>
-              <div class="manager-note">Mon–Thu: 7a–5p / 5p–3a<br>Fri–Sun: 7a–7p / 7p–7a</div>
+              <div class="settings-copy">Mon–Thu: 7a–5p / 5p–3a<br>Fri–Sun: 7a–7p / 7p–7a</div>
             </div>
             <div class="settings-mini-card">
               <h3>Trade Tracking Reminder</h3>
-              <div class="manager-note">Weekdays track 10-hour runs, Thu→Fri carries a 14-hour transition run, and weekend runs track 12-hour chunks.</div>
+              <div class="settings-copy">Weekdays track 10-hour runs, Thu→Fri carries a 14-hour transition run, and weekend runs track 12-hour chunks.</div>
             </div>
             <div class="settings-mini-card">
               <h3>Tab Quick Guide</h3>
-              <div class="manager-note">Logbook = history layer.<br>Cell Hours = tech entry side.<br>Weekend = fast TC status board.<br>Manager = read-only rollup.</div>
+              <div class="settings-copy">Logbook = history layer.<br>Cell Hours = tech entry side.<br>Weekend = fast TC status board.<br>Manager = read-only rollup.</div>
             </div>
             <div class="settings-mini-card">
               <h3>Operational Reminders</h3>
-              <div class="manager-note">Use the day + shift controls on Cell Hours first. Keep downtime comments meaningful. Use Weekend Help Needed when a cell needs visible support.</div>
+              <div class="settings-copy">Use the day + shift controls on Cell Hours first. Keep downtime comments meaningful. Use Weekend Help Needed when a cell needs visible support.</div>
             </div>
           </div>
         </div>
@@ -1064,7 +1068,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.83-settings-value-compact-views";
+    const VERSION = "1.0.84-settings-refined-headerfix";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2766,6 +2770,7 @@ function renderHours(){
 
     function switchTab(tabName){
       currentTab = tabName;
+      document.body.dataset.activeTab = tabName;
       Object.entries(tabViews).forEach(([name, view]) => {
         view.hidden = name !== tabName;
       });
@@ -3130,6 +3135,7 @@ ${report}`;
     initCtcPulse();
     resetForm();
     renderEntries();
+    switchTab("logbook");
   </script>
 </body>
 </html>
