@@ -219,6 +219,15 @@
     body[data-theme="clarity"] .manager-card,
     body[data-theme="clarity"] .manager-band-card,
     body[data-theme="clarity"] .manager-list-card,
+    .temp-test-bar{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 12px;border:1px dashed var(--line);border-radius:14px;background:var(--soft)}
+    .temp-test-copy{font-size:12px;color:#475569;line-height:1.45}
+    .temp-test-copy strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:4px}
+    .temp-test-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .temp-test-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800;cursor:pointer}
+    .temp-test-btn.reset{border-style:dashed}
+    .temp-test-btn:hover{transform:translateY(-1px)}
+    body[data-theme="clarity"] .temp-test-bar{background:#f7faff;border-color:#9aa7bd}
+    body[data-theme="clarity"] .temp-test-btn{border-color:#8ea2bf;background:#fff;color:#10233d}
     body[data-theme="clarity"] .manager-hero-card,
     body[data-theme="clarity"] .manager-signal-card,
     body[data-theme="clarity"] .settings-mini-card,
@@ -546,14 +555,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.92-settings-manager-polish</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.93-temp-test-fill</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">1.0.92-settings-manager-polish</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">1.0.93-temp-test-fill</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -582,6 +591,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     <div id="tab-logbook" class="tab-view">
     <section class="panel">
       <div class="section-body">
+        <div class="temp-test-bar">
+          <div class="temp-test-copy"><strong>Temp test tools</strong>Fill this page with believable sample logbook data, then reset it when you're done reviewing the layout.</div>
+          <div class="temp-test-actions">
+            <button class="temp-test-btn" type="button" data-temp-fill="logbook">Fill This Tab</button>
+            <button class="temp-test-btn reset" type="button" data-temp-reset="true">Reset Test Data</button>
+          </div>
+        </div>
+
         <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap">
           <div>
             <h2>New Log Submission</h2>
@@ -776,6 +793,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
       </div>
 
+      <div class="temp-test-bar">
+        <div class="temp-test-copy"><strong>Temp test tools</strong>Load sample hour rows and saved shift chunks so technician logging and trade coverage can be previewed fast.</div>
+        <div class="temp-test-actions">
+          <button class="temp-test-btn" type="button" data-temp-fill="hours">Fill This Tab</button>
+          <button class="temp-test-btn reset" type="button" data-temp-reset="true">Reset Test Data</button>
+        </div>
+      </div>
+
       <div class="section-card">
         <div class="section-title">Hours Basis</div>
         <div class="hours-mode-grid">
@@ -919,9 +944,17 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.92-settings-manager-polish</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.93-temp-test-fill</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
+          <div class="temp-test-bar">
+            <div class="temp-test-copy"><strong>Temp test tools</strong>Seed a live-looking weekend board with status rows and help-needed calls so the page can be reviewed quickly.</div>
+            <div class="temp-test-actions">
+              <button class="temp-test-btn" type="button" data-temp-fill="weekend">Fill This Tab</button>
+              <button class="temp-test-btn reset" type="button" data-temp-reset="true">Reset Test Data</button>
+            </div>
+          </div>
+
           <div class="weekend-toolbar">
             <div>
               <h2>Weekend Days Daily Update</h2>
@@ -969,13 +1002,21 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.92-settings-manager-polish</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.93-temp-test-fill</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
             <span class="pill">Active Cells: <span id="manager-active-cells" style="margin-left:6px">0</span></span>
             <span class="pill">Help Needed: <span id="manager-help-needed" style="margin-left:6px">0</span></span>
             <span class="pill">Visible Log Rows: <span id="manager-visible-log-rows" style="margin-left:6px">0</span></span>
+          </div>
+
+          <div class="temp-test-bar">
+            <div class="temp-test-copy"><strong>Temp test tools</strong>Load a richer demo review story across hours, downtime, and weekend help so Manager / Coaches can be judged with real-looking signals.</div>
+            <div class="temp-test-actions">
+              <button class="temp-test-btn" type="button" data-temp-fill="manager">Fill This Tab</button>
+              <button class="temp-test-btn reset" type="button" data-temp-reset="true">Reset Test Data</button>
+            </div>
           </div>
 
           <div class="manager-hero">
@@ -1088,9 +1129,17 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.92-settings-manager-polish</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.93-temp-test-fill</span></span></div>
       <section class="panel">
         <div class="section-body">
+          <div class="temp-test-bar">
+            <div class="temp-test-copy"><strong>Temp test tools</strong>Preview the settings experience in a different display mode and reset back to your original session when finished.</div>
+            <div class="temp-test-actions">
+              <button class="temp-test-btn" type="button" data-temp-fill="settings">Fill This Tab</button>
+              <button class="temp-test-btn reset" type="button" data-temp-reset="true">Reset Test Data</button>
+            </div>
+          </div>
+
           <div class="settings-hero">
             <div class="settings-hero-card">
               <div class="section-title">Display + Behavior</div>
@@ -1207,7 +1256,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.92-settings-manager-polish";
+    const VERSION = "1.0.93-temp-test-fill";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2078,6 +2127,304 @@ function renderManagerTab(){
       : `<div class="manager-empty">No downtime notes are available yet.</div>`;
   }
 }
+
+    let tempTestBaseline = null;
+
+    function clearHoursCellSheets(){
+      Object.keys(hoursCellSheets).forEach(key => delete hoursCellSheets[key]);
+    }
+
+    function replaceHoursCellSheets(nextSheets){
+      clearHoursCellSheets();
+      Object.entries(nextSheets || {}).forEach(([key, value]) => {
+        hoursCellSheets[key] = deepClone(value);
+      });
+    }
+
+    function capturePrototypeSnapshot(){
+      return {
+        bannerFields: deepClone(bannerFields),
+        hoursSheet: deepClone(hoursSheet),
+        hoursRows: deepClone(hoursRows),
+        hoursCellSheets: deepClone(hoursCellSheets),
+        formState: deepClone(formState),
+        entries: deepClone(entries),
+        expandedRows: deepClone(expandedRows),
+        followUpTargetId,
+        handoffSnapshots: deepClone(handoffSnapshots),
+        weekendUpdateStore: deepClone(weekendUpdateStore),
+        pulseLastScan,
+        ui: {
+          noteEditorHtml: noteEditor ? noteEditor.innerHTML : '',
+          followupText: followupText ? followupText.value : '',
+          followupVisible: followupPanel ? followupPanel.style.display : '',
+          searchInput: searchInput ? searchInput.value : '',
+          filterSource: filterSource ? filterSource.value : '',
+          filterCategory: filterCategory ? filterCategory.value : '',
+          filterReview: filterReview ? filterReview.value : '',
+          filterDateFrom: filterDateFrom ? filterDateFrom.value : '',
+          filterDateTo: filterDateTo ? filterDateTo.value : '',
+          hoursFilterSearch: hoursFilterSearch ? hoursFilterSearch.value : '',
+          hoursFilterStatus: hoursFilterStatus ? hoursFilterStatus.value : '',
+          hoursFilterDateFrom: hoursFilterDateFrom ? hoursFilterDateFrom.value : '',
+          hoursFilterDateTo: hoursFilterDateTo ? hoursFilterDateTo.value : '',
+          handoffState: handoffState ? handoffState.value : '',
+          handoffPriority: handoffPriority ? handoffPriority.value : '',
+          handoffOwner: handoffOwner ? handoffOwner.value : '',
+          handoffReady: handoffReady ? handoffReady.value : '',
+          handoffCompleted: handoffCompleted ? handoffCompleted.value : '',
+          handoffOpen: handoffOpen ? handoffOpen.value : '',
+          handoffWatch: handoffWatch ? handoffWatch.value : '',
+          weekendDateValue: weekendDateInput ? weekendDateInput.value : '',
+          displayMode: document.body?.dataset?.theme || getSavedDisplayMode(),
+          currentTab
+        }
+      };
+    }
+
+    function applyPrototypeSnapshot(snapshot){
+      if (!snapshot) return;
+      bannerFields = deepClone(snapshot.bannerFields);
+      hoursSheet = deepClone(snapshot.hoursSheet);
+      hoursRows = normalizeHoursRows(deepClone(snapshot.hoursRows));
+      replaceHoursCellSheets(snapshot.hoursCellSheets || {});
+      formState = deepClone(snapshot.formState);
+      entries = deepClone(snapshot.entries);
+      expandedRows = deepClone(snapshot.expandedRows || {});
+      followUpTargetId = snapshot.followUpTargetId ?? null;
+      handoffSnapshots = deepClone(snapshot.handoffSnapshots || []);
+      weekendUpdateStore = deepClone(snapshot.weekendUpdateStore || {});
+      saveWeekendUpdateStore(weekendUpdateStore);
+      pulseLastScan = snapshot.pulseLastScan || 'Never run';
+
+      if (searchInput) searchInput.value = snapshot.ui?.searchInput || '';
+      if (filterSource) filterSource.value = snapshot.ui?.filterSource || '';
+      if (filterCategory) filterCategory.value = snapshot.ui?.filterCategory || '';
+      if (filterReview) filterReview.value = snapshot.ui?.filterReview || '';
+      if (filterDateFrom) filterDateFrom.value = snapshot.ui?.filterDateFrom || '';
+      if (filterDateTo) filterDateTo.value = snapshot.ui?.filterDateTo || '';
+      if (hoursFilterSearch) hoursFilterSearch.value = snapshot.ui?.hoursFilterSearch || '';
+      if (hoursFilterStatus) hoursFilterStatus.value = snapshot.ui?.hoursFilterStatus || '';
+      if (hoursFilterDateFrom) hoursFilterDateFrom.value = snapshot.ui?.hoursFilterDateFrom || '';
+      if (hoursFilterDateTo) hoursFilterDateTo.value = snapshot.ui?.hoursFilterDateTo || '';
+      if (handoffState) handoffState.value = snapshot.ui?.handoffState || 'Running';
+      if (handoffPriority) handoffPriority.value = snapshot.ui?.handoffPriority || 'Normal';
+      if (handoffOwner) handoffOwner.value = snapshot.ui?.handoffOwner || '';
+      if (handoffReady) handoffReady.value = snapshot.ui?.handoffReady || 'Ready';
+      if (handoffCompleted) handoffCompleted.value = snapshot.ui?.handoffCompleted || '';
+      if (handoffOpen) handoffOpen.value = snapshot.ui?.handoffOpen || '';
+      if (handoffWatch) handoffWatch.value = snapshot.ui?.handoffWatch || '';
+      if (followupText) followupText.value = snapshot.ui?.followupText || '';
+      if (followupPanel) followupPanel.style.display = snapshot.ui?.followupVisible || 'none';
+      if (noteEditor) noteEditor.innerHTML = snapshot.ui?.noteEditorHtml || '';
+      if (weekendDateInput) weekendDateInput.value = snapshot.ui?.weekendDateValue || normalizeDateValue(bannerFields.date || '') || getTodayISO();
+
+      renderHeaderFields();
+      renderForm();
+      renderHours();
+      renderHandoffs();
+      renderEntries();
+      renderWeekendDailyUpdate();
+      applyDisplayMode(snapshot.ui?.displayMode || 'standard');
+      renderManagerTab();
+      switchTab(snapshot.ui?.currentTab || 'logbook');
+      syncCtcPulseSnapshot();
+    }
+
+    function rememberTempTestBaseline(){
+      if (!tempTestBaseline) tempTestBaseline = capturePrototypeSnapshot();
+    }
+
+    function buildHoursRecord(fields, sheet, rows){
+      const iso = normalizeDateValue(fields?.date || '') || getTodayISO();
+      const startTime = String(fields?.startTime || '07:00 AM');
+      return {
+        key: `${iso}|${String(fields?.testCell || 'no-cell')}|${startTime}`,
+        value: {
+          bannerSnapshot: deepClone(fields),
+          hoursSheet: deepClone(sheet),
+          hoursRows: normalizeHoursRows(deepClone(rows))
+        }
+      };
+    }
+
+    function createLogEntry(id, overrides = {}){
+      const header = deepClone(overrides.headerSnapshot || bannerFields);
+      const note = String(overrides.noteText || overrides.noteHtml || '');
+      return {
+        id,
+        source: overrides.source || 'operator',
+        locked: true,
+        ignored: false,
+        reviewState: overrides.reviewState || 'Active',
+        eventType: overrides.eventType || 'Operator Note',
+        time: overrides.time || formatCurrentTime(),
+        run: overrides.run || '1229756',
+        cycle: overrides.cycle || 'vLLC',
+        torqueMap: overrides.torqueMap || '19',
+        PanT: overrides.PanT || '180.4',
+        carbon: overrides.carbon || '-0.70',
+        nox: overrides.nox || '-0.010',
+        thc: overrides.thc || '-0.003',
+        pm: overrides.pm || '—',
+        work: overrides.work || '56.05',
+        filter: overrides.filter || '—',
+        testMap: overrides.testMap || '19',
+        category: overrides.category || 'General',
+        status: overrides.status || 'Open',
+        noteHtml: overrides.noteHtml || escapeHtml(note),
+        noteText: note || plainTextFromHtml(overrides.noteHtml || ''),
+        headerSnapshot: header
+      };
+    }
+
+    function seedDemoLogbookState(){
+      const todayIso = getTodayISO();
+      bannerFields = {
+        engineModel:'Titanium',
+        engineSN:'80728265',
+        engineer:'A. McCalment',
+        pph:'E6640',
+        testCell:'204',
+        testPlanId:'TIHD2A-EN-B2P10',
+        technician:'Joey Poppe',
+        shift:'6W',
+        date:todayIso,
+        startTime:'07:00 AM',
+        endTime:'07:00 PM',
+        cellHourMeter:'106'
+      };
+      const header = deepClone(bannerFields);
+      entries = [
+        createLogEntry(5006, {source:'operator', time:'06:18 PM', eventType:'Operator Note', category:'General', status:'Open', noteHtml:'<strong>Shift wrap note:</strong> Cell stayed stable after late cart swap. Final watch item is the help-needed weekend row and a quick dyno verification before handoff.', noteText:'Shift wrap note: Cell stayed stable after late cart swap. Final watch item is the help-needed weekend row and a quick dyno verification before handoff.', headerSnapshot:header}),
+        createLogEntry(5005, {source:'operator', time:'04:42 PM', eventType:'Operator Note', category:'Engineer Direction', status:'Monitoring', reviewState:'Monitoring', noteHtml:'<strong>Engineer request:</strong> Hold an extra validation pass after the current sweep and note any NOx drift greater than 0.01.', noteText:'Engineer request: Hold an extra validation pass after the current sweep and note any NOx drift greater than 0.01.', headerSnapshot:header}),
+        createLogEntry(5004, {source:'system', time:'03:55 PM', eventType:'Restrictions', category:'Test Update', status:'Monitoring', reviewState:'Monitoring', noteHtml:'System event: restrictions command executed and logged for traceability before returning to the active plan.', noteText:'System event: restrictions command executed and logged for traceability before returning to the active plan.', headerSnapshot:header}),
+        createLogEntry(5003, {source:'operator', time:'01:12 PM', eventType:'Operator Note', category:'Hardware', status:'Resolved', reviewState:'Reviewed', noteHtml:'<strong>Hardware check:</strong> Tightened charge-air clamp after minor seep. Leak check passed and readings returned to normal.', noteText:'Hardware check: Tightened charge-air clamp after minor seep. Leak check passed and readings returned to normal.', headerSnapshot:header}),
+        createLogEntry(5002, {source:'system', time:'08:14 AM', eventType:'1065 Check', category:'Emissions', status:'Open', noteHtml:'System event: prep to cal completed and 1065 checks auto-populated for review.', noteText:'System event: prep to cal completed and 1065 checks auto-populated for review.', headerSnapshot:header}),
+        createLogEntry(5001, {source:'system', time:'07:03 AM', eventType:'Cycle Start', category:'Test Update', status:'Open', noteHtml:'System event: cycle start registered and initial running sheet row opened.', noteText:'System event: cycle start registered and initial running sheet row opened.', headerSnapshot:header})
+      ];
+      handoffSnapshots = [
+        {id:9102,time:'06:25 PM',state:'Ready for Next Shift',priority:'Watch',owner:'Weekend coach',ready:'Needs Review',completed:'Completed late validation sweep and cleared charge-air hardware concern.',open:'Weekend support row still active on the daily board for TC 207.',watch:'Watch dyno response first and confirm help-needed queue has been acknowledged.',header:deepClone(header)},
+        {id:9101,time:'03:10 PM',state:'Monitoring',priority:'Normal',owner:'A. McCalment',ready:'Not Ready',completed:'Emissions cart swapped and line checks completed.',open:'Need one more NOx comparison pass after the next sweep.',watch:'Keep post-processing note visible for the next operator.',header:deepClone(header)}
+      ];
+      expandedRows = {};
+      formState = {time:'06:30 PM',run:'1229756',cycle:'vLLC',torqueMap:'19',PanT:'180.4',carbon:'-0.70',nox:'-0.010',thc:'-0.003',pm:'—',work:'56.05',filter:'—',testMap:'19',category:'General',status:'Open'};
+      if (noteEditor) noteEditor.innerHTML = '<div><strong>Operator test note:</strong> Sample entry staged here so formatting and spacing can be reviewed quickly.</div>';
+      if (handoffState) handoffState.value = 'Ready for Next Shift';
+      if (handoffPriority) handoffPriority.value = 'Watch';
+      if (handoffOwner) handoffOwner.value = 'Weekend coach';
+      if (handoffReady) handoffReady.value = 'Needs Review';
+      if (handoffCompleted) handoffCompleted.value = 'Completed the final comparison pass.';
+      if (handoffOpen) handoffOpen.value = 'Weekend board still shows a visible support request.';
+      if (handoffWatch) handoffWatch.value = 'Verify dyno response on the first run of the next shift.';
+    }
+
+    function seedDemoHoursState(){
+      const baseIso = normalizeDateValue((hoursDayInput && hoursDayInput.value) || bannerFields.date || '') || getTodayISO();
+      const currentViewMode = hoursSheet?.viewMode || 'tech';
+      const currentDate = new Date(`${baseIso}T12:00:00`);
+      const priorDate = new Date(currentDate);
+      priorDate.setDate(priorDate.getDate() - 1);
+      const priorIso = priorDate.toISOString().slice(0,10);
+
+      const baseFields = {
+        engineModel:'Titanium', engineSN:'80728265', engineer:'A. McCalment', pph:'E6640', testCell:'204', testPlanId:'TIHD2A-EN-B2P10', technician:'Joey Poppe', shift:'Weekday', date:baseIso, startTime:'07:00 AM', endTime:'05:00 PM', cellHourMeter:'106'
+      };
+      const currentSheet = {expectedHours:'10', shiftNote:'Sample coverage includes one downtime row so review cards, comments, and readiness all have something real to show.', workPattern:'4x10', viewMode:currentViewMode, techShift:'weekday-day'};
+      const currentRows = [
+        {id:7101,status:'Running',detail:'Running Per Plan',comment:'',hours:'5.5'},
+        {id:7102,status:'Downtime',detail:'Emissions Cart',comment:'Emissions cart comms dropped during verification and needed a quick reconnect before testing resumed.',hours:'1.0'},
+        {id:7103,status:'Running',detail:'Calibration (Engineer)',comment:'Engineer requested one comparison pass after reconnect.',hours:'2.5'},
+        {id:7104,status:'Running',detail:'Data Review (Engineer)',comment:'',hours:'1.0'}
+      ];
+
+      const secondFields = {...baseFields, testCell:'207', cellHourMeter:'084', startTime:'05:00 PM', endTime:'03:00 AM', shift:'Weekday - Nights'};
+      const secondSheet = {expectedHours:'10', shiftNote:'Night shift had a short dyno interruption and then returned to plan.', workPattern:'4x10', viewMode:'trade', techShift:'weekday-night'};
+      const secondRows = [
+        {id:7201,status:'Running',detail:'Running Per Plan',comment:'',hours:'4.0'},
+        {id:7202,status:'Downtime',detail:'Dyno',comment:'Dyno controller needed a reset after a transient fault and operators waited for the restart window.',hours:'1.5'},
+        {id:7203,status:'Running',detail:'Test Plan (Engineer)',comment:'',hours:'3.0'},
+        {id:7204,status:'Running',detail:'Cold Soak (On_T)',comment:'',hours:'1.5'}
+      ];
+
+      const thirdFields = {...baseFields, date:priorIso, testCell:'301', cellHourMeter:'152', startTime:'07:00 PM', endTime:'07:00 AM', shift:'Weekend Nights'};
+      const thirdSheet = {expectedHours:'12', shiftNote:'Weekend sample adds another cell and downtime note so trades and manager views do not look empty.', workPattern:'3x12', viewMode:'trade', techShift:'weekend-night'};
+      const thirdRows = [
+        {id:7301,status:'Running',detail:'Running Per Plan',comment:'',hours:'7.0'},
+        {id:7302,status:'Downtime',detail:'No Operator',comment:'Operator coverage paused during a break overlap before the next staffed window picked the cell back up.',hours:'1.0'},
+        {id:7303,status:'Downtime',detail:'Facility Down',comment:'Facility steam fluctuation held the cell until support confirmed stable utility conditions.',hours:'1.5'},
+        {id:7304,status:'Running',detail:'Data Review (Engineer)',comment:'',hours:'2.5'}
+      ];
+
+      const demoSheets = {};
+      [buildHoursRecord(baseFields, currentSheet, currentRows), buildHoursRecord(secondFields, secondSheet, secondRows), buildHoursRecord(thirdFields, thirdSheet, thirdRows)].forEach(record => {
+        demoSheets[record.key] = record.value;
+      });
+      replaceHoursCellSheets(demoSheets);
+      bannerFields = deepClone(baseFields);
+      hoursSheet = deepClone(currentSheet);
+      hoursRows = normalizeHoursRows(currentRows);
+      saveCurrentHoursSheet();
+    }
+
+    function seedDemoWeekendState(){
+      const boardIso = getTodayISO();
+      const rows = createWeekendUpdateRows();
+      const fill = {
+        '204': {tcStatus:'Running', helpNeeded:'No', comments:'Validation sweep is active and the cell is running clean after the late cart reconnect.', lastUpdate:'07:18 AM', wwid:'JP01'},
+        '207': {tcStatus:'Down, Not Running', helpNeeded:'Yes', comments:'Dyno restart completed but the cell still needs visible support before the next run window opens.', lastUpdate:'09:42 AM', wwid:'JP01'},
+        '301': {tcStatus:'Data Review', helpNeeded:'No', comments:'Engineer is reviewing the last file before the next weekend chunk is released.', lastUpdate:'10:11 AM', wwid:'AS17'},
+        '417': {tcStatus:'Parts', helpNeeded:'No', comments:'Waiting on one replacement fitting before this cell returns to install activity.', lastUpdate:'11:36 AM', wwid:'TR05'}
+      };
+      rows.forEach(row => {
+        if (fill[row.testCell]) Object.assign(row, fill[row.testCell]);
+      });
+      weekendUpdateStore = {...weekendUpdateStore, [boardIso]: rows};
+      saveWeekendUpdateStore(weekendUpdateStore);
+      if (weekendDateInput) weekendDateInput.value = boardIso;
+    }
+
+    function seedDemoSettingsState(){
+      applyDisplayMode('clarity');
+    }
+
+    function finalizeTempScenario(activeTabName){
+      renderHeaderFields();
+      renderForm();
+      renderHours();
+      renderHandoffs();
+      renderEntries();
+      renderWeekendDailyUpdate();
+      renderManagerTab();
+      syncCtcPulseSnapshot();
+      if (activeTabName) switchTab(activeTabName);
+    }
+
+    function runTempFillScenario(kind){
+      rememberTempTestBaseline();
+      applyPrototypeSnapshot(deepClone(tempTestBaseline));
+      const activeTabName = kind === 'hours' ? 'hours' : kind === 'weekend' ? 'weekend' : kind === 'manager' ? 'manager' : kind === 'settings' ? 'settings' : 'logbook';
+      if (kind === 'logbook') {
+        seedDemoLogbookState();
+      } else if (kind === 'hours') {
+        seedDemoHoursState();
+      } else if (kind === 'weekend') {
+        seedDemoWeekendState();
+      } else if (kind === 'manager') {
+        seedDemoLogbookState();
+        seedDemoHoursState();
+        seedDemoWeekendState();
+      } else if (kind === 'settings') {
+        seedDemoSettingsState();
+      }
+      finalizeTempScenario(activeTabName);
+    }
+
+    function resetTempTestData(){
+      if (!tempTestBaseline) return;
+      applyPrototypeSnapshot(deepClone(tempTestBaseline));
+      tempTestBaseline = null;
+    }
 
 function renderHeaderFields(){
   headerGrid.innerHTML = bannerConfig.map(([label,key]) => {
@@ -2981,6 +3328,15 @@ function renderHours(){
       syncCtcPulseSnapshot();
     }
 
+    function initTempTestTools(){
+      document.querySelectorAll('[data-temp-fill]').forEach(btn => {
+        btn.addEventListener('click', () => runTempFillScenario(btn.dataset.tempFill));
+      });
+      document.querySelectorAll('[data-temp-reset]').forEach(btn => {
+        btn.addEventListener('click', resetTempTestData);
+      });
+    }
+
     function initTabs(){
       tabButtons.forEach(btn => {
         btn.addEventListener("click", () => switchTab(btn.dataset.tabTarget));
@@ -3400,6 +3756,7 @@ ${report}`;
     initTabs();
     initToolbar();
     initSettings();
+    initTempTestTools();
     initHoursModeControls();
     initCtcPulse();
     resetForm();
