@@ -266,9 +266,11 @@
 .hours-day-note{font-size:12px;color:#475569}
 .tech-shift-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
 .tech-shift-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800;cursor:pointer}
-.tech-shift-btn.active{border-color:#0f172a;box-shadow:0 0 0 2px rgba(15,23,42,.08);background:#f8fafc}
+.tech-shift-btn.active{border-color:#0f172a;box-shadow:0 0 0 3px rgba(15,23,42,.14);background:#0f172a;color:#fff}
+.tech-shift-btn[data-active="true"]{border-color:#0f172a;box-shadow:0 0 0 3px rgba(15,23,42,.14);background:#0f172a;color:#fff}
 body[data-theme="clarity"] .tech-shift-btn{border-color:#8ea2bf;background:#fff;color:#10233d}
-body[data-theme="clarity"] .tech-shift-btn.active{border-color:#163b69;box-shadow:0 0 0 2px rgba(22,59,105,.12);background:#eef4ff}
+body[data-theme="clarity"] .tech-shift-btn.active{border-color:#163b69;box-shadow:0 0 0 3px rgba(22,59,105,.16);background:#163b69;color:#fff}
+body[data-theme="clarity"] .tech-shift-btn[data-active="true"]{border-color:#163b69;box-shadow:0 0 0 3px rgba(22,59,105,.16);background:#163b69;color:#fff}
 
 .trade-session-chunk{border-top:1px dashed #e2e8f0;padding-top:12px;margin-top:12px}
 .trade-session-chunk:first-of-type{border-top:none;padding-top:0;margin-top:0}
@@ -469,7 +471,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.78-techshift-buttons-tradehidezero</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.79-techshift-activefix</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -959,7 +961,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.78-techshift-buttons-tradehidezero";
+    const VERSION = "1.0.79-techshift-activefix";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -1264,8 +1266,10 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     function initHoursModeControls(){
       if (hoursTechShiftBar) {
         hoursTechShiftBar.querySelectorAll("[data-tech-shift]").forEach(btn => {
-          btn.classList.toggle("active", btn.dataset.techShift === hoursSheet.techShift);
-          btn.setAttribute("aria-pressed", btn.dataset.techShift === hoursSheet.techShift ? "true" : "false");
+          const isActive = btn.dataset.techShift === hoursSheet.techShift;
+          btn.classList.toggle("active", isActive);
+          btn.setAttribute("data-active", isActive ? "true" : "false");
+          btn.setAttribute("aria-pressed", isActive ? "true" : "false");
         });
       }
       if (hoursTechShiftNote) {
