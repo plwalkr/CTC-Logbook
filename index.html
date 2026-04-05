@@ -495,7 +495,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.82-header-cleanup</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.83-settings-value-compact-views</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
@@ -520,7 +520,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       </button>
       <button class="tab-btn" type="button" data-tab-target="settings">
         Settings
-        <span class="tab-sub">Display and accessibility</span>
+        <span class="tab-sub">Display + quick reference</span>
       </button>
     </div>
 
@@ -976,7 +976,11 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="section-card">
               <div class="section-title">Display Mode</div>
               <div class="display-mode-bar" id="display-mode-bar"></div>
-              <div class="small" style="margin-top:8px">Current Display: <span id="display-mode-status">Standard</span></div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+                <span class="pill">Current Display: <span id="display-mode-status" style="margin-left:6px">Standard</span></span>
+                <span class="pill">Saved Locally</span>
+                <span class="pill">Compact Views: Weekend / Manager / Settings</span>
+              </div>
               <div class="theme-preview" aria-hidden="true">
                 <div class="theme-chip">
                   <strong>Standard Display</strong>
@@ -1005,6 +1009,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                 <p><strong>Standard Display</strong> keeps the current visual style and is the default presentation mode.</p>
                 <p><strong>Clarity Display</strong> uses stronger separation and reduces reliance on red/green-only signals for users who benefit from clearer differentiation.</p>
                 <p>The selected mode is saved in the browser so the same display comes back the next time the page is opened on that device.</p>
+                <p><strong>Compact views</strong> intentionally hide the engine/session header on Weekend, Manager, and Settings so those tabs stay cleaner and more scan-friendly.</p>
               </div>
             </div>
           </div>
@@ -1017,6 +1022,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="settings-mini-card">
               <h3>Trade Tracking Reminder</h3>
               <div class="manager-note">Weekdays track 10-hour runs, Thu→Fri carries a 14-hour transition run, and weekend runs track 12-hour chunks.</div>
+            </div>
+            <div class="settings-mini-card">
+              <h3>Tab Quick Guide</h3>
+              <div class="manager-note">Logbook = history layer.<br>Cell Hours = tech entry side.<br>Weekend = fast TC status board.<br>Manager = read-only rollup.</div>
+            </div>
+            <div class="settings-mini-card">
+              <h3>Operational Reminders</h3>
+              <div class="manager-note">Use the day + shift controls on Cell Hours first. Keep downtime comments meaningful. Use Weekend Help Needed when a cell needs visible support.</div>
             </div>
           </div>
         </div>
@@ -1051,7 +1064,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.82-header-cleanup";
+    const VERSION = "1.0.83-settings-value-compact-views";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2756,7 +2769,9 @@ function renderHours(){
       Object.entries(tabViews).forEach(([name, view]) => {
         view.hidden = name !== tabName;
       });
+      const compactView = ["weekend", "manager", "settings"].includes(tabName);
       document.body.classList.toggle("weekend-focus", tabName === "weekend");
+      if (mainSessionHeader) mainSessionHeader.hidden = compactView;
       if (tabName === "weekend") renderWeekendDailyUpdate();
       tabButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.tabTarget === tabName));
       syncCtcPulseSnapshot();
