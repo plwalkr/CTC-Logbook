@@ -183,12 +183,47 @@
     .manager-layout{display:grid;grid-template-columns:1.2fr .95fr;gap:12px}
     .manager-note{font-size:12px;color:#475569;line-height:1.55}
     .manager-empty{font-size:12px;color:#64748b}
+    .manager-hero{display:grid;grid-template-columns:1.5fr .85fr;gap:12px}
+    .manager-hero-card{border:1px solid #e2e8f0;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:14px}
+    .manager-hero-card h2{font-size:24px;line-height:1.1;margin:2px 0 8px 0;color:#0f172a}
+    .manager-hero-copy{font-size:13px;color:#475569;line-height:1.6;margin:0}
+    .manager-signal-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
+    .manager-signal-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
+    .manager-signal-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
+    .manager-signal-value{font-size:22px;font-weight:800;color:#0f172a}
+    .manager-signal-note{font-size:12px;color:#64748b;margin-top:4px;line-height:1.45}
+    .manager-posture{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border-radius:999px;font-size:16px;font-weight:800;border:1px solid #e2e8f0;background:#f8fafc;color:#334155}
+    .manager-posture.quiet{background:#f8fafc;color:#334155;border-color:#cbd5e1}
+    .manager-posture.steady{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
+    .manager-posture.watch{background:#fff7ed;color:#9a3412;border-color:#fed7aa}
+    .manager-posture.attention{background:#fef2f2;color:#b91c1c;border-color:#fecaca}
+    .manager-posture-note{font-size:13px;color:#475569;line-height:1.6;margin-top:10px}
+    .manager-band{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+    .manager-band-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
+    .manager-band-card .manager-label{margin-bottom:4px}
+    .manager-band-card .manager-value{font-size:28px}
+    .manager-list-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:12px}
+    .manager-list-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:8px}
+    .manager-list-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700}
     .settings-compact-head{display:flex;justify-content:flex-end;gap:10px;align-items:flex-start;flex-wrap:wrap}
+    .settings-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
+    .settings-hero-card{border:1px solid #e2e8f0;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:14px}
+    .settings-hero-card h3{font-size:18px;margin:0 0 8px 0;color:#0f172a}
+    .settings-copy{font-size:12px;color:#475569;line-height:1.6}
+    .settings-callout-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+    .settings-callout{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
+    .settings-callout strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
     .settings-quickref{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
-    .settings-mini-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
-    .settings-mini-card h3{font-size:13px;margin:0 0 8px 0}
+    .settings-mini-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
+    .settings-mini-card h3{font-size:14px;margin:0 0 8px 0}
     body[data-theme="clarity"] .manager-card,
-    body[data-theme="clarity"] .settings-mini-card{background:#f7faff;border-color:#9aa7bd}
+    body[data-theme="clarity"] .manager-band-card,
+    body[data-theme="clarity"] .manager-list-card,
+    body[data-theme="clarity"] .manager-hero-card,
+    body[data-theme="clarity"] .manager-signal-card,
+    body[data-theme="clarity"] .settings-mini-card,
+    body[data-theme="clarity"] .settings-hero-card,
+    body[data-theme="clarity"] .settings-callout{background:#f7faff;border-color:#9aa7bd}
 
 
     body[data-theme="clarity"]{--bg:#f6f7fb;--panel:#ffffff;--line:#9aa7bd;--text:#10233d;--muted:#44566f;--soft:#eef3fa}
@@ -450,6 +485,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     @media (max-width:1200px){
       .header-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
       .settings-grid{grid-template-columns:1fr}
+      .settings-callout-grid{grid-template-columns:1fr}
       .header-cell:nth-child(6n){border-right:1px solid var(--line)}
       .header-cell:nth-child(4n){border-right:none}
       .form-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -487,6 +523,10 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       .hours-review-grid,.hours-breakdown{grid-template-columns:1fr}
       .manager-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .manager-layout{grid-template-columns:1fr}
+      .manager-hero{grid-template-columns:1fr}
+      .manager-band{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .manager-signal-row{grid-template-columns:1fr}
+      .settings-hero{grid-template-columns:1fr}
       .settings-quickref{grid-template-columns:1fr}
       .filters-row .search{max-width:none}
       .hours-filter-row .search{max-width:none}
@@ -506,14 +546,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.91-release-topbar-layout</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.92-settings-manager-polish</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">1.0.91-release-topbar-layout</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">1.0.92-settings-manager-polish</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -879,7 +919,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.91-release-topbar-layout</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.92-settings-manager-polish</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="weekend-toolbar">
@@ -929,7 +969,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.91-release-topbar-layout</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.92-settings-manager-polish</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -938,23 +978,64 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <span class="pill">Visible Log Rows: <span id="manager-visible-log-rows" style="margin-left:6px">0</span></span>
           </div>
 
-          <div class="manager-grid">
-            <div class="manager-card">
+          <div class="manager-hero">
+            <div class="manager-hero-card">
+              <div class="section-title">Operations Pulse</div>
+              <h2 id="manager-focus-headline">Manager layer is standing by.</h2>
+              <p class="manager-hero-copy" id="manager-focus-copy">As hours, downtime, and weekend activity build, this page will surface the loudest patterns without asking techs for extra inputs.</p>
+              <div class="manager-signal-row">
+                <div class="manager-signal-card">
+                  <div class="manager-signal-label">Weekend Help Queue</div>
+                  <div class="manager-signal-value" id="manager-signal-help">0</div>
+                  <div class="manager-signal-note" id="manager-signal-help-note">No weekend rows currently asking for visible support.</div>
+                </div>
+                <div class="manager-signal-card">
+                  <div class="manager-signal-label">Downtime Share</div>
+                  <div class="manager-signal-value" id="manager-downtime-share">0%</div>
+                  <div class="manager-signal-note" id="manager-downtime-share-note">Downtime share updates as saved shift chunks are logged.</div>
+                </div>
+                <div class="manager-signal-card">
+                  <div class="manager-signal-label">Coverage Footprint</div>
+                  <div class="manager-signal-value" id="manager-coverage-footprint">0</div>
+                  <div class="manager-signal-note" id="manager-coverage-footprint-note">Saved shift contexts represented across active cells.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="manager-hero-card">
+              <div class="section-title">Review Posture</div>
+              <div class="manager-posture quiet" id="manager-posture-label">Quiet</div>
+              <div class="manager-posture-note" id="manager-posture-note">No urgent manager-layer pressure is showing yet. This card shifts tone automatically as help-needed rows and downtime build.</div>
+              <div class="settings-callout-grid" style="margin-top:14px">
+                <div class="settings-callout">
+                  <strong>What belongs here</strong>
+                  Rollups, trend hints, downtime concentration, help-needed visibility, and read-only review signals.
+                </div>
+                <div class="settings-callout">
+                  <strong>What stays elsewhere</strong>
+                  Tech-side entry still happens under Cell Hours. Weekend owns the live board. Settings keeps controls and quick reference.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="manager-band">
+            <div class="manager-band-card">
               <div class="manager-label">Logged Hours</div>
               <div class="manager-value" id="manager-total-logged">0.0</div>
-              <div class="manager-note">All saved billable shift chunks currently available under the selected data set.</div>
+              <div class="manager-note">Total hours represented by saved billable shift chunks.</div>
             </div>
-            <div class="manager-card">
+            <div class="manager-band-card">
               <div class="manager-label">Downtime Hours</div>
               <div class="manager-value" id="manager-total-downtime">0.0</div>
-              <div class="manager-note">Pulled from the downtime rows already entered on the billable side.</div>
+              <div class="manager-note">Pulled only from downtime rows already entered on the billable side.</div>
             </div>
-            <div class="manager-card">
+            <div class="manager-band-card">
               <div class="manager-label">Saved Shift Chunks</div>
               <div class="manager-value" id="manager-shift-count">0</div>
               <div class="manager-note">Every saved day / test cell / shift context currently represented.</div>
             </div>
-            <div class="manager-card">
+            <div class="manager-band-card">
               <div class="manager-label">Weekend Status Rows</div>
               <div class="manager-value" id="manager-status-count">0</div>
               <div class="manager-note">Rows on the daily update board that currently have a TC status selected.</div>
@@ -962,23 +1043,43 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
           </div>
 
           <div class="manager-layout">
-            <div class="manager-card">
-              <h3>Top Downtime Categories</h3>
+            <div class="manager-list-card">
+              <div class="manager-list-head">
+                <div>
+                  <div class="manager-list-kicker">Trend watch</div>
+                  <h3>Top Downtime Categories</h3>
+                </div>
+              </div>
               <div class="manager-list" id="manager-downtime-list"></div>
             </div>
-            <div class="manager-card">
-              <h3>Most Active Test Cells</h3>
+            <div class="manager-list-card">
+              <div class="manager-list-head">
+                <div>
+                  <div class="manager-list-kicker">Coverage watch</div>
+                  <h3>Most Active Test Cells</h3>
+                </div>
+              </div>
               <div class="manager-list" id="manager-cells-list"></div>
             </div>
           </div>
 
           <div class="manager-layout">
-            <div class="manager-card">
-              <h3>Weekend Help Queue Snapshot</h3>
+            <div class="manager-list-card">
+              <div class="manager-list-head">
+                <div>
+                  <div class="manager-list-kicker">Immediate attention</div>
+                  <h3>Weekend Help Queue Snapshot</h3>
+                </div>
+              </div>
               <div class="manager-list" id="manager-help-list"></div>
             </div>
-            <div class="manager-card">
-              <h3>Recent Downtime Notes</h3>
+            <div class="manager-list-card">
+              <div class="manager-list-head">
+                <div>
+                  <div class="manager-list-kicker">Context</div>
+                  <h3>Recent Downtime Notes</h3>
+                </div>
+              </div>
               <div class="manager-list" id="manager-notes-list"></div>
             </div>
           </div>
@@ -987,14 +1088,16 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.91-release-topbar-layout</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.92-settings-manager-polish</span></span></div>
       <section class="panel">
         <div class="section-body">
-          <div class="settings-grid">
-            <div class="section-card">
-              <div class="section-title">Display Mode</div>
-              <div class="display-mode-bar" id="display-mode-bar"></div>
-              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+          <div class="settings-hero">
+            <div class="settings-hero-card">
+              <div class="section-title">Display + Behavior</div>
+              <h3>Keep the prototype readable first.</h3>
+              <div class="settings-copy">Settings stays intentionally light: it handles presentation choices, quick operating guidance, and a few reminders that make the rest of the tabs easier to use. It is not the place for analytics or review rollups.</div>
+              <div class="display-mode-bar" id="display-mode-bar" style="margin-top:12px"></div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
                 <span class="pill">Current Display: <span id="display-mode-status" style="margin-left:6px">Standard</span></span>
                 <span class="pill">Saved Locally</span>
                 <span class="pill">Compact Headers: Weekend / Manager / Settings</span>
@@ -1021,13 +1124,27 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
               </div>
             </div>
 
-            <div class="section-card">
-              <div class="section-title">What Settings Is For</div>
-              <div class="settings-note">
-                <p><strong>This tab is for page controls and quick reference</strong>, not analytics.</p>
-                <p>Use it to change the display mode, confirm how compact tabs behave, and keep a short operating reference in one clean spot.</p>
-                <p><strong>Manager / Coaches stays separate</strong> so rollups, downtime patterns, help-needed items, and other read-only intelligence live there instead of cluttering Settings.</p>
-                <p>The selected display mode is saved in the browser so the same display returns the next time this file is opened on that device.</p>
+            <div class="settings-hero-card">
+              <div class="section-title">What belongs here</div>
+              <h3>Controls, guardrails, and fast reference.</h3>
+              <div class="settings-copy">Use Settings to confirm how the prototype should look and how the tabs are meant to be used. Manager / Coaches stays separate on purpose so the read-only intelligence layer does not clutter everyday controls.</div>
+              <div class="settings-callout-grid">
+                <div class="settings-callout">
+                  <strong>Settings owns</strong>
+                  Display mode, compact-header behavior, shift reminders, tab roles, and a quick read on how the tool is supposed to flow.
+                </div>
+                <div class="settings-callout">
+                  <strong>Manager owns</strong>
+                  Help-needed visibility, rollups, downtime patterns, recent notes, and the review story built from already-entered data.
+                </div>
+                <div class="settings-callout">
+                  <strong>Cell Hours owns</strong>
+                  Day + shift selection, tech-side hours entry, downtime detail, and saved shift chunks that later feed trades and manager rollups.
+                </div>
+                <div class="settings-callout">
+                  <strong>Weekend owns</strong>
+                  The live status board by test cell, visible support calls, and quick operational awareness during pilot weekend use.
+                </div>
               </div>
             </div>
           </div>
@@ -1048,6 +1165,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="settings-mini-card">
               <h3>Operational Reminders</h3>
               <div class="settings-copy">Use the day + shift controls on Cell Hours first. Keep downtime comments meaningful. Use Weekend Help Needed when a cell needs visible support.</div>
+            </div>
+            <div class="settings-mini-card">
+              <h3>CTC Pulse Quick Meaning</h3>
+              <div class="settings-copy">Pulse should read the current tab in context. Hours should behave strict, Weekend should behave like a board, and Manager should only surface actual attention items.</div>
+            </div>
+            <div class="settings-mini-card">
+              <h3>Prototype Guardrails</h3>
+              <div class="settings-copy">Small surgical changes only. Keep the audiences separated: tech entry, trades review, weekend board, and manager intelligence should not collapse into one workflow.</div>
             </div>
           </div>
         </div>
@@ -1082,7 +1207,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.91-release-topbar-layout";
+    const VERSION = "1.0.92-settings-manager-polish";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -1346,6 +1471,16 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     const managerTotalDowntime = document.getElementById("manager-total-downtime");
     const managerShiftCount = document.getElementById("manager-shift-count");
     const managerStatusCount = document.getElementById("manager-status-count");
+    const managerFocusHeadline = document.getElementById("manager-focus-headline");
+    const managerFocusCopy = document.getElementById("manager-focus-copy");
+    const managerSignalHelp = document.getElementById("manager-signal-help");
+    const managerSignalHelpNote = document.getElementById("manager-signal-help-note");
+    const managerDowntimeShare = document.getElementById("manager-downtime-share");
+    const managerDowntimeShareNote = document.getElementById("manager-downtime-share-note");
+    const managerCoverageFootprint = document.getElementById("manager-coverage-footprint");
+    const managerCoverageFootprintNote = document.getElementById("manager-coverage-footprint-note");
+    const managerPostureLabel = document.getElementById("manager-posture-label");
+    const managerPostureNote = document.getElementById("manager-posture-note");
     const managerDowntimeList = document.getElementById("manager-downtime-list");
     const managerCellsList = document.getElementById("manager-cells-list");
     const managerHelpList = document.getElementById("manager-help-list");
@@ -1865,6 +2000,33 @@ function aggregateManagerData(){
 
 function renderManagerTab(){
   const summary = aggregateManagerData();
+  const downtimeShareValue = summary.totalLogged > 0 ? (summary.totalDowntime / summary.totalLogged) * 100 : 0;
+  let postureClass = "quiet";
+  let postureLabel = "Quiet";
+  let focusHeadline = "Manager layer is standing by.";
+  let focusCopy = "As hours, downtime, and weekend activity build, this page will surface the loudest patterns without asking techs for extra inputs.";
+  let postureNote = "No urgent manager-layer pressure is showing yet. This card shifts tone automatically as help-needed rows and downtime build.";
+
+  if (summary.helpNeededCount > 0) {
+    postureClass = "attention";
+    postureLabel = "Attention";
+    focusHeadline = `${summary.helpNeededCount} weekend row(s) need visible support.`;
+    focusCopy = "The weekend board is actively asking for help on at least one row, so manager attention should start there before broader trend review.";
+    postureNote = "Visible support has been requested. Use the Weekend Help Queue Snapshot first, then scan recent downtime and the most active cells for context.";
+  } else if (downtimeShareValue >= 25) {
+    postureClass = "watch";
+    postureLabel = "Watch";
+    focusHeadline = "Downtime is taking a meaningful share of logged hours.";
+    focusCopy = "No live help queue is active right now, but downtime is large enough relative to total logged hours to deserve a closer look.";
+    postureNote = "Review the top downtime categories and the recent downtime notes together so coaching decisions stay tied to actual context.";
+  } else if (summary.savedShiftCount > 0 || summary.statusRowCount > 0) {
+    postureClass = "steady";
+    postureLabel = "Steady";
+    focusHeadline = "The manager layer is collecting useful activity.";
+    focusCopy = "Saved shift chunks or weekend status rows are already feeding this page, so the rollup story is live even if nothing urgent is flashing.";
+    postureNote = "Use this view to scan where work is concentrating, then check whether downtime remains isolated or starts clustering around the same cells.";
+  }
+
   if (managerActiveCells) managerActiveCells.textContent = String(summary.activeCells);
   if (managerHelpNeeded) managerHelpNeeded.textContent = String(summary.helpNeededCount);
   if (managerVisibleLogRows) managerVisibleLogRows.textContent = String(summary.visibleLogRows);
@@ -1872,6 +2034,25 @@ function renderManagerTab(){
   if (managerTotalDowntime) managerTotalDowntime.textContent = summary.totalDowntime.toFixed(1);
   if (managerShiftCount) managerShiftCount.textContent = String(summary.savedShiftCount);
   if (managerStatusCount) managerStatusCount.textContent = String(summary.statusRowCount);
+  if (managerFocusHeadline) managerFocusHeadline.textContent = focusHeadline;
+  if (managerFocusCopy) managerFocusCopy.textContent = focusCopy;
+  if (managerSignalHelp) managerSignalHelp.textContent = String(summary.helpNeededCount);
+  if (managerSignalHelpNote) managerSignalHelpNote.textContent = summary.helpNeededCount > 0
+    ? "Weekend support is currently being requested on the live board."
+    : "No weekend rows currently asking for visible support.";
+  if (managerDowntimeShare) managerDowntimeShare.textContent = `${downtimeShareValue.toFixed(0)}%`;
+  if (managerDowntimeShareNote) managerDowntimeShareNote.textContent = summary.totalLogged > 0
+    ? `${summary.totalDowntime.toFixed(1)} of ${summary.totalLogged.toFixed(1)} logged hours are tagged as downtime.`
+    : "Downtime share updates as saved shift chunks are logged.";
+  if (managerCoverageFootprint) managerCoverageFootprint.textContent = String(summary.savedShiftCount);
+  if (managerCoverageFootprintNote) managerCoverageFootprintNote.textContent = summary.savedShiftCount > 0
+    ? `${summary.savedShiftCount} saved shift chunk(s) are currently available across ${summary.activeCells} active cell(s).`
+    : "Saved shift contexts represented across active cells.";
+  if (managerPostureLabel) {
+    managerPostureLabel.textContent = postureLabel;
+    managerPostureLabel.className = `manager-posture ${postureClass}`;
+  }
+  if (managerPostureNote) managerPostureNote.textContent = postureNote;
 
   if (managerDowntimeList) {
     managerDowntimeList.innerHTML = summary.topDowntime.length
