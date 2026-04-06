@@ -555,14 +555,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.95-temp-fill-varied-context</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.96-temp-fill-clickfix</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">1.0.95-temp-fill-varied-context</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">1.0.96-temp-fill-clickfix</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -944,7 +944,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.95-temp-fill-varied-context</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.96-temp-fill-clickfix</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1002,7 +1002,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.95-temp-fill-varied-context</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.96-temp-fill-clickfix</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1129,7 +1129,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.95-temp-fill-varied-context</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.96-temp-fill-clickfix</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1256,7 +1256,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.95-temp-fill-varied-context";
+    const VERSION = "1.0.96-temp-fill-clickfix";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2618,6 +2618,50 @@ function renderManagerTab(){
     }
 
 
+
+    function seedDemoSettingsState(){
+      applyDisplayMode('clarity');
+    }
+
+function renderHeaderFields(){
+  headerGrid.innerHTML = bannerConfig.map(([label,key]) => {
+    if (key === "testCell") {
+      return `
+    <div class="header-cell">
+      <label>${label}</label>
+      <select data-banner="${key}">
+        ${TEST_CELL_OPTIONS.map(option => `<option value="${option}" ${String(bannerFields[key] || "") === option ? "selected" : ""}>${option}</option>`).join("")}
+      </select>
+    </div>
+  `;
+    }
+    return `
+    <div class="header-cell">
+      <label>${label}</label>
+      <input data-banner="${key}" type="${key === 'date' ? 'date' : 'text'}" value="${escapeHtml(key === 'date' ? normalizeDateValue(bannerFields[key] || "") : (bannerFields[key] || ""))}" />
+    </div>
+  `;
+  }).join("");
+  headerGrid.querySelectorAll("[data-banner]").forEach(input => {
+    input.addEventListener("input", e => {
+      const key = e.target.dataset.banner;
+      const previousFields = deepClone(bannerFields);
+      bannerFields[key] = key === "date" ? normalizeDateValue(e.target.value) || e.target.value : e.target.value;
+      if (key === "date") e.target.value = normalizeDateValue(bannerFields[key] || "") || "";
+      if (key === "date" || key === "testCell" || key === "startTime") {
+        saveCurrentHoursSheet(previousFields);
+        loadHoursSheetForCurrentContext();
+        renderHours();
+        if (key === "date" && currentTab !== "weekend") renderWeekendDailyUpdate();
+      } else {
+        saveCurrentHoursSheet();
+        hoursMeter.textContent = bannerFields.cellHourMeter || "—";
+        if (["shift","cellHourMeter","technician","engineer"].includes(key)) renderHours();
+      }
+    });
+  });
+  syncHoursDayControls();
+}
 
 function renderForm(){
       formGrid.innerHTML = `
