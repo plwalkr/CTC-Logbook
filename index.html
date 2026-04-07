@@ -555,14 +555,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.96-temp-fill-clickfix</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.97-temp-fill-heavy-demo</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">1.0.96-temp-fill-clickfix</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">1.0.97-temp-fill-heavy-demo</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -944,7 +944,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.96-temp-fill-clickfix</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.97-temp-fill-heavy-demo</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1002,7 +1002,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.96-temp-fill-clickfix</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.97-temp-fill-heavy-demo</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1129,7 +1129,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.96-temp-fill-clickfix</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.97-temp-fill-heavy-demo</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1256,7 +1256,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.96-temp-fill-clickfix";
+    const VERSION = "1.0.97-temp-fill-heavy-demo";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2296,27 +2296,35 @@ function renderManagerTab(){
       };
       const header = deepClone(bannerFields);
       entries = [
-        createLogEntry(5006, {source:'operator', time:'06:18 PM', eventType:'Operator Note', category:'General', status:'Open', noteHtml:'<strong>Shift wrap note:</strong> Cell stayed stable after late cart swap. Final watch item is the help-needed weekend row and a quick dyno verification before handoff.', noteText:'Shift wrap note: Cell stayed stable after late cart swap. Final watch item is the help-needed weekend row and a quick dyno verification before handoff.', headerSnapshot:header}),
-        createLogEntry(5005, {source:'operator', time:'04:42 PM', eventType:'Operator Note', category:'Engineer Direction', status:'Monitoring', reviewState:'Monitoring', noteHtml:'<strong>Engineer request:</strong> Hold an extra validation pass after the current sweep and note any NOx drift greater than 0.01.', noteText:'Engineer request: Hold an extra validation pass after the current sweep and note any NOx drift greater than 0.01.', headerSnapshot:header}),
-        createLogEntry(5004, {source:'system', time:'03:55 PM', eventType:'Restrictions', category:'Test Update', status:'Monitoring', reviewState:'Monitoring', noteHtml:'System event: restrictions command executed and logged for traceability before returning to the active plan.', noteText:'System event: restrictions command executed and logged for traceability before returning to the active plan.', headerSnapshot:header}),
-        createLogEntry(5003, {source:'operator', time:'01:12 PM', eventType:'Operator Note', category:'Hardware', status:'Resolved', reviewState:'Reviewed', noteHtml:'<strong>Hardware check:</strong> Tightened charge-air clamp after minor seep. Leak check passed and readings returned to normal.', noteText:'Hardware check: Tightened charge-air clamp after minor seep. Leak check passed and readings returned to normal.', headerSnapshot:header}),
-        createLogEntry(5002, {source:'system', time:'08:14 AM', eventType:'1065 Check', category:'Emissions', status:'Open', noteHtml:'System event: prep to cal completed and 1065 checks auto-populated for review.', noteText:'System event: prep to cal completed and 1065 checks auto-populated for review.', headerSnapshot:header}),
-        createLogEntry(5001, {source:'system', time:'07:03 AM', eventType:'Cycle Start', category:'Test Update', status:'Open', noteHtml:'System event: cycle start registered and initial running sheet row opened.', noteText:'System event: cycle start registered and initial running sheet row opened.', headerSnapshot:header})
+        createLogEntry(5012, {source:'operator', time:'06:41 PM', eventType:'Operator Note', category:'Handoff', status:'Open', noteHtml:'<strong>Shift wrap note:</strong> Cell 204 stayed stable after the late dyno verify. Weekend help request is still visible on TC 207 and should be acknowledged before the night review closes.', noteText:'Shift wrap note: Cell 204 stayed stable after the late dyno verify. Weekend help request is still visible on TC 207 and should be acknowledged before the night review closes.', headerSnapshot:header}),
+        createLogEntry(5011, {source:'operator', time:'06:08 PM', eventType:'Operator Note', category:'Engineer Direction', status:'Monitoring', reviewState:'Monitoring', noteHtml:'<strong>Engineer request:</strong> Hold one extra comparison pass after the active sweep and flag any NOx drift larger than 0.01 before handoff.', noteText:'Engineer request: Hold one extra comparison pass after the active sweep and flag any NOx drift larger than 0.01 before handoff.', headerSnapshot:header}),
+        createLogEntry(5010, {source:'system', time:'05:36 PM', eventType:'Restrictions', category:'Test Update', status:'Monitoring', reviewState:'Monitoring', noteHtml:'System event: restrictions command executed and traced before the cell returned to the active test map.', noteText:'System event: restrictions command executed and traced before the cell returned to the active test map.', headerSnapshot:header}),
+        createLogEntry(5009, {source:'operator', time:'05:02 PM', eventType:'Operator Note', category:'Calibration', status:'Resolved', reviewState:'Reviewed', noteHtml:'<strong>Calibration note:</strong> NOx span was rechecked after the Rev load. Comparison returned inside the expected band and the next sweep was released.', noteText:'Calibration note: NOx span was rechecked after the Rev load. Comparison returned inside the expected band and the next sweep was released.', headerSnapshot:header}),
+        createLogEntry(5008, {source:'operator', time:'03:48 PM', eventType:'Operator Note', category:'Issue', status:'Monitoring', reviewState:'Monitoring', noteHtml:'<strong>TRI / Rev hold:</strong> Nathan is updating the TRI and loading in the new Rev so the next release path stays clean for the overnight sequence.', noteText:'TRI / Rev hold: Nathan is updating the TRI and loading in the new Rev so the next release path stays clean for the overnight sequence.', headerSnapshot:header}),
+        createLogEntry(5007, {source:'operator', time:'02:57 PM', eventType:'Operator Note', category:'General', status:'Open', noteHtml:'<strong>Coordination note:</strong> Cell 207 may need weekend support if the dyno verification does not clear on the first retry.', noteText:'Coordination note: Cell 207 may need weekend support if the dyno verification does not clear on the first retry.', headerSnapshot:header}),
+        createLogEntry(5006, {source:'system', time:'01:44 PM', eventType:'Cycle Start', category:'Test Update', status:'Open', noteHtml:'System event: follow-on cycle start registered after the midday data review release.', noteText:'System event: follow-on cycle start registered after the midday data review release.', headerSnapshot:header}),
+        createLogEntry(5005, {source:'operator', time:'12:26 PM', eventType:'Operator Note', category:'Hardware', status:'Resolved', reviewState:'Reviewed', noteHtml:'<strong>Hardware check:</strong> Tightened the charge-air clamp after a light seep. Leak check passed and readings returned to normal.', noteText:'Hardware check: Tightened the charge-air clamp after a light seep. Leak check passed and readings returned to normal.', headerSnapshot:header}),
+        createLogEntry(5004, {source:'operator', time:'10:58 AM', eventType:'Operator Note', category:'Emissions', status:'Monitoring', reviewState:'Monitoring', noteHtml:'<strong>Cart note:</strong> Emissions cart comms dropped briefly during a reconnect. Data stayed recoverable and the next point resumed cleanly.', noteText:'Cart note: Emissions cart comms dropped briefly during a reconnect. Data stayed recoverable and the next point resumed cleanly.', headerSnapshot:header}),
+        createLogEntry(5003, {source:'system', time:'09:17 AM', eventType:'1065 Check', category:'Emissions', status:'Open', noteHtml:'System event: prep to cal completed and 1065 checks auto-populated for review.', noteText:'System event: prep to cal completed and 1065 checks auto-populated for review.', headerSnapshot:header}),
+        createLogEntry(5002, {source:'operator', time:'08:06 AM', eventType:'Operator Note', category:'Calibration', status:'Resolved', reviewState:'Reviewed', noteHtml:'<strong>Morning setup:</strong> Calibration warm-up settled after one extra offset check and the first block returned to plan.', noteText:'Morning setup: Calibration warm-up settled after one extra offset check and the first block returned to plan.', headerSnapshot:header}),
+        createLogEntry(5001, {source:'system', time:'07:03 AM', eventType:'Cycle Start', category:'Test Update', status:'Open', noteHtml:'System event: cycle start registered and the initial running sheet row opened.', noteText:'System event: cycle start registered and the initial running sheet row opened.', headerSnapshot:header})
       ];
       handoffSnapshots = [
-        {id:9102,time:'06:25 PM',state:'Ready for Next Shift',priority:'Watch',owner:'Weekend coach',ready:'Needs Review',completed:'Completed late validation sweep and cleared charge-air hardware concern.',open:'Weekend support row still active on the daily board for TC 207.',watch:'Watch dyno response first and confirm help-needed queue has been acknowledged.',header:deepClone(header)},
-        {id:9101,time:'03:10 PM',state:'Monitoring',priority:'Normal',owner:'A. McCalment',ready:'Not Ready',completed:'Emissions cart swapped and line checks completed.',open:'Need one more NOx comparison pass after the next sweep.',watch:'Keep post-processing note visible for the next operator.',header:deepClone(header)}
+        {id:9104,time:'06:34 PM',state:'Ready for Next Shift',priority:'Watch',owner:'Weekend coach',ready:'Needs Review',completed:'Final comparison pass completed on 204 and the cell ended the block stable.',open:'Weekend board still shows a visible support request on 207 and one review-only row on 301.',watch:'Confirm the help-needed queue was acknowledged and verify the first dyno pull on the next shift.',header:deepClone(header)},
+        {id:9103,time:'04:58 PM',state:'Monitoring',priority:'Watch',owner:'Nathan Scott',ready:'Needs Review',completed:'TRI revision package was staged and the new Rev was loaded for release checking.',open:'Need one clean post-Rev comparison pass to close the watch item.',watch:'Keep the Rev path note visible in the running sheet for the next operator.',header:deepClone(header)},
+        {id:9102,time:'02:19 PM',state:'Monitoring',priority:'Normal',owner:'A. McCalment',ready:'Not Ready',completed:'Dyno verification completed after the brief hold and the block returned to plan.',open:'Need data review signoff on the longer sweep before the manager layer can call it quiet.',watch:'Review NOx drift notes with the data review row before release.',header:deepClone(header)},
+        {id:9101,time:'09:42 AM',state:'Running',priority:'Normal',owner:'Joey Poppe',ready:'Ready',completed:'Emissions cart reconnect and warm-up checks completed.',open:'Morning calibration note should stay attached to the active shift context.',watch:'Watch for any repeated comms drop before the next cart swap.',header:deepClone(header)}
       ];
       expandedRows = {};
-      formState = {time:'06:30 PM',run:'1229756',cycle:'vLLC',torqueMap:'19',PanT:'180.4',carbon:'-0.70',nox:'-0.010',thc:'-0.003',pm:'—',work:'56.05',filter:'—',testMap:'19',category:'General',status:'Open'};
-      if (noteEditor) noteEditor.innerHTML = '<div><strong>Operator test note:</strong> Sample entry staged here so formatting and spacing can be reviewed quickly.</div>';
+      formState = {time:'06:30 PM',run:'1229756',cycle:'vLLC',torqueMap:'19',PanT:'180.4',carbon:'-0.70',nox:'-0.010',thc:'-0.003',pm:'0.001',work:'56.05',filter:'17',testMap:'19',category:'General',status:'Open'};
+      if (noteEditor) noteEditor.innerHTML = '<div><strong>Operator test note:</strong> Use this staged note to check formatting, spacing, and manager-facing language with a fuller logbook story already loaded.</div><ul><li>TRI / Rev update still visible</li><li>Weekend help queue active on TC 207</li><li>Late dyno verify cleared on TC 204</li></ul>';
       if (handoffState) handoffState.value = 'Ready for Next Shift';
       if (handoffPriority) handoffPriority.value = 'Watch';
       if (handoffOwner) handoffOwner.value = 'Weekend coach';
       if (handoffReady) handoffReady.value = 'Needs Review';
-      if (handoffCompleted) handoffCompleted.value = 'Completed the final comparison pass.';
-      if (handoffOpen) handoffOpen.value = 'Weekend board still shows a visible support request.';
-      if (handoffWatch) handoffWatch.value = 'Verify dyno response on the first run of the next shift.';
+      if (handoffCompleted) handoffCompleted.value = 'Completed the final comparison pass and cleared the late dyno verify on TC 204.';
+      if (handoffOpen) handoffOpen.value = 'Weekend board still shows a visible support request on TC 207 and an active review row on TC 301.';
+      if (handoffWatch) handoffWatch.value = 'Verify the first dyno response on the next shift and confirm the Rev path note stays attached.';
     }
 
     
@@ -2356,6 +2364,18 @@ function renderManagerTab(){
         list[(index + 3) % list.length],
         list[(index + 8) % list.length]
       ];
+    }
+
+    function getDemoCellWindow(baseCell, count = 7){
+      const list = TEST_CELL_OPTIONS.slice();
+      const index = Math.max(0, list.indexOf(String(baseCell || '204')));
+      return Array.from({length: Math.max(1, count)}, (_, offset) => list[(index + offset) % list.length]);
+    }
+
+    function shiftDateISO(baseIso, offsetDays){
+      const date = new Date(`${normalizeDateValue(baseIso) || getTodayISO()}T12:00:00`);
+      date.setDate(date.getDate() + Number(offsetDays || 0));
+      return date.toISOString().slice(0,10);
     }
 
     function makeDemoRow(id, status, detail, comment, hours){
@@ -2474,88 +2494,97 @@ function renderManagerTab(){
     function seedDemoHoursState(context = getCurrentHoursTempContext()){
       const baseIso = normalizeDateValue(context?.date || (hoursDayInput && hoursDayInput.value) || bannerFields.date || '') || getTodayISO();
       const currentViewMode = context?.viewMode || hoursSheet?.viewMode || 'tech';
-      const currentDate = new Date(`${baseIso}T12:00:00`);
-      const priorDate = new Date(currentDate);
-      priorDate.setDate(priorDate.getDate() - 1);
-      const priorIso = priorDate.toISOString().slice(0,10);
-
       const activeShiftKey = normalizeTechShiftForDate(context?.techShift || hoursSheet?.techShift || getDefaultTechShiftForDate(baseIso), baseIso);
       const activePreset = TECH_SHIFT_OPTIONS[activeShiftKey] || TECH_SHIFT_OPTIONS['weekday-day'];
       const activeExpected = Number(activePreset.techHours || 10);
-      const [primaryCell, secondCell, thirdCell] = getNeighboringTestCells(context?.testCell || bannerFields?.testCell || '204');
+      const demoCells = getDemoCellWindow(context?.testCell || bannerFields?.testCell || '204', 7);
+      const technicians = ['Joey Poppe','M. Turner','B. Hale','S. York'];
+      const engineers = ['A. McCalment','Nathan Scott','L. Bryant','K. Miller'];
+      const planIds = ['TIHD2A-EN-B2P10','X15NPI-CAL-REV4','HELM-X2-COMP','AFTERTREAT-CHK-7'];
+      const shiftNotes = [
+        'Temp fill mirrors the active testing context so CTC Pulse, trades, and manager cards all have matching data to read.',
+        'This demo sheet is intentionally fuller so manager review has enough shape to judge downtime, coverage, and active cells.',
+        'Use this sample chunk to test filters, trade grouping, and manager rollups without hand-building a full shift.',
+        'This heavier demo set is temporary and exists only so manager / coach review can be tuned against realistic-looking activity.'
+      ];
+      const scenarioBuilders = [
+        buildPrimaryHoursScenario,
+        buildSecondaryHoursScenario,
+        buildThirdHoursScenario,
+        buildPrimaryHoursScenario,
+        buildSecondaryHoursScenario,
+        buildThirdHoursScenario,
+        buildPrimaryHoursScenario
+      ];
 
-      const currentRows = buildPrimaryHoursScenario(activeExpected);
-      const baseFields = {
+      const primaryFields = {
         engineModel:'Titanium',
         engineSN:'80728265',
-        engineer:'A. McCalment',
+        engineer:randomChoice(engineers),
         pph:'E6640',
-        testCell:primaryCell,
-        testPlanId:'TIHD2A-EN-B2P10',
-        technician:'Joey Poppe',
+        testCell:demoCells[0],
+        testPlanId:randomChoice(planIds),
+        technician:randomChoice(technicians),
         shift:activePreset.label,
         date:baseIso,
         startTime:activePreset.startTime,
         endTime:activePreset.endTime,
         cellHourMeter:String(100 + Math.floor(Math.random() * 90)),
       };
-      const currentSheet = {
+      const primarySheet = {
         expectedHours:String(activeExpected),
-        shiftNote:`Temp fill follows the selected ${activePreset.label.toLowerCase()} context so the sheet, trade view, and debug all line up during testing.`,
+        shiftNote:`${randomChoice(shiftNotes)} Selected context: ${activePreset.label}.`,
         workPattern:activePreset.workPattern,
         viewMode:currentViewMode,
         techShift:activeShiftKey
       };
+      const primaryRows = buildPrimaryHoursScenario(activeExpected);
 
-      const companionShiftKey = activeShiftKey.endsWith('night')
-        ? (activeShiftKey.startsWith('weekend') ? 'weekend-day' : 'weekday-day')
-        : (activeShiftKey.startsWith('weekend') ? 'weekend-night' : 'weekday-night');
-      const companionPreset = TECH_SHIFT_OPTIONS[companionShiftKey] || TECH_SHIFT_OPTIONS['weekday-night'];
-      const secondFields = {
-        ...baseFields,
-        testCell:secondCell,
-        cellHourMeter:String(80 + Math.floor(Math.random() * 70)),
-        startTime:companionPreset.startTime,
-        endTime:companionPreset.endTime,
-        shift:companionPreset.label
-      };
-      const secondSheet = {
-        expectedHours:String(companionPreset.techHours),
-        shiftNote:'Companion demo sheet adds a second context so the trade grouping and manager rollups have more to read.',
-        workPattern:companionPreset.workPattern,
-        viewMode:'trade',
-        techShift:companionShiftKey
-      };
-      const secondRows = buildSecondaryHoursScenario(Number(companionPreset.techHours || 10));
-
-      const thirdShiftKey = 'weekend-night';
-      const thirdPreset = TECH_SHIFT_OPTIONS[thirdShiftKey] || TECH_SHIFT_OPTIONS['weekend-night'];
-      const thirdFields = {
-        ...baseFields,
-        date:priorIso,
-        testCell:thirdCell,
-        cellHourMeter:String(140 + Math.floor(Math.random() * 40)),
-        startTime:thirdPreset.startTime,
-        endTime:thirdPreset.endTime,
-        shift:thirdPreset.label
-      };
-      const thirdSheet = {
-        expectedHours:String(thirdPreset.techHours),
-        shiftNote:'Additional prior-shift demo gives trades and managers one more saved chunk to scan.',
-        workPattern:thirdPreset.workPattern,
-        viewMode:'trade',
-        techShift:thirdShiftKey
-      };
-      const thirdRows = buildThirdHoursScenario(Number(thirdPreset.techHours || 12));
+      const recordConfigs = [
+        {date:baseIso, cell:demoCells[0], shiftKey:activeShiftKey, viewMode:currentViewMode, builder:buildPrimaryHoursScenario, note:`${randomChoice(shiftNotes)} Selected context: ${activePreset.label}.`, technician:primaryFields.technician, engineer:primaryFields.engineer, planId:primaryFields.testPlanId, meter:primaryFields.cellHourMeter},
+        {date:baseIso, cell:demoCells[1], shiftKey:activeShiftKey.endsWith('night') ? (activeShiftKey.startsWith('weekend') ? 'weekend-day' : 'weekday-day') : (activeShiftKey.startsWith('weekend') ? 'weekend-night' : 'weekday-night'), viewMode:'trade', builder:buildSecondaryHoursScenario, note:'Companion shift chunk adds same-day trade coverage and a second story for manager review.', technician:randomChoice(technicians), engineer:randomChoice(engineers), planId:randomChoice(planIds), meter:String(90 + Math.floor(Math.random() * 70))},
+        {date:shiftDateISO(baseIso,-1), cell:demoCells[2], shiftKey:'weekend-night', viewMode:'trade', builder:buildThirdHoursScenario, note:'Prior-night weekend chunk stays in the stack so manager can see multiple saved contexts and downtime notes.', technician:randomChoice(technicians), engineer:randomChoice(engineers), planId:randomChoice(planIds), meter:String(130 + Math.floor(Math.random() * 40))},
+        {date:shiftDateISO(baseIso,-1), cell:demoCells[3], shiftKey:'weekday-day', viewMode:'trade', builder:buildPrimaryHoursScenario, note:'Previous-day weekday coverage gives trades and managers another active cell to scan.', technician:randomChoice(technicians), engineer:randomChoice(engineers), planId:randomChoice(planIds), meter:String(80 + Math.floor(Math.random() * 60))},
+        {date:baseIso, cell:demoCells[4], shiftKey:'weekday-night', viewMode:'trade', builder:buildSecondaryHoursScenario, note:'Night-side chunk widens the coverage footprint and adds a different downtime split.', technician:randomChoice(technicians), engineer:randomChoice(engineers), planId:randomChoice(planIds), meter:String(95 + Math.floor(Math.random() * 55))},
+        {date:shiftDateISO(baseIso,1), cell:demoCells[5], shiftKey:'weekend-day', viewMode:'trade', builder:buildThirdHoursScenario, note:'Next-day weekend day shift gives manager a stronger forward-facing coverage story during testing.', technician:randomChoice(technicians), engineer:randomChoice(engineers), planId:randomChoice(planIds), meter:String(140 + Math.floor(Math.random() * 50))},
+        {date:shiftDateISO(baseIso,1), cell:demoCells[6], shiftKey:'weekend-night', viewMode:'trade', builder:buildPrimaryHoursScenario, note:'Additional overnight sample pushes the manager cards harder so top cells and downtime buckets actually move.', technician:randomChoice(technicians), engineer:randomChoice(engineers), planId:randomChoice(planIds), meter:String(150 + Math.floor(Math.random() * 40))}
+      ];
 
       const demoSheets = {};
-      [buildHoursRecord(baseFields, currentSheet, currentRows), buildHoursRecord(secondFields, secondSheet, secondRows), buildHoursRecord(thirdFields, thirdSheet, thirdRows)].forEach(record => {
+      recordConfigs.forEach((config, index) => {
+        const shiftKey = normalizeTechShiftForDate(config.shiftKey, config.date);
+        const preset = TECH_SHIFT_OPTIONS[shiftKey] || TECH_SHIFT_OPTIONS['weekday-day'];
+        const expected = Number(preset.techHours || 10);
+        const fields = {
+          engineModel:'Titanium',
+          engineSN:['80728265','80728274','80728291','80728304'][index % 4],
+          engineer:config.engineer,
+          pph:'E6640',
+          testCell:config.cell,
+          testPlanId:config.planId,
+          technician:config.technician,
+          shift:preset.label,
+          date:config.date,
+          startTime:preset.startTime,
+          endTime:preset.endTime,
+          cellHourMeter:config.meter,
+        };
+        const sheet = {
+          expectedHours:String(expected),
+          shiftNote:config.note,
+          workPattern:preset.workPattern,
+          viewMode:config.viewMode,
+          techShift:shiftKey
+        };
+        const rows = index === 0 ? primaryRows : config.builder(expected);
+        const record = buildHoursRecord(fields, sheet, rows);
         demoSheets[record.key] = record.value;
       });
+
       replaceHoursCellSheets(demoSheets);
-      bannerFields = deepClone(baseFields);
-      hoursSheet = deepClone(currentSheet);
-      hoursRows = normalizeHoursRows(currentRows);
+      bannerFields = deepClone(primaryFields);
+      hoursSheet = deepClone(primarySheet);
+      hoursRows = normalizeHoursRows(primaryRows);
       saveCurrentHoursSheet();
       syncHoursDayControls();
     }
@@ -2563,9 +2592,15 @@ function renderManagerTab(){
     function seedDemoWeekendState(boardIso = getCurrentWeekendTempDate()){
       const rows = createWeekendUpdateRows();
       const fill = {
+        '201': {tcStatus:'Cell Cal', helpNeeded:'No', comments:'Morning calibration is still active but the cell is tracking clean and does not need support right now.', lastUpdate:'06:48 AM', wwid:randomWWID()},
         '204': {tcStatus:'Running', helpNeeded:'No', comments:'Validation sweep is active and the cell is running clean after the late cart reconnect.', lastUpdate:'07:18 AM', wwid:randomWWID()},
         '207': {tcStatus:'Down, Not Running', helpNeeded:'Yes', comments:'Nathan is updating the TRI and loading in the new Rev before the next weekend run window opens.', lastUpdate:'09:42 AM', wwid:randomWWID()},
+        '210': {tcStatus:'Install', helpNeeded:'No', comments:'Engine install is almost complete and the team is staging the final hook-up checks.', lastUpdate:'08:57 AM', wwid:randomWWID()},
         '301': {tcStatus:'Data Review', helpNeeded:'No', comments:'Engineer is reviewing the latest file and holding one compare point before the next chunk is released.', lastUpdate:'10:11 AM', wwid:randomWWID()},
+        '304': {tcStatus:'Emission Carts', helpNeeded:'Yes', comments:'Cart swap is waiting on a clean comms reconnect before this row can return to plan.', lastUpdate:'11:04 AM', wwid:randomWWID()},
+        '309': {tcStatus:'Cold Soak', helpNeeded:'No', comments:'Cold soak timing is on track and the next release window is expected to open on time.', lastUpdate:'12:22 PM', wwid:randomWWID()},
+        '312': {tcStatus:'Facilities', helpNeeded:'No', comments:'Utilities check was completed after a short room-condition watch and the area is stable again.', lastUpdate:'01:06 PM', wwid:randomWWID()},
+        '316': {tcStatus:'No Engine', helpNeeded:'No', comments:'This cell is staged but waiting for the next engine to arrive before install begins.', lastUpdate:'01:44 PM', wwid:randomWWID()},
         '417': {tcStatus:'Parts', helpNeeded:'No', comments:'Waiting on one replacement fitting before this cell returns to install activity.', lastUpdate:'11:36 AM', wwid:randomWWID()}
       };
       rows.forEach(row => {
