@@ -14,14 +14,14 @@
       --soft:#f8fafc;
     }
     *{box-sizing:border-box}
-    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+    body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.45;background:var(--bg);color:var(--text)}
     .app{max-width:1600px;margin:0 auto;padding:12px;display:flex;flex-direction:column;gap:12px}
     .panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05)}
     .panel-head{padding:12px 16px;border-bottom:1px solid var(--line);background:var(--soft);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:center}
-    .eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.3em;color:var(--muted)}
+    .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--muted)}
     h1,h2,h3{margin:0}
     h1{font-size:28px} h2{font-size:20px} h3{font-size:16px}
-    .small{font-size:12px;color:var(--muted)}
+    .small{font-size:13px;color:#475569;line-height:1.5}
     .grid{display:grid;gap:0}
     .header-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
     .header-cell{padding:10px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -53,9 +53,9 @@
     .hours-summary-card .summary-value{font-size:22px;font-weight:800;color:#0f172a}
     .hours-summary-card .summary-note{font-size:11px;color:#64748b;margin-top:4px}
     .hours-entry-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
-    .hours-entry-toolbar .toolbar-note{font-size:12px;color:#475569}
+    .hours-entry-toolbar .toolbar-note{font-size:13px;color:#334155;line-height:1.5}
     .hours-table-wrap{overflow:auto;border:1px solid #e2e8f0;border-radius:14px;background:#fff}
-    .hours-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:12px}
+    .hours-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
     .hours-table th{background:#f8fafc;position:sticky;top:0;z-index:1}
     .hours-table .col-status{width:12%}
     .hours-table .col-detail{width:22%}
@@ -91,7 +91,7 @@
     .hours-sidebox textarea{width:100%;min-height:84px;padding:8px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
     .pill{display:inline-flex;align-items:center;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:#f8fafc;font-size:12px;font-weight:600;color:#334155}
     .table-wrap{max-height:46vh;overflow-y:auto}
-    table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:12px}
+    table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
     thead th{position:sticky;top:0;z-index:1;background:#f1f5f9}
     th,td{border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;padding:8px;text-align:left;vertical-align:top}
     th:last-child,td:last-child{border-right:none}
@@ -114,11 +114,11 @@
     .details-row{background:#f8fafc}
     .detail-sections{display:flex;flex-direction:column;gap:10px}
     .details-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:0}
-    .detail-box,.snapshot-box{border:1px solid #e2e8f0;border-radius:10px;background:#fff;padding:8px;font-size:11px}
+    .detail-box,.snapshot-box{border:1px solid #e2e8f0;border-radius:10px;background:#fff;padding:8px;font-size:12px}
     .detail-box span:first-child,.snapshot-box span:first-child{display:block;color:var(--muted);margin-bottom:4px}
     .snapshot{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px;margin-top:0}
     .snapshot-title{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:700;margin-bottom:8px}
-    .snapshot-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;font-size:11px}
+    .snapshot-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;font-size:12px}
     .snapshot-grid.hours-snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .filters-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
     .filters-row .search{max-width:260px}
@@ -167,7 +167,7 @@
     .theme-chip .swatches{display:flex;gap:6px;flex-wrap:wrap}
     .theme-swatch{width:28px;height:28px;border-radius:8px;border:1px solid rgba(15,23,42,.12)}
     .settings-note{font-size:12px;color:#475569;line-height:1.55}
-    .settings-copy{font-size:12px;color:#475569;line-height:1.55}
+    .settings-copy{font-size:13px;color:#334155;line-height:1.5}
     .settings-status{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;font-weight:700;color:#334155}
     .manager-shell{display:flex;flex-direction:column;gap:12px}
     .manager-topline{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
@@ -177,27 +177,27 @@
     .manager-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
     .manager-value{font-size:24px;font-weight:800;color:#0f172a}
     .manager-list{display:flex;flex-direction:column;gap:8px}
-    .manager-item{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding-bottom:8px;border-bottom:1px dashed #e2e8f0;font-size:12px}
+    .manager-item{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding-bottom:8px;border-bottom:1px dashed #e2e8f0;font-size:13px;line-height:1.5}
     .manager-item:last-child{border-bottom:none;padding-bottom:0}
     .manager-item strong{color:#0f172a}
     .manager-layout{display:grid;grid-template-columns:1.2fr .95fr;gap:12px}
-    .manager-note{font-size:12px;color:#475569;line-height:1.55}
-    .manager-empty{font-size:12px;color:#64748b}
+    .manager-note{font-size:13px;color:#475569;line-height:1.5}
+    .manager-empty{font-size:13px;color:#64748b}
     .manager-hero{display:grid;grid-template-columns:1.5fr .85fr;gap:12px}
     .manager-hero-card{border:1px solid #e2e8f0;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:14px}
     .manager-hero-card h2{font-size:24px;line-height:1.1;margin:2px 0 8px 0;color:#0f172a}
-    .manager-hero-copy{font-size:13px;color:#475569;line-height:1.6;margin:0}
+    .manager-hero-copy{font-size:14px;color:#334155;line-height:1.55;margin:0;max-width:62ch}
     .manager-signal-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
     .manager-signal-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
     .manager-signal-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
     .manager-signal-value{font-size:22px;font-weight:800;color:#0f172a}
-    .manager-signal-note{font-size:12px;color:#64748b;margin-top:4px;line-height:1.45}
+    .manager-signal-note{font-size:13px;color:#475569;margin-top:4px;line-height:1.45}
     .manager-posture{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border-radius:999px;font-size:16px;font-weight:800;border:1px solid #e2e8f0;background:#f8fafc;color:#334155}
     .manager-posture.quiet{background:#f8fafc;color:#334155;border-color:#cbd5e1}
     .manager-posture.steady{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
     .manager-posture.watch{background:#fff7ed;color:#9a3412;border-color:#fed7aa}
     .manager-posture.attention{background:#fef2f2;color:#b91c1c;border-color:#fecaca}
-    .manager-posture-note{font-size:13px;color:#475569;line-height:1.6;margin-top:10px}
+    .manager-posture-note{font-size:13px;color:#334155;line-height:1.5;margin-top:10px;max-width:60ch}
     .manager-band{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
     .manager-band-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
     .manager-band-card .manager-label{margin-bottom:4px}
@@ -205,21 +205,21 @@
     .manager-list-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:12px}
     .manager-list-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:8px}
     .manager-list-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700}
-    .manager-story-box{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:12px;font-size:13px;color:#334155;line-height:1.65}
+    .manager-story-box{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:12px;font-size:14px;color:#334155;line-height:1.6}
     .manager-story-box strong{color:#0f172a}
     .manager-dashboard-grid{display:grid;grid-template-columns:1.25fr .95fr;gap:12px}
     .manager-dashboard-grid.bottom{grid-template-columns:repeat(2,minmax(0,1fr))}
     .manager-chart-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:12px;overflow:hidden}
     .manager-chart-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:10px}
     .manager-chart-head h3{font-size:16px;margin:2px 0 0 0}
-    .manager-chart-sub{font-size:12px;color:#64748b;line-height:1.5;margin-top:3px}
+    .manager-chart-sub{font-size:13px;color:#475569;line-height:1.45;margin-top:3px}
     .manager-legend{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:#475569;margin-bottom:8px}
     .manager-legend span{display:inline-flex;align-items:center;gap:6px}
     .manager-dot{width:10px;height:10px;border-radius:999px;display:inline-block}
     .manager-dot.availability{background:#2563eb}
     .manager-dot.productivity{background:#ea580c}
     .manager-kpi-svg{width:100%;height:230px;display:block;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);border:1px solid #e2e8f0;border-radius:14px}
-    .manager-kpi-note{font-size:12px;color:#475569;margin-top:8px;line-height:1.5}
+    .manager-kpi-note{font-size:13px;color:#334155;margin-top:8px;line-height:1.45}
     .manager-bars{display:flex;flex-direction:column;gap:10px}
     .manager-bar-row{display:grid;grid-template-columns:minmax(90px,1.1fr) minmax(0,2.3fr) auto;gap:10px;align-items:center;font-size:12px}
     .manager-bar-label{color:#334155;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -244,7 +244,7 @@
     body[data-theme="clarity"] .manager-band-card,
     body[data-theme="clarity"] .manager-list-card,
     .temp-test-bar{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 12px;border:1px dashed var(--line);border-radius:14px;background:var(--soft)}
-    .temp-test-copy{font-size:12px;color:#475569;line-height:1.45}
+    .temp-test-copy{font-size:13px;color:#334155;line-height:1.45}
     .temp-test-copy strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:4px}
     .temp-test-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
     .temp-test-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800;cursor:pointer}
@@ -287,7 +287,7 @@
     .debug-panel{position:fixed;right:16px;bottom:68px;width:min(580px,calc(100vw - 24px));max-height:78vh;overflow-y:auto;overflow-x:hidden;z-index:998;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 16px 40px rgba(15,23,42,.22)}
     .debug-panel[hidden]{display:none !important}
     .debug-head{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);background:#f8fafc}
-    .debug-sub{font-size:11px;color:#64748b;margin-top:3px}
+    .debug-sub{font-size:12px;color:#64748b;margin-top:3px}
     .debug-status{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:800;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;text-align:center}
     .debug-status.ok{background:#ecfdf5;color:#166534;border-color:#bbf7d0}
     .debug-status.warn{background:#fff7ed;color:#9a3412;border-color:#fed7aa}
@@ -298,7 +298,7 @@
     .debug-card span{font-size:18px;font-weight:800;color:#0f172a}
     .debug-actions{display:flex;flex-wrap:wrap;gap:8px}
     .debug-actions button{border:1px solid var(--line);background:#fff;color:#0f172a;border-radius:10px;padding:11px 14px;font-size:13px;font-weight:800;cursor:pointer;transition:transform .16s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease}
-    .debug-report{width:100%;min-height:220px;margin:0;padding:12px;border:1px solid #dbe3ed;border-radius:12px;background:#0b1220;color:#dbeafe;font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;overflow:auto;transition:box-shadow .18s ease,border-color .18s ease}
+    .debug-report{width:100%;min-height:220px;margin:0;padding:12px;border:1px solid #dbe3ed;border-radius:12px;background:#0b1220;color:#dbeafe;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;overflow:auto;transition:box-shadow .18s ease,border-color .18s ease}
     .debug-scan-line{font-size:12px;font-weight:700;color:#0f172a;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;padding:8px 10px}
     .scan-flash{box-shadow:0 0 0 3px rgba(34,197,94,.18);border-color:#86efac !important}
     .debug-actions button.flash-ok{background:#ecfdf5;border-color:#86efac;box-shadow:0 0 0 3px rgba(34,197,94,.18);transform:translateY(-1px)}
@@ -337,7 +337,7 @@
 .trade-sheet-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px}
 .trade-sheet-sub{font-size:12px;color:var(--muted);line-height:1.5;margin-top:4px}
 .trade-table{width:100%;border-collapse:separate;border-spacing:0;font-size:12px;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden}
-.trade-table th{background:#f8fafc;color:#334155;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:10px 12px;text-align:left;border-bottom:1px solid #e2e8f0}
+.trade-table th{background:#f8fafc;color:#334155;font-size:12px;text-transform:uppercase;letter-spacing:.06em;padding:10px 12px;text-align:left;border-bottom:1px solid #e2e8f0}
 .trade-table td{padding:10px 12px;border-bottom:1px solid #e2e8f0;vertical-align:top}
 .trade-table tr:last-child td{border-bottom:none}
 .trade-table .col-group{width:42%}
@@ -348,21 +348,21 @@
 .trade-table .grandtotal-row td{font-size:13px}
 .trade-empty{font-size:12px;color:var(--muted)}
 .trade-summary-list{display:flex;flex-direction:column;gap:10px}
-.trade-summary-item{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding-bottom:8px;border-bottom:1px dashed #e2e8f0;font-size:12px}
+.trade-summary-item{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding-bottom:8px;border-bottom:1px dashed #e2e8f0;font-size:13px;line-height:1.45}
 .trade-summary-item:last-child{border-bottom:none;padding-bottom:0}
 .trade-summary-item span{color:var(--muted)}
 .trade-summary-item strong{font-size:13px;color:#0f172a;text-align:right}
 
-.trade-note-box{margin-top:12px;padding:10px 12px;border:1px dashed var(--line);border-radius:12px;background:var(--soft);font-size:12px;color:#334155;line-height:1.55}
+.trade-note-box{margin-top:12px;padding:10px 12px;border:1px dashed var(--line);border-radius:12px;background:var(--soft);font-size:13px;color:#334155;line-height:1.5}
 .trade-collection{display:flex;flex-direction:column;gap:12px}
 .trade-cell-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
 .trade-cell-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap}
 .trade-cell-title{font-size:18px;font-weight:800;color:#0f172a}
-.trade-cell-stamp{font-size:11px;color:var(--muted);line-height:1.45;margin-top:4px}
+.trade-cell-stamp{font-size:12px;color:var(--muted);line-height:1.45;margin-top:4px}
 .hours-day-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .hours-day-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800;cursor:pointer}
 .hours-day-input{padding:8px 10px;border:1px solid #dbe3ed;border-radius:10px;background:#fff;color:var(--text)}
-.hours-day-note{font-size:12px;color:#475569}
+.hours-day-note{font-size:13px;color:#334155;line-height:1.45}
 .tech-shift-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
 .tech-shift-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800;cursor:pointer}
 .tech-shift-btn.active{border-color:#0f172a;box-shadow:0 0 0 3px rgba(15,23,42,.14);background:#0f172a;color:#fff}
@@ -373,7 +373,7 @@ body[data-theme="clarity"] .tech-shift-btn[data-active="true"]{border-color:#163
 
 .trade-session-chunk{border-top:1px dashed #e2e8f0;padding-top:12px;margin-top:12px}
 .trade-session-chunk:first-of-type{border-top:none;padding-top:0;margin-top:0}
-.trade-session-stamp{font-size:11px;color:var(--muted);line-height:1.45;margin-bottom:8px}
+.trade-session-stamp{font-size:12px;color:var(--muted);line-height:1.45;margin-bottom:8px}
 body[data-theme="clarity"] .hours-day-btn,
 body[data-theme="clarity"] .hours-day-input{border-color:#8ea2bf;background:#fff;color:#10233d}
 body[data-theme="clarity"] .trade-session-chunk{border-top-color:#9aa7bd}
@@ -385,7 +385,7 @@ body[data-theme="clarity"] .trade-session-chunk{border-top-color:#9aa7bd}
 .trade-table .slot-zero td{color:#64748b}
 .trade-table .slot-zero .col-hours{font-weight:700}
 
-.trade-cell-meta{font-size:12px;color:var(--muted);line-height:1.55}
+.trade-cell-meta{font-size:13px;color:var(--muted);line-height:1.5}
 .trade-empty-card{border:1px dashed var(--line);border-radius:14px;background:var(--soft);padding:18px 16px;font-size:13px;color:#475569}
 .trade-mini-strip{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
 .trade-mini-pill{display:inline-flex;align-items:center;padding:5px 10px;border:1px solid var(--line);border-radius:999px;background:#f8fafc;font-size:11px;font-weight:700;color:#334155}
@@ -462,7 +462,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     .weekend-toolbar .small strong{color:var(--text)}
     .weekend-meta-strip{display:flex;gap:8px;flex-wrap:wrap}
     .weekend-table-wrap{overflow:auto;max-height:68vh;border:1px solid #e2e8f0;border-radius:14px;background:#fff}
-    .weekend-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:12px}
+    .weekend-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
     .weekend-table th{background:#f8fafc;position:sticky;top:0;z-index:3;box-shadow:0 1px 0 #e2e8f0}
     .weekend-table th,.weekend-table td{padding:8px 10px;border-bottom:1px solid #e2e8f0;border-right:1px solid #e2e8f0;vertical-align:middle}
     .weekend-table th:last-child,.weekend-table td:last-child{border-right:none}
@@ -487,14 +487,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     .weekend-row-status-noengine .weekend-status-pill,
     .weekend-row-status-parts .weekend-status-pill{background:#d1d5db;color:#374151;border-color:#9ca3af}
     .weekend-row-help-yes td{background:rgba(254,242,242,.55)}
-    .weekend-header-note{font-size:12px;color:#475569;line-height:1.55}
+    .weekend-header-note{font-size:13px;color:#334155;line-height:1.5}
     .weekend-help-panel{border:1px solid #fecaca;border-radius:14px;background:#fff7f7;padding:12px}
     .weekend-help-panel[hidden]{display:none !important}
     .weekend-help-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
     .weekend-help-card{display:grid;grid-template-columns:110px 160px minmax(0,1fr) 100px;gap:8px;align-items:start;border:1px solid #fecaca;border-radius:12px;background:#fff;padding:10px}
     .weekend-help-card strong{font-size:15px;color:#991b1b}
     .weekend-help-meta{font-size:11px;color:#7f1d1d;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
-    .weekend-help-comment{font-size:12px;color:#334155;line-height:1.45}
+    .weekend-help-comment{font-size:13px;color:#334155;line-height:1.45}
     .weekend-help-empty{font-size:12px;color:#7f1d1d}
     body[data-theme="clarity"] .weekend-help-panel,
     body[data-theme="clarity"] .weekend-help-card{border-color:#fdba74;background:#fffaf5}
@@ -582,14 +582,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.100-manager-pulse-alignment-cleanup</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.101-readability-cleanup</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">1.0.100-manager-pulse-alignment-cleanup</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">1.0.101-readability-cleanup</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -811,7 +811,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       <div class="hours-top">
         <div>
           <h2 id="hours-view-title">Cell Hours Worksheet</h2>
-          <div class="small" id="hours-view-copy">Technician logging stays simple while trade coverage logic remains visible as a separate reference.</div>
+          <div class="small" id="hours-view-copy">Tech logging first. Trade coverage stays visible as reference.</div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <span class="pill">Cell Meter: <span id="hours-meter" style="margin-left:6px">094</span></span>
@@ -821,7 +821,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       </div>
 
       <div class="temp-test-bar">
-        <div class="temp-test-copy"><strong>Temp test tools</strong>Load sample hour rows and saved shift chunks so technician logging and trade coverage can be previewed fast.</div>
+        <div class="temp-test-copy"><strong>Test tools</strong>Load sample hour rows and saved chunks for a quick review.</div>
         <div class="temp-test-actions">
           <button class="temp-test-btn" type="button" data-temp-fill="hours">Fill This Tab</button>
           <button class="temp-test-btn reset" type="button" data-temp-reset="true">Reset Test Data</button>
@@ -847,7 +847,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             </div>
           </div>
         </div>
-        <div class="hours-reference-note" id="hours-mode-note">Technician logging basis is separate from the trade coverage interpretation.</div>
+        <div class="hours-reference-note" id="hours-mode-note">Tech logging and trade coverage stay separate on purpose.</div>
       </div>
 
       <div class="section-card" id="hours-day-controls-card">
@@ -865,7 +865,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
           <button class="tech-shift-btn" type="button" data-tech-shift="weekend-day">Weekend Day</button>
           <button class="tech-shift-btn" type="button" data-tech-shift="weekend-night">Weekend Nights</button>
         </div>
-        <div class="hours-day-note" id="hours-tech-shift-note">Select the day and shift. The tech target hours and shift times auto-correspond from the confirmed schedule.</div>
+        <div class="hours-day-note" id="hours-tech-shift-note">Pick the day and shift. Target hours update automatically.</div>
       </div>
 
       <div class="section-card">
@@ -911,7 +911,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       <div id="hours-tech-section" class="hours-view-section">
         <div class="section-card">
           <div class="hours-entry-toolbar">
-            <div class="toolbar-note"><strong>Rule:</strong> Running details do not require comments. Downtime requires at least 15 characters, and Other requires at least 20 before hours can be entered.</div>
+            <div class="toolbar-note"><strong>Rule:</strong> Running rows do not need comments. Downtime needs 15+ characters. Other needs 20+.</div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
               <label class="small" style="display:flex;align-items:center;gap:6px">Logged Target
                 <input id="hours-expected" class="hours-inline-input" value="12" inputmode="decimal" style="width:84px" />
@@ -953,7 +953,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
           <div class="hours-sidebox">
             <div class="section-title">Reference Note</div>
             <textarea id="hours-shift-note" placeholder="Optional note for trade review, coach handoff, or unusual coverage reconciliation context."></textarea>
-            <div class="small" id="hours-trade-reference-copy" style="margin-top:8px">Trades can review the coverage span here without changing the technician's logged basis.</div>
+            <div class="small" id="hours-trade-reference-copy" style="margin-top:8px">Trades can review coverage here without changing tech logging.</div>
           </div>
         </div>
       </div>
@@ -962,7 +962,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         <div class="trade-sheet">
           <div class="trade-strip" id="trade-summary-grid"></div>
           <div id="trade-collection" class="trade-collection"></div>
-          <div id="trade-reference-note" class="trade-note-box">Trades review all logged cells for the selected date range here. Each cell keeps its own grouped hours, shift, pattern, and meter context.</div>
+          <div id="trade-reference-note" class="trade-note-box">Grouped trade view for the selected range. Each cell keeps its own hours, shift, and meter context.</div>
         </div>
       </div>
     </div>
@@ -971,11 +971,11 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.100-manager-pulse-alignment-cleanup</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.101-readability-cleanup</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
-            <div class="temp-test-copy"><strong>Temp test tools</strong>Seed a live-looking weekend board with status rows and help-needed calls so the page can be reviewed quickly.</div>
+            <div class="temp-test-copy"><strong>Test tools</strong>Load sample weekend rows for a quick review.</div>
             <div class="temp-test-actions">
               <button class="temp-test-btn" type="button" data-temp-fill="weekend">Fill This Tab</button>
               <button class="temp-test-btn reset" type="button" data-temp-reset="true">Reset Test Data</button>
@@ -985,7 +985,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
           <div class="weekend-toolbar">
             <div>
               <h2>Weekend Days Daily Update</h2>
-              <div class="weekend-header-note">Pilot weekend status board for EML lab cells. This tab stands on its own and does not need the engine/session header carried into it.</div>
+              <div class="weekend-header-note">Quick weekend status board for EML lab cells.</div>
             </div>
             <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
               <label class="field" style="min-width:180px">
@@ -1002,7 +1002,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap">
               <div>
                 <h3>Needs Immediate Help</h3>
-                <div class="weekend-header-note">Rows marked <strong>Help Needed = Yes</strong> are mirrored here first so techs and trades can spot them immediately.</div>
+                <div class="weekend-header-note">Rows marked <strong>Help Needed = Yes</strong> are shown here first.</div>
               </div>
               <span class="pill">Priority Count: <span id="weekend-help-priority-count" style="margin-left:6px">0</span></span>
             </div>
@@ -1029,7 +1029,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.100-manager-pulse-alignment-cleanup</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.101-readability-cleanup</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1039,7 +1039,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
           </div>
 
           <div class="temp-test-bar">
-            <div class="temp-test-copy"><strong>Temp test tools</strong>Load a richer demo review story across hours, downtime, and weekend help so Manager / Coaches can be judged with real-looking signals.</div>
+            <div class="temp-test-copy"><strong>Test tools</strong>Load sample manager data with hours, downtime, and help queue activity.</div>
             <div class="temp-test-actions">
               <button class="temp-test-btn" type="button" data-temp-fill="manager">Fill This Tab</button>
               <button class="temp-test-btn reset" type="button" data-temp-reset="true">Reset Test Data</button>
@@ -1049,23 +1049,23 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
           <div class="manager-hero">
             <div class="manager-hero-card">
               <div class="section-title">Operations Pulse</div>
-              <h2 id="manager-focus-headline">Manager layer is standing by.</h2>
-              <p class="manager-hero-copy" id="manager-focus-copy">As hours, downtime, and weekend activity build, this page will surface the loudest patterns without asking techs for extra inputs.</p>
+              <h2 id="manager-focus-headline">Manager view is ready.</h2>
+              <p class="manager-hero-copy" id="manager-focus-copy">This view pulls the main signals from hours, downtime, and weekend status.</p>
               <div class="manager-signal-row">
                 <div class="manager-signal-card">
                   <div class="manager-signal-label">Weekend Help Queue</div>
                   <div class="manager-signal-value" id="manager-signal-help">0</div>
-                  <div class="manager-signal-note" id="manager-signal-help-note">No weekend rows currently asking for visible support.</div>
+                  <div class="manager-signal-note" id="manager-signal-help-note">No weekend help requests are active.</div>
                 </div>
                 <div class="manager-signal-card">
                   <div class="manager-signal-label">Downtime Share</div>
                   <div class="manager-signal-value" id="manager-downtime-share">0%</div>
-                  <div class="manager-signal-note" id="manager-downtime-share-note">Downtime share updates as saved shift chunks are logged.</div>
+                  <div class="manager-signal-note" id="manager-downtime-share-note">Updates as saved shift chunks are logged.</div>
                 </div>
                 <div class="manager-signal-card">
                   <div class="manager-signal-label">Coverage Footprint</div>
                   <div class="manager-signal-value" id="manager-coverage-footprint">0</div>
-                  <div class="manager-signal-note" id="manager-coverage-footprint-note">Saved shift contexts represented across active cells.</div>
+                  <div class="manager-signal-note" id="manager-coverage-footprint-note">Saved shift chunks across active cells.</div>
                 </div>
               </div>
             </div>
@@ -1073,15 +1073,15 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-hero-card">
               <div class="section-title">Review Posture</div>
               <div class="manager-posture quiet" id="manager-posture-label">Quiet</div>
-              <div class="manager-posture-note" id="manager-posture-note">No urgent manager-layer pressure is showing yet. This card shifts tone automatically as help-needed rows and downtime build.</div>
+              <div class="manager-posture-note" id="manager-posture-note">This card shifts as help-needed rows and downtime build.</div>
               <div class="settings-callout-grid" style="margin-top:14px">
                 <div class="settings-callout">
                   <strong>What belongs here</strong>
-                  Rollups, trend hints, downtime concentration, help-needed visibility, and read-only review signals.
+                  Rollups, downtime, help queue visibility, and read-only review signals.
                 </div>
                 <div class="settings-callout">
                   <strong>What stays elsewhere</strong>
-                  Tech-side entry still happens under Cell Hours. Weekend owns the live board. Settings keeps controls and quick reference.
+                  Cell Hours owns entry. Weekend owns the live board. Settings owns controls and quick reference.
                 </div>
               </div>
             </div>
@@ -1091,22 +1091,22 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-band-card">
               <div class="manager-label">Logged Hours</div>
               <div class="manager-value" id="manager-total-logged">0.0</div>
-              <div class="manager-note">Total hours represented by saved billable shift chunks.</div>
+              <div class="manager-note">Total hours from saved billable chunks.</div>
             </div>
             <div class="manager-band-card">
               <div class="manager-label">Downtime Hours</div>
               <div class="manager-value" id="manager-total-downtime">0.0</div>
-              <div class="manager-note">Pulled only from downtime rows already entered on the billable side.</div>
+              <div class="manager-note">Downtime hours from saved billable rows.</div>
             </div>
             <div class="manager-band-card">
               <div class="manager-label">Saved Shift Chunks</div>
               <div class="manager-value" id="manager-shift-count">0</div>
-              <div class="manager-note">Every saved day / test cell / shift context currently represented.</div>
+              <div class="manager-note">Saved day / cell / shift contexts.</div>
             </div>
             <div class="manager-band-card">
               <div class="manager-label">Weekend Status Rows</div>
               <div class="manager-value" id="manager-status-count">0</div>
-              <div class="manager-note">Rows on the daily update board that currently have a TC status selected.</div>
+              <div class="manager-note">Weekend board rows with a status selected.</div>
             </div>
           </div>
 
@@ -1115,7 +1115,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
               <div class="manager-list-head">
                 <div>
                   <div class="manager-list-kicker">Leadership readout</div>
-                  <h3>What the page is seeing right now</h3>
+                  <h3>Current readout</h3>
                 </div>
               </div>
               <div class="manager-story-box" id="manager-story-box">The manager layer is waiting for enough hours, downtime, and weekend activity to generate a useful summary.</div>
@@ -1124,7 +1124,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
               <div class="manager-list-head">
                 <div>
                   <div class="manager-list-kicker">Readout</div>
-                  <h3>Operational ratios</h3>
+                  <h3>Key ratios</h3>
                 </div>
               </div>
               <div class="manager-list" id="manager-readout-list"></div>
@@ -1137,7 +1137,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                 <div>
                   <div class="manager-list-kicker">Dashboard view</div>
                   <h3>Operations KPI Trend</h3>
-                  <div class="manager-chart-sub">A dashboard-style read on recent saved shift activity using availability-like and productivity-like signals from the current prototype data.</div>
+                  <div class="manager-chart-sub">Recent saved-shift activity shown as availability-like and productivity-like signals.</div>
                 </div>
               </div>
               <div class="manager-legend">
@@ -1152,7 +1152,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                 <div>
                   <div class="manager-list-kicker">Dashboard view</div>
                   <h3>Cell Productivity Snapshot</h3>
-                  <div class="manager-chart-sub">Inspired by the ranked cell dashboards you showed: high signal first, weak performers pushed into warning colors.</div>
+                  <div class="manager-chart-sub">Ranked cell view with the weakest performers pushed into warning colors.</div>
                 </div>
               </div>
               <div class="manager-bars" id="manager-productivity-bars"></div>
@@ -1165,7 +1165,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                 <div>
                   <div class="manager-list-kicker">Dashboard view</div>
                   <h3>Downtime Drivers - Top 5</h3>
-                  <div class="manager-chart-sub">Top categories by logged downtime hours from saved shift chunks.</div>
+                  <div class="manager-chart-sub">Top downtime categories by saved hours.</div>
                 </div>
               </div>
               <div class="manager-bars" id="manager-downtime-bars"></div>
@@ -1175,7 +1175,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                 <div>
                   <div class="manager-list-kicker">Dashboard view</div>
                   <h3>Weekend Status Mix</h3>
-                  <div class="manager-chart-sub">Board-level status mix so a coach can see what kind of day the weekend board is describing.</div>
+                  <div class="manager-chart-sub">Weekend board status mix at a glance.</div>
                 </div>
               </div>
               <div class="manager-bars" id="manager-status-bars"></div>
@@ -1208,7 +1208,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
               <div class="manager-list-head">
                 <div>
                   <div class="manager-list-kicker">Immediate attention</div>
-                  <h3>Weekend Help Queue Snapshot</h3>
+                  <h3>Help queue</h3>
                 </div>
               </div>
               <div class="manager-list" id="manager-help-list"></div>
@@ -1228,11 +1228,11 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.100-manager-pulse-alignment-cleanup</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.101-readability-cleanup</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
-            <div class="temp-test-copy"><strong>Temp test tools</strong>Preview the settings experience in a different display mode and reset back to your original session when finished.</div>
+            <div class="temp-test-copy"><strong>Test tools</strong>Preview display mode changes and reset when finished.</div>
             <div class="temp-test-actions">
               <button class="temp-test-btn" type="button" data-temp-fill="settings">Fill This Tab</button>
               <button class="temp-test-btn reset" type="button" data-temp-reset="true">Reset Test Data</button>
@@ -1243,7 +1243,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="settings-hero-card">
               <div class="section-title">Display + Behavior</div>
               <h3>Keep the prototype readable first.</h3>
-              <div class="settings-copy">Settings stays intentionally light: it handles presentation choices, quick operating guidance, and a few reminders that make the rest of the tabs easier to use. It is not the place for analytics or review rollups.</div>
+              <div class="settings-copy">Settings stays light. It handles display choices, quick guidance, and reminders — not analytics.</div>
               <div class="display-mode-bar" id="display-mode-bar" style="margin-top:12px"></div>
               <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
                 <span class="pill">Current Display: <span id="display-mode-status" style="margin-left:6px">Standard</span></span>
@@ -1275,7 +1275,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="settings-hero-card">
               <div class="section-title">What belongs here</div>
               <h3>Controls, guardrails, and fast reference.</h3>
-              <div class="settings-copy">Use Settings to confirm how the prototype should look and how the tabs are meant to be used. Manager / Coaches stays separate on purpose so the read-only intelligence layer does not clutter everyday controls.</div>
+              <div class="settings-copy">Use Settings for display, tab roles, and quick reminders. Manager stays separate so daily controls stay clean.</div>
               <div class="settings-callout-grid">
                 <div class="settings-callout">
                   <strong>Settings owns</strong>
@@ -1304,7 +1304,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             </div>
             <div class="settings-mini-card">
               <h3>Trade Tracking Reminder</h3>
-              <div class="settings-copy">Weekdays track 10-hour runs, Thu→Fri carries a 14-hour transition run, and weekend runs track 12-hour chunks.</div>
+              <div class="settings-copy">Weekdays use 10-hour runs, Thu→Fri carries a 14-hour transition run, and weekends use 12-hour chunks.</div>
             </div>
             <div class="settings-mini-card">
               <h3>Tab Quick Guide</h3>
@@ -1312,15 +1312,15 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             </div>
             <div class="settings-mini-card">
               <h3>Operational Reminders</h3>
-              <div class="settings-copy">Use the day + shift controls on Cell Hours first. Keep downtime comments meaningful. Use Weekend Help Needed when a cell needs visible support.</div>
+              <div class="settings-copy">Start with day + shift on Cell Hours. Keep downtime comments meaningful. Use Weekend Help Needed when support is visible.</div>
             </div>
             <div class="settings-mini-card">
               <h3>CTC Pulse Quick Meaning</h3>
-              <div class="settings-copy">Pulse should read the current tab in context. Hours should behave strict, Weekend should behave like a board, and Manager should only surface actual attention items.</div>
+              <div class="settings-copy">Pulse reads each tab in context. Hours stay strict. Weekend behaves like a board. Manager surfaces true attention items.</div>
             </div>
             <div class="settings-mini-card">
               <h3>Prototype Guardrails</h3>
-              <div class="settings-copy">Small surgical changes only. Keep the audiences separated: tech entry, trades review, weekend board, and manager intelligence should not collapse into one workflow.</div>
+              <div class="settings-copy">Small surgical changes only. Keep tech entry, trades review, weekend board, and manager intelligence separate.</div>
             </div>
           </div>
         </div>
@@ -1350,12 +1350,12 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         <button type="button" id="ctc-pulse-copy">Copy Report</button>
       </div>
       <div class="debug-scan-line" id="ctc-pulse-lastscan">No scan run yet</div>
-      <pre class="debug-report" id="ctc-pulse-report" tabindex="0">Press Run Scan to generate a report. A timestamp will appear when the scan completes.</pre>
+      <pre class="debug-report" id="ctc-pulse-report" tabindex="0">Run Scan to refresh the report.</pre>
     </div>
   </section>
 
   <script>
-    const VERSION = "1.0.100-manager-pulse-alignment-cleanup";
+    const VERSION = "1.0.101-readability-cleanup";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2256,9 +2256,9 @@ function computeManagerPulseState(summary){
   const downtimeShareValue = summary.totalLogged > 0 ? (summary.totalDowntime / summary.totalLogged) * 100 : 0;
   let postureClass = "quiet";
   let postureLabel = "Quiet";
-  let focusHeadline = "Manager layer is standing by.";
-  let focusCopy = "As hours, downtime, and weekend activity build, this page will surface the loudest patterns without asking techs for extra inputs.";
-  let postureNote = "No urgent manager-layer pressure is showing yet. This card shifts tone automatically as help-needed rows and downtime build.";
+  let focusHeadline = "Manager view is ready.";
+  let focusCopy = "This view pulls the main signals from hours, downtime, and weekend status.";
+  let postureNote = "This card shifts as help-needed rows and downtime build.";
   let allClear = true;
   let pulseStatusLabel = "Manager standing by";
 
@@ -2266,24 +2266,24 @@ function computeManagerPulseState(summary){
     postureClass = "attention";
     postureLabel = "Attention";
     focusHeadline = `${summary.helpNeededCount} weekend row(s) need visible support.`;
-    focusCopy = "The weekend board is actively asking for help on at least one row, so manager attention should start there before broader trend review.";
-    postureNote = "Visible support has been requested. Use the Weekend Help Queue Snapshot first, then scan recent downtime and the most active cells for context.";
+    focusCopy = "The weekend board is asking for help. Start there before broader trend review.";
+    postureNote = "Visible support has been requested. Check the help queue first, then scan downtime and active cells.";
     allClear = false;
     pulseStatusLabel = `${summary.helpNeededCount} help-needed ${summary.helpNeededCount === 1 ? "row" : "rows"} active`;
   } else if (downtimeShareValue >= 25) {
     postureClass = "watch";
     postureLabel = "Watch";
-    focusHeadline = "Downtime is taking a meaningful share of logged hours.";
-    focusCopy = "No live help queue is active right now, but downtime is large enough relative to total logged hours to deserve a closer look.";
-    postureNote = "Review the top downtime categories and the recent downtime notes together so coaching decisions stay tied to actual context.";
+    focusHeadline = "Downtime is taking a larger share of logged hours.";
+    focusCopy = "No live help queue is active, but downtime is high enough to deserve a closer look.";
+    postureNote = "Review top downtime categories and recent notes together.";
     allClear = false;
     pulseStatusLabel = `Downtime share elevated at ${downtimeShareValue.toFixed(0)}%`;
   } else if (summary.savedShiftCount > 0 || summary.statusRowCount > 0) {
     postureClass = "steady";
     postureLabel = "Steady";
-    focusHeadline = "The manager layer is collecting useful activity.";
-    focusCopy = "Saved shift chunks or weekend status rows are already feeding this page, so the rollup story is live even if nothing urgent is flashing.";
-    postureNote = "Use this view to scan where work is concentrating, then check whether downtime remains isolated or starts clustering around the same cells.";
+    focusHeadline = "The manager view has live activity.";
+    focusCopy = "Saved shift chunks or weekend rows are feeding this page, even if nothing urgent is flashing.";
+    postureNote = "Scan where work is concentrating, then see whether downtime starts clustering by cell.";
     pulseStatusLabel = "Manager overview live";
   }
 
@@ -2315,16 +2315,16 @@ function renderManagerTab(){
   if (managerFocusCopy) managerFocusCopy.textContent = focusCopy;
   if (managerSignalHelp) managerSignalHelp.textContent = String(summary.helpNeededCount);
   if (managerSignalHelpNote) managerSignalHelpNote.textContent = summary.helpNeededCount > 0
-    ? "Weekend support is currently being requested on the live board."
-    : "No weekend rows currently asking for visible support.";
+    ? "Weekend support is being requested on the live board."
+    : "No weekend help requests are active.";
   if (managerDowntimeShare) managerDowntimeShare.textContent = `${downtimeShareValue.toFixed(0)}%`;
   if (managerDowntimeShareNote) managerDowntimeShareNote.textContent = summary.totalLogged > 0
     ? `${summary.totalDowntime.toFixed(1)} of ${summary.totalLogged.toFixed(1)} logged hours are tagged as downtime.`
-    : "Downtime share updates as saved shift chunks are logged.";
+    : "Updates as saved shift chunks are logged.";
   if (managerCoverageFootprint) managerCoverageFootprint.textContent = String(summary.savedShiftCount);
   if (managerCoverageFootprintNote) managerCoverageFootprintNote.textContent = summary.savedShiftCount > 0
     ? `${summary.savedShiftCount} saved shift chunk(s) are currently available across ${summary.activeCells} active cell(s).`
-    : "Saved shift contexts represented across active cells.";
+    : "Saved shift chunks across active cells.";
   if (managerPostureLabel) {
     managerPostureLabel.textContent = postureLabel;
     managerPostureLabel.className = `manager-posture ${postureClass}`;
@@ -2334,21 +2334,21 @@ function renderManagerTab(){
   const topDowntimeLabel = summary.topDowntime.length ? summary.topDowntime[0][0] : "no downtime bucket yet";
   const topStatusLabel = summary.topStatus ? `${summary.topStatus[0]} (${summary.topStatus[1]})` : "No weekend status pattern yet";
   const storyBits = [];
-  if (summary.helpNeededCount > 0) storyBits.push(`<strong>${summary.helpNeededCount} weekend row(s)</strong> are actively asking for help, so the board is not quiet.`);
-  if (summary.totalLogged > 0) storyBits.push(`<strong>${summary.totalLogged.toFixed(1)} logged hours</strong> are represented across <strong>${summary.savedShiftCount}</strong> saved shift chunk(s).`);
-  if (summary.activeCells > 0) storyBits.push(`Work is currently spread across <strong>${summary.activeCells} active cell(s)</strong>, averaging <strong>${summary.avgHoursPerCell.toFixed(1)} hours per active cell</strong>.`);
-  if (summary.totalDowntime > 0) storyBits.push(`Downtime is carrying <strong>${summary.totalDowntime.toFixed(1)} hour(s)</strong>, led by <strong>${escapeHtml(topDowntimeLabel)}</strong>.`);
+  if (summary.helpNeededCount > 0) storyBits.push(`<strong>${summary.helpNeededCount} weekend row(s)</strong> need help.`);
+  if (summary.totalLogged > 0) storyBits.push(`<strong>${summary.totalLogged.toFixed(1)} logged hours</strong> are represented across <strong>${summary.savedShiftCount}</strong> saved chunk(s).`);
+  if (summary.activeCells > 0) storyBits.push(`Work is spread across <strong>${summary.activeCells} active cell(s)</strong>, averaging <strong>${summary.avgHoursPerCell.toFixed(1)} hours per cell</strong>.`);
+  if (summary.totalDowntime > 0) storyBits.push(`Downtime carries <strong>${summary.totalDowntime.toFixed(1)} hour(s)</strong>, led by <strong>${escapeHtml(topDowntimeLabel)}</strong>.`);
   if (summary.topStatus) storyBits.push(`The weekend board is mostly showing <strong>${escapeHtml(topStatusLabel)}</strong>.`);
   if (managerStoryBox) managerStoryBox.innerHTML = storyBits.length
     ? storyBits.join(' ')
-    : 'The manager layer is waiting for enough hours, downtime, and weekend activity to generate a useful summary.';
+    : 'Add hours or weekend rows to build the manager summary.';
 
   if (managerReadoutList) {
     const readoutItems = [
-      { label: 'Average hours per active cell', value: summary.activeCells ? `${summary.avgHoursPerCell.toFixed(1)} hrs` : '—', note: summary.activeCells ? 'Shows where the logged load is concentrating.' : 'Needs active cells before this becomes useful.' },
-      { label: 'Average hours per saved chunk', value: summary.savedShiftCount ? `${summary.avgHoursPerShift.toFixed(1)} hrs` : '—', note: summary.savedShiftCount ? 'Quick check on how dense each saved shift context is.' : 'Needs saved shift chunks first.' },
-      { label: 'Downtime events captured', value: String(summary.totalDowntimeEvents), note: summary.totalDowntimeEvents ? 'Counts individual downtime rows with logged hours.' : 'No downtime rows are carrying hours yet.' },
-      { label: 'Weekend board lead status', value: escapeHtml(topStatusLabel), note: summary.topStatus ? 'Most repeated weekend board status right now.' : 'Weekend board has not built a dominant pattern yet.' }
+      { label: 'Average hours per active cell', value: summary.activeCells ? `${summary.avgHoursPerCell.toFixed(1)} hrs` : '—', note: summary.activeCells ? 'Shows where the logged load is concentrating.' : 'Needs active cells first.' },
+      { label: 'Average hours per saved chunk', value: summary.savedShiftCount ? `${summary.avgHoursPerShift.toFixed(1)} hrs` : '—', note: summary.savedShiftCount ? 'Quick check on chunk density.' : 'Needs saved chunks first.' },
+      { label: 'Downtime events captured', value: String(summary.totalDowntimeEvents), note: summary.totalDowntimeEvents ? 'Counts downtime rows with logged hours.' : 'No downtime rows carry hours yet.' },
+      { label: 'Weekend board lead status', value: escapeHtml(topStatusLabel), note: summary.topStatus ? 'Most repeated weekend board status.' : 'Weekend board has not built a pattern yet.' }
     ];
     managerReadoutList.innerHTML = readoutItems.map(item => `<div class="manager-item"><span>${item.label}<br><span class="manager-note">${item.note}</span></span><strong>${item.value}</strong></div>`).join('');
   }
@@ -2389,7 +2389,7 @@ function renderManagerTab(){
       const latest = dashboard.trend[dashboard.trend.length - 1];
       kpiNote.textContent = `Latest saved context: ${String(latest.date)} · Availability-like ${latest.availability.toFixed(0)}% · Productivity-like ${latest.productivity.toFixed(0)}%.`;
     } else {
-      kpiNote.textContent = 'Load temp data to see the trend line build out.';
+      kpiNote.textContent = 'Load temp data to build the trend view.';
     }
   }
   renderManagerBarList(productivityBars, dashboard.productivity.map(item => ({ label: `Cell ${item.cell}`, value: item.score })), { mode: 'score', valueFormatter: value => `${value.toFixed(0)}%`, emptyText: 'No saved cell productivity story yet.' });
@@ -3338,18 +3338,18 @@ function renderHours(){
       }
       if (hoursViewCopy) {
         hoursViewCopy.textContent = hoursSheet.viewMode === "trade"
-          ? "Trade coverage view is a cleaner grouped readout of the hours already entered, with day, month, date, and cell context visible for review."
-          : "Technician target hours are now auto-set from the selected day and shift timing, while the trade coverage interpretation stays visible as a reference.";
+          ? "Grouped trade readout of the hours already entered, with date and cell context visible for review."
+          : "Tech target hours auto-set from the selected day and shift. Trade coverage stays visible as reference.";
       }
       if (hoursModeNote) {
         hoursModeNote.textContent = hoursSheet.viewMode === "trade"
-          ? `Trade coverage view is active. The grouped bubbles now separate confirmed 10-hour, 12-hour, and Thu→Fri 14-hour runs automatically.`
-          : `${coverage.shiftLabel} is active. Technician target hours auto-set to ${coverage.techHours.toFixed(1)} based on the selected day and shift timing.`;
+          ? `Trade coverage view is active. Grouped runs separate 10-hour, 12-hour, and Thu→Fri 14-hour coverage automatically.`
+          : `${coverage.shiftLabel} is active. Tech target hours auto-set to ${coverage.techHours.toFixed(1)}.`;
       }
       if (hoursTradeReferenceCopy) {
         hoursTradeReferenceCopy.textContent = hoursSheet.viewMode === "trade"
-          ? `Trade reference stays below the grouped sheet so the main review area remains cleaner and easier to scan.`
-          : `Coverage reference for ${coverage.dayLabel}: ${coverage.tradeRunLabel} uses ${coverage.window} (${coverage.hours.toFixed(1)} hours). This remains visible without changing the technician's logged basis.`;
+          ? `Trade reference stays below the grouped sheet to keep the main review area easy to scan.`
+          : `Coverage reference for ${coverage.dayLabel}: ${coverage.tradeRunLabel} uses ${coverage.window} (${coverage.hours.toFixed(1)} hours).`;
       }
 
       hoursRowsBody.innerHTML = hoursRows.map(row => {
