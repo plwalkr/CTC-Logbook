@@ -582,14 +582,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.99-manager-dashboard-style</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.100-manager-pulse-alignment-cleanup</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">1.0.99-manager-dashboard-style</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">1.0.100-manager-pulse-alignment-cleanup</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -971,7 +971,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.99-manager-dashboard-style</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.100-manager-pulse-alignment-cleanup</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1029,7 +1029,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.99-manager-dashboard-style</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.100-manager-pulse-alignment-cleanup</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1228,7 +1228,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.99-manager-dashboard-style</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.100-manager-pulse-alignment-cleanup</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1355,7 +1355,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.99-manager-dashboard-style";
+    const VERSION = "1.0.100-manager-pulse-alignment-cleanup";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2252,14 +2252,15 @@ function renderManagerTrendSvg(target, trend){
   target.innerHTML = `${grid}<path d="${buildPath('availability')}" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="${buildPath('productivity')}" fill="none" stroke="#ea580c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>${availabilityDots}${productivityDots}${labels}`;
 }
 
-function renderManagerTab(){
-  const summary = aggregateManagerData();
+function computeManagerPulseState(summary){
   const downtimeShareValue = summary.totalLogged > 0 ? (summary.totalDowntime / summary.totalLogged) * 100 : 0;
   let postureClass = "quiet";
   let postureLabel = "Quiet";
   let focusHeadline = "Manager layer is standing by.";
   let focusCopy = "As hours, downtime, and weekend activity build, this page will surface the loudest patterns without asking techs for extra inputs.";
   let postureNote = "No urgent manager-layer pressure is showing yet. This card shifts tone automatically as help-needed rows and downtime build.";
+  let allClear = true;
+  let pulseStatusLabel = "Manager standing by";
 
   if (summary.helpNeededCount > 0) {
     postureClass = "attention";
@@ -2267,19 +2268,41 @@ function renderManagerTab(){
     focusHeadline = `${summary.helpNeededCount} weekend row(s) need visible support.`;
     focusCopy = "The weekend board is actively asking for help on at least one row, so manager attention should start there before broader trend review.";
     postureNote = "Visible support has been requested. Use the Weekend Help Queue Snapshot first, then scan recent downtime and the most active cells for context.";
+    allClear = false;
+    pulseStatusLabel = `${summary.helpNeededCount} help-needed ${summary.helpNeededCount === 1 ? "row" : "rows"} active`;
   } else if (downtimeShareValue >= 25) {
     postureClass = "watch";
     postureLabel = "Watch";
     focusHeadline = "Downtime is taking a meaningful share of logged hours.";
     focusCopy = "No live help queue is active right now, but downtime is large enough relative to total logged hours to deserve a closer look.";
     postureNote = "Review the top downtime categories and the recent downtime notes together so coaching decisions stay tied to actual context.";
+    allClear = false;
+    pulseStatusLabel = `Downtime share elevated at ${downtimeShareValue.toFixed(0)}%`;
   } else if (summary.savedShiftCount > 0 || summary.statusRowCount > 0) {
     postureClass = "steady";
     postureLabel = "Steady";
     focusHeadline = "The manager layer is collecting useful activity.";
     focusCopy = "Saved shift chunks or weekend status rows are already feeding this page, so the rollup story is live even if nothing urgent is flashing.";
     postureNote = "Use this view to scan where work is concentrating, then check whether downtime remains isolated or starts clustering around the same cells.";
+    pulseStatusLabel = "Manager overview live";
   }
+
+  return {
+    downtimeShareValue,
+    postureClass,
+    postureLabel,
+    focusHeadline,
+    focusCopy,
+    postureNote,
+    allClear,
+    pulseStatusLabel
+  };
+}
+
+function renderManagerTab(){
+  const summary = aggregateManagerData();
+  const pulseState = computeManagerPulseState(summary);
+  const { downtimeShareValue, postureClass, postureLabel, focusHeadline, focusCopy, postureNote } = pulseState;
 
   if (managerActiveCells) managerActiveCells.textContent = String(summary.activeCells);
   if (managerHelpNeeded) managerHelpNeeded.textContent = String(summary.helpNeededCount);
@@ -3978,20 +4001,31 @@ function renderHours(){
       }
       if (activeTab === "manager") {
         const managerSummary = aggregateManagerData();
+        const pulseState = computeManagerPulseState(managerSummary);
         const managerAttention = [];
+        const helpCells = managerSummary.helpRows.map(row => `Cell ${row.testCell}`).filter(Boolean);
+        const topDowntimeLabel = managerSummary.topDowntime.length ? managerSummary.topDowntime[0][0] : null;
         if (managerSummary.helpNeededCount) {
-          managerAttention.push(`${managerSummary.helpNeededCount} weekend ${managerSummary.helpNeededCount === 1 ? "row is" : "rows are"} currently marked Help Needed.`);
+          managerAttention.push(`${managerSummary.helpNeededCount} weekend ${managerSummary.helpNeededCount === 1 ? "row is" : "rows are"} currently marked Help Needed${helpCells.length ? ` (${helpCells.join(", ")})` : ""}.`);
+        }
+        if (!managerSummary.helpNeededCount && pulseState.postureLabel === "Watch") {
+          managerAttention.push(`Downtime share is ${pulseState.downtimeShareValue.toFixed(1)}% of logged hours${topDowntimeLabel ? `, led by ${topDowntimeLabel}` : ""}.`);
+        }
+        if (!managerAttention.length && managerSummary.savedShiftCount) {
+          managerAttention.push(`No live help-needed rows are active. Manager review is reading ${managerSummary.savedShiftCount} saved shift chunk(s) across ${managerSummary.activeCells} active cell(s).`);
         }
         return [
           `CTC Pulse Report`,
           `Version: ${VERSION}`,
           `Active tab: ${activeTab}`,
+          `Operational posture: ${pulseState.postureLabel}`,
           `Visible log rows: ${managerSummary.visibleLogRows}`,
           `Active cells: ${managerSummary.activeCells}`,
           `Help needed rows: ${managerSummary.helpNeededCount}`,
           `Saved shift chunks: ${managerSummary.savedShiftCount}`,
           `Logged hours total: ${managerSummary.totalLogged.toFixed(1)}`,
           `Downtime hours total: ${managerSummary.totalDowntime.toFixed(1)}`,
+          `Downtime share: ${pulseState.downtimeShareValue.toFixed(1)}%`,
           `Weekend status rows: ${managerSummary.statusRowCount}`,
           `Timestamp: ${new Date().toLocaleString()}`,
           ``,
@@ -4064,8 +4098,9 @@ function runCtcPulseScan(){
             statusLabel = helpCount === 0 ? "Weekend board clear" : `${helpCount} help request(s) active`;
           } else if (activeTab === "manager") {
             const managerSummary = aggregateManagerData();
-            allClear = managerSummary.helpNeededCount === 0;
-            statusLabel = managerSummary.helpNeededCount === 0 ? "Manager overview clear" : `${managerSummary.helpNeededCount} help-needed ${managerSummary.helpNeededCount === 1 ? "row" : "rows"} active`;
+            const pulseState = computeManagerPulseState(managerSummary);
+            allClear = pulseState.allClear;
+            statusLabel = pulseState.pulseStatusLabel;
           } else if (activeTab === "settings") {
             allClear = true;
             statusLabel = `${document.body?.dataset?.theme || "standard"} mode`;
