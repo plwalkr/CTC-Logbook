@@ -207,6 +207,28 @@
     .manager-list-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700}
     .manager-story-box{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:12px;font-size:13px;color:#334155;line-height:1.65}
     .manager-story-box strong{color:#0f172a}
+    .manager-dashboard-grid{display:grid;grid-template-columns:1.25fr .95fr;gap:12px}
+    .manager-dashboard-grid.bottom{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .manager-chart-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:12px;overflow:hidden}
+    .manager-chart-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:10px}
+    .manager-chart-head h3{font-size:16px;margin:2px 0 0 0}
+    .manager-chart-sub{font-size:12px;color:#64748b;line-height:1.5;margin-top:3px}
+    .manager-legend{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:#475569;margin-bottom:8px}
+    .manager-legend span{display:inline-flex;align-items:center;gap:6px}
+    .manager-dot{width:10px;height:10px;border-radius:999px;display:inline-block}
+    .manager-dot.availability{background:#2563eb}
+    .manager-dot.productivity{background:#ea580c}
+    .manager-kpi-svg{width:100%;height:230px;display:block;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);border:1px solid #e2e8f0;border-radius:14px}
+    .manager-kpi-note{font-size:12px;color:#475569;margin-top:8px;line-height:1.5}
+    .manager-bars{display:flex;flex-direction:column;gap:10px}
+    .manager-bar-row{display:grid;grid-template-columns:minmax(90px,1.1fr) minmax(0,2.3fr) auto;gap:10px;align-items:center;font-size:12px}
+    .manager-bar-label{color:#334155;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .manager-bar-track{height:14px;border-radius:999px;background:#e2e8f0;overflow:hidden;position:relative}
+    .manager-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#3b82f6 0%,#60a5fa 100%)}
+    .manager-bar-fill.warn{background:linear-gradient(90deg,#f59e0b 0%,#fbbf24 100%)}
+    .manager-bar-fill.danger{background:linear-gradient(90deg,#dc2626 0%,#ef4444 100%)}
+    .manager-bar-value{font-weight:800;color:#0f172a;white-space:nowrap}
+    .manager-empty-chart{font-size:12px;color:#64748b;padding:10px 0}
     .settings-compact-head{display:flex;justify-content:flex-end;gap:10px;align-items:flex-start;flex-wrap:wrap}
     .settings-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
     .settings-hero-card{border:1px solid #e2e8f0;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:14px}
@@ -231,6 +253,7 @@
     body[data-theme="clarity"] .temp-test-bar{background:#f7faff;border-color:#9aa7bd}
     body[data-theme="clarity"] .temp-test-btn{border-color:#8ea2bf;background:#fff;color:#10233d}
     body[data-theme="clarity"] .manager-hero-card,
+    body[data-theme="clarity"] .manager-chart-card,
     body[data-theme="clarity"] .manager-signal-card,
     body[data-theme="clarity"] .manager-story-box,
     body[data-theme="clarity"] .settings-mini-card,
@@ -536,6 +559,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       .manager-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .manager-layout{grid-template-columns:1fr}
       .manager-hero{grid-template-columns:1fr}
+      .manager-dashboard-grid,.manager-dashboard-grid.bottom{grid-template-columns:1fr}
       .manager-band{grid-template-columns:repeat(2,minmax(0,1fr))}
       .manager-signal-row{grid-template-columns:1fr}
       .settings-hero{grid-template-columns:1fr}
@@ -558,14 +582,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.98-manager-live-readout</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.99-manager-dashboard-style</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">1.0.98-manager-live-readout</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">1.0.99-manager-dashboard-style</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -947,7 +971,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.98-manager-live-readout</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.99-manager-dashboard-style</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1005,7 +1029,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.98-manager-live-readout</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.99-manager-dashboard-style</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1107,6 +1131,57 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             </div>
           </div>
 
+          <div class="manager-dashboard-grid">
+            <div class="manager-chart-card">
+              <div class="manager-chart-head">
+                <div>
+                  <div class="manager-list-kicker">Dashboard view</div>
+                  <h3>Operations KPI Trend</h3>
+                  <div class="manager-chart-sub">A dashboard-style read on recent saved shift activity using availability-like and productivity-like signals from the current prototype data.</div>
+                </div>
+              </div>
+              <div class="manager-legend">
+                <span><i class="manager-dot availability"></i>Availability-like</span>
+                <span><i class="manager-dot productivity"></i>Productivity-like</span>
+              </div>
+              <svg class="manager-kpi-svg" id="manager-kpi-svg" viewBox="0 0 640 230" aria-label="Operations KPI Trend"></svg>
+              <div class="manager-kpi-note" id="manager-kpi-note">Load temp data to see the trend line build out.</div>
+            </div>
+            <div class="manager-chart-card">
+              <div class="manager-chart-head">
+                <div>
+                  <div class="manager-list-kicker">Dashboard view</div>
+                  <h3>Cell Productivity Snapshot</h3>
+                  <div class="manager-chart-sub">Inspired by the ranked cell dashboards you showed: high signal first, weak performers pushed into warning colors.</div>
+                </div>
+              </div>
+              <div class="manager-bars" id="manager-productivity-bars"></div>
+            </div>
+          </div>
+
+          <div class="manager-dashboard-grid bottom">
+            <div class="manager-chart-card">
+              <div class="manager-chart-head">
+                <div>
+                  <div class="manager-list-kicker">Dashboard view</div>
+                  <h3>Downtime Drivers - Top 5</h3>
+                  <div class="manager-chart-sub">Top categories by logged downtime hours from saved shift chunks.</div>
+                </div>
+              </div>
+              <div class="manager-bars" id="manager-downtime-bars"></div>
+            </div>
+            <div class="manager-chart-card">
+              <div class="manager-chart-head">
+                <div>
+                  <div class="manager-list-kicker">Dashboard view</div>
+                  <h3>Weekend Status Mix</h3>
+                  <div class="manager-chart-sub">Board-level status mix so a coach can see what kind of day the weekend board is describing.</div>
+                </div>
+              </div>
+              <div class="manager-bars" id="manager-status-bars"></div>
+            </div>
+          </div>
+
           <div class="manager-layout">
             <div class="manager-list-card">
               <div class="manager-list-head">
@@ -1153,7 +1228,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.98-manager-live-readout</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.99-manager-dashboard-style</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1280,7 +1355,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.98-manager-live-readout";
+    const VERSION = "1.0.99-manager-dashboard-style";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2089,6 +2164,94 @@ function aggregateManagerData(){
   };
 }
 
+function computeManagerDashboardData(){
+  const records = typeof getHoursTradeRecords === "function" ? getHoursTradeRecords() : [];
+  const byDate = new Map();
+  const cellTotals = new Map();
+  const cellDowntime = new Map();
+  const statusBuckets = new Map();
+  const weekendRows = typeof getWeekendRowsForCurrentDate === "function" ? getWeekendRowsForCurrentDate() : [];
+
+  records.forEach(record => {
+    const dateKey = String(record.banner?.date || record.banner?.headerDate || "Unknown");
+    const cell = String(record.banner?.testCell || "-");
+    let logged = 0;
+    let downtime = 0;
+    (record.rows || []).forEach(row => {
+      const hours = parseFloat(row.hours) || 0;
+      logged += hours;
+      if (row.status === "Downtime") downtime += hours;
+    });
+    const entry = byDate.get(dateKey) || { logged: 0, downtime: 0, chunks: 0 };
+    entry.logged += logged;
+    entry.downtime += downtime;
+    entry.chunks += 1;
+    byDate.set(dateKey, entry);
+    cellTotals.set(cell, (cellTotals.get(cell) || 0) + logged);
+    cellDowntime.set(cell, (cellDowntime.get(cell) || 0) + downtime);
+  });
+
+  weekendRows.filter(row => String(row.tcStatus || "").trim()).forEach(row => {
+    const key = String(row.tcStatus || "Unknown");
+    statusBuckets.set(key, (statusBuckets.get(key) || 0) + 1);
+  });
+
+  const trend = Array.from(byDate.entries()).sort((a,b) => String(a[0]).localeCompare(String(b[0]))).slice(-8).map(([date, value]) => {
+    const availability = value.logged > 0 ? Math.max(0, 100 - ((value.downtime / value.logged) * 100)) : 0;
+    const productivity = value.logged > 0 ? Math.max(0, ((value.logged - value.downtime) / value.logged) * 100) : 0;
+    return { date, availability, productivity, logged: value.logged, downtime: value.downtime };
+  });
+
+  const productivity = Array.from(cellTotals.entries()).map(([cell, logged]) => {
+    const downtime = cellDowntime.get(cell) || 0;
+    const score = logged > 0 ? Math.max(0, 100 - ((downtime / logged) * 100)) : 0;
+    return { cell, score, logged, downtime };
+  }).sort((a,b) => b.score - a.score || b.logged - a.logged).slice(0,10);
+
+  const downtimeTop = Array.from(cellDowntime.entries()).filter((pair) => pair[1] > 0).sort((a,b) => b[1] - a[1]).slice(0,8).map(([cell, hours]) => ({ label: `Cell ${cell}`, value: hours }));
+  const statusMix = Array.from(statusBuckets.entries()).sort((a,b) => b[1] - a[1]).map(([label, count]) => ({ label, value: count }));
+
+  return { trend, productivity, downtimeTop, statusMix };
+}
+
+function renderManagerBarList(target, items, options = {}){
+  if (!target) return;
+  if (!items || !items.length) {
+    target.innerHTML = `<div class="manager-empty-chart">${options.emptyText || 'Not enough data yet.'}</div>`;
+    return;
+  }
+  const max = Math.max(...items.map(item => Number(item.value || item.score || 0)), 1);
+  target.innerHTML = items.map(item => {
+    const raw = Number(item.value ?? item.score ?? 0);
+    const width = Math.max(4, (raw / max) * 100);
+    let fillClass = '';
+    if (options.mode === 'score') {
+      if (raw < 60) fillClass = 'danger';
+      else if (raw < 80) fillClass = 'warn';
+    }
+    const valueLabel = options.valueFormatter ? options.valueFormatter(raw, item) : String(raw);
+    return `<div class="manager-bar-row"><div class="manager-bar-label">${escapeHtml(item.label || item.cell || '-')}</div><div class="manager-bar-track"><div class="manager-bar-fill ${fillClass}" style="width:${width}%"></div></div><div class="manager-bar-value">${valueLabel}</div></div>`;
+  }).join('');
+}
+
+function renderManagerTrendSvg(target, trend){
+  if (!target) return;
+  if (!trend || !trend.length) {
+    target.innerHTML = `<text x="28" y="42" font-size="14" fill="#64748b">Load temp data to build the trend view.</text>`;
+    return;
+  }
+  const width = 640, height = 230, left = 46, right = 18, top = 18, bottom = 36;
+  const chartW = width - left - right, chartH = height - top - bottom;
+  const xFor = idx => left + (trend.length === 1 ? chartW / 2 : (idx / (trend.length - 1)) * chartW);
+  const yFor = value => top + (1 - (Math.max(0, Math.min(100, value)) / 100)) * chartH;
+  const buildPath = key => trend.map((point, idx) => `${idx === 0 ? 'M' : 'L'} ${xFor(idx).toFixed(1)} ${yFor(point[key]).toFixed(1)}`).join(' ');
+  const grid = [0,25,50,75,100].map(val => `<line x1="${left}" y1="${yFor(val)}" x2="${width-right}" y2="${yFor(val)}" stroke="#e2e8f0" stroke-dasharray="4 4"/><text x="8" y="${yFor(val)+4}" font-size="11" fill="#64748b">${val}%</text>`).join('');
+  const labels = trend.map((point, idx) => `<text x="${xFor(idx)}" y="${height-12}" text-anchor="middle" font-size="11" fill="#64748b">${escapeHtml(String(point.date).slice(5))}</text>`).join('');
+  const availabilityDots = trend.map((point, idx) => `<circle cx="${xFor(idx)}" cy="${yFor(point.availability)}" r="4" fill="#2563eb"/><text x="${xFor(idx)}" y="${yFor(point.availability)-10}" text-anchor="middle" font-size="10" fill="#1e3a8a">${Math.round(point.availability)}%</text>`).join('');
+  const productivityDots = trend.map((point, idx) => `<circle cx="${xFor(idx)}" cy="${yFor(point.productivity)}" r="4" fill="#ea580c"/><text x="${xFor(idx)}" y="${yFor(point.productivity)+16}" text-anchor="middle" font-size="10" fill="#9a3412">${Math.round(point.productivity)}%</text>`).join('');
+  target.innerHTML = `${grid}<path d="${buildPath('availability')}" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="${buildPath('productivity')}" fill="none" stroke="#ea580c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>${availabilityDots}${productivityDots}${labels}`;
+}
+
 function renderManagerTab(){
   const summary = aggregateManagerData();
   const downtimeShareValue = summary.totalLogged > 0 ? (summary.totalDowntime / summary.totalLogged) * 100 : 0;
@@ -2190,6 +2353,25 @@ function renderManagerTab(){
       ? summary.recentNotes.map(item => `<div class="manager-item"><span>Cell ${escapeHtml(item.cell)} · ${escapeHtml(item.detail)}<br><span class="manager-note">${escapeHtml(item.comment)}</span></span><strong>${item.hours.toFixed(1)} hrs</strong></div>`).join("")
       : `<div class="manager-empty">No downtime notes are available yet.</div>`;
   }
+
+  const dashboard = computeManagerDashboardData();
+  const kpiSvg = document.getElementById("manager-kpi-svg");
+  const kpiNote = document.getElementById("manager-kpi-note");
+  const productivityBars = document.getElementById("manager-productivity-bars");
+  const downtimeBars = document.getElementById("manager-downtime-bars");
+  const statusBars = document.getElementById("manager-status-bars");
+  renderManagerTrendSvg(kpiSvg, dashboard.trend);
+  if (kpiNote) {
+    if (dashboard.trend.length) {
+      const latest = dashboard.trend[dashboard.trend.length - 1];
+      kpiNote.textContent = `Latest saved context: ${String(latest.date)} · Availability-like ${latest.availability.toFixed(0)}% · Productivity-like ${latest.productivity.toFixed(0)}%.`;
+    } else {
+      kpiNote.textContent = 'Load temp data to see the trend line build out.';
+    }
+  }
+  renderManagerBarList(productivityBars, dashboard.productivity.map(item => ({ label: `Cell ${item.cell}`, value: item.score })), { mode: 'score', valueFormatter: value => `${value.toFixed(0)}%`, emptyText: 'No saved cell productivity story yet.' });
+  renderManagerBarList(downtimeBars, dashboard.downtimeTop, { valueFormatter: value => `${value.toFixed(1)} hrs`, emptyText: 'No downtime hours are carrying into the dashboard yet.' });
+  renderManagerBarList(statusBars, dashboard.statusMix, { valueFormatter: value => `${value} row(s)`, emptyText: 'Weekend board status mix will appear here once rows are filled.' });
 }
 
     let tempTestBaseline = null;
