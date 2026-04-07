@@ -582,14 +582,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.101-readability-cleanup</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.102-manager-noise-reduction</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">1.0.101-readability-cleanup</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">1.0.102-manager-noise-reduction</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -971,7 +971,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.101-readability-cleanup</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.102-manager-noise-reduction</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1029,7 +1029,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.101-readability-cleanup</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.102-manager-noise-reduction</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1048,9 +1048,9 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
           <div class="manager-hero">
             <div class="manager-hero-card">
-              <div class="section-title">Operations Pulse</div>
-              <h2 id="manager-focus-headline">Manager view is ready.</h2>
-              <p class="manager-hero-copy" id="manager-focus-copy">This view pulls the main signals from hours, downtime, and weekend status.</p>
+              <div class="section-title">Manager Pulse</div>
+              <h2 id="manager-focus-headline">Current manager signals</h2>
+              <p class="manager-hero-copy" id="manager-focus-copy">This view reads hours, downtime, and weekend board activity.</p>
               <div class="manager-signal-row">
                 <div class="manager-signal-card">
                   <div class="manager-signal-label">Weekend Help Queue</div>
@@ -1074,16 +1074,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
               <div class="section-title">Review Posture</div>
               <div class="manager-posture quiet" id="manager-posture-label">Quiet</div>
               <div class="manager-posture-note" id="manager-posture-note">This card shifts as help-needed rows and downtime build.</div>
-              <div class="settings-callout-grid" style="margin-top:14px">
-                <div class="settings-callout">
-                  <strong>What belongs here</strong>
-                  Rollups, downtime, help queue visibility, and read-only review signals.
-                </div>
-                <div class="settings-callout">
-                  <strong>What stays elsewhere</strong>
-                  Cell Hours owns entry. Weekend owns the live board. Settings owns controls and quick reference.
-                </div>
-              </div>
+              <div class="manager-posture-note" style="margin-top:14px">Read-only rollups only. Entry stays under Cell Hours and Weekend.</div>
             </div>
           </div>
 
@@ -1135,7 +1126,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-chart-card">
               <div class="manager-chart-head">
                 <div>
-                  <div class="manager-list-kicker">Dashboard view</div>
+                  <div class="manager-list-kicker">Trend</div>
                   <h3>Operations KPI Trend</h3>
                   <div class="manager-chart-sub">Recent saved-shift activity shown as availability-like and productivity-like signals.</div>
                 </div>
@@ -1150,9 +1141,9 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-chart-card">
               <div class="manager-chart-head">
                 <div>
-                  <div class="manager-list-kicker">Dashboard view</div>
+                  <div class="manager-list-kicker">Cells</div>
                   <h3>Cell Productivity Snapshot</h3>
-                  <div class="manager-chart-sub">Ranked cell view with the weakest performers pushed into warning colors.</div>
+                  <div class="manager-chart-sub">Cells ranked by downtime-adjusted score. Warning colors show only when scores drop.</div>
                 </div>
               </div>
               <div class="manager-bars" id="manager-productivity-bars"></div>
@@ -1163,7 +1154,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-chart-card">
               <div class="manager-chart-head">
                 <div>
-                  <div class="manager-list-kicker">Dashboard view</div>
+                  <div class="manager-list-kicker">Downtime</div>
                   <h3>Downtime Drivers - Top 5</h3>
                   <div class="manager-chart-sub">Top downtime categories by saved hours.</div>
                 </div>
@@ -1173,9 +1164,9 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-chart-card">
               <div class="manager-chart-head">
                 <div>
-                  <div class="manager-list-kicker">Dashboard view</div>
-                  <h3>Weekend Status Mix</h3>
-                  <div class="manager-chart-sub">Weekend board status mix at a glance.</div>
+                  <div class="manager-list-kicker">Weekend</div>
+                  <h3>Weekend Board Statuses</h3>
+                  <div class="manager-chart-sub">Counts of the current weekend board statuses.</div>
                 </div>
               </div>
               <div class="manager-bars" id="manager-status-bars"></div>
@@ -1228,7 +1219,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.101-readability-cleanup</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.102-manager-noise-reduction</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1355,7 +1346,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.101-readability-cleanup";
+    const VERSION = "1.0.102-manager-noise-reduction";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2315,7 +2306,7 @@ function renderManagerTab(){
   if (managerFocusCopy) managerFocusCopy.textContent = focusCopy;
   if (managerSignalHelp) managerSignalHelp.textContent = String(summary.helpNeededCount);
   if (managerSignalHelpNote) managerSignalHelpNote.textContent = summary.helpNeededCount > 0
-    ? "Weekend support is being requested on the live board."
+    ? "Weekend rows are asking for help."
     : "No weekend help requests are active.";
   if (managerDowntimeShare) managerDowntimeShare.textContent = `${downtimeShareValue.toFixed(0)}%`;
   if (managerDowntimeShareNote) managerDowntimeShareNote.textContent = summary.totalLogged > 0
@@ -2323,7 +2314,7 @@ function renderManagerTab(){
     : "Updates as saved shift chunks are logged.";
   if (managerCoverageFootprint) managerCoverageFootprint.textContent = String(summary.savedShiftCount);
   if (managerCoverageFootprintNote) managerCoverageFootprintNote.textContent = summary.savedShiftCount > 0
-    ? `${summary.savedShiftCount} saved shift chunk(s) are currently available across ${summary.activeCells} active cell(s).`
+    ? `${summary.savedShiftCount} saved shift chunk(s) across ${summary.activeCells} active cell(s).`
     : "Saved shift chunks across active cells.";
   if (managerPostureLabel) {
     managerPostureLabel.textContent = postureLabel;
@@ -2394,7 +2385,11 @@ function renderManagerTab(){
   }
   renderManagerBarList(productivityBars, dashboard.productivity.map(item => ({ label: `Cell ${item.cell}`, value: item.score })), { mode: 'score', valueFormatter: value => `${value.toFixed(0)}%`, emptyText: 'No saved cell productivity story yet.' });
   renderManagerBarList(downtimeBars, dashboard.downtimeTop, { valueFormatter: value => `${value.toFixed(1)} hrs`, emptyText: 'No downtime hours are carrying into the dashboard yet.' });
-  renderManagerBarList(statusBars, dashboard.statusMix, { valueFormatter: value => `${value} row(s)`, emptyText: 'Weekend board status mix will appear here once rows are filled.' });
+  const hasStatusPattern = dashboard.statusMix.some(item => Number(item.value || 0) > 1);
+  renderManagerBarList(statusBars, hasStatusPattern ? dashboard.statusMix : [], {
+    valueFormatter: value => `${value}`,
+    emptyText: dashboard.statusMix.length ? 'No repeated weekend status pattern yet.' : 'Weekend board statuses will appear here once rows are filled.'
+  });
 }
 
     let tempTestBaseline = null;
