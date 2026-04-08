@@ -582,14 +582,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.102-manager-noise-reduction</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.104-manager-smart-structure</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">1.0.102-manager-noise-reduction</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">1.0.104-manager-smart-structure</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -971,7 +971,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.102-manager-noise-reduction</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.104-manager-smart-structure</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1029,7 +1029,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.102-manager-noise-reduction</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.104-manager-smart-structure</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1049,21 +1049,21 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
           <div class="manager-hero">
             <div class="manager-hero-card">
               <div class="section-title">Manager Pulse</div>
-              <h2 id="manager-focus-headline">Current manager signals</h2>
-              <p class="manager-hero-copy" id="manager-focus-copy">This view reads hours, downtime, and weekend board activity.</p>
+              <h2 id="manager-focus-headline">Action now</h2>
+              <p class="manager-hero-copy" id="manager-focus-copy">Fast manager readout from billable, weekend, and trade activity already entered elsewhere.</p>
               <div class="manager-signal-row">
                 <div class="manager-signal-card">
-                  <div class="manager-signal-label">Weekend Help Queue</div>
+                  <div class="manager-signal-label">Help Needed Cells</div>
                   <div class="manager-signal-value" id="manager-signal-help">0</div>
                   <div class="manager-signal-note" id="manager-signal-help-note">No weekend help requests are active.</div>
                 </div>
                 <div class="manager-signal-card">
-                  <div class="manager-signal-label">Downtime Share</div>
+                  <div class="manager-signal-label">Biggest Driver</div>
                   <div class="manager-signal-value" id="manager-downtime-share">0%</div>
                   <div class="manager-signal-note" id="manager-downtime-share-note">Updates as saved shift chunks are logged.</div>
                 </div>
                 <div class="manager-signal-card">
-                  <div class="manager-signal-label">Coverage Footprint</div>
+                  <div class="manager-signal-label">Data Confidence</div>
                   <div class="manager-signal-value" id="manager-coverage-footprint">0</div>
                   <div class="manager-signal-note" id="manager-coverage-footprint-note">Saved shift chunks across active cells.</div>
                 </div>
@@ -1071,10 +1071,10 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             </div>
 
             <div class="manager-hero-card">
-              <div class="section-title">Review Posture</div>
+              <div class="section-title">Operational Posture</div>
               <div class="manager-posture quiet" id="manager-posture-label">Quiet</div>
               <div class="manager-posture-note" id="manager-posture-note">This card shifts as help-needed rows and downtime build.</div>
-              <div class="manager-posture-note" style="margin-top:14px">Read-only rollups only. Entry stays under Cell Hours and Weekend.</div>
+
             </div>
           </div>
 
@@ -1105,7 +1105,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-list-card">
               <div class="manager-list-head">
                 <div>
-                  <div class="manager-list-kicker">Leadership readout</div>
+                  <div class="manager-list-kicker">Operating story</div>
                   <h3>Current readout</h3>
                 </div>
               </div>
@@ -1114,7 +1114,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-list-card">
               <div class="manager-list-head">
                 <div>
-                  <div class="manager-list-kicker">Readout</div>
+                  <div class="manager-list-kicker">Smart checks</div>
                   <h3>Key ratios</h3>
                 </div>
               </div>
@@ -1127,16 +1127,16 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
               <div class="manager-chart-head">
                 <div>
                   <div class="manager-list-kicker">Trend</div>
-                  <h3>Operations KPI Trend</h3>
-                  <div class="manager-chart-sub">Recent saved-shift activity shown as availability-like and productivity-like signals.</div>
+                  <h3>Operations Trend</h3>
+                  <div class="manager-chart-sub">Saved-day trend from logged hours versus downtime. Use it to spot drift, not as a final plant KPI.</div>
                 </div>
               </div>
               <div class="manager-legend">
-                <span><i class="manager-dot availability"></i>Availability-like</span>
-                <span><i class="manager-dot productivity"></i>Productivity-like</span>
+                <span><i class="manager-dot availability"></i>Lower downtime</span>
+                <span><i class="manager-dot productivity"></i>Usable logged time</span>
               </div>
               <svg class="manager-kpi-svg" id="manager-kpi-svg" viewBox="0 0 640 230" aria-label="Operations KPI Trend"></svg>
-              <div class="manager-kpi-note" id="manager-kpi-note">Load temp data to see the trend line build out.</div>
+              <div class="manager-kpi-note" id="manager-kpi-note">Saved dates will build the trend view.</div>
             </div>
             <div class="manager-chart-card">
               <div class="manager-chart-head">
@@ -1156,7 +1156,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                 <div>
                   <div class="manager-list-kicker">Downtime</div>
                   <h3>Downtime Drivers - Top 5</h3>
-                  <div class="manager-chart-sub">Top downtime categories by saved hours.</div>
+                  <div class="manager-chart-sub">Where downtime is collecting most by cell right now.</div>
                 </div>
               </div>
               <div class="manager-bars" id="manager-downtime-bars"></div>
@@ -1166,7 +1166,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                 <div>
                   <div class="manager-list-kicker">Weekend</div>
                   <h3>Weekend Board Statuses</h3>
-                  <div class="manager-chart-sub">Counts of the current weekend board statuses.</div>
+                  <div class="manager-chart-sub">Live board mix only. Hidden when no repeated pattern exists.</div>
                 </div>
               </div>
               <div class="manager-bars" id="manager-status-bars"></div>
@@ -1177,7 +1177,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-list-card">
               <div class="manager-list-head">
                 <div>
-                  <div class="manager-list-kicker">Trend watch</div>
+                  <div class="manager-list-kicker">Repeated downtime</div>
                   <h3>Top Downtime Categories</h3>
                 </div>
               </div>
@@ -1186,7 +1186,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-list-card">
               <div class="manager-list-head">
                 <div>
-                  <div class="manager-list-kicker">Coverage watch</div>
+                  <div class="manager-list-kicker">Coverage concentration</div>
                   <h3>Most Active Test Cells</h3>
                 </div>
               </div>
@@ -1198,7 +1198,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-list-card">
               <div class="manager-list-head">
                 <div>
-                  <div class="manager-list-kicker">Immediate attention</div>
+                  <div class="manager-list-kicker">Weekend help queue</div>
                   <h3>Help queue</h3>
                 </div>
               </div>
@@ -1207,7 +1207,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-list-card">
               <div class="manager-list-head">
                 <div>
-                  <div class="manager-list-kicker">Context</div>
+                  <div class="manager-list-kicker">Support detail</div>
                   <h3>Recent Downtime Notes</h3>
                 </div>
               </div>
@@ -1219,7 +1219,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.102-manager-noise-reduction</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.104-manager-smart-structure</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1346,7 +1346,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.103-debug-clarity-pass";
+    const VERSION = "1.0.104-manager-smart-structure";
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -2098,12 +2098,36 @@ function aggregateManagerData(){
   const cellBuckets = new Map();
   const statusBuckets = new Map();
   const noteItems = [];
+  const dateTotals = new Map();
+  const shiftTotals = new Map();
   let downtimeEvents = 0;
+  let weekdayLogged = 0;
+  let weekendLogged = 0;
 
   savedShiftRecords.forEach(record => {
     const cell = String(record.banner?.testCell || "—");
+    const dateKey = String(record.banner?.date || record.banner?.headerDate || "Unknown");
+    const shiftLabel = String(record.banner?.shift || "Unknown");
+    const shiftBucket = /night/i.test(shiftLabel) ? 'Night' : /day/i.test(shiftLabel) ? 'Day' : 'Other';
+    const weekendBucket = /weekend/i.test(shiftLabel);
     const cellTotal = record.rows.reduce((rowSum, row) => rowSum + (parseFloat(row.hours) || 0), 0);
+    const cellDowntimeTotal = record.rows.filter(row => row.status === "Downtime").reduce((rowSum, row) => rowSum + (parseFloat(row.hours) || 0), 0);
     cellBuckets.set(cell, (cellBuckets.get(cell) || 0) + cellTotal);
+
+    const dateEntry = dateTotals.get(dateKey) || { logged: 0, downtime: 0, count: 0 };
+    dateEntry.logged += cellTotal;
+    dateEntry.downtime += cellDowntimeTotal;
+    dateEntry.count += 1;
+    dateTotals.set(dateKey, dateEntry);
+
+    const shiftEntry = shiftTotals.get(shiftBucket) || { logged: 0, downtime: 0, count: 0 };
+    shiftEntry.logged += cellTotal;
+    shiftEntry.downtime += cellDowntimeTotal;
+    shiftEntry.count += 1;
+    shiftTotals.set(shiftBucket, shiftEntry);
+
+    if (weekendBucket) weekendLogged += cellTotal;
+    else weekdayLogged += cellTotal;
 
     record.rows.forEach(row => {
       const hours = parseFloat(row.hours) || 0;
@@ -2133,6 +2157,16 @@ function aggregateManagerData(){
 
   const activeCellSet = new Set(savedShiftRecords.map(record => String(record.banner?.testCell || "")).filter(Boolean));
   const topStatus = Array.from(statusBuckets.entries()).sort((a,b) => b[1] - a[1])[0] || null;
+  const dateEntries = Array.from(dateTotals.entries()).sort((a,b) => String(a[0]).localeCompare(String(b[0])));
+  const latestDate = dateEntries.length ? { date: dateEntries[dateEntries.length - 1][0], ...dateEntries[dateEntries.length - 1][1] } : null;
+  const previousDate = dateEntries.length > 1 ? { date: dateEntries[dateEntries.length - 2][0], ...dateEntries[dateEntries.length - 2][1] } : null;
+  const latestVsPreviousLoggedDelta = latestDate && previousDate ? latestDate.logged - previousDate.logged : null;
+  const dayShift = shiftTotals.get('Day') || { logged: 0, downtime: 0, count: 0 };
+  const nightShift = shiftTotals.get('Night') || { logged: 0, downtime: 0, count: 0 };
+  const confidence = savedShiftRecords.length >= 8 ? { label: 'Strong', note: 'Enough saved shift coverage to trust trend direction.' } : savedShiftRecords.length >= 4 ? { label: 'Moderate', note: 'Useful signal, but still a light sample.' } : savedShiftRecords.length > 0 ? { label: 'Light', note: 'Early story only. Avoid overreading the trend.' } : { label: 'Waiting', note: 'Needs saved shift chunks before this page has weight.' };
+  const topDowntime = Array.from(downtimeBuckets.entries()).sort((a,b) => b[1] - a[1]).slice(0,5);
+  const topCells = Array.from(cellBuckets.entries()).sort((a,b) => b[1] - a[1]).slice(0,5);
+  const biggestDriver = helpRows.length ? `Weekend help queue (${helpRows.length})` : topDowntime.length ? `${topDowntime[0][0]} · ${topDowntime[0][1].toFixed(1)} hrs` : topCells.length ? `Cell ${topCells[0][0]} load` : 'No driver yet';
 
   return {
     visibleLogRows,
@@ -2148,10 +2182,19 @@ function aggregateManagerData(){
     avgHoursPerShift: savedShiftRecords.length ? totalLogged / savedShiftRecords.length : 0,
     coveragePerCell: activeCellSet.size ? savedShiftRecords.length / activeCellSet.size : 0,
     topStatus,
-    topDowntime: Array.from(downtimeBuckets.entries()).sort((a,b) => b[1] - a[1]).slice(0,5),
-    topCells: Array.from(cellBuckets.entries()).sort((a,b) => b[1] - a[1]).slice(0,5),
+    topDowntime,
+    topCells,
     helpRows: helpRows.slice(0,5),
-    recentNotes: noteItems.slice(-5).reverse()
+    recentNotes: noteItems.slice(-5).reverse(),
+    confidence,
+    biggestDriver,
+    latestDate,
+    previousDate,
+    latestVsPreviousLoggedDelta,
+    dayShift,
+    nightShift,
+    weekdayLogged,
+    weekendLogged
   };
 }
 
@@ -2304,18 +2347,18 @@ function renderManagerTab(){
   if (managerStatusCount) managerStatusCount.textContent = String(summary.statusRowCount);
   if (managerFocusHeadline) managerFocusHeadline.textContent = focusHeadline;
   if (managerFocusCopy) managerFocusCopy.textContent = focusCopy;
-  if (managerSignalHelp) managerSignalHelp.textContent = String(summary.helpNeededCount);
+  if (managerSignalHelp) managerSignalHelp.textContent = summary.helpNeededCount > 0 ? String(summary.helpNeededCount) : 'None';
   if (managerSignalHelpNote) managerSignalHelpNote.textContent = summary.helpNeededCount > 0
-    ? "Weekend rows are asking for help."
-    : "No weekend help requests are active.";
-  if (managerDowntimeShare) managerDowntimeShare.textContent = `${downtimeShareValue.toFixed(0)}%`;
-  if (managerDowntimeShareNote) managerDowntimeShareNote.textContent = summary.totalLogged > 0
-    ? `${summary.totalDowntime.toFixed(1)} of ${summary.totalLogged.toFixed(1)} logged hours are tagged as downtime.`
-    : "Updates as saved shift chunks are logged.";
-  if (managerCoverageFootprint) managerCoverageFootprint.textContent = String(summary.savedShiftCount);
-  if (managerCoverageFootprintNote) managerCoverageFootprintNote.textContent = summary.savedShiftCount > 0
-    ? `${summary.savedShiftCount} saved shift chunk(s) across ${summary.activeCells} active cell(s).`
-    : "Saved shift chunks across active cells.";
+    ? `${summary.helpNeededCount} weekend row(s) need support first.`
+    : "No live weekend help requests are active.";
+  if (managerDowntimeShare) managerDowntimeShare.textContent = summary.biggestDriver;
+  if (managerDowntimeShareNote) managerDowntimeShareNote.textContent = summary.helpNeededCount > 0
+    ? 'Help queue is driving posture ahead of broader trend review.'
+    : summary.totalDowntime > 0
+      ? `${summary.totalDowntime.toFixed(1)} downtime hour(s) are currently shaping the story.`
+      : 'No downtime driver is standing out yet.';
+  if (managerCoverageFootprint) managerCoverageFootprint.textContent = summary.confidence.label;
+  if (managerCoverageFootprintNote) managerCoverageFootprintNote.textContent = summary.confidence.note;
   if (managerPostureLabel) {
     managerPostureLabel.textContent = postureLabel;
     managerPostureLabel.className = `manager-posture ${postureClass}`;
@@ -2325,21 +2368,30 @@ function renderManagerTab(){
   const topDowntimeLabel = summary.topDowntime.length ? summary.topDowntime[0][0] : "no downtime bucket yet";
   const topStatusLabel = summary.topStatus ? `${summary.topStatus[0]} (${summary.topStatus[1]})` : "No weekend status pattern yet";
   const storyBits = [];
-  if (summary.helpNeededCount > 0) storyBits.push(`<strong>${summary.helpNeededCount} weekend row(s)</strong> need help.`);
-  if (summary.totalLogged > 0) storyBits.push(`<strong>${summary.totalLogged.toFixed(1)} logged hours</strong> are represented across <strong>${summary.savedShiftCount}</strong> saved chunk(s).`);
-  if (summary.activeCells > 0) storyBits.push(`Work is spread across <strong>${summary.activeCells} active cell(s)</strong>, averaging <strong>${summary.avgHoursPerCell.toFixed(1)} hours per cell</strong>.`);
-  if (summary.totalDowntime > 0) storyBits.push(`Downtime carries <strong>${summary.totalDowntime.toFixed(1)} hour(s)</strong>, led by <strong>${escapeHtml(topDowntimeLabel)}</strong>.`);
-  if (summary.topStatus) storyBits.push(`The weekend board is mostly showing <strong>${escapeHtml(topStatusLabel)}</strong>.`);
+  if (summary.helpNeededCount > 0) storyBits.push(`<strong>${summary.helpNeededCount} weekend row(s)</strong> need support now.`);
+  if (summary.totalLogged > 0) storyBits.push(`<strong>${summary.totalLogged.toFixed(1)} logged hours</strong> sit across <strong>${summary.savedShiftCount}</strong> saved chunk(s).`);
+  if (summary.totalDowntime > 0) storyBits.push(`The main drag right now is <strong>${escapeHtml(topDowntimeLabel)}</strong> at <strong>${summary.topDowntime[0][1].toFixed(1)} hour(s)</strong>.`);
+  if (summary.activeCells > 0) storyBits.push(`Coverage is spread across <strong>${summary.activeCells} active cell(s)</strong>.`);
+  if (summary.topStatus) storyBits.push(`Weekend board is leaning toward <strong>${escapeHtml(topStatusLabel)}</strong>.`);
   if (managerStoryBox) managerStoryBox.innerHTML = storyBits.length
     ? storyBits.join(' ')
-    : 'Add hours or weekend rows to build the manager summary.';
+    : 'Add saved hours or weekend rows to build a useful manager story.';
 
   if (managerReadoutList) {
+    const latestDelta = summary.latestVsPreviousLoggedDelta == null
+      ? '—'
+      : `${summary.latestVsPreviousLoggedDelta >= 0 ? '+' : ''}${summary.latestVsPreviousLoggedDelta.toFixed(1)} hrs`;
+    const dayVsNight = summary.dayShift.logged || summary.nightShift.logged
+      ? `${summary.dayShift.logged.toFixed(1)} / ${summary.nightShift.logged.toFixed(1)} hrs`
+      : '—';
+    const weekdayVsWeekend = summary.weekdayLogged || summary.weekendLogged
+      ? `${summary.weekdayLogged.toFixed(1)} / ${summary.weekendLogged.toFixed(1)} hrs`
+      : '—';
     const readoutItems = [
-      { label: 'Average hours per active cell', value: summary.activeCells ? `${summary.avgHoursPerCell.toFixed(1)} hrs` : '—', note: summary.activeCells ? 'Shows where the logged load is concentrating.' : 'Needs active cells first.' },
-      { label: 'Average hours per saved chunk', value: summary.savedShiftCount ? `${summary.avgHoursPerShift.toFixed(1)} hrs` : '—', note: summary.savedShiftCount ? 'Quick check on chunk density.' : 'Needs saved chunks first.' },
-      { label: 'Downtime events captured', value: String(summary.totalDowntimeEvents), note: summary.totalDowntimeEvents ? 'Counts downtime rows with logged hours.' : 'No downtime rows carry hours yet.' },
-      { label: 'Weekend board lead status', value: escapeHtml(topStatusLabel), note: summary.topStatus ? 'Most repeated weekend board status.' : 'Weekend board has not built a pattern yet.' }
+      { label: 'Latest day vs prior saved day', value: latestDelta, note: summary.latestDate && summary.previousDate ? `${summary.latestDate.date} compared with ${summary.previousDate.date}.` : 'Needs at least two saved dates.' },
+      { label: 'Day shift vs night shift', value: dayVsNight, note: summary.dayShift.logged || summary.nightShift.logged ? 'Logged hours split across saved day and night contexts.' : 'No saved day/night comparison yet.' },
+      { label: 'Weekday vs weekend load', value: weekdayVsWeekend, note: summary.weekdayLogged || summary.weekendLogged ? 'Helps show where coverage is stacking up.' : 'Needs both weekday or weekend saved contexts.' },
+      { label: 'Data confidence', value: summary.confidence.label, note: summary.confidence.note }
     ];
     managerReadoutList.innerHTML = readoutItems.map(item => `<div class="manager-item"><span>${item.label}<br><span class="manager-note">${item.note}</span></span><strong>${item.value}</strong></div>`).join('');
   }
@@ -2347,25 +2399,25 @@ function renderManagerTab(){
   if (managerDowntimeList) {
     managerDowntimeList.innerHTML = summary.topDowntime.length
       ? summary.topDowntime.map(([label, hours]) => `<div class="manager-item"><span>${escapeHtml(label)}</span><strong>${hours.toFixed(1)} hrs</strong></div>`).join("")
-      : `<div class="manager-empty">No downtime categories logged yet.</div>`;
+      : `<div class="manager-empty">No downtime pattern is visible yet.</div>`;
   }
 
   if (managerCellsList) {
     managerCellsList.innerHTML = summary.topCells.length
       ? summary.topCells.map(([cell, hours]) => `<div class="manager-item"><span>Cell ${escapeHtml(cell)}</span><strong>${hours.toFixed(1)} hrs</strong></div>`).join("")
-      : `<div class="manager-empty">No active test cells yet.</div>`;
+      : `<div class="manager-empty">No coverage concentration is visible yet.</div>`;
   }
 
   if (managerHelpList) {
     managerHelpList.innerHTML = summary.helpRows.length
       ? summary.helpRows.map(row => `<div class="manager-item"><span>Cell ${escapeHtml(row.testCell)} · ${escapeHtml(row.tcStatus || "No status")}<br><span class="manager-note">${escapeHtml(row.comments || 'No comment entered yet.')}</span></span><strong>${escapeHtml(row.lastUpdate || "—")}</strong></div>`).join("")
-      : `<div class="manager-empty">No weekend help-needed rows are active.</div>`;
+      : `<div class="manager-empty">No weekend support requests are active.</div>`;
   }
 
   if (managerNotesList) {
     managerNotesList.innerHTML = summary.recentNotes.length
       ? summary.recentNotes.map(item => `<div class="manager-item"><span>Cell ${escapeHtml(item.cell)} · ${escapeHtml(item.detail)}<br><span class="manager-note">${escapeHtml(item.comment)}</span></span><strong>${item.hours.toFixed(1)} hrs</strong></div>`).join("")
-      : `<div class="manager-empty">No downtime notes are available yet.</div>`;
+      : `<div class="manager-empty">No support detail is available yet.</div>`;
   }
 
   const dashboard = computeManagerDashboardData();
@@ -2378,7 +2430,7 @@ function renderManagerTab(){
   if (kpiNote) {
     if (dashboard.trend.length) {
       const latest = dashboard.trend[dashboard.trend.length - 1];
-      kpiNote.textContent = `Latest saved context: ${String(latest.date)} · Availability-like ${latest.availability.toFixed(0)}% · Productivity-like ${latest.productivity.toFixed(0)}%.`;
+      kpiNote.textContent = `Latest saved date: ${String(latest.date)} · lower downtime ${latest.availability.toFixed(0)}% · usable logged time ${latest.productivity.toFixed(0)}%.`;
     } else {
       kpiNote.textContent = 'Load temp data to build the trend view.';
     }
