@@ -811,7 +811,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       <div class="hours-top">
         <div>
           <h2 id="hours-view-title">Cell Hours Worksheet</h2>
-          <div class="small" id="hours-view-copy">Tech logging first. Trade coverage stays visible as reference.</div>
+          <div class="small" id="hours-view-copy">Cell Hours is for tech logging. Trade view stays separate as reference.</div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <span class="pill">Cell Meter: <span id="hours-meter" style="margin-left:6px">094</span></span>
@@ -847,7 +847,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             </div>
           </div>
         </div>
-        <div class="hours-reference-note" id="hours-mode-note">Tech logging and trade coverage stay separate on purpose.</div>
+        <div class="hours-reference-note" id="hours-mode-note">Cell Hours owns tech logging. Trade view stays separate on purpose.</div>
       </div>
 
       <div class="section-card" id="hours-day-controls-card">
@@ -952,8 +952,8 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
           </div>
           <div class="hours-sidebox">
             <div class="section-title">Reference Note</div>
-            <textarea id="hours-shift-note" placeholder="Optional note for trade review, coach handoff, or unusual coverage reconciliation context."></textarea>
-            <div class="small" id="hours-trade-reference-copy" style="margin-top:8px">Trades can review coverage here without changing tech logging.</div>
+            <textarea id="hours-shift-note" placeholder="Optional note for trade review, coach handoff, or unusual coverage context."></textarea>
+            <div class="small" id="hours-trade-reference-copy" style="margin-top:8px">Trade review stays separate from tech logging.</div>
           </div>
         </div>
       </div>
@@ -1105,8 +1105,8 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-list-card">
               <div class="manager-list-head">
                 <div>
-                  <div class="manager-list-kicker">Operating story</div>
-                  <h3>Current readout</h3>
+                  <div class="manager-list-kicker">Action now</div>
+                  <h3>Operating story</h3>
                 </div>
               </div>
               <div class="manager-story-box" id="manager-story-box">The manager layer is waiting for enough hours, downtime, and weekend activity to generate a useful summary.</div>
@@ -1114,8 +1114,8 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-list-card">
               <div class="manager-list-head">
                 <div>
-                  <div class="manager-list-kicker">Smart checks</div>
-                  <h3>Key ratios</h3>
+                  <div class="manager-list-kicker">Quick checks</div>
+                  <h3>Comparisons</h3>
                 </div>
               </div>
               <div class="manager-list" id="manager-readout-list"></div>
@@ -1142,8 +1142,8 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
               <div class="manager-chart-head">
                 <div>
                   <div class="manager-list-kicker">Cells</div>
-                  <h3>Cell Productivity Snapshot</h3>
-                  <div class="manager-chart-sub">Cells ranked by downtime-adjusted score. Warning colors show only when scores drop.</div>
+                  <h3>Cell Ranking</h3>
+                  <div class="manager-chart-sub">Cells ranked by logged hours versus downtime. Lower scores only shift to warning when they truly fall.</div>
                 </div>
               </div>
               <div class="manager-bars" id="manager-productivity-bars"></div>
@@ -1177,7 +1177,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-list-card">
               <div class="manager-list-head">
                 <div>
-                  <div class="manager-list-kicker">Repeated downtime</div>
+                  <div class="manager-list-kicker">Downtime pattern</div>
                   <h3>Top Downtime Categories</h3>
                 </div>
               </div>
@@ -1186,7 +1186,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-list-card">
               <div class="manager-list-head">
                 <div>
-                  <div class="manager-list-kicker">Coverage concentration</div>
+                  <div class="manager-list-kicker">Cell activity</div>
                   <h3>Most Active Test Cells</h3>
                 </div>
               </div>
@@ -1198,7 +1198,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-list-card">
               <div class="manager-list-head">
                 <div>
-                  <div class="manager-list-kicker">Weekend help queue</div>
+                  <div class="manager-list-kicker">Weekend support</div>
                   <h3>Help queue</h3>
                 </div>
               </div>
@@ -1207,7 +1207,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-list-card">
               <div class="manager-list-head">
                 <div>
-                  <div class="manager-list-kicker">Support detail</div>
+                  <div class="manager-list-kicker">Recent notes</div>
                   <h3>Recent Downtime Notes</h3>
                 </div>
               </div>
@@ -1264,9 +1264,9 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             </div>
 
             <div class="settings-hero-card">
-              <div class="section-title">What belongs here</div>
+              <div class="section-title">Settings</div>
               <h3>Controls, guardrails, and fast reference.</h3>
-              <div class="settings-copy">Use Settings for display, tab roles, and quick reminders. Manager stays separate so daily controls stay clean.</div>
+              <div class="settings-copy">Use Settings for display choices, tab roles, and quick reminders.</div>
               <div class="settings-callout-grid">
                 <div class="settings-callout">
                   <strong>Settings owns</strong>
@@ -1277,7 +1277,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                   Help-needed visibility, rollups, downtime patterns, recent notes, and the review story built from already-entered data.
                 </div>
                 <div class="settings-callout">
-                  <strong>Cell Hours owns</strong>
+                  <strong>Cell Hours</strong>
                   Day + shift selection, tech-side hours entry, downtime detail, and saved shift chunks that later feed trades and manager rollups.
                 </div>
                 <div class="settings-callout">
@@ -1346,7 +1346,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.105-pulse-triage-upgrade";
+    const VERSION = "1.0.106_cross_tab_label_cleanup";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -2164,10 +2164,10 @@ function aggregateManagerData(){
   const latestVsPreviousLoggedDelta = latestDate && previousDate ? latestDate.logged - previousDate.logged : null;
   const dayShift = shiftTotals.get('Day') || { logged: 0, downtime: 0, count: 0 };
   const nightShift = shiftTotals.get('Night') || { logged: 0, downtime: 0, count: 0 };
-  const confidence = savedShiftRecords.length >= 8 ? { label: 'Strong', note: 'Enough saved shift coverage to trust trend direction.' } : savedShiftRecords.length >= 4 ? { label: 'Moderate', note: 'Useful signal, but still a light sample.' } : savedShiftRecords.length > 0 ? { label: 'Light', note: 'Early story only. Avoid overreading the trend.' } : { label: 'Waiting', note: 'Needs saved shift chunks before this page has weight.' };
+  const confidence = savedShiftRecords.length >= 8 ? { label: 'Strong', note: 'Enough saved shift data to trust the direction.' } : savedShiftRecords.length >= 4 ? { label: 'Moderate', note: 'Useful signal, but still a light sample.' } : savedShiftRecords.length > 0 ? { label: 'Light', note: 'Early read only. Avoid overreading it.' } : { label: 'Waiting', note: 'Needs saved shift chunks before this page has weight.' };
   const topDowntime = Array.from(downtimeBuckets.entries()).sort((a,b) => b[1] - a[1]).slice(0,5);
   const topCells = Array.from(cellBuckets.entries()).sort((a,b) => b[1] - a[1]).slice(0,5);
-  const biggestDriver = helpRows.length ? `Weekend help queue (${helpRows.length})` : topDowntime.length ? `${topDowntime[0][0]} · ${topDowntime[0][1].toFixed(1)} hrs` : topCells.length ? `Cell ${topCells[0][0]} load` : 'No driver yet';
+  const biggestDriver = helpRows.length ? `Weekend support (${helpRows.length})` : topDowntime.length ? `${topDowntime[0][0]} · ${topDowntime[0][1].toFixed(1)} hrs` : topCells.length ? `Cell ${topCells[0][0]} activity` : 'No driver yet';
 
   return {
     visibleLogRows,
@@ -2301,8 +2301,8 @@ function computeManagerPulseState(summary){
     postureClass = "attention";
     postureLabel = "Attention";
     focusHeadline = `${summary.helpNeededCount} weekend row(s) need visible support.`;
-    focusCopy = "The weekend board is asking for help. Start there before broader trend review.";
-    postureNote = "Visible support has been requested. Check the help queue first, then scan downtime and active cells.";
+    focusCopy = "Weekend support is active. Start there before broader trend review.";
+    postureNote = "Support is visible. Check the help queue first, then scan downtime and active cells.";
     allClear = false;
     pulseStatusLabel = `${summary.helpNeededCount} help-needed ${summary.helpNeededCount === 1 ? "row" : "rows"} active`;
   } else if (downtimeShareValue >= 25) {
@@ -2317,7 +2317,7 @@ function computeManagerPulseState(summary){
     postureClass = "steady";
     postureLabel = "Steady";
     focusHeadline = "The manager view has live activity.";
-    focusCopy = "Saved shift chunks or weekend rows are feeding this page, even if nothing urgent is flashing.";
+    focusCopy = "Saved shift chunks or weekend rows are feeding this page, even if nothing urgent is showing.";
     postureNote = "Scan where work is concentrating, then see whether downtime starts clustering by cell.";
     pulseStatusLabel = "Manager overview live";
   }
@@ -2351,10 +2351,10 @@ function renderManagerTab(){
   if (managerSignalHelp) managerSignalHelp.textContent = summary.helpNeededCount > 0 ? String(summary.helpNeededCount) : 'None';
   if (managerSignalHelpNote) managerSignalHelpNote.textContent = summary.helpNeededCount > 0
     ? `${summary.helpNeededCount} weekend row(s) need support first.`
-    : "No live weekend help requests are active.";
+    : "No live weekend support requests are active.";
   if (managerDowntimeShare) managerDowntimeShare.textContent = summary.biggestDriver;
   if (managerDowntimeShareNote) managerDowntimeShareNote.textContent = summary.helpNeededCount > 0
-    ? 'Help queue is driving posture ahead of broader trend review.'
+    ? 'Weekend support is driving posture ahead of broader trend review.'
     : summary.totalDowntime > 0
       ? `${summary.totalDowntime.toFixed(1)} downtime hour(s) are currently shaping the story.`
       : 'No downtime driver is standing out yet.';
@@ -2391,7 +2391,7 @@ function renderManagerTab(){
     const readoutItems = [
       { label: 'Latest day vs prior saved day', value: latestDelta, note: summary.latestDate && summary.previousDate ? `${summary.latestDate.date} compared with ${summary.previousDate.date}.` : 'Needs at least two saved dates.' },
       { label: 'Day shift vs night shift', value: dayVsNight, note: summary.dayShift.logged || summary.nightShift.logged ? 'Logged hours split across saved day and night contexts.' : 'No saved day/night comparison yet.' },
-      { label: 'Weekday vs weekend load', value: weekdayVsWeekend, note: summary.weekdayLogged || summary.weekendLogged ? 'Helps show where coverage is stacking up.' : 'Needs both weekday or weekend saved contexts.' },
+      { label: 'Weekday vs weekend load', value: weekdayVsWeekend, note: summary.weekdayLogged || summary.weekendLogged ? 'Shows where work is stacking up.' : 'Needs both weekday and weekend saved contexts.' },
       { label: 'Data confidence', value: summary.confidence.label, note: summary.confidence.note }
     ];
     managerReadoutList.innerHTML = readoutItems.map(item => `<div class="manager-item"><span>${item.label}<br><span class="manager-note">${item.note}</span></span><strong>${item.value}</strong></div>`).join('');
@@ -2406,7 +2406,7 @@ function renderManagerTab(){
   if (managerCellsList) {
     managerCellsList.innerHTML = summary.topCells.length
       ? summary.topCells.map(([cell, hours]) => `<div class="manager-item"><span>Cell ${escapeHtml(cell)}</span><strong>${hours.toFixed(1)} hrs</strong></div>`).join("")
-      : `<div class="manager-empty">No coverage concentration is visible yet.</div>`;
+      : `<div class="manager-empty">No cell activity pattern is visible yet.</div>`;
   }
 
   if (managerHelpList) {
@@ -2418,7 +2418,7 @@ function renderManagerTab(){
   if (managerNotesList) {
     managerNotesList.innerHTML = summary.recentNotes.length
       ? summary.recentNotes.map(item => `<div class="manager-item"><span>Cell ${escapeHtml(item.cell)} · ${escapeHtml(item.detail)}<br><span class="manager-note">${escapeHtml(item.comment)}</span></span><strong>${item.hours.toFixed(1)} hrs</strong></div>`).join("")
-      : `<div class="manager-empty">No support detail is available yet.</div>`;
+      : `<div class="manager-empty">No recent downtime notes are available yet.</div>`;
   }
 
   const dashboard = computeManagerDashboardData();
@@ -3387,17 +3387,17 @@ function renderHours(){
       if (hoursViewCopy) {
         hoursViewCopy.textContent = hoursSheet.viewMode === "trade"
           ? "Grouped trade readout of the hours already entered, with date and cell context visible for review."
-          : "Tech target hours auto-set from the selected day and shift. Trade coverage stays visible as reference.";
+          : "Tech target hours auto-set from the selected day and shift. Trade view stays visible as reference.";
       }
       if (hoursModeNote) {
         hoursModeNote.textContent = hoursSheet.viewMode === "trade"
-          ? `Trade coverage view is active. Grouped runs separate 10-hour, 12-hour, and Thu→Fri 14-hour coverage automatically.`
+          ? `Trade view is active. Grouped runs separate 10-hour, 12-hour, and Thu→Fri 14-hour coverage automatically.`
           : `${coverage.shiftLabel} is active. Tech target hours auto-set to ${coverage.techHours.toFixed(1)}.`;
       }
       if (hoursTradeReferenceCopy) {
         hoursTradeReferenceCopy.textContent = hoursSheet.viewMode === "trade"
           ? `Trade reference stays below the grouped sheet to keep the main review area easy to scan.`
-          : `Coverage reference for ${coverage.dayLabel}: ${coverage.tradeRunLabel} uses ${coverage.window} (${coverage.hours.toFixed(1)} hours).`;
+          : `Trade reference for ${coverage.dayLabel}: ${coverage.tradeRunLabel} uses ${coverage.window} (${coverage.hours.toFixed(1)} hours).`;
       }
 
       hoursRowsBody.innerHTML = hoursRows.map(row => {
@@ -3593,7 +3593,7 @@ function renderHours(){
         setText(hoursReadinessNote, summary.issues[0] || "Review the worksheet before submission.");
       }
       if (hoursIssuesList){
-        const tradeNote = coverage.hours ? `<div class="hours-issue-item"><strong>Coverage Reference:</strong> ${escapeHtml(coverage.dayLabel)} uses ${escapeHtml(coverage.window)} (${coverage.hours.toFixed(1)} hours). Technician logging remains separate from this trade view.</div>` : '';
+        const tradeNote = coverage.hours ? `<div class="hours-issue-item"><strong>Trade Reference:</strong> ${escapeHtml(coverage.dayLabel)} uses ${escapeHtml(coverage.window)} (${coverage.hours.toFixed(1)} hours). Technician logging remains separate from this trade view.</div>` : '';
         hoursIssuesList.innerHTML = summary.ready
           ? `${tradeNote}<div class="hours-issue-item"><strong>All clear:</strong> technician totals reconcile, required comments are valid, and the sheet is ready for review.</div>`
           : tradeNote + summary.issues.map((issue, index) => `<div class="hours-issue-item"><strong>${index + 1}.</strong> ${escapeHtml(issue)}</div>`).join("");
