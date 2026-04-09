@@ -180,6 +180,17 @@
     .manager-item{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding-bottom:8px;border-bottom:1px dashed #e2e8f0;font-size:13px;line-height:1.5}
     .manager-item:last-child{border-bottom:none;padding-bottom:0}
     .manager-item strong{color:#0f172a}
+.manager-rank-list{display:flex;flex-direction:column;gap:10px}
+    .manager-rank-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px dashed #e2e8f0}
+    .manager-rank-item:last-child{border-bottom:none;padding-bottom:0}
+    .manager-rank-badge{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;padding:0 8px;border-radius:999px;border:1px solid #dbe3ed;background:#f8fafc;font-size:12px;font-weight:800;color:#334155}
+    .manager-rank-main{min-width:0}
+    .manager-rank-title{font-size:13px;font-weight:800;color:#0f172a;line-height:1.35}
+    .manager-rank-sub{font-size:11px;color:#64748b;margin-top:2px;line-height:1.4}
+    .manager-rank-value{font-size:13px;font-weight:800;color:#0f172a;white-space:nowrap}
+    .manager-rank-track{margin-top:6px;height:8px;border-radius:999px;background:#e2e8f0;overflow:hidden}
+    .manager-rank-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#2563eb 0%,#60a5fa 100%)}
+    .manager-rank-fill.warn{background:linear-gradient(90deg,#f59e0b 0%,#fbbf24 100%)}
     .manager-layout{display:grid;grid-template-columns:1.2fr .95fr;gap:12px}
     .manager-note{font-size:13px;color:#475569;line-height:1.5}
     .manager-empty{font-size:13px;color:#64748b}
@@ -1090,9 +1101,9 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
               <div class="manager-note">Downtime hours from saved billable rows.</div>
             </div>
             <div class="manager-band-card">
-              <div class="manager-label">Saved Shift Chunks</div>
+              <div class="manager-label">Saved Shift Records</div>
               <div class="manager-value" id="manager-shift-count">0</div>
-              <div class="manager-note">Saved day / cell / shift contexts.</div>
+              <div class="manager-note">Saved day, cell, and shift records in view.</div>
             </div>
             <div class="manager-band-card">
               <div class="manager-label">Weekend Status Rows</div>
@@ -1128,12 +1139,12 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                 <div>
                   <div class="manager-list-kicker">Trend</div>
                   <h3>Operations Trend</h3>
-                  <div class="manager-chart-sub">Saved-day trend from logged hours versus downtime. Use it to spot drift, not as a final plant KPI.</div>
+                  <div class="manager-chart-sub">Saved-day trend showing productive share against downtime share. Use it to spot drift fast.</div>
                 </div>
               </div>
               <div class="manager-legend">
-                <span><i class="manager-dot availability"></i>Lower downtime</span>
-                <span><i class="manager-dot productivity"></i>Usable logged time</span>
+                <span><i class="manager-dot availability"></i>Productive share</span>
+                <span><i class="manager-dot productivity"></i>Downtime share</span>
               </div>
               <svg class="manager-kpi-svg" id="manager-kpi-svg" viewBox="0 0 640 230" aria-label="Operations KPI Trend"></svg>
               <div class="manager-kpi-note" id="manager-kpi-note">Saved dates will build the trend view.</div>
@@ -1155,8 +1166,8 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
               <div class="manager-chart-head">
                 <div>
                   <div class="manager-list-kicker">Downtime</div>
-                  <h3>Downtime Drivers - Top 5</h3>
-                  <div class="manager-chart-sub">Where downtime is collecting most by cell right now.</div>
+                  <h3>Downtime by Cell</h3>
+                  <div class="manager-chart-sub">Shows which cells are carrying the most downtime hours right now.</div>
                 </div>
               </div>
               <div class="manager-bars" id="manager-downtime-bars"></div>
@@ -1166,7 +1177,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                 <div>
                   <div class="manager-list-kicker">Weekend</div>
                   <h3>Weekend Board Statuses</h3>
-                  <div class="manager-chart-sub">Live board mix only. Hidden when no repeated pattern exists.</div>
+                  <div class="manager-chart-sub">Only shown when the weekend board is leaning toward a repeated status.</div>
                 </div>
               </div>
               <div class="manager-bars" id="manager-status-bars"></div>
@@ -2232,9 +2243,9 @@ function computeManagerDashboardData(){
   });
 
   const trend = Array.from(byDate.entries()).sort((a,b) => String(a[0]).localeCompare(String(b[0]))).slice(-8).map(([date, value]) => {
-    const availability = value.logged > 0 ? Math.max(0, 100 - ((value.downtime / value.logged) * 100)) : 0;
-    const productivity = value.logged > 0 ? Math.max(0, ((value.logged - value.downtime) / value.logged) * 100) : 0;
-    return { date, availability, productivity, logged: value.logged, downtime: value.downtime };
+    const downtimeShare = value.logged > 0 ? Math.max(0, (value.downtime / value.logged) * 100) : 0;
+    const productiveShare = value.logged > 0 ? Math.max(0, ((value.logged - value.downtime) / value.logged) * 100) : 0;
+    return { date, productiveShare, downtimeShare, logged: value.logged, downtime: value.downtime };
   });
 
   const productivity = Array.from(cellTotals.entries()).map(([cell, logged]) => {
@@ -2269,6 +2280,23 @@ function renderManagerBarList(target, items, options = {}){
   }).join('');
 }
 
+function renderManagerRankedList(target, items, options = {}){
+  if (!target) return;
+  if (!items || !items.length) {
+    target.innerHTML = `<div class="manager-empty">${options.emptyText || 'Not enough data yet.'}</div>`;
+    return;
+  }
+  const max = Math.max(...items.map(item => Number(item.value || 0)), 1);
+  target.innerHTML = `<div class="manager-rank-list">${items.map((item, idx) => {
+    const raw = Number(item.value || 0);
+    const width = Math.max(8, (raw / max) * 100);
+    const fillClass = options.fillClass ? ` ${options.fillClass(raw, item) || ''}` : '';
+    const valueLabel = options.valueFormatter ? options.valueFormatter(raw, item) : String(raw);
+    const subtitle = options.subtitleFormatter ? options.subtitleFormatter(raw, item, idx) : '';
+    return `<div class="manager-rank-item"><div class="manager-rank-badge">${idx + 1}</div><div class="manager-rank-main"><div class="manager-rank-title">${escapeHtml(item.label || '-')}</div>${subtitle ? `<div class="manager-rank-sub">${escapeHtml(subtitle)}</div>` : ''}<div class="manager-rank-track"><div class="manager-rank-fill${fillClass}" style="width:${width}%"></div></div></div><div class="manager-rank-value">${valueLabel}</div></div>`;
+  }).join('')}</div>`;
+}
+
 function renderManagerTrendSvg(target, trend){
   if (!target) return;
   if (!trend || !trend.length) {
@@ -2282,9 +2310,9 @@ function renderManagerTrendSvg(target, trend){
   const buildPath = key => trend.map((point, idx) => `${idx === 0 ? 'M' : 'L'} ${xFor(idx).toFixed(1)} ${yFor(point[key]).toFixed(1)}`).join(' ');
   const grid = [0,25,50,75,100].map(val => `<line x1="${left}" y1="${yFor(val)}" x2="${width-right}" y2="${yFor(val)}" stroke="#e2e8f0" stroke-dasharray="4 4"/><text x="8" y="${yFor(val)+4}" font-size="11" fill="#64748b">${val}%</text>`).join('');
   const labels = trend.map((point, idx) => `<text x="${xFor(idx)}" y="${height-12}" text-anchor="middle" font-size="11" fill="#64748b">${escapeHtml(String(point.date).slice(5))}</text>`).join('');
-  const availabilityDots = trend.map((point, idx) => `<circle cx="${xFor(idx)}" cy="${yFor(point.availability)}" r="4" fill="#2563eb"/><text x="${xFor(idx)}" y="${yFor(point.availability)-10}" text-anchor="middle" font-size="10" fill="#1e3a8a">${Math.round(point.availability)}%</text>`).join('');
-  const productivityDots = trend.map((point, idx) => `<circle cx="${xFor(idx)}" cy="${yFor(point.productivity)}" r="4" fill="#ea580c"/><text x="${xFor(idx)}" y="${yFor(point.productivity)+16}" text-anchor="middle" font-size="10" fill="#9a3412">${Math.round(point.productivity)}%</text>`).join('');
-  target.innerHTML = `${grid}<path d="${buildPath('availability')}" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="${buildPath('productivity')}" fill="none" stroke="#ea580c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>${availabilityDots}${productivityDots}${labels}`;
+  const productiveDots = trend.map((point, idx) => `<circle cx="${xFor(idx)}" cy="${yFor(point.productiveShare)}" r="4" fill="#2563eb"/><text x="${xFor(idx)}" y="${yFor(point.productiveShare)-10}" text-anchor="middle" font-size="10" fill="#1e3a8a">${Math.round(point.productiveShare)}%</text>`).join('');
+  const downtimeDots = trend.map((point, idx) => `<circle cx="${xFor(idx)}" cy="${yFor(point.downtimeShare)}" r="4" fill="#ea580c"/><text x="${xFor(idx)}" y="${yFor(point.downtimeShare)+16}" text-anchor="middle" font-size="10" fill="#9a3412">${Math.round(point.downtimeShare)}%</text>`).join('');
+  target.innerHTML = `${grid}<path d="${buildPath('productiveShare')}" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="${buildPath('downtimeShare')}" fill="none" stroke="#ea580c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>${productiveDots}${downtimeDots}${labels}`;
 }
 
 function computeManagerPulseState(summary){
@@ -2317,7 +2345,7 @@ function computeManagerPulseState(summary){
     postureClass = "steady";
     postureLabel = "Steady";
     focusHeadline = "The manager view has live activity.";
-    focusCopy = "Saved shift chunks or weekend rows are feeding this page, even if nothing urgent is showing.";
+    focusCopy = "Saved shift records or weekend rows are feeding this page, even if nothing urgent is showing.";
     postureNote = "Scan where work is concentrating, then see whether downtime starts clustering by cell.";
     pulseStatusLabel = "Manager overview live";
   }
@@ -2367,10 +2395,10 @@ function renderManagerTab(){
   if (managerPostureNote) managerPostureNote.textContent = postureNote;
 
   const topDowntimeLabel = summary.topDowntime.length ? summary.topDowntime[0][0] : "no downtime bucket yet";
-  const topStatusLabel = summary.topStatus ? `${summary.topStatus[0]} (${summary.topStatus[1]})` : "No weekend status pattern yet";
+  const topStatusLabel = summary.topStatus ? `${summary.topStatus[0]} (${summary.topStatus[1]})` : "No strong weekend status pattern yet";
   const storyBits = [];
   if (summary.helpNeededCount > 0) storyBits.push(`<strong>${summary.helpNeededCount} weekend row(s)</strong> need support now.`);
-  if (summary.totalLogged > 0) storyBits.push(`<strong>${summary.totalLogged.toFixed(1)} logged hours</strong> sit across <strong>${summary.savedShiftCount}</strong> saved chunk(s).`);
+  if (summary.totalLogged > 0) storyBits.push(`<strong>${summary.totalLogged.toFixed(1)} logged hours</strong> sit across <strong>${summary.savedShiftCount}</strong> saved shift record(s).`);
   if (summary.totalDowntime > 0) storyBits.push(`The main drag right now is <strong>${escapeHtml(topDowntimeLabel)}</strong> at <strong>${summary.topDowntime[0][1].toFixed(1)} hour(s)</strong>.`);
   if (summary.activeCells > 0) storyBits.push(`Coverage is spread across <strong>${summary.activeCells} active cell(s)</strong>.`);
   if (summary.topStatus) storyBits.push(`Weekend board is leaning toward <strong>${escapeHtml(topStatusLabel)}</strong>.`);
@@ -2398,15 +2426,20 @@ function renderManagerTab(){
   }
 
   if (managerDowntimeList) {
-    managerDowntimeList.innerHTML = summary.topDowntime.length
-      ? summary.topDowntime.map(([label, hours]) => `<div class="manager-item"><span>${escapeHtml(label)}</span><strong>${hours.toFixed(1)} hrs</strong></div>`).join("")
-      : `<div class="manager-empty">No downtime pattern is visible yet.</div>`;
+    renderManagerRankedList(managerDowntimeList, summary.topDowntime.map(([label, hours]) => ({ label, value: hours })), {
+      valueFormatter: value => `${value.toFixed(1)} hrs`,
+      subtitleFormatter: (value, item, idx) => idx === 0 ? 'Largest downtime bucket right now.' : 'Downtime hours from saved records.',
+      fillClass: raw => raw >= 2 ? 'warn' : '',
+      emptyText: 'No downtime pattern is visible yet.'
+    });
   }
 
   if (managerCellsList) {
-    managerCellsList.innerHTML = summary.topCells.length
-      ? summary.topCells.map(([cell, hours]) => `<div class="manager-item"><span>Cell ${escapeHtml(cell)}</span><strong>${hours.toFixed(1)} hrs</strong></div>`).join("")
-      : `<div class="manager-empty">No cell activity pattern is visible yet.</div>`;
+    renderManagerRankedList(managerCellsList, summary.topCells.map(([cell, hours]) => ({ label: `Cell ${cell}`, value: hours })), {
+      valueFormatter: value => `${value.toFixed(1)} hrs`,
+      subtitleFormatter: () => 'Most logged hours across saved records.',
+      emptyText: 'No cell activity pattern is visible yet.'
+    });
   }
 
   if (managerHelpList) {
@@ -2427,11 +2460,12 @@ function renderManagerTab(){
   const productivityBars = document.getElementById("manager-productivity-bars");
   const downtimeBars = document.getElementById("manager-downtime-bars");
   const statusBars = document.getElementById("manager-status-bars");
+  const statusChartCard = statusBars ? statusBars.closest('.manager-chart-card') : null;
   renderManagerTrendSvg(kpiSvg, dashboard.trend);
   if (kpiNote) {
     if (dashboard.trend.length) {
       const latest = dashboard.trend[dashboard.trend.length - 1];
-      kpiNote.textContent = `Latest saved date: ${String(latest.date)} · lower downtime ${latest.availability.toFixed(0)}% · usable logged time ${latest.productivity.toFixed(0)}%.`;
+      kpiNote.textContent = `Latest saved date: ${String(latest.date)} · productive share ${latest.productiveShare.toFixed(0)}% · downtime share ${latest.downtimeShare.toFixed(0)}%.`;
     } else {
       kpiNote.textContent = 'Load temp data to build the trend view.';
     }
@@ -2439,10 +2473,15 @@ function renderManagerTab(){
   renderManagerBarList(productivityBars, dashboard.productivity.map(item => ({ label: `Cell ${item.cell}`, value: item.score })), { mode: 'score', valueFormatter: value => `${value.toFixed(0)}%`, emptyText: 'No saved cell productivity story yet.' });
   renderManagerBarList(downtimeBars, dashboard.downtimeTop, { valueFormatter: value => `${value.toFixed(1)} hrs`, emptyText: 'No downtime hours are carrying into the dashboard yet.' });
   const hasStatusPattern = dashboard.statusMix.some(item => Number(item.value || 0) > 1);
-  renderManagerBarList(statusBars, hasStatusPattern ? dashboard.statusMix : [], {
-    valueFormatter: value => `${value}`,
-    emptyText: dashboard.statusMix.length ? 'No repeated weekend status pattern yet.' : 'Weekend board statuses will appear here once rows are filled.'
-  });
+  if (statusChartCard) statusChartCard.style.display = hasStatusPattern ? '' : 'none';
+  if (hasStatusPattern) {
+    renderManagerBarList(statusBars, dashboard.statusMix, {
+      valueFormatter: value => `${value}`,
+      emptyText: 'No repeated weekend status pattern yet.'
+    });
+  } else if (statusBars) {
+    statusBars.innerHTML = '';
+  }
 }
 
     let tempTestBaseline = null;
