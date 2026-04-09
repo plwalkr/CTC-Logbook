@@ -1341,12 +1341,13 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         <button type="button" id="ctc-pulse-copy">Copy Report</button>
       </div>
       <div class="debug-scan-line" id="ctc-pulse-lastscan">No scan run yet</div>
-      <pre class="debug-report" id="ctc-pulse-report" tabindex="0">Run Scan to refresh the report.</pre>
+      <pre class="debug-report" id="ctc-pulse-report" tabindex="0">Run Scan to refresh the report and compare against the last scan.</pre>
     </div>
   </section>
 
   <script>
-    const VERSION = "1.0.104-manager-smart-structure";
+    const VERSION = "1.0.105-pulse-triage-upgrade";
+    let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
     }
@@ -3177,12 +3178,12 @@ function getFilteredHoursRows(){
     bannerFields.cellHourMeter || "",
     getWorkPatternConfig().label,
     getCoverageWindowInfo().window
-  ].join(" ").toLowerCase();
+  ].join("\n").toLowerCase();
   const dateMatches = (!dateFrom || (session.iso && session.iso >= dateFrom)) && (!dateTo || (session.iso && session.iso <= dateTo));
   if (!dateMatches) return [];
   return hoursRows.filter(row => {
     const matchesStatus = !statusFilter || row.status === statusFilter;
-    const haystack = [row.status, row.detail, row.comment, row.hours, sessionTokens].join(" ").toLowerCase();
+    const haystack = [row.status, row.detail, row.comment, row.hours, sessionTokens].join("\n").toLowerCase();
     const matchesQuery = !query || haystack.includes(query);
     return matchesStatus && matchesQuery;
   });
@@ -3212,11 +3213,11 @@ function getHoursTradeRecords(){
       banner.endTime || "",
       (WORK_PATTERNS[sheet.workPattern] || WORK_PATTERNS["3x12"]).label,
       coverage.window
-    ].join(" ").toLowerCase();
+    ].join("\n").toLowerCase();
     const dateMatches = (!dateFrom || (session.iso && session.iso >= dateFrom)) && (!dateTo || (session.iso && session.iso <= dateTo));
     if (!dateMatches) return null;
     const activeRows = normalizeHoursRows(record.hoursRows || []).filter(row => {
-      const haystack = [row.status, row.detail, row.comment, row.hours, tokens].join(" ").toLowerCase();
+      const haystack = [row.status, row.detail, row.comment, row.hours, tokens].join("\n").toLowerCase();
       const matchesQuery = !query || haystack.includes(query);
       const matchesStatus = !statusFilter || row.status === statusFilter;
       return matchesQuery && matchesStatus && (
@@ -3998,6 +3999,206 @@ function renderHours(){
       return 'None. Hours entry is ready.';
     }
 
+    function roundPulseNumber(value){
+      return Number((Number(value) || 0).toFixed(1));
+    }
+
+    function captureCtcPulseMetrics(activeTab){
+      if (activeTab === "weekend") {
+        const rows = getWeekendRowsForCurrentDate();
+        return {
+          activeTab,
+          helpNeededCount: rows.filter(row => row.helpNeeded === "Yes").length,
+          statusRowCount: rows.filter(row => String(row.tcStatus || "").trim()).length,
+          weekendRows: rows.length,
+          boardDate: normalizeDateValue(weekendDateInput?.value || "") || "n/a"
+        };
+      }
+      if (activeTab === "manager") {
+        const summary = aggregateManagerData();
+        const pulseState = computeManagerPulseState(summary);
+        return {
+          activeTab,
+          postureLabel: pulseState.postureLabel,
+          visibleLogRows: summary.visibleLogRows,
+          activeCells: summary.activeCells,
+          helpNeededCount: summary.helpNeededCount,
+          savedShiftCount: summary.savedShiftCount,
+          totalLogged: roundPulseNumber(summary.totalLogged),
+          totalDowntime: roundPulseNumber(summary.totalDowntime),
+          downtimeShare: roundPulseNumber(pulseState.downtimeShareValue),
+          statusRowCount: summary.statusRowCount,
+          helpCells: summary.helpRows.map(row => `Cell ${row.testCell}`).filter(Boolean)
+        };
+      }
+      if (activeTab === "settings") {
+        return {
+          activeTab,
+          displayMode: document.body?.dataset?.theme || "standard"
+        };
+      }
+      const summary = getHoursValidationSummary();
+      const activeRows = activeHoursRows();
+      return {
+        activeTab,
+        visibleLogRows: getVisibleLogRowCount(),
+        activeHoursLines: activeRows.length,
+        totalHoursLines: hoursRows.length,
+        expected: roundPulseNumber(summary.expected),
+        logged: roundPulseNumber(summary.total),
+        remaining: roundPulseNumber(summary.remaining),
+        downtime: roundPulseNumber(summary.downtime),
+        readiness: computeHoursReadyText(),
+        invalidDowntimeRows: summary.invalidDowntimeRows.length,
+        missingDetailRows: summary.missingDetailRows.length,
+        missingHoursRows: summary.missingHoursRows.length,
+        headerDate: bannerFields.date || "n/a"
+      };
+    }
+
+    function buildPulseDeltaLines(current, previous){
+      if (!previous || !current || previous.activeTab !== current.activeTab) return ["No prior scan on this tab."];
+      const lines = [];
+      const changed = (label, nextVal, prevVal, suffix = "") => {
+        if (typeof nextVal === "undefined" || typeof prevVal === "undefined") return;
+        if (String(nextVal) === String(prevVal)) return;
+        lines.push(`${label}: ${prevVal}${suffix} → ${nextVal}${suffix}`);
+      };
+
+      if (current.activeTab === "manager") {
+        changed("Logged hours", current.totalLogged, previous.totalLogged);
+        changed("Downtime hours", current.totalDowntime, previous.totalDowntime);
+        changed("Downtime share", current.downtimeShare, previous.downtimeShare, "%");
+        changed("Help-needed rows", current.helpNeededCount, previous.helpNeededCount);
+        changed("Active cells", current.activeCells, previous.activeCells);
+        changed("Saved shift chunks", current.savedShiftCount, previous.savedShiftCount);
+        if ((current.helpCells || []).join(", ") !== (previous.helpCells || []).join(", ")) {
+          lines.push(`Help-needed cells: ${(previous.helpCells || []).join(", ") || "none"} → ${(current.helpCells || []).join(", ") || "none"}`);
+        }
+        changed("Operational posture", current.postureLabel, previous.postureLabel);
+      } else if (current.activeTab === "weekend") {
+        changed("Help-needed rows", current.helpNeededCount, previous.helpNeededCount);
+        changed("Rows with status", current.statusRowCount, previous.statusRowCount);
+        changed("Board date", current.boardDate, previous.boardDate);
+      } else if (current.activeTab === "settings") {
+        changed("Display mode", current.displayMode, previous.displayMode);
+      } else {
+        changed("Logged hours", current.logged, previous.logged);
+        changed("Remaining", current.remaining, previous.remaining);
+        changed("Downtime hours", current.downtime, previous.downtime);
+        changed("Active hours lines", current.activeHoursLines, previous.activeHoursLines);
+        changed("Missing detail rows", current.missingDetailRows, previous.missingDetailRows);
+        changed("Missing hour rows", current.missingHoursRows, previous.missingHoursRows);
+        changed("Downtime comment gaps", current.invalidDowntimeRows, previous.invalidDowntimeRows);
+        changed("Hours readiness", current.readiness, previous.readiness);
+        changed("Header date", current.headerDate, previous.headerDate);
+      }
+      return lines.length ? lines : ["No change from the last scan."];
+    }
+
+    function buildPulseGuardrailLines(activeTab){
+      const lines = [];
+      lines.push(`Debug panel open: OK`);
+      lines.push(`Copy report action: Ready`);
+      if (typeof filteredEntries === "function" || typeof getFilteredEntries === "function" || (typeof entries !== "undefined" && Array.isArray(entries))) {
+        lines.push(`Logbook source: OK`);
+      } else {
+        lines.push(`Logbook source: Review`);
+      }
+
+      if (activeTab === "manager") {
+        const managerSummary = aggregateManagerData();
+        lines.push(`Manager aggregation: ${managerSummary ? "OK" : "Review"}`);
+        lines.push(`Weekend link read: ${Array.isArray(managerSummary?.helpRows) ? "OK" : "Review"}`);
+      } else if (activeTab === "weekend") {
+        const rows = getWeekendRowsForCurrentDate();
+        lines.push(`Weekend board rows: ${Array.isArray(rows) && rows.length ? "OK" : "Review"}`);
+        lines.push(`Board date binding: ${normalizeDateValue(weekendDateInput?.value || "") ? "OK" : "Review"}`);
+      } else if (activeTab === "settings") {
+        lines.push(`Theme binding: ${document.body?.dataset?.theme ? "OK" : "Review"}`);
+      } else {
+        const summary = getHoursValidationSummary();
+        lines.push(`Hours validation: ${summary && typeof summary.expected === "number" ? "OK" : "Review"}`);
+        lines.push(`Hours rows loaded: ${Array.isArray(hoursRows) ? "OK" : "Review"}`);
+      }
+      return lines;
+    }
+
+    function buildPulseFirstCheck(activeTab){
+      if (activeTab === "manager") {
+        const managerSummary = aggregateManagerData();
+        if (managerSummary.helpRows.length) {
+          const first = managerSummary.helpRows[0];
+          return `Weekend board first: Cell ${first.testCell}${first.tcStatus ? ` · ${first.tcStatus}` : ""}`;
+        }
+        if (managerSummary.topDowntime.length) {
+          return `Review top downtime concentration: ${managerSummary.topDowntime[0][0]}`;
+        }
+        if (managerSummary.savedShiftCount) return `Check the latest saved shift chunk and compare against the prior day.`;
+        return `No urgent manager-side follow-up is active.`;
+      }
+      if (activeTab === "weekend") {
+        const rows = getWeekendRowsForCurrentDate();
+        const helpRow = rows.find(row => row.helpNeeded === "Yes");
+        if (helpRow) return `Start with Cell ${helpRow.testCell}${helpRow.tcStatus ? ` · ${helpRow.tcStatus}` : ""}`;
+        const blankRow = rows.find(row => !String(row.tcStatus || "").trim());
+        if (blankRow) return `Fill the next open weekend row: Cell ${blankRow.testCell}`;
+        return `Board is readable. Scan for stale comments or missing WWIDs next.`;
+      }
+      if (activeTab === "settings") {
+        return `No action needed. Settings is only carrying local display controls.`;
+      }
+      const summary = getHoursValidationSummary();
+      if (summary.invalidDowntimeRows.length) {
+        const row = summary.invalidDowntimeRows[0]?.row;
+        return `Fix downtime comment first on hours row ${hoursRows.findIndex(item => item.id === row?.id) + 1}.`;
+      }
+      if (summary.missingDetailRows.length) {
+        const row = summary.missingDetailRows[0]?.row;
+        return `Add status detail on hours row ${hoursRows.findIndex(item => item.id === row?.id) + 1}.`;
+      }
+      if (summary.missingHoursRows.length) {
+        const row = summary.missingHoursRows[0]?.row;
+        return `Enter hours on row ${hoursRows.findIndex(item => item.id === row?.id) + 1}.`;
+      }
+      if (summary.overTarget || summary.underTarget) {
+        return `Reconcile the total hours to the expected shift target.`;
+      }
+      return `Hours entry is ready. No immediate cleanup is needed.`;
+    }
+
+    function buildSeverityLines(activeTab){
+      const blocking = [];
+      const attention = [];
+      const cleanup = [];
+      if (activeTab === "manager") {
+        const managerSummary = aggregateManagerData();
+        const pulseState = computeManagerPulseState(managerSummary);
+        if (managerSummary.helpNeededCount) blocking.push(`${managerSummary.helpNeededCount} help-needed weekend row(s) are active.`);
+        if (!managerSummary.helpNeededCount && pulseState.downtimeShareValue >= 25) attention.push(`Downtime share is elevated at ${pulseState.downtimeShareValue.toFixed(1)}%.`);
+        if (!managerSummary.savedShiftCount && !managerSummary.statusRowCount) cleanup.push(`Manager view is reading very light source data.`);
+      } else if (activeTab === "weekend") {
+        const rows = getWeekendRowsForCurrentDate();
+        const helpCount = rows.filter(row => row.helpNeeded === "Yes").length;
+        const blankWwid = rows.filter(row => row.helpNeeded === "Yes" && !String(row.wwid || "").trim()).length;
+        if (helpCount) blocking.push(`${helpCount} weekend row(s) are marked Help Needed.`);
+        if (blankWwid) cleanup.push(`${blankWwid} help-needed row(s) still have blank WWIDs.`);
+      } else if (activeTab === "settings") {
+        cleanup.push(`No live operational issues are tracked on the Settings tab.`);
+      } else {
+        const summary = getHoursValidationSummary();
+        if (summary.invalidDowntimeRows.length) blocking.push(`${summary.invalidDowntimeRows.length} downtime row(s) need stronger comments.`);
+        if (summary.missingDetailRows.length || summary.missingHoursRows.length) attention.push(`${summary.missingDetailRows.length + summary.missingHoursRows.length} row(s) are incomplete.`);
+        if (summary.overTarget || summary.underTarget) cleanup.push(`Hours total does not match the expected shift target yet.`);
+      }
+      const out = [];
+      if (blocking.length) out.push(`Blocking: ${blocking.join(" ")}`);
+      if (attention.length) out.push(`Attention: ${attention.join(" ")}`);
+      if (cleanup.length) out.push(`Cleanup: ${cleanup.join(" ")}`);
+      if (!out.length) out.push(`Clear: No blocking or attention-level issues are active.`);
+      return out;
+    }
+
 
     function getVisibleLogRowCount(){
       try {
@@ -4043,98 +4244,119 @@ function renderHours(){
       dbgReadyState.textContent = computeHoursReadyText();
     }
 
-    function buildCtcPulseReport(){
+    function buildCtcPulseReport(previousMetrics = lastCtcPulseMetrics){
       const activeTab = getActiveTabName();
-      const summary = getHoursValidationSummary();
-      const activeRows = activeHoursRows();
+      const currentMetrics = captureCtcPulseMetrics(activeTab);
+      const firstCheck = buildPulseFirstCheck(activeTab);
+      const severityLines = buildSeverityLines(activeTab);
+      const deltaLines = buildPulseDeltaLines(currentMetrics, previousMetrics);
+      const guardrailLines = buildPulseGuardrailLines(activeTab);
+
       if (activeTab === "weekend") {
-        const rows = getWeekendRowsForCurrentDate();
-        const helpCount = rows.filter(row => row.helpNeeded === "Yes").length;
-        const statusCount = rows.filter(row => String(row.tcStatus || "").trim()).length;
         return [
           `CTC Pulse Report`,
           `Version: ${VERSION}`,
           `Active tab: ${activeTab}`,
-          `Board date: ${normalizeDateValue(weekendDateInput?.value || "") || "n/a"}`,
-          `Weekend rows: ${rows.length}`,
-          `Rows with status: ${statusCount}`,
-          `Active help requests: ${helpCount}`,
+          `Board date: ${currentMetrics.boardDate}`,
+          `Weekend rows: ${currentMetrics.weekendRows}`,
+          `Rows with status: ${currentMetrics.statusRowCount}`,
+          `Active help requests: ${currentMetrics.helpNeededCount}`,
           `Timestamp: ${new Date().toLocaleString()}`,
           ``,
-          `Issues:`,
-          helpCount ? `${helpCount} row(s) still marked help needed.` : `None`
+          `Severity:`,
+          ...severityLines.map((line, index) => `${index + 1}. ${line}`),
+          ``,
+          `First check:`,
+          `1. ${firstCheck}`,
+          ``,
+          `Since last scan:`,
+          ...deltaLines.map((line, index) => `${index + 1}. ${line}`),
+          ``,
+          `Guardrails:`,
+          ...guardrailLines.map((line, index) => `${index + 1}. ${line}`)
         ].join("\n");
       }
       if (activeTab === "manager") {
-        const managerSummary = aggregateManagerData();
-        const pulseState = computeManagerPulseState(managerSummary);
-        const managerAttention = [];
-        const helpCells = managerSummary.helpRows.map(row => `Cell ${row.testCell}`).filter(Boolean);
-        const topDowntimeLabel = managerSummary.topDowntime.length ? managerSummary.topDowntime[0][0] : null;
-        if (managerSummary.helpNeededCount) {
-          managerAttention.push(`${managerSummary.helpNeededCount} weekend ${managerSummary.helpNeededCount === 1 ? "row is" : "rows are"} currently marked Help Needed${helpCells.length ? ` (${helpCells.join(", ")})` : ""}.`);
-        }
-        if (!managerSummary.helpNeededCount && pulseState.postureLabel === "Watch") {
-          managerAttention.push(`Downtime share is ${pulseState.downtimeShareValue.toFixed(1)}% of logged hours${topDowntimeLabel ? `, led by ${topDowntimeLabel}` : ""}.`);
-        }
-        if (!managerAttention.length && managerSummary.savedShiftCount) {
-          managerAttention.push(`No live help-needed rows are active. Manager review is reading ${managerSummary.savedShiftCount} saved shift chunk(s) across ${managerSummary.activeCells} active cell(s).`);
-        }
         return [
           `CTC Pulse Report`,
           `Version: ${VERSION}`,
           `Active tab: ${activeTab}`,
-          `Operational posture: ${pulseState.postureLabel}`,
-          `Visible log rows: ${managerSummary.visibleLogRows}`,
-          `Active cells: ${managerSummary.activeCells}`,
-          `Help needed rows: ${managerSummary.helpNeededCount}`,
-          `Saved shift chunks: ${managerSummary.savedShiftCount}`,
-          `Logged hours total: ${managerSummary.totalLogged.toFixed(1)}`,
-          `Downtime hours total: ${managerSummary.totalDowntime.toFixed(1)}`,
-          `Downtime share: ${pulseState.downtimeShareValue.toFixed(1)}%`,
-          `Weekend status rows: ${managerSummary.statusRowCount}`,
+          `Operational posture: ${currentMetrics.postureLabel}`,
+          `Visible log rows: ${currentMetrics.visibleLogRows}`,
+          `Active cells: ${currentMetrics.activeCells}`,
+          `Help needed rows: ${currentMetrics.helpNeededCount}`,
+          `Saved shift chunks: ${currentMetrics.savedShiftCount}`,
+          `Logged hours total: ${currentMetrics.totalLogged.toFixed(1)}`,
+          `Downtime hours total: ${currentMetrics.totalDowntime.toFixed(1)}`,
+          `Downtime share: ${currentMetrics.downtimeShare.toFixed(1)}%`,
+          `Weekend status rows: ${currentMetrics.statusRowCount}`,
           `Timestamp: ${new Date().toLocaleString()}`,
           ``,
-          `Attention items:`,
-          ...(managerAttention.length ? managerAttention.map((item, index) => `${index + 1}. ${item}`) : [`None`])
+          `Severity:`,
+          ...severityLines.map((line, index) => `${index + 1}. ${line}`),
+          ``,
+          `First check:`,
+          `1. ${firstCheck}`,
+          ``,
+          `Since last scan:`,
+          ...deltaLines.map((line, index) => `${index + 1}. ${line}`),
+          ``,
+          `Guardrails:`,
+          ...guardrailLines.map((line, index) => `${index + 1}. ${line}`)
         ].join("\n");
       }
       if (activeTab === "settings") {
-        const mode = document.body?.dataset?.theme || "standard";
         return [
           `CTC Pulse Report`,
           `Version: ${VERSION}`,
           `Active tab: ${activeTab}`,
-          `Display mode: ${mode}`,
+          `Display mode: ${currentMetrics.displayMode}`,
           `Compact header view: On`,
           `Local display preference saved: Yes`,
           `Timestamp: ${new Date().toLocaleString()}`,
           ``,
-          `Issues:`,
-          `None`
+          `Severity:`,
+          ...severityLines.map((line, index) => `${index + 1}. ${line}`),
+          ``,
+          `First check:`,
+          `1. ${firstCheck}`,
+          ``,
+          `Since last scan:`,
+          ...deltaLines.map((line, index) => `${index + 1}. ${line}`),
+          ``,
+          `Guardrails:`,
+          ...guardrailLines.map((line, index) => `${index + 1}. ${line}`)
         ].join("\n");
       }
-      const issues = summary.issues.length ? summary.issues.map((issue, index) => `${index + 1}. ${issue}`) : ["None"];
+      const summary = getHoursValidationSummary();
+      const activeRows = activeHoursRows();
       return [
         `CTC Pulse Report`,
         `Version: ${VERSION}`,
         `Active tab: ${activeTab}`,
-        `Visible log rows: ${getVisibleLogRowCount()}`,
-        `Active hours lines: ${activeRows.length}`,
-        `Total hours lines: ${hoursRows.length}`,
-        `Expected hours: ${summary.expected.toFixed(1)}`,
-        `Logged hours: ${summary.total.toFixed(1)}`,
-        `Remaining: ${summary.remaining.toFixed(1)}`,
-        `Downtime hours: ${summary.downtime.toFixed(1)}`,
-        `Hours readiness: ${computeHoursReadyText()}`,
-        `Downtime rows missing valid comment: ${summary.invalidDowntimeRows.length}`,
-        `Rows missing detail: ${summary.missingDetailRows.length}`,
-        `Rows missing hours: ${summary.missingHoursRows.length}`,
-        `Header date: ${bannerFields.date || "n/a"}`,
+        `Visible log rows: ${currentMetrics.visibleLogRows}`,
+        `Hours lines: ${currentMetrics.activeHoursLines} active / ${currentMetrics.totalHoursLines} total`,
+        `Hours target: ${currentMetrics.expected.toFixed(1)} expected / ${currentMetrics.logged.toFixed(1)} logged`,
+        `Remaining: ${currentMetrics.remaining.toFixed(1)}`,
+        `Downtime hours: ${currentMetrics.downtime.toFixed(1)}`,
+        `Hours readiness: ${currentMetrics.readiness}`,
+        `Downtime rows missing valid comment: ${currentMetrics.invalidDowntimeRows}`,
+        `Rows missing detail: ${currentMetrics.missingDetailRows}`,
+        `Rows missing hours: ${currentMetrics.missingHoursRows}`,
+        `Header date: ${currentMetrics.headerDate}`,
         `Timestamp: ${new Date().toLocaleString()}`,
         ``,
-        `Issues:`,
-        ...issues
+        `Severity:`,
+        ...severityLines.map((line, index) => `${index + 1}. ${line}`),
+        ``,
+        `First check:`,
+        `1. ${firstCheck}`,
+        ``,
+        `Since last scan:`,
+        ...deltaLines.map((line, index) => `${index + 1}. ${line}`),
+        ``,
+        `Guardrails:`,
+        ...guardrailLines.map((line, index) => `${index + 1}. ${line}`)
       ].join("\n");
     }
 
@@ -4153,7 +4375,8 @@ function runCtcPulseScan(){
           syncCtcPulseSnapshot();
           const readyText = computeHoursReadyText();
           const stamp = new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit", second:"2-digit"});
-          const report = buildCtcPulseReport();
+          const previousMetrics = lastCtcPulseMetrics && lastCtcPulseMetrics.activeTab === activeTab ? lastCtcPulseMetrics : null;
+          const report = buildCtcPulseReport(previousMetrics);
 
           let allClear = !!summary.ready;
           let statusLabel = readyText;
@@ -4189,6 +4412,7 @@ ${report}`;
             ctcPulseReport.classList.add("scan-flash");
             window.setTimeout(() => ctcPulseReport.classList.remove("scan-flash"), 900);
           }
+          lastCtcPulseMetrics = captureCtcPulseMetrics(activeTab);
           pulseButtonFeedback(runBtn, allClear ? "ok" : "warn");
         } catch (err) {
           const stamp = new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit", second:"2-digit"});
