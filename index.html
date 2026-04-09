@@ -593,14 +593,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.104-manager-smart-structure</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.108-version-sync-fix</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">1.0.104-manager-smart-structure</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">1.0.108-version-sync-fix</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -982,7 +982,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.104-manager-smart-structure</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.108-version-sync-fix</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1040,7 +1040,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.104-manager-smart-structure</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.108-version-sync-fix</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1071,12 +1071,12 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                 <div class="manager-signal-card">
                   <div class="manager-signal-label">Biggest Driver</div>
                   <div class="manager-signal-value" id="manager-downtime-share">0%</div>
-                  <div class="manager-signal-note" id="manager-downtime-share-note">Updates as saved shift chunks are logged.</div>
+                  <div class="manager-signal-note" id="manager-downtime-share-note">Updates as saved shift records are logged.</div>
                 </div>
                 <div class="manager-signal-card">
                   <div class="manager-signal-label">Data Confidence</div>
                   <div class="manager-signal-value" id="manager-coverage-footprint">0</div>
-                  <div class="manager-signal-note" id="manager-coverage-footprint-note">Saved shift chunks across active cells.</div>
+                  <div class="manager-signal-note" id="manager-coverage-footprint-note">Saved shift records across active cells.</div>
                 </div>
               </div>
             </div>
@@ -1230,7 +1230,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.104-manager-smart-structure</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.108-version-sync-fix</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1289,7 +1289,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                 </div>
                 <div class="settings-callout">
                   <strong>Cell Hours</strong>
-                  Day + shift selection, tech-side hours entry, downtime detail, and saved shift chunks that later feed trades and manager rollups.
+                  Day + shift selection, tech-side hours entry, downtime detail, and saved shift records that later feed trades and manager rollups.
                 </div>
                 <div class="settings-callout">
                   <strong>Weekend owns</strong>
@@ -1357,7 +1357,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.106_cross_tab_label_cleanup";
+    const VERSION = "1.0.108-version-sync-fix";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -2175,7 +2175,7 @@ function aggregateManagerData(){
   const latestVsPreviousLoggedDelta = latestDate && previousDate ? latestDate.logged - previousDate.logged : null;
   const dayShift = shiftTotals.get('Day') || { logged: 0, downtime: 0, count: 0 };
   const nightShift = shiftTotals.get('Night') || { logged: 0, downtime: 0, count: 0 };
-  const confidence = savedShiftRecords.length >= 8 ? { label: 'Strong', note: 'Enough saved shift data to trust the direction.' } : savedShiftRecords.length >= 4 ? { label: 'Moderate', note: 'Useful signal, but still a light sample.' } : savedShiftRecords.length > 0 ? { label: 'Light', note: 'Early read only. Avoid overreading it.' } : { label: 'Waiting', note: 'Needs saved shift chunks before this page has weight.' };
+  const confidence = savedShiftRecords.length >= 8 ? { label: 'Strong', note: 'Enough saved shift data to trust the direction.' } : savedShiftRecords.length >= 4 ? { label: 'Moderate', note: 'Useful signal, but still a light sample.' } : savedShiftRecords.length > 0 ? { label: 'Light', note: 'Early read only. Avoid overreading it.' } : { label: 'Waiting', note: 'Needs saved shift records before this page has weight.' };
   const topDowntime = Array.from(downtimeBuckets.entries()).sort((a,b) => b[1] - a[1]).slice(0,5);
   const topCells = Array.from(cellBuckets.entries()).sort((a,b) => b[1] - a[1]).slice(0,5);
   const biggestDriver = helpRows.length ? `Weekend support (${helpRows.length})` : topDowntime.length ? `${topDowntime[0][0]} · ${topDowntime[0][1].toFixed(1)} hrs` : topCells.length ? `Cell ${topCells[0][0]} activity` : 'No driver yet';
@@ -3390,7 +3390,7 @@ function renderTradeCoverageView(){
   }).join("");
 
   if (tradeReferenceNote) {
-    tradeReferenceNote.textContent = `${records.length} active saved shift chunk(s) shown. Trades now keep each test cell in one bubble, with separate day/shift chunks inside it.`;
+    tradeReferenceNote.textContent = `${records.length} active saved shift record(s) shown. Trades now keep each test cell in one bubble, with separate day/shift chunks inside it.`;
   }
 }
 
@@ -4110,7 +4110,7 @@ function renderHours(){
         changed("Downtime share", current.downtimeShare, previous.downtimeShare, "%");
         changed("Help-needed rows", current.helpNeededCount, previous.helpNeededCount);
         changed("Active cells", current.activeCells, previous.activeCells);
-        changed("Saved shift chunks", current.savedShiftCount, previous.savedShiftCount);
+        changed("Saved shift records", current.savedShiftCount, previous.savedShiftCount);
         if ((current.helpCells || []).join(", ") !== (previous.helpCells || []).join(", ")) {
           lines.push(`Help-needed cells: ${(previous.helpCells || []).join(", ") || "none"} → ${(current.helpCells || []).join(", ") || "none"}`);
         }
@@ -4173,7 +4173,7 @@ function renderHours(){
         if (managerSummary.topDowntime.length) {
           return `Review top downtime concentration: ${managerSummary.topDowntime[0][0]}`;
         }
-        if (managerSummary.savedShiftCount) return `Check the latest saved shift chunk and compare against the prior day.`;
+        if (managerSummary.savedShiftCount) return `Check the latest saved shift record and compare against the prior day.`;
         return `No urgent manager-side follow-up is active.`;
       }
       if (activeTab === "weekend") {
@@ -4324,7 +4324,7 @@ function renderHours(){
           `Visible log rows: ${currentMetrics.visibleLogRows}`,
           `Active cells: ${currentMetrics.activeCells}`,
           `Help needed rows: ${currentMetrics.helpNeededCount}`,
-          `Saved shift chunks: ${currentMetrics.savedShiftCount}`,
+          `Saved shift records: ${currentMetrics.savedShiftCount}`,
           `Logged hours total: ${currentMetrics.totalLogged.toFixed(1)}`,
           `Downtime hours total: ${currentMetrics.totalDowntime.toFixed(1)}`,
           `Downtime share: ${currentMetrics.downtimeShare.toFixed(1)}%`,
