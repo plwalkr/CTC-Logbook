@@ -169,10 +169,10 @@
     .settings-note{font-size:12px;color:#475569;line-height:1.55}
     .settings-copy{font-size:13px;color:#334155;line-height:1.5}
     .settings-status{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;font-weight:700;color:#334155}
-    .manager-shell{display:flex;flex-direction:column;gap:12px}
-    .manager-topline{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
-    .manager-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-    .manager-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
+    .manager-shell{display:flex;flex-direction:column;gap:14px;max-width:1480px;margin:0 auto}
+    .manager-topline{display:flex;justify-content:center;gap:10px;align-items:stretch;flex-wrap:wrap}
+    .manager-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:stretch}
+    .manager-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center}
     .manager-card h3{font-size:14px;margin:0 0 8px 0}
     .manager-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
     .manager-value{font-size:24px;font-weight:800;color:#0f172a}
@@ -194,12 +194,12 @@
     .manager-layout{display:grid;grid-template-columns:1.2fr .95fr;gap:12px}
     .manager-note{font-size:13px;color:#475569;line-height:1.5}
     .manager-empty{font-size:13px;color:#64748b}
-    .manager-hero{display:grid;grid-template-columns:1.5fr .85fr;gap:12px}
-    .manager-hero-card{border:1px solid #e2e8f0;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:14px}
+    .manager-hero{display:grid;grid-template-columns:1.35fr 1fr;gap:12px;align-items:stretch}
+    .manager-hero-card{border:1px solid #e2e8f0;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:16px;text-align:center;display:flex;flex-direction:column;justify-content:center}
     .manager-hero-card h2{font-size:24px;line-height:1.1;margin:2px 0 8px 0;color:#0f172a}
     .manager-hero-copy{font-size:14px;color:#334155;line-height:1.55;margin:0;max-width:62ch}
-    .manager-signal-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
-    .manager-signal-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
+    .manager-signal-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px;align-items:stretch}
+    .manager-signal-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center;display:flex;flex-direction:column;justify-content:center}
     .manager-signal-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
     .manager-signal-value{font-size:22px;font-weight:800;color:#0f172a}
     .manager-signal-note{font-size:13px;color:#475569;margin-top:4px;line-height:1.45}
@@ -209,22 +209,22 @@
     .manager-posture.watch{background:#fff7ed;color:#9a3412;border-color:#fed7aa}
     .manager-posture.attention{background:#fef2f2;color:#b91c1c;border-color:#fecaca}
     .manager-posture-note{font-size:13px;color:#334155;line-height:1.5;margin-top:10px;max-width:60ch}
-    .manager-band{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-    .manager-band-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
+    .manager-band{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:stretch}
+    .manager-band-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center;display:flex;flex-direction:column;justify-content:center}
     .manager-band-card .manager-label{margin-bottom:4px}
     .manager-band-card .manager-value{font-size:28px}
-    .manager-list-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:12px}
-    .manager-list-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:8px}
+    .manager-list-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:14px;display:flex;flex-direction:column;justify-content:flex-start}
+    .manager-list-head{display:flex;justify-content:center;gap:8px;align-items:center;margin-bottom:10px;text-align:center}
     .manager-list-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700}
-    .manager-story-box{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:12px;font-size:14px;color:#334155;line-height:1.6}
+    .manager-story-box{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:14px;font-size:14px;color:#334155;line-height:1.6;max-width:92ch;margin:0 auto;text-align:center}
     .manager-story-box strong{color:#0f172a}
-    .manager-dashboard-grid{display:grid;grid-template-columns:1.25fr .95fr;gap:12px}
-    .manager-dashboard-grid.bottom{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .manager-chart-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:12px;overflow:hidden}
-    .manager-chart-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:10px}
+    .manager-dashboard-grid{display:grid;grid-template-columns:1.25fr .95fr;gap:12px;align-items:stretch}
+    .manager-dashboard-grid.bottom{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
+    .manager-chart-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:14px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;text-align:center}
+    .manager-chart-head{display:flex;justify-content:center;gap:8px;align-items:center;margin-bottom:10px;text-align:center}
     .manager-chart-head h3{font-size:16px;margin:2px 0 0 0}
     .manager-chart-sub{font-size:13px;color:#475569;line-height:1.45;margin-top:3px}
-    .manager-legend{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:#475569;margin-bottom:8px}
+    .manager-legend{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:#475569;margin-bottom:10px;justify-content:center}
     .manager-legend span{display:inline-flex;align-items:center;gap:6px}
     .manager-dot{width:10px;height:10px;border-radius:999px;display:inline-block}
     .manager-dot.availability{background:#2563eb}
@@ -293,6 +293,13 @@
     body[data-theme="clarity"] .hours-row-badge.warn{color:#8a4b00;border-color:#facc15;background:#fff8db}
     body[data-theme="clarity"] .hours-row-badge.blocked{color:#9a3412;border-color:#fdba74;background:#fff1e8}
 
+
+    .manager-label,.manager-list-kicker,.manager-value,.manager-signal-label,.manager-signal-value,.manager-chart-head h3,.manager-list-head h3,.manager-hero-card h2{text-align:center}
+    .manager-note,.manager-chart-sub,.manager-kpi-note,.manager-posture-note,.manager-hero-copy,.manager-signal-note{max-width:58ch;margin-left:auto;margin-right:auto;text-align:center}
+    .manager-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;text-align:left}
+    .manager-item > div:last-child,.manager-item > strong:last-child{text-align:right}
+    .manager-bar-row{grid-template-columns:minmax(110px,1fr) minmax(0,2.2fr) auto}
+    .manager-layout,.manager-hero,.manager-dashboard-grid,.manager-dashboard-grid.bottom,.manager-band{justify-items:stretch}
     .debug-fab{position:fixed;right:16px;bottom:16px;z-index:999;border:1px solid #0f172a;background:#0f172a;color:#fff;border-radius:999px;padding:10px 14px;font-size:12px;font-weight:800;letter-spacing:.04em;box-shadow:0 10px 25px rgba(15,23,42,.18);cursor:pointer}
     .debug-fab:hover{transform:translateY(-1px)}
     .debug-panel{position:fixed;right:16px;bottom:68px;width:min(580px,calc(100vw - 24px));max-height:78vh;overflow-y:auto;overflow-x:hidden;z-index:998;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 16px 40px rgba(15,23,42,.22)}
@@ -593,14 +600,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.108-version-sync-fix</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.109-manager-alignment-polish</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">1.0.108-version-sync-fix</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">1.0.109-manager-alignment-polish</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -982,7 +989,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.108-version-sync-fix</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.109-manager-alignment-polish</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1040,7 +1047,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.108-version-sync-fix</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.109-manager-alignment-polish</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1230,7 +1237,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.108-version-sync-fix</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.109-manager-alignment-polish</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1357,7 +1364,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.108-version-sync-fix";
+    const VERSION = "1.0.109-manager-alignment-polish";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
