@@ -176,11 +176,21 @@
     .manager-card h3{font-size:14px;margin:0 0 8px 0}
     .manager-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
     .manager-value{font-size:24px;font-weight:800;color:#0f172a}
-    .manager-list{display:flex;flex-direction:column;gap:8px}
+    .manager-list{display:flex;flex-direction:column;gap:10px}
     #manager-help-list{justify-content:flex-start;padding-top:2px}
-    .manager-item{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding-bottom:8px;border-bottom:1px dashed #e2e8f0;font-size:13px;line-height:1.5}
+    .manager-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 16px;align-items:start;padding:12px 0;border-bottom:1px dashed #e2e8f0;font-size:13px;line-height:1.55}
     .manager-item:last-child{border-bottom:none;padding-bottom:0}
     .manager-item strong{color:#0f172a}
+    .manager-item-main{min-width:0}
+    .manager-item-title{display:flex;align-items:flex-start;gap:8px;justify-content:space-between;font-size:13px;font-weight:800;color:#0f172a;line-height:1.4}
+    .manager-item-title .meta{font-weight:700;color:#334155}
+    .manager-item-copy{font-size:13px;color:#475569;line-height:1.6;margin-top:4px}
+    .manager-item-side{display:flex;align-items:flex-start;justify-content:flex-end}
+    .manager-item-time,.manager-item-hours{display:inline-flex;align-items:center;justify-content:center;min-width:78px;padding:6px 10px;border-radius:999px;border:1px solid #dbe3ed;background:#f8fafc;font-size:12px;font-weight:800;color:#0f172a;white-space:nowrap}
+    .manager-item.support{padding-top:8px}
+    .manager-item.support .manager-item-copy{padding-right:8px}
+    .manager-item.note-item{gap:12px 18px}
+    .manager-item.note-item .manager-item-title{font-size:12.5px}
 .manager-rank-list{display:flex;flex-direction:column;gap:10px}
     .manager-rank-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px dashed #e2e8f0}
     .manager-rank-item:last-child{border-bottom:none;padding-bottom:0}
@@ -214,8 +224,8 @@
     .manager-band-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center;display:flex;flex-direction:column;justify-content:center}
     .manager-band-card .manager-label{margin-bottom:4px}
     .manager-band-card .manager-value{font-size:28px}
-    .manager-list-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:14px;display:flex;flex-direction:column;justify-content:flex-start;align-self:start}
-    .manager-list-head{display:flex;justify-content:center;gap:8px;align-items:center;margin-bottom:10px;text-align:center}
+    .manager-list-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:16px;display:flex;flex-direction:column;justify-content:flex-start;align-self:start}
+    .manager-list-head{display:flex;justify-content:center;gap:8px;align-items:center;margin-bottom:12px;text-align:center}
     .manager-list-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700}
     .manager-story-box{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:14px;font-size:14px;color:#334155;line-height:1.6;max-width:92ch;margin:0 auto;text-align:center}
     .manager-story-box strong{color:#0f172a}
@@ -601,14 +611,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.110-manager-bar-width-help-queue-lift</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">1.0.111-manager-support-detail-polish</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">1.0.110-manager-bar-width-help-queue-lift</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">1.0.111-manager-support-detail-polish</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -990,7 +1000,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.110-manager-bar-width-help-queue-lift</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.111-manager-support-detail-polish</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1048,7 +1058,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.110-manager-bar-width-help-queue-lift</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.111-manager-support-detail-polish</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1238,7 +1248,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.110-manager-bar-width-help-queue-lift</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">1.0.111-manager-support-detail-polish</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1365,7 +1375,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "1.0.110-manager-bar-width-help-queue-lift";
+    const VERSION = "1.0.111-manager-support-detail-polish";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -2452,13 +2462,13 @@ function renderManagerTab(){
 
   if (managerHelpList) {
     managerHelpList.innerHTML = summary.helpRows.length
-      ? summary.helpRows.map(row => `<div class="manager-item"><span>Cell ${escapeHtml(row.testCell)} · ${escapeHtml(row.tcStatus || "No status")}<br><span class="manager-note">${escapeHtml(row.comments || 'No comment entered yet.')}</span></span><strong>${escapeHtml(row.lastUpdate || "—")}</strong></div>`).join("")
+      ? summary.helpRows.map(row => `<div class="manager-item support"><div class="manager-item-main"><div class="manager-item-title"><span>Cell ${escapeHtml(row.testCell)}</span><span class="meta">${escapeHtml(row.tcStatus || "No status")}</span></div><div class="manager-item-copy">${escapeHtml(row.comments || 'No comment entered yet.')}</div></div><div class="manager-item-side"><span class="manager-item-time">${escapeHtml(row.lastUpdate || "—")}</span></div></div>`).join("")
       : `<div class="manager-empty">No weekend support requests are active.</div>`;
   }
 
   if (managerNotesList) {
     managerNotesList.innerHTML = summary.recentNotes.length
-      ? summary.recentNotes.map(item => `<div class="manager-item"><span>Cell ${escapeHtml(item.cell)} · ${escapeHtml(item.detail)}<br><span class="manager-note">${escapeHtml(item.comment)}</span></span><strong>${item.hours.toFixed(1)} hrs</strong></div>`).join("")
+      ? summary.recentNotes.map(item => `<div class="manager-item note-item"><div class="manager-item-main"><div class="manager-item-title"><span>Cell ${escapeHtml(item.cell)}</span><span class="meta">${escapeHtml(item.detail)}</span></div><div class="manager-item-copy">${escapeHtml(item.comment)}</div></div><div class="manager-item-side"><span class="manager-item-hours">${item.hours.toFixed(1)} hrs</span></div></div>`).join("")
       : `<div class="manager-empty">No recent downtime notes are available yet.</div>`;
   }
 
