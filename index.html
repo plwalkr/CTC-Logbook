@@ -626,14 +626,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.126-logbook-pulse-and-manager-chart-balance</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.127-logbook-pulse-report-fix</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.126-logbook-pulse-and-manager-chart-balance</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.127-logbook-pulse-report-fix</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1015,7 +1015,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.126-logbook-pulse-and-manager-chart-balance</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.127-logbook-pulse-report-fix</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1073,7 +1073,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.126-logbook-pulse-and-manager-chart-balance</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.127-logbook-pulse-report-fix</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1260,7 +1260,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.126-logbook-pulse-and-manager-chart-balance";
+    const VERSION = "v1.0.127-logbook-pulse-report-fix";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -4168,7 +4168,7 @@ function captureCtcPulseMetrics(activeTab){
       if (activeTab === "logbook") {
         const visibleRows = getVisibleLogRowCount();
         const openFollowUps = getOpenFollowUpCount();
-        if (!getLogbookButtonState()) return `Check logbook button binding first.`;
+        if (!getLogbookButtonState()) return `Check logbook buttons first.`;
         if (openFollowUps > 0) return `Review the open follow-up queue next.`;
         if (!visibleRows) return `No visible log rows. Check log filters or add a new entry.`;
         return `Logbook is readable. Review the latest visible entry next.`;
@@ -4365,8 +4365,30 @@ function captureCtcPulseMetrics(activeTab){
           ...guardrailLines.map((line, index) => `${index + 1}. ${line}`)
         ].join("\n");
       }
-      const summary = getHoursValidationSummary();
-      const activeRows = activeHoursRows();
+      if (activeTab === "logbook") {
+        return [
+          `CTC Pulse Report`,
+          `Version: ${VERSION}`,
+          `Active tab: ${activeTab}`,
+          `Visible log rows: ${currentMetrics.visibleLogRows}`,
+          `Open follow-ups: ${currentMetrics.openFollowUps || 0}`,
+          `Logbook buttons: ${currentMetrics.buttonState || "Review"}`,
+          `Header date: ${currentMetrics.headerDate || "n/a"}`,
+          `Timestamp: ${new Date().toLocaleString()}`,
+          ``,
+          `Severity:`,
+          ...severityLines.map((line, index) => `${index + 1}. ${line}`),
+          ``,
+          `First check:`,
+          `1. ${firstCheck}`,
+          ``,
+          `Since last scan:`,
+          ...deltaLines.map((line, index) => `${index + 1}. ${line}`),
+          ``,
+          `Guardrails:`,
+          ...guardrailLines.map((line, index) => `${index + 1}. ${line}`)
+        ].join("\n");
+      }
       return [
         `CTC Pulse Report`,
         `Version: ${VERSION}`,
