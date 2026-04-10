@@ -254,6 +254,7 @@
     .manager-empty-chart{font-size:12px;color:#64748b;padding:10px 0}
     .settings-compact-head{display:flex;justify-content:flex-end;gap:10px;align-items:flex-start;flex-wrap:wrap}
     .settings-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
+    .settings-hero--single{grid-template-columns:minmax(0,1fr);max-width:920px;margin:0 auto}
     .settings-hero-card{border:1px solid #e2e8f0;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:14px}
     .settings-hero-card h3{font-size:18px;margin:0 0 8px 0;color:#0f172a}
     .settings-copy{font-size:12px;color:#475569;line-height:1.6}
@@ -618,14 +619,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122-manager-arrangement-refine</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122-settings-cycle-gentle-1</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-manager-arrangement-refine</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-settings-cycle-gentle-1</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1007,7 +1008,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-arrangement-refine</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-settings-cycle-gentle-1</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1065,7 +1066,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-arrangement-refine</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-settings-cycle-gentle-1</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1249,27 +1250,18 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-arrangement-refine</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-settings-cycle-gentle-1</span></span></div>
       <section class="panel">
         <div class="section-body">
-          <div class="temp-test-bar">
-            <div class="temp-test-copy"><strong>Test tools</strong>Preview display mode changes and reset when finished.</div>
-            <div class="temp-test-actions">
-              <button class="temp-test-btn" type="button" data-temp-fill="settings">Fill This Tab</button>
-              <button class="temp-test-btn reset" type="button" data-temp-reset="true">Reset Test Data</button>
-            </div>
-          </div>
-
-          <div class="settings-hero">
+          <div class="settings-hero settings-hero--single">
             <div class="settings-hero-card">
-              <div class="section-title">Display + Behavior</div>
+              <div class="section-title">Theme Color Options</div>
               <h3>Keep the prototype readable first.</h3>
-              <div class="settings-copy">Settings stays light. It handles display choices, quick guidance, and reminders — not analytics.</div>
+              <div class="settings-copy">Settings is intentionally light right now. Use this page only to switch theme color options while the rest of the workflow stays focused in Logbook, Cell Hours, Weekend, and Manager.</div>
               <div class="display-mode-bar" id="display-mode-bar" style="margin-top:12px"></div>
               <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
                 <span class="pill">Current Display: <span id="display-mode-status" style="margin-left:6px">Standard</span></span>
                 <span class="pill">Saved Locally</span>
-                <span class="pill">Compact Headers: Weekend / Manager / Settings</span>
               </div>
               <div class="theme-preview" aria-hidden="true">
                 <div class="theme-chip">
@@ -1291,57 +1283,6 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div class="settings-hero-card">
-              <div class="section-title">Settings</div>
-              <h3>Controls, guardrails, and fast reference.</h3>
-              <div class="settings-copy">Use Settings for display choices, tab roles, and quick reminders.</div>
-              <div class="settings-callout-grid">
-                <div class="settings-callout">
-                  <strong>Settings owns</strong>
-                  Display mode, compact-header behavior, shift reminders, tab roles, and a quick read on how the tool is supposed to flow.
-                </div>
-                <div class="settings-callout">
-                  <strong>Manager owns</strong>
-                  Help-needed visibility, rollups, downtime patterns, recent notes, and the review story built from already-entered data.
-                </div>
-                <div class="settings-callout">
-                  <strong>Cell Hours</strong>
-                  Day + shift selection, tech-side hours entry, downtime detail, and saved shift records that later feed trades and manager rollups.
-                </div>
-                <div class="settings-callout">
-                  <strong>Weekend owns</strong>
-                  The live status board by test cell, visible support calls, and quick operational awareness during pilot weekend use.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="settings-quickref">
-            <div class="settings-mini-card">
-              <h3>Confirmed Tech Schedule</h3>
-              <div class="settings-copy">Mon–Thu: 7a–5p / 5p–3a<br>Fri–Sun: 7a–7p / 7p–7a</div>
-            </div>
-            <div class="settings-mini-card">
-              <h3>Trade Tracking Reminder</h3>
-              <div class="settings-copy">Weekdays use 10-hour runs, Thu→Fri carries a 14-hour transition run, and weekends use 12-hour chunks.</div>
-            </div>
-            <div class="settings-mini-card">
-              <h3>Tab Quick Guide</h3>
-              <div class="settings-copy">Logbook = history layer.<br>Cell Hours = tech entry side.<br>Weekend = fast TC status board.<br>Manager = read-only rollup.</div>
-            </div>
-            <div class="settings-mini-card">
-              <h3>Operational Reminders</h3>
-              <div class="settings-copy">Start with day + shift on Cell Hours. Keep downtime comments meaningful. Use Weekend Help Needed when support is visible.</div>
-            </div>
-            <div class="settings-mini-card">
-              <h3>CTC Pulse Quick Meaning</h3>
-              <div class="settings-copy">Pulse reads each tab in context. Hours stay strict. Weekend behaves like a board. Manager surfaces true attention items.</div>
-            </div>
-            <div class="settings-mini-card">
-              <h3>Prototype Guardrails</h3>
-              <div class="settings-copy">Small surgical changes only. Keep tech entry, trades review, weekend board, and manager intelligence separate.</div>
             </div>
           </div>
         </div>
@@ -1376,7 +1317,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.122-manager-arrangement-refine";
+    const VERSION = "v1.0.122-settings-cycle-gentle-1";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -1441,7 +1382,24 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       hours:""
     }));
 
-    let formState = {time:"",run:"",cycle:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"};
+    let formState = {time:"",run:"",cycle:"",cycleManual:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"};
+    function getCycleOptionSelection(value){
+      const cleaned = String(value || "").trim();
+      if (!cleaned) return "";
+      return cycleOptions.includes(cleaned) && cleaned !== "Custom" ? cleaned : "Custom";
+    }
+    function getManualCycleValue(){
+      const manual = String(formState.cycleManual || "").trim();
+      if (manual) return manual;
+      const selected = String(formState.cycle || "").trim();
+      return cycleOptions.includes(selected) && selected !== "Custom" ? "" : selected;
+    }
+    function resolveFormCycleType(){
+      const manual = String(formState.cycleManual || "").trim();
+      if (manual) return manual;
+      const selected = String(formState.cycle || "").trim();
+      return selected && selected !== "Custom" ? selected : "";
+    }
     function createWeekendUpdateRows(){
       return TEST_CELL_OPTIONS.map(cell => ({ testCell: cell, tcStatus: "", helpNeeded: "", comments: "", lastUpdate: "", wwid: "" }));
     }
@@ -2737,7 +2695,7 @@ function renderManagerTab(){
         {id:9101,time:'09:42 AM',state:'Running',priority:'Normal',owner:'Joey Poppe',ready:'Ready',completed:'Emissions cart reconnect and warm-up checks completed.',open:'Morning calibration note should stay attached to the active shift context.',watch:'Watch for any repeated comms drop before the next cart swap.',header:deepClone(header)}
       ];
       expandedRows = {};
-      formState = {time:'06:30 PM',run:'1229756',cycle:'vLLC',torqueMap:'19',PanT:'180.4',carbon:'-0.70',nox:'-0.010',thc:'-0.003',pm:'0.001',work:'56.05',filter:'17',testMap:'19',category:'General',status:'Open'};
+      formState = {time:'06:30 PM',run:'1229756',cycle:'vLLC',cycleManual:'',torqueMap:'19',PanT:'180.4',carbon:'-0.70',nox:'-0.010',thc:'-0.003',pm:'0.001',work:'56.05',filter:'17',testMap:'19',category:'General',status:'Open'};
       if (noteEditor) noteEditor.innerHTML = '<div><strong>Operator test note:</strong> Use this staged note to check formatting, spacing, and manager-facing language with a fuller logbook story already loaded.</div><ul><li>TRI / Rev update still visible</li><li>Weekend help queue active on TC 207</li><li>Late dyno verify cleared on TC 204</li></ul>';
       if (handoffState) handoffState.value = 'Ready for Next Shift';
       if (handoffPriority) handoffPriority.value = 'Watch';
@@ -3120,10 +3078,13 @@ function renderHeaderFields(){
 }
 
 function renderForm(){
+      const selectedCycle = getCycleOptionSelection(formState.cycle);
+      const manualCycleValue = getManualCycleValue();
       formGrid.innerHTML = `
         <label class="field"><label>Time</label><input id="field-time" value="${escapeHtml(formState.time)}" placeholder="--:-- AM" /></label>
         <label class="field"><label>Run #</label><input id="field-run" value="${escapeHtml(formState.run)}" placeholder="Run #" /></label>
-        <label class="field span-2"><label>Cycle Type</label><select id="field-cycle">${cycleOptions.map(opt => `<option value="${escapeHtml(opt)}" ${formState.cycle===opt?"selected":""}>${opt || "Select cycle"}</option>`).join("")}</select></label>
+        <label class="field span-2"><label>Cycle Type</label><select id="field-cycle">${cycleOptions.map(opt => `<option value="${escapeHtml(opt)}" ${selectedCycle===opt?"selected":""}>${opt || "Select cycle"}</option>`).join("")}</select></label>
+        <label class="field span-2"><label>Manual Cycle Type</label><input id="field-cycleManual" value="${escapeHtml(manualCycleValue)}" placeholder="Optional manual cycle type" /></label>
         <label class="field"><label>Torque</label><input id="field-torqueMap" value="${escapeHtml(formState.torqueMap)}" placeholder="Map" /></label>
         <label class="field"><label>PanT</label><input id="field-PanT" value="${escapeHtml(formState.PanT)}" placeholder="°F" /></label>
         <label class="field"><label>Carbon</label><input id="field-carbon" value="${escapeHtml(formState.carbon)}" placeholder="Carbon" /></label>
@@ -3139,8 +3100,20 @@ function renderForm(){
       formGrid.querySelectorAll("input,select").forEach(el => {
         el.addEventListener("input", e => {
           const id = e.target.id.replace("field-","");
-          formState[id] = id === "time" ? formatTimeForInput(e.target.value) : e.target.value;
-          if (id === "time") e.target.value = formState[id];
+          if (id === "time") {
+            formState[id] = formatTimeForInput(e.target.value);
+            e.target.value = formState[id];
+            return;
+          }
+          if (id === "cycle") {
+            formState.cycle = e.target.value;
+            if (e.target.value !== "Custom" && String(formState.cycleManual || "").trim()) {
+              formState.cycleManual = "";
+              renderForm();
+            }
+            return;
+          }
+          formState[id] = e.target.value;
         });
       });
       autoLogSelect.innerHTML = autoLogEventTemplates.map(t => `<option value="${escapeHtml(t.label)}">${t.label}</option>`).join("");
@@ -3862,7 +3835,7 @@ function renderHours(){
     }
 
     function resetForm(){
-      Object.assign(formState, {time:formatCurrentTime(),run:"",cycle:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"});
+      Object.assign(formState, {time:formatCurrentTime(),run:"",cycle:"",cycleManual:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"});
       renderForm();
       noteEditor.innerHTML = "";
     }
@@ -3871,8 +3844,11 @@ function renderHours(){
       const cleanedHtml = sanitizeHtml(noteEditor.innerHTML).trim();
       const plainText = plainTextFromHtml(cleanedHtml);
       if (!plainText) return;
+      const resolvedCycle = resolveFormCycleType();
+      const { cycleManual, ...entryFields } = formState;
       entries.unshift({
-        ...formState,
+        ...entryFields,
+        cycle: resolvedCycle || "—",
         id: Date.now(),
         time: formState.time || formatCurrentTime(),
         source: "operator",
@@ -3892,6 +3868,7 @@ function renderHours(){
       const selected = autoLogSelect.value;
       const template = autoLogEventTemplates.find(t => t.label === selected);
       if (!template) return;
+      const resolvedCycle = resolveFormCycleType();
       entries.unshift({
         id: Date.now(),
         source: "system",
@@ -3901,7 +3878,7 @@ function renderHours(){
         eventType: template.eventType,
         time: formState.time || formatCurrentTime(),
         run: formState.run || "—",
-        cycle: formState.cycle || "—",
+        cycle: resolvedCycle || "—",
         torqueMap: formState.torqueMap || "—",
         PanT: formState.PanT || "—",
         carbon: formState.carbon || "—",
