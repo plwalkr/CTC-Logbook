@@ -606,15 +606,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       .date-filter-row .date-field{width:100%;justify-content:space-between}
       table{font-size:11px}
     }
-  
-    @media (max-width: 1100px){
-      .manager-dashboard-grid,
-      .manager-dashboard-grid.bottom,
-      .manager-layout,
-      .manager-hero{grid-template-columns:minmax(0,1fr)}
-    }
-
-</style>
+  </style>
 </head>
 <body data-theme="standard">
   <div class="app">
@@ -626,14 +618,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.125-manager-bottom-box-balance</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122-manager-arrangement-refine</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.125-manager-bottom-box-balance</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-manager-arrangement-refine</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1015,7 +1007,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.125-manager-bottom-box-balance</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-arrangement-refine</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1073,7 +1065,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.125-manager-bottom-box-balance</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-arrangement-refine</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1211,30 +1203,154 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             </div>
           </div>
           <div class="manager-dashboard-grid bottom">
-
-<div class="manager-bottom-grid">
-  <div class="manager-bottom-left">
-    <div class="manager-list-card manager-compact-card">
-      <div class="manager-list-head">
-        <div>
-          <div class="manager-list-kicker">Signal quality</div>
-          <h3>Data confidence</h3>
+            <div class="manager-chart-card">
+              <div class="manager-chart-head">
+                <div>
+                  <div class="manager-list-kicker">Downtime</div>
+                  <h3>Downtime by Cell</h3>
+                  <div class="manager-chart-sub">Shows which cells are carrying the most downtime hours right now.</div>
+                </div>
+              </div>
+              <div class="manager-bars" id="manager-downtime-bars"></div>
+            </div>
+            <div class="manager-chart-card">
+              <div class="manager-chart-head">
+                <div>
+                  <div class="manager-list-kicker">Weekend</div>
+                  <h3>Weekend Board Statuses</h3>
+                  <div class="manager-chart-sub">Only shown when the weekend board is leaning toward a repeated status.</div>
+                </div>
+              </div>
+              <div class="manager-bars" id="manager-status-bars"></div>
+            </div>
+          </div>
+          <div class="manager-layout">
+<div class="manager-list-card">
+              <div class="manager-list-head">
+                <div>
+                  <div class="manager-list-kicker">Signal quality</div>
+                  <h3>Data confidence</h3>
+                </div>
+              </div>
+              <div class="manager-list" id="manager-confidence-list"></div>
+            </div>
+<div class="manager-list-card">
+              <div class="manager-list-head">
+                <div>
+                  <div class="manager-list-kicker">Recent notes</div>
+                  <h3>Recent Downtime Notes</h3>
+                </div>
+              </div>
+              <div class="manager-list" id="manager-notes-list"></div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="manager-list" id="manager-confidence-list"></div>
+      </section>
+    </div>
+
+    <div id="tab-settings" class="tab-view" hidden>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-arrangement-refine</span></span></div>
+      <section class="panel">
+        <div class="section-body">
+          <div class="temp-test-bar">
+            <div class="temp-test-copy"><strong>Test tools</strong>Preview display mode changes and reset when finished.</div>
+            <div class="temp-test-actions">
+              <button class="temp-test-btn" type="button" data-temp-fill="settings">Fill This Tab</button>
+              <button class="temp-test-btn reset" type="button" data-temp-reset="true">Reset Test Data</button>
+            </div>
+          </div>
+
+          <div class="settings-hero">
+            <div class="settings-hero-card">
+              <div class="section-title">Display + Behavior</div>
+              <h3>Keep the prototype readable first.</h3>
+              <div class="settings-copy">Settings stays light. It handles display choices, quick guidance, and reminders — not analytics.</div>
+              <div class="display-mode-bar" id="display-mode-bar" style="margin-top:12px"></div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+                <span class="pill">Current Display: <span id="display-mode-status" style="margin-left:6px">Standard</span></span>
+                <span class="pill">Saved Locally</span>
+                <span class="pill">Compact Headers: Weekend / Manager / Settings</span>
+              </div>
+              <div class="theme-preview" aria-hidden="true">
+                <div class="theme-chip">
+                  <strong>Standard Display</strong>
+                  <div class="swatches">
+                    <span class="theme-swatch" style="background:#ffffff"></span>
+                    <span class="theme-swatch" style="background:#f8fafc"></span>
+                    <span class="theme-swatch" style="background:#dcfce7"></span>
+                    <span class="theme-swatch" style="background:#ffe4e6"></span>
+                  </div>
+                </div>
+                <div class="theme-chip">
+                  <strong>Clarity Display</strong>
+                  <div class="swatches">
+                    <span class="theme-swatch" style="background:#ffffff"></span>
+                    <span class="theme-swatch" style="background:#eef3fa"></span>
+                    <span class="theme-swatch" style="background:#dbeafe"></span>
+                    <span class="theme-swatch" style="background:#fff1cc"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-hero-card">
+              <div class="section-title">Settings</div>
+              <h3>Controls, guardrails, and fast reference.</h3>
+              <div class="settings-copy">Use Settings for display choices, tab roles, and quick reminders.</div>
+              <div class="settings-callout-grid">
+                <div class="settings-callout">
+                  <strong>Settings owns</strong>
+                  Display mode, compact-header behavior, shift reminders, tab roles, and a quick read on how the tool is supposed to flow.
+                </div>
+                <div class="settings-callout">
+                  <strong>Manager owns</strong>
+                  Help-needed visibility, rollups, downtime patterns, recent notes, and the review story built from already-entered data.
+                </div>
+                <div class="settings-callout">
+                  <strong>Cell Hours</strong>
+                  Day + shift selection, tech-side hours entry, downtime detail, and saved shift records that later feed trades and manager rollups.
+                </div>
+                <div class="settings-callout">
+                  <strong>Weekend owns</strong>
+                  The live status board by test cell, visible support calls, and quick operational awareness during pilot weekend use.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-quickref">
+            <div class="settings-mini-card">
+              <h3>Confirmed Tech Schedule</h3>
+              <div class="settings-copy">Mon–Thu: 7a–5p / 5p–3a<br>Fri–Sun: 7a–7p / 7p–7a</div>
+            </div>
+            <div class="settings-mini-card">
+              <h3>Trade Tracking Reminder</h3>
+              <div class="settings-copy">Weekdays use 10-hour runs, Thu→Fri carries a 14-hour transition run, and weekends use 12-hour chunks.</div>
+            </div>
+            <div class="settings-mini-card">
+              <h3>Tab Quick Guide</h3>
+              <div class="settings-copy">Logbook = history layer.<br>Cell Hours = tech entry side.<br>Weekend = fast TC status board.<br>Manager = read-only rollup.</div>
+            </div>
+            <div class="settings-mini-card">
+              <h3>Operational Reminders</h3>
+              <div class="settings-copy">Start with day + shift on Cell Hours. Keep downtime comments meaningful. Use Weekend Help Needed when support is visible.</div>
+            </div>
+            <div class="settings-mini-card">
+              <h3>CTC Pulse Quick Meaning</h3>
+              <div class="settings-copy">Pulse reads each tab in context. Hours stay strict. Weekend behaves like a board. Manager surfaces true attention items.</div>
+            </div>
+            <div class="settings-mini-card">
+              <h3>Prototype Guardrails</h3>
+              <div class="settings-copy">Small surgical changes only. Keep tech entry, trades review, weekend board, and manager intelligence separate.</div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
-  <div class="manager-list-card">
-    <div class="manager-list-head">
-      <div>
-        <div class="manager-list-kicker">Recent notes</div>
-        <h3>Recent Downtime Notes</h3>
-      </div>
-    </div>
-    <div class="manager-list" id="manager-recent-notes-list"></div>
-  </div>
-</div>
-<button class="debug-fab" id="ctc-pulse-fab" type="button" title="CTC Pulse">CTC Pulse</button>
+
+
+  <button class="debug-fab" id="ctc-pulse-fab" type="button" title="CTC Pulse">CTC Pulse</button>
   <section class="debug-panel" id="ctc-pulse-panel" hidden>
     <div class="debug-head">
       <div>
@@ -1260,7 +1376,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.125-manager-bottom-box-balance";
+    const VERSION = "v1.0.122-manager-arrangement-refine";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
