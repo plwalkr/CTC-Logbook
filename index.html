@@ -48,7 +48,7 @@
     .hours-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
     .hours-shell{display:flex;flex-direction:column;gap:12px}
     .hours-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-    .hours-summary-card{border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;padding:10px}
+    .hours-summary-card{border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;padding:10px;min-height:96px}
     .hours-summary-card .summary-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
     .hours-summary-card .summary-value{font-size:22px;font-weight:800;color:#0f172a}
     .hours-summary-card .summary-note{font-size:11px;color:#64748b;margin-top:4px}
@@ -359,7 +359,7 @@
 .hours-view-section[hidden]{display:none !important}
 .trade-sheet{display:flex;flex-direction:column;gap:12px}
 .trade-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:4px}
-.trade-strip-item{border:1px solid #e2e8f0;border-radius:10px;background:#fff;padding:8px 10px;min-height:0;display:flex;flex-direction:column;justify-content:center}
+.trade-strip-item{border:1px solid #e2e8f0;border-radius:10px;background:#fff;padding:10px 12px;min-height:0;display:flex;flex-direction:column;justify-content:center}
 .trade-strip-item strong{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:4px}
 .trade-strip-item span{display:block;font-size:13px;font-weight:800;color:#0f172a;line-height:1.25}
 .trade-main-grid{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(280px,.9fr);gap:12px;align-items:start}
@@ -618,14 +618,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.120-pass2-smart-manager-logic</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.121-pass3-final-consistency-finish</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.120-pass2-smart-manager-logic</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.121-pass3-final-consistency-finish</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1007,7 +1007,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.120-pass2-smart-manager-logic</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.121-pass3-final-consistency-finish</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1065,7 +1065,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.120-pass2-smart-manager-logic</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.121-pass3-final-consistency-finish</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1128,7 +1128,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             <div class="manager-band-card">
               <div class="manager-label">Saved Shift Records</div>
               <div class="manager-value" id="manager-shift-count">0</div>
-              <div class="manager-note">Saved day, cell, and shift records in view.</div>
+              <div class="manager-note">Saved day, cell, and shift records.</div>
             </div>
             <div class="manager-band-card">
               <div class="manager-label">Weekend Status Rows</div>
@@ -1276,7 +1276,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.120-pass2-smart-manager-logic</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.121-pass3-final-consistency-finish</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1382,7 +1382,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     <div class="debug-head">
       <div>
         <h3>CTC Pulse</h3>
-        <div class="debug-sub">Fast check of the current tab and guardrails</div>
+        <div class="debug-sub">Fast check of the current tab</div>
       </div>
       <div class="debug-status" id="ctc-pulse-status">Awaiting scan</div>
     </div>
@@ -1403,7 +1403,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.120-pass2-smart-manager-logic";
+    const VERSION = "v1.0.121-pass3-final-consistency-finish";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -2473,7 +2473,7 @@ function renderManagerTab(){
   const storyBits = [];
   if (summary.helpNeededCount > 0) storyBits.push(`<strong>${summary.helpNeededCount} weekend row(s)</strong> need support now.`);
   if (summary.totalLogged > 0) storyBits.push(`<strong>${summary.totalLogged.toFixed(1)} logged hours</strong> sit across <strong>${summary.savedShiftCount}</strong> saved shift record(s).`);
-  if (summary.totalDowntime > 0) storyBits.push(`Top downtime pressure is <strong>${escapeHtml(topDowntimeLabel)}</strong> at <strong>${summary.topDowntime[0][1].toFixed(1)} hour(s)</strong>.`);
+  if (summary.totalDowntime > 0) storyBits.push(`Top downtime category is <strong>${escapeHtml(topDowntimeLabel)}</strong> at <strong>${summary.topDowntime[0][1].toFixed(1)} hour(s)</strong>.`);
   if (summary.downtimeShareDelta != null) storyBits.push(`Latest saved day is <strong>${summary.downtimeShareDelta > 0.05 ? 'running hotter' : summary.downtimeShareDelta < -0.05 ? 'running cleaner' : 'holding steady'}</strong> versus the prior saved day.`);
   if (summary.repeatedIssueCells && summary.repeatedIssueCells.length) storyBits.push(`<strong>${escapeHtml(summary.repeatedIssueCells[0].cell)}</strong> is the strongest recurring pressure point right now.`);
   if (managerStoryBox) managerStoryBox.innerHTML = storyBits.length
@@ -2569,7 +2569,7 @@ function renderManagerTab(){
   if (hasStatusPattern) {
     renderManagerBarList(statusBars, dashboard.statusMix, {
       valueFormatter: value => `${value}`,
-      emptyText: 'No repeated weekend status pattern yet.'
+      emptyText: 'No repeated status pattern yet.'
     });
   } else if (statusBars) {
     statusBars.innerHTML = '';
@@ -4295,7 +4295,7 @@ function renderHours(){
       if (summary.overTarget || summary.underTarget) {
         return `Reconcile the total hours to the expected shift target.`;
       }
-      return `Hours entry is ready. No immediate cleanup is needed.`;
+      return `Hours entry is ready. No immediate action is needed.`;
     }
 
     function buildSeverityLines(activeTab){
