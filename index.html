@@ -173,11 +173,11 @@
     .manager-shell{display:flex;flex-direction:column;gap:14px;max-width:1480px;margin:0 auto}
     .manager-topline{display:flex;justify-content:center;gap:10px;align-items:stretch;flex-wrap:wrap}
     .manager-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:stretch}
-    .manager-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center;height:100%;display:flex;flex-direction:column;justify-content:center}
+    .manager-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center}
     .manager-card h3{font-size:14px;margin:0 0 8px 0}
     .manager-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
     .manager-value{font-size:24px;font-weight:800;color:#0f172a}
-    .manager-list{display:flex;flex-direction:column;gap:10px;height:100%}
+    .manager-list{display:flex;flex-direction:column;gap:10px}
     #manager-help-list{justify-content:flex-start;padding-top:2px}
     .manager-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 16px;align-items:start;padding:12px 0;border-bottom:1px dashed #e2e8f0;font-size:13px;line-height:1.55}
     .manager-item:last-child{border-bottom:none;padding-bottom:0}
@@ -203,15 +203,15 @@
     .manager-rank-track{margin-top:6px;height:8px;width:min(75%,100%);border-radius:999px;background:#e2e8f0;overflow:hidden}
     .manager-rank-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#2563eb 0%,#60a5fa 100%)}
     .manager-rank-fill.warn{background:linear-gradient(90deg,#f59e0b 0%,#fbbf24 100%)}
-    .manager-layout{display:grid;grid-template-columns:1.2fr .95fr;gap:12px;align-items:stretch}
+    .manager-layout{display:grid;grid-template-columns:1.2fr .95fr;gap:12px;align-items:start}
     .manager-note{font-size:13px;color:#475569;line-height:1.5}
     .manager-empty{font-size:13px;color:#64748b}
     .manager-hero{display:grid;grid-template-columns:1.35fr 1fr;gap:12px;align-items:stretch}
-    .manager-hero-card{border:1px solid #e2e8f0;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:16px;text-align:center;display:flex;flex-direction:column;justify-content:center;height:100%}
+    .manager-hero-card{border:1px solid #e2e8f0;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:16px;text-align:center;display:flex;flex-direction:column;justify-content:center}
     .manager-hero-card h2{font-size:24px;line-height:1.1;margin:2px 0 8px 0;color:#0f172a}
     .manager-hero-copy{font-size:14px;color:#334155;line-height:1.55;margin:0;max-width:62ch}
     .manager-signal-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px;align-items:stretch}
-    .manager-signal-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center;display:flex;flex-direction:column;justify-content:center;height:100%}
+    .manager-signal-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center;display:flex;flex-direction:column;justify-content:center}
     .manager-signal-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
     .manager-signal-value{font-size:22px;font-weight:800;color:#0f172a}
     .manager-signal-note{font-size:13px;color:#475569;margin-top:4px;line-height:1.45}
@@ -222,17 +222,17 @@
     .manager-posture.attention{background:#fef2f2;color:#b91c1c;border-color:#fecaca}
     .manager-posture-note{font-size:13px;color:#334155;line-height:1.5;margin-top:10px;max-width:60ch}
     .manager-band{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:stretch}
-    .manager-band-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center;display:flex;flex-direction:column;justify-content:center;height:100%}
+    .manager-band-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center;display:flex;flex-direction:column;justify-content:center}
     .manager-band-card .manager-label{margin-bottom:4px}
     .manager-band-card .manager-value{font-size:28px}
-    .manager-list-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:16px;display:flex;flex-direction:column;justify-content:flex-start;align-self:stretch;height:100%}
+    .manager-list-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:16px;display:flex;flex-direction:column;justify-content:flex-start;align-self:start}
     .manager-list-head{display:flex;justify-content:center;gap:8px;align-items:center;margin-bottom:12px;text-align:center}
     .manager-list-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700}
     .manager-story-box{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:14px;font-size:14px;color:#334155;line-height:1.6;max-width:92ch;margin:0 auto;text-align:center}
     .manager-story-box strong{color:#0f172a}
     .manager-dashboard-grid{display:grid;grid-template-columns:1.25fr .95fr;gap:12px;align-items:stretch}
     .manager-dashboard-grid.bottom{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
-    .manager-chart-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:14px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;text-align:center;height:100%;min-height:320px}
+    .manager-chart-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:14px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;text-align:center}
     .manager-chart-head{display:flex;justify-content:center;gap:8px;align-items:center;margin-bottom:10px;text-align:center}
     .manager-chart-head h3{font-size:16px;margin:2px 0 0 0}
     .manager-chart-sub{font-size:13px;color:#475569;line-height:1.45;margin-top:3px}
@@ -606,16 +606,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       .date-filter-row .date-field{width:100%;justify-content:space-between}
       table{font-size:11px}
     }
-  
-.manager-grid > *,
-.manager-band > *,
-.manager-layout > *,
-.manager-dashboard-grid > *,
-.manager-dashboard-grid.bottom > *,
-.manager-hero > *,
-.manager-signal-row > *{height:100%}
-
-</style>
+  </style>
 </head>
 <body data-theme="standard">
   <div class="app">
@@ -627,14 +618,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122a-manager-box-alignment</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122-manager-arrangement-refine</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122a-manager-box-alignment</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-manager-arrangement-refine</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1016,7 +1007,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122a-manager-box-alignment</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-arrangement-refine</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1074,7 +1065,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122a-manager-box-alignment</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-arrangement-refine</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1258,7 +1249,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122a-manager-box-alignment</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-arrangement-refine</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1385,7 +1376,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.122a-manager-box-alignment";
+    const VERSION = "v1.0.122-manager-arrangement-refine";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
