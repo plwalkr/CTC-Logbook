@@ -618,14 +618,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.119-pass1-visual-polish-guardrails</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.120-pass2-smart-manager-logic</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.119-pass1-visual-polish-guardrails</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.120-pass2-smart-manager-logic</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1007,7 +1007,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.119-pass1-visual-polish-guardrails</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.120-pass2-smart-manager-logic</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1065,7 +1065,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.119-pass1-visual-polish-guardrails</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.120-pass2-smart-manager-logic</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1155,6 +1155,27 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                 </div>
               </div>
               <div class="manager-list" id="manager-readout-list"></div>
+            </div>
+          </div>
+
+          <div class="manager-layout">
+            <div class="manager-list-card">
+              <div class="manager-list-head">
+                <div>
+                  <div class="manager-list-kicker">Recurring issues</div>
+                  <h3>Repeated issue cells</h3>
+                </div>
+              </div>
+              <div class="manager-list" id="manager-repeated-list"></div>
+            </div>
+            <div class="manager-list-card">
+              <div class="manager-list-head">
+                <div>
+                  <div class="manager-list-kicker">Signal quality</div>
+                  <h3>Data confidence</h3>
+                </div>
+              </div>
+              <div class="manager-list" id="manager-confidence-list"></div>
             </div>
           </div>
 
@@ -1255,7 +1276,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.119-pass1-visual-polish-guardrails</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.120-pass2-smart-manager-logic</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1382,7 +1403,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.119-pass1-visual-polish-guardrails";
+    const VERSION = "v1.0.120-pass2-smart-manager-logic";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -1663,6 +1684,8 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     const managerNotesList = document.getElementById("manager-notes-list");
     const managerStoryBox = document.getElementById("manager-story-box");
     const managerReadoutList = document.getElementById("manager-readout-list");
+    const managerRepeatedList = document.getElementById("manager-repeated-list");
+    const managerConfidenceList = document.getElementById("manager-confidence-list");
     const tabViews = {
       logbook: document.getElementById("tab-logbook"),
       hours: document.getElementById("tab-hours"),
@@ -2198,9 +2221,31 @@ function aggregateManagerData(){
   const latestDate = dateEntries.length ? { date: dateEntries[dateEntries.length - 1][0], ...dateEntries[dateEntries.length - 1][1] } : null;
   const previousDate = dateEntries.length > 1 ? { date: dateEntries[dateEntries.length - 2][0], ...dateEntries[dateEntries.length - 2][1] } : null;
   const latestVsPreviousLoggedDelta = latestDate && previousDate ? latestDate.logged - previousDate.logged : null;
+  const latestDowntimeShare = latestDate && latestDate.logged > 0 ? (latestDate.downtime / latestDate.logged) * 100 : null;
+  const previousDowntimeShare = previousDate && previousDate.logged > 0 ? (previousDate.downtime / previousDate.logged) * 100 : null;
+  const downtimeShareDelta = latestDowntimeShare != null && previousDowntimeShare != null ? latestDowntimeShare - previousDowntimeShare : null;
   const dayShift = shiftTotals.get('Day') || { logged: 0, downtime: 0, count: 0 };
   const nightShift = shiftTotals.get('Night') || { logged: 0, downtime: 0, count: 0 };
-  const confidence = savedShiftRecords.length >= 8 ? { label: 'Strong', note: 'Enough saved shift data to trust the direction.' } : savedShiftRecords.length >= 4 ? { label: 'Moderate', note: 'Useful signal, but still a light sample.' } : savedShiftRecords.length > 0 ? { label: 'Light', note: 'Early read only. Avoid overreading it.' } : { label: 'Waiting', note: 'Needs saved shift records before this page has weight.' };
+  const repeatedIssueMap = new Map();
+  savedShiftRecords.forEach(record => {
+    const cell = String(record.banner?.testCell || "—");
+    const downtimeHits = (record.rows || []).filter(row => row.status === "Downtime" && (parseFloat(row.hours) || 0) > 0);
+    if (!repeatedIssueMap.has(cell)) repeatedIssueMap.set(cell, { downtime: 0, hits: 0, help: 0 });
+    const entry = repeatedIssueMap.get(cell);
+    entry.downtime += downtimeHits.reduce((sum, row) => sum + (parseFloat(row.hours) || 0), 0);
+    entry.hits += downtimeHits.length;
+  });
+  helpRows.forEach(row => {
+    const cell = String(row.testCell || "—");
+    if (!repeatedIssueMap.has(cell)) repeatedIssueMap.set(cell, { downtime: 0, hits: 0, help: 0 });
+    repeatedIssueMap.get(cell).help += 1;
+  });
+  const repeatedIssueCells = Array.from(repeatedIssueMap.entries())
+    .map(([cell, info]) => ({ cell, ...info, score: info.help * 3 + info.hits + info.downtime }))
+    .filter(item => item.help > 0 || item.hits > 1 || item.downtime >= 2)
+    .sort((a,b) => b.score - a.score)
+    .slice(0,5);
+  const confidence = savedShiftRecords.length >= 8 ? { label: 'Strong', note: 'Enough saved shift records to trust directional trends with more confidence.' } : savedShiftRecords.length >= 4 ? { label: 'Moderate', note: 'Useful signal for review, but still not a full operating story.' } : savedShiftRecords.length > 0 ? { label: 'Light', note: 'Early read only. Avoid overreading one-day noise.' } : { label: 'Waiting', note: 'Needs saved shift records before this page has weight.' };
   const topDowntime = Array.from(downtimeBuckets.entries()).sort((a,b) => b[1] - a[1]).slice(0,5);
   const topCells = Array.from(cellBuckets.entries()).sort((a,b) => b[1] - a[1]).slice(0,5);
   const biggestDriver = helpRows.length ? `Weekend support (${helpRows.length})` : topDowntime.length ? `${topDowntime[0][0]} · ${topDowntime[0][1].toFixed(1)} hrs` : topCells.length ? `Cell ${topCells[0][0]} activity` : 'No driver yet';
@@ -2228,6 +2273,10 @@ function aggregateManagerData(){
     latestDate,
     previousDate,
     latestVsPreviousLoggedDelta,
+    latestDowntimeShare,
+    previousDowntimeShare,
+    downtimeShareDelta,
+    repeatedIssueCells,
     dayShift,
     nightShift,
     weekdayLogged,
@@ -2424,9 +2473,9 @@ function renderManagerTab(){
   const storyBits = [];
   if (summary.helpNeededCount > 0) storyBits.push(`<strong>${summary.helpNeededCount} weekend row(s)</strong> need support now.`);
   if (summary.totalLogged > 0) storyBits.push(`<strong>${summary.totalLogged.toFixed(1)} logged hours</strong> sit across <strong>${summary.savedShiftCount}</strong> saved shift record(s).`);
-  if (summary.totalDowntime > 0) storyBits.push(`The main drag right now is <strong>${escapeHtml(topDowntimeLabel)}</strong> at <strong>${summary.topDowntime[0][1].toFixed(1)} hour(s)</strong>.`);
-  if (summary.activeCells > 0) storyBits.push(`Coverage is spread across <strong>${summary.activeCells} active cell(s)</strong>.`);
-  if (summary.topStatus) storyBits.push(`Weekend board is leaning toward <strong>${escapeHtml(topStatusLabel)}</strong>.`);
+  if (summary.totalDowntime > 0) storyBits.push(`Top downtime pressure is <strong>${escapeHtml(topDowntimeLabel)}</strong> at <strong>${summary.topDowntime[0][1].toFixed(1)} hour(s)</strong>.`);
+  if (summary.downtimeShareDelta != null) storyBits.push(`Latest saved day is <strong>${summary.downtimeShareDelta > 0.05 ? 'running hotter' : summary.downtimeShareDelta < -0.05 ? 'running cleaner' : 'holding steady'}</strong> versus the prior saved day.`);
+  if (summary.repeatedIssueCells && summary.repeatedIssueCells.length) storyBits.push(`<strong>${escapeHtml(summary.repeatedIssueCells[0].cell)}</strong> is the strongest recurring pressure point right now.`);
   if (managerStoryBox) managerStoryBox.innerHTML = storyBits.length
     ? storyBits.join(' ')
     : 'Add saved hours or weekend rows to build a useful manager story.';
@@ -2435,6 +2484,9 @@ function renderManagerTab(){
     const latestDelta = summary.latestVsPreviousLoggedDelta == null
       ? '—'
       : `${summary.latestVsPreviousLoggedDelta >= 0 ? '+' : ''}${summary.latestVsPreviousLoggedDelta.toFixed(1)} hrs`;
+    const shareDelta = summary.downtimeShareDelta == null
+      ? '—'
+      : `${summary.downtimeShareDelta >= 0 ? '+' : ''}${summary.downtimeShareDelta.toFixed(1)} pts`;
     const dayVsNight = summary.dayShift.logged || summary.nightShift.logged
       ? `${summary.dayShift.logged.toFixed(1)} / ${summary.nightShift.logged.toFixed(1)} hrs`
       : '—';
@@ -2442,12 +2494,27 @@ function renderManagerTab(){
       ? `${summary.weekdayLogged.toFixed(1)} / ${summary.weekendLogged.toFixed(1)} hrs`
       : '—';
     const readoutItems = [
-      { label: 'Latest day vs prior saved day', value: latestDelta, note: summary.latestDate && summary.previousDate ? `${summary.latestDate.date} compared with ${summary.previousDate.date}.` : 'Needs at least two saved dates.' },
-      { label: 'Day shift vs night shift', value: dayVsNight, note: summary.dayShift.logged || summary.nightShift.logged ? 'Logged hours split across saved day and night contexts.' : 'No saved day/night comparison yet.' },
-      { label: 'Weekday vs weekend load', value: weekdayVsWeekend, note: summary.weekdayLogged || summary.weekendLogged ? 'Shows where work is stacking up.' : 'Needs both weekday and weekend saved contexts.' },
-      { label: 'Data confidence', value: summary.confidence.label, note: summary.confidence.note }
+      { label: 'Latest vs prior day', value: latestDelta, note: summary.latestDate && summary.previousDate ? `${summary.latestDate.date} compared with ${summary.previousDate.date}.` : 'Needs at least two saved dates.' },
+      { label: 'Downtime share change', value: shareDelta, note: summary.latestDowntimeShare != null && summary.previousDowntimeShare != null ? `${summary.latestDowntimeShare.toFixed(1)}% vs ${summary.previousDowntimeShare.toFixed(1)}% downtime share.` : 'Needs two saved days with logged hours.' },
+      { label: 'Day vs night shift', value: dayVsNight, note: summary.dayShift.logged || summary.nightShift.logged ? 'Logged hours split across saved day and night contexts.' : 'No saved day/night comparison yet.' },
+      { label: 'Weekday vs weekend', value: weekdayVsWeekend, note: summary.weekdayLogged || summary.weekendLogged ? 'Shows where work is stacking up.' : 'Needs both weekday and weekend saved contexts.' }
     ];
     managerReadoutList.innerHTML = readoutItems.map(item => `<div class="manager-item"><span>${item.label}<br><span class="manager-note">${item.note}</span></span><strong>${item.value}</strong></div>`).join('');
+  }
+
+  if (managerRepeatedList) {
+    managerRepeatedList.innerHTML = summary.repeatedIssueCells && summary.repeatedIssueCells.length
+      ? summary.repeatedIssueCells.map(item => `<div class="manager-item"><span>${escapeHtml(item.cell)}<br><span class="manager-note">${item.help > 0 ? `${item.help} help request(s)` : `${item.hits} saved downtime hit(s)`}</span></span><strong>${item.downtime.toFixed(1)} hrs</strong></div>`).join('')
+      : `<div class="manager-empty">No repeated issue cell is standing out yet.</div>`;
+  }
+
+  if (managerConfidenceList) {
+    const confidenceItems = [
+      { label: 'Confidence', value: summary.confidence.label, note: summary.confidence.note },
+      { label: 'Saved shift records', value: String(summary.savedShiftCount), note: 'Current saved day / cell / shift records in view.' },
+      { label: 'Active cells', value: String(summary.activeCells), note: 'Cells represented in the saved manager rollup.' }
+    ];
+    managerConfidenceList.innerHTML = confidenceItems.map(item => `<div class="manager-item"><span>${item.label}<br><span class="manager-note">${item.note}</span></span><strong>${item.value}</strong></div>`).join('');
   }
 
   if (managerDowntimeList) {
