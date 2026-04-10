@@ -204,15 +204,16 @@
     .manager-rank-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#2563eb 0%,#60a5fa 100%)}
     .manager-rank-fill.warn{background:linear-gradient(90deg,#f59e0b 0%,#fbbf24 100%)}
     .manager-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
-#manager-confidence-card{display:block !important;text-align:center}
-#manager-confidence-card .manager-list-head{margin-bottom:10px}
-#manager-confidence-list{display:flex !important;flex-direction:column !important;justify-content:flex-start !important;align-items:stretch !important;gap:12px !important;margin:0 !important;max-width:none !important;padding-top:0 !important}
-#manager-confidence-card .manager-item{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;margin-top:0 !important;padding-top:0 !important}
-#manager-confidence-card .manager-note{margin-top:4px}
-    .manager-note{font-size:13px;color:#475569;line-height:1.5}
-#manager-confidence-card .manager-list{margin-top:0;justify-content:flex-start}
-#manager-confidence-card .manager-item{align-items:flex-start}
-#manager-confidence-card .manager-item-main{display:flex;flex-direction:column;justify-content:flex-start}
+.manager-confidence-strip{display:flex;flex-direction:column;gap:12px;border:1px solid #e2e8f0;border-radius:16px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:16px;text-align:center;align-items:center}
+.manager-confidence-strip-head{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}
+.manager-confidence-strip-copy{font-size:13px;color:#475569;line-height:1.55;max-width:72ch;margin:0 auto}
+.manager-confidence-strip .manager-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-width:none;width:100%;margin:0}
+.manager-confidence-strip .manager-item{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:12px;justify-content:flex-start;min-height:100%}
+.manager-confidence-strip .manager-note{max-width:26ch;margin:4px auto 0}
+.manager-confidence-help{width:100%;max-width:780px;border:1px dashed #dbe3ed;border-radius:12px;background:#fff;padding:10px 12px;text-align:left}
+.manager-confidence-help summary{cursor:pointer;font-size:12px;font-weight:800;color:#0f172a;list-style:none}
+.manager-confidence-help summary::-webkit-details-marker{display:none}
+.manager-confidence-help-copy{margin-top:8px;font-size:12px;color:#475569;line-height:1.55}
     .manager-empty{font-size:13px;color:#64748b;text-align:center;padding:10px 0}
     .manager-hero{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:stretch}
     .manager-hero-card{border:1px solid #e2e8f0;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:18px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center}
@@ -499,6 +500,9 @@ body[data-theme="clarity"] .trade-cell-card,
 body[data-theme="clarity"] .trade-empty-card{background:#f7faff;border-color:#9aa7bd}
 body[data-theme="clarity"] body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff;color:#10233d}
 body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
+body[data-theme="clarity"] .manager-confidence-strip,
+body[data-theme="clarity"] .manager-confidence-strip .manager-item,
+body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-color:#9aa7bd}
 
     body[data-active-tab="weekend"] #main-session-header,
     body[data-active-tab="manager"] #main-session-header,
@@ -637,7 +641,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-manager-center-clean-4</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-1</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1019,7 +1023,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-center-clean-4</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-1</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1077,7 +1081,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-center-clean-4</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-1</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
@@ -1236,32 +1240,33 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
               <div class="manager-bars" id="manager-status-bars"></div>
             </div>
           </div>
-          <div class="manager-layout">
-<div id="manager-confidence-card" class="manager-list-card manager-list-card--top">
-              <div class="manager-list-head">
-                <div>
-                  <div class="manager-list-kicker">Signal quality</div>
-                  <h3>Data confidence</h3>
-                </div>
-              </div>
-              <div class="manager-list" id="manager-confidence-list"></div>
+          <div id="manager-confidence-card" class="manager-confidence-strip">
+            <div class="manager-confidence-strip-head">
+              <div class="manager-list-kicker">Signal quality</div>
+              <h3>Data confidence</h3>
+              <div class="manager-confidence-strip-copy">A quick trust check for the manager page so trends, rankings, and repeated-issue signals are not overread when the saved footprint is still light.</div>
             </div>
-<div class="manager-list-card">
-              <div class="manager-list-head">
-                <div>
-                  <div class="manager-list-kicker">Recent notes</div>
-                  <h3>Recent Downtime Notes</h3>
-                </div>
+            <div class="manager-list" id="manager-confidence-list"></div>
+            <details class="manager-confidence-help">
+              <summary>What is this for?</summary>
+              <div class="manager-confidence-help-copy">This gives leadership a fast read on how much saved shift coverage is behind the manager page. It helps separate a real trend from a thin early signal before action is taken.</div>
+            </details>
+          </div>
+          <div class="manager-list-card">
+            <div class="manager-list-head">
+              <div>
+                <div class="manager-list-kicker">Recent notes</div>
+                <h3>Recent Downtime Notes</h3>
               </div>
-              <div class="manager-list" id="manager-notes-list"></div>
             </div>
+            <div class="manager-list" id="manager-notes-list"></div>
           </div>
         </div>
       </section>
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-center-clean-4</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-1</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero settings-hero--single">
@@ -1328,7 +1333,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.122-manager-center-clean-4";
+    const VERSION = "v1.0.122-manager-confidence-strip-1";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
