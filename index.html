@@ -170,48 +170,48 @@
     .settings-note{font-size:12px;color:#475569;line-height:1.55}
     .settings-copy{font-size:13px;color:#334155;line-height:1.5}
     .settings-status{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;font-weight:700;color:#334155}
-    .manager-shell{display:flex;flex-direction:column;gap:14px;max-width:1480px;margin:0 auto}
+    .manager-shell{display:flex;flex-direction:column;gap:16px;max-width:1360px;margin:0 auto}
     .manager-topline{display:flex;justify-content:center;gap:10px;align-items:stretch;flex-wrap:wrap}
-    .manager-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:stretch}
-    .manager-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center}
+    .manager-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:stretch}
+    .manager-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:16px;text-align:center}
     .manager-card h3{font-size:14px;margin:0 0 8px 0}
     .manager-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
     .manager-value{font-size:24px;font-weight:800;color:#0f172a}
-    .manager-list{display:flex;flex-direction:column;gap:10px}
+    .manager-list{display:flex;flex-direction:column;gap:10px;max-width:720px;width:100%;margin:0 auto}
     #manager-help-list{justify-content:flex-start;padding-top:2px}
-    .manager-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 16px;align-items:start;padding:12px 0;border-bottom:1px dashed #e2e8f0;font-size:13px;line-height:1.55}
+    .manager-item{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 0;border-bottom:1px dashed #e2e8f0;font-size:13px;line-height:1.55;text-align:center}
     .manager-item:last-child{border-bottom:none;padding-bottom:0}
-    .manager-item strong{color:#0f172a}
-    .manager-item-main{min-width:0}
-    .manager-item-title{display:flex;align-items:flex-start;gap:8px;justify-content:space-between;font-size:13px;font-weight:800;color:#0f172a;line-height:1.4}
+    .manager-item strong{color:#0f172a;display:block}
+    .manager-item-main{min-width:0;width:100%;max-width:58ch;text-align:center}
+    .manager-item-title{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;font-size:13px;font-weight:800;color:#0f172a;line-height:1.4;text-align:center}
     .manager-item-title .meta{font-weight:700;color:#334155}
-    .manager-item-copy{font-size:13px;color:#475569;line-height:1.6;margin-top:4px}
-    .manager-item-side{display:flex;align-items:flex-start;justify-content:flex-end}
+    .manager-item-copy{font-size:13px;color:#475569;line-height:1.6;margin:4px auto 0;max-width:58ch;text-align:center}
+    .manager-item-side{display:flex;align-items:center;justify-content:center;width:100%}
     .manager-item-time,.manager-item-hours{display:inline-flex;align-items:center;justify-content:center;min-width:78px;padding:6px 10px;border-radius:999px;border:1px solid #dbe3ed;background:#f8fafc;font-size:12px;font-weight:800;color:#0f172a;white-space:nowrap}
-    .manager-item.support{padding-top:8px}
-    .manager-item.support .manager-item-copy{padding-right:8px}
-    .manager-item.note-item{gap:12px 18px}
+    .manager-item.support{padding-top:10px}
+    .manager-item.support .manager-item-copy{padding-right:0}
+    .manager-item.note-item{gap:10px}
     .manager-item.note-item .manager-item-title{font-size:12.5px}
-.manager-rank-list{display:flex;flex-direction:column;gap:10px}
-    .manager-rank-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px dashed #e2e8f0}
+.manager-rank-list{display:flex;flex-direction:column;gap:10px;max-width:720px;width:100%;margin:0 auto}
+    .manager-rank-item{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 0;border-bottom:1px dashed #e2e8f0;text-align:center}
     .manager-rank-item:last-child{border-bottom:none;padding-bottom:0}
     .manager-rank-badge{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;padding:0 8px;border-radius:999px;border:1px solid #dbe3ed;background:#f8fafc;font-size:12px;font-weight:800;color:#334155}
-    .manager-rank-main{min-width:0}
-    .manager-rank-title{font-size:13px;font-weight:800;color:#0f172a;line-height:1.35}
-    .manager-rank-sub{font-size:11px;color:#64748b;margin-top:2px;line-height:1.4}
+    .manager-rank-main{min-width:0;width:100%;max-width:540px}
+    .manager-rank-title{font-size:13px;font-weight:800;color:#0f172a;line-height:1.35;text-align:center}
+    .manager-rank-sub{font-size:11px;color:#64748b;margin-top:2px;line-height:1.4;text-align:center}
     .manager-rank-value{font-size:13px;font-weight:800;color:#0f172a;white-space:nowrap}
-    .manager-rank-track{margin-top:6px;height:8px;width:min(75%,100%);border-radius:999px;background:#e2e8f0;overflow:hidden}
+    .manager-rank-track{margin:6px auto 0;height:8px;width:min(75%,100%);border-radius:999px;background:#e2e8f0;overflow:hidden}
     .manager-rank-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#2563eb 0%,#60a5fa 100%)}
     .manager-rank-fill.warn{background:linear-gradient(90deg,#f59e0b 0%,#fbbf24 100%)}
-    .manager-layout{display:grid;grid-template-columns:1.2fr .95fr;gap:12px;align-items:start}
+    .manager-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:stretch}
     .manager-note{font-size:13px;color:#475569;line-height:1.5}
-    .manager-empty{font-size:13px;color:#64748b}
-    .manager-hero{display:grid;grid-template-columns:1.35fr 1fr;gap:12px;align-items:stretch}
-    .manager-hero-card{border:1px solid #e2e8f0;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:16px;text-align:center;display:flex;flex-direction:column;justify-content:center}
+    .manager-empty{font-size:13px;color:#64748b;text-align:center;padding:10px 0}
+    .manager-hero{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:stretch}
+    .manager-hero-card{border:1px solid #e2e8f0;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:18px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center}
     .manager-hero-card h2{font-size:24px;line-height:1.1;margin:2px 0 8px 0;color:#0f172a}
     .manager-hero-copy{font-size:14px;color:#334155;line-height:1.55;margin:0;max-width:62ch}
-    .manager-signal-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px;align-items:stretch}
-    .manager-signal-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center;display:flex;flex-direction:column;justify-content:center}
+    .manager-signal-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px;align-items:stretch;width:100%}
+    .manager-signal-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center}
     .manager-signal-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
     .manager-signal-value{font-size:22px;font-weight:800;color:#0f172a}
     .manager-signal-note{font-size:13px;color:#475569;margin-top:4px;line-height:1.45}
@@ -221,18 +221,18 @@
     .manager-posture.watch{background:#fff7ed;color:#9a3412;border-color:#fed7aa}
     .manager-posture.attention{background:#fef2f2;color:#b91c1c;border-color:#fecaca}
     .manager-posture-note{font-size:13px;color:#334155;line-height:1.5;margin-top:10px;max-width:60ch}
-    .manager-band{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:stretch}
-    .manager-band-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center;display:flex;flex-direction:column;justify-content:center}
+    .manager-band{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:stretch}
+    .manager-band-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:16px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center}
     .manager-band-card .manager-label{margin-bottom:4px}
     .manager-band-card .manager-value{font-size:28px}
-    .manager-list-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:16px;display:flex;flex-direction:column;justify-content:flex-start;align-self:start}
+    .manager-list-card{border:1px solid #e2e8f0;border-radius:18px;background:#fff;padding:18px;display:flex;flex-direction:column;justify-content:flex-start;align-self:stretch;text-align:center}
     .manager-list-head{display:flex;justify-content:center;gap:8px;align-items:center;margin-bottom:12px;text-align:center}
     .manager-list-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700}
-    .manager-story-box{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:14px;font-size:14px;color:#334155;line-height:1.6;max-width:92ch;margin:0 auto;text-align:center}
+    .manager-story-box{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:16px;font-size:14px;color:#334155;line-height:1.6;max-width:64ch;width:100%;margin:0 auto;text-align:center}
     .manager-story-box strong{color:#0f172a}
-    .manager-dashboard-grid{display:grid;grid-template-columns:1.25fr .95fr;gap:12px;align-items:stretch}
+    .manager-dashboard-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:stretch}
     .manager-dashboard-grid.bottom{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
-    .manager-chart-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:14px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;text-align:center}
+    .manager-chart-card{border:1px solid #e2e8f0;border-radius:18px;background:#fff;padding:18px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;text-align:center;align-items:center}
     .manager-chart-head{display:flex;justify-content:center;gap:8px;align-items:center;margin-bottom:10px;text-align:center}
     .manager-chart-head h3{font-size:16px;margin:2px 0 0 0}
     .manager-chart-sub{font-size:13px;color:#475569;line-height:1.45;margin-top:3px}
@@ -309,9 +309,8 @@
 
     .manager-label,.manager-list-kicker,.manager-value,.manager-signal-label,.manager-signal-value,.manager-chart-head h3,.manager-list-head h3,.manager-hero-card h2{text-align:center}
     .manager-note,.manager-chart-sub,.manager-kpi-note,.manager-posture-note,.manager-hero-copy,.manager-signal-note{max-width:58ch;margin-left:auto;margin-right:auto;text-align:center}
-    .manager-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;text-align:left}
-    .manager-item > div:last-child,.manager-item > strong:last-child{text-align:right}
-    .manager-bar-row{grid-template-columns:minmax(110px,1fr) minmax(0,2.2fr) auto}
+    .manager-item > span,.manager-item > strong{text-align:center}
+    .manager-bar-row{grid-template-columns:minmax(110px,1fr) minmax(0,2.2fr) auto;max-width:720px;width:100%;margin:0 auto}
     .manager-layout,.manager-hero,.manager-dashboard-grid,.manager-dashboard-grid.bottom,.manager-band{justify-items:stretch}
     .debug-fab{position:fixed;right:16px;bottom:16px;z-index:999;border:1px solid #0f172a;background:#0f172a;color:#fff;border-radius:999px;padding:10px 14px;font-size:12px;font-weight:800;letter-spacing:.04em;box-shadow:0 10px 25px rgba(15,23,42,.18);cursor:pointer}
     .debug-fab:hover{transform:translateY(-1px)}
@@ -619,14 +618,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122-settings-cycle-gentle-3</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122-manager-center-clean-1</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-settings-cycle-gentle-3</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-manager-center-clean-1</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1008,7 +1007,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-settings-cycle-gentle-3</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-center-clean-1</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1066,17 +1065,17 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-settings-cycle-gentle-3</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-center-clean-1</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
-          <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
+          <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
             <span class="pill">Active Cells: <span id="manager-active-cells" style="margin-left:6px">0</span></span>
             <span class="pill">Help Needed: <span id="manager-help-needed" style="margin-left:6px">0</span></span>
             <span class="pill">Visible Log Rows: <span id="manager-visible-log-rows" style="margin-left:6px">0</span></span>
           </div>
 
-          <div class="temp-test-bar">
-            <div class="temp-test-copy"><strong>Test tools</strong>Load sample manager data with hours, downtime, and help queue activity.</div>
+          <div class="temp-test-bar" style="justify-content:center;text-align:center">
+            <div class="temp-test-copy" style="max-width:520px;text-align:center"><strong>Test tools</strong>Load sample manager data with hours, downtime, and help queue activity.</div>
             <div class="temp-test-actions">
               <button class="temp-test-btn" type="button" data-temp-fill="manager">Fill This Tab</button>
               <button class="temp-test-btn reset" type="button" data-temp-reset="true">Reset Test Data</button>
@@ -1250,7 +1249,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-settings-cycle-gentle-3</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-center-clean-1</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero settings-hero--single">
@@ -1317,7 +1316,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.122-settings-cycle-gentle-3";
+    const VERSION = "v1.0.122-manager-center-clean-1";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
