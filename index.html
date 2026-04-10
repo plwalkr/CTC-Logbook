@@ -325,9 +325,9 @@
     .manager-note,.manager-chart-sub,.manager-kpi-note,.manager-posture-note,.manager-hero-copy,.manager-signal-note{max-width:58ch;margin-left:auto;margin-right:auto;text-align:center}
     .manager-item > span,.manager-item > strong{text-align:center}
     .manager-bar-row{grid-template-columns:minmax(110px,1fr) minmax(0,2.2fr) auto;max-width:720px;width:100%;margin:0 auto}
-#manager-downtime-card.span-2 .manager-bars{width:100%;max-width:920px;margin:0 auto;padding:0 4px}
-#manager-downtime-card.span-2 .manager-bar-row{max-width:none;grid-template-columns:150px minmax(0,1fr) 72px;gap:10px;align-items:center}
-#manager-downtime-card.span-2 .manager-bar-label{text-align:left;padding-left:0}
+#manager-downtime-card.span-2 .manager-bars{width:100%;max-width:880px;margin:0 auto;padding:0 2px}
+#manager-downtime-card.span-2 .manager-bar-row{max-width:none;grid-template-columns:104px minmax(0,1fr) 72px;gap:8px;align-items:center}
+#manager-downtime-card.span-2 .manager-bar-label{text-align:right;padding-right:2px}
 #manager-downtime-card.span-2 .manager-bar-track{width:100%}
 #manager-downtime-card.span-2 .manager-bar-value{min-width:72px;text-align:right;padding-right:0}
     .manager-layout,.manager-hero,.manager-dashboard-grid,.manager-dashboard-grid.bottom,.manager-band{justify-items:stretch}
@@ -640,14 +640,14 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122-manager-confidence-strip-5</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122-manager-confidence-strip-6</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-5</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-6</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1029,7 +1029,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-5</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-6</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1087,7 +1087,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-5</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-6</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
@@ -1272,7 +1272,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-5</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-6</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero settings-hero--single">
@@ -1339,7 +1339,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
   </section>
 
   <script>
-    const VERSION = "v1.0.122-manager-confidence-strip-5";
+    const VERSION = "v1.0.122-manager-confidence-strip-6";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
