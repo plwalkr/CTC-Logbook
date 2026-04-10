@@ -226,6 +226,10 @@
     .manager-band-card .manager-label{margin-bottom:4px}
     .manager-band-card .manager-value{font-size:28px}
     .manager-list-card{border:1px solid #e2e8f0;border-radius:18px;background:#fff;padding:18px;display:flex;flex-direction:column;justify-content:flex-start;align-self:stretch;text-align:center}
+    .manager-list-card--top{justify-content:flex-start;align-items:stretch}
+    .manager-list-card--top .manager-list-head{width:100%;margin-bottom:10px}
+    .manager-list-card--top .manager-list{margin:0;max-width:none;justify-content:flex-start;align-content:flex-start}
+    .manager-list-card--top .manager-item{align-items:start}
     .manager-list-head{display:flex;justify-content:center;gap:8px;align-items:center;margin-bottom:12px;text-align:center}
     .manager-list-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700}
     .manager-story-box{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:16px;font-size:14px;color:#334155;line-height:1.6;max-width:64ch;width:100%;margin:0 auto;text-align:center}
@@ -618,14 +622,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122-manager-center-clean-1</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122-manager-center-clean-2</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-manager-center-clean-1</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-manager-center-clean-2</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1007,7 +1011,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-center-clean-1</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-center-clean-2</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1065,7 +1069,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-center-clean-1</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-center-clean-2</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
@@ -1225,7 +1229,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             </div>
           </div>
           <div class="manager-layout">
-<div class="manager-list-card">
+<div class="manager-list-card manager-list-card--top">
               <div class="manager-list-head">
                 <div>
                   <div class="manager-list-kicker">Signal quality</div>
@@ -1249,7 +1253,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-center-clean-1</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-center-clean-2</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero settings-hero--single">
@@ -1316,7 +1320,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.122-manager-center-clean-1";
+    const VERSION = "v1.0.122-manager-center-clean-2";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
