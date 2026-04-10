@@ -619,14 +619,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122-settings-cycle-gentle-2</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122-settings-cycle-gentle-3</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-settings-cycle-gentle-2</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-settings-cycle-gentle-3</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1008,7 +1008,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-settings-cycle-gentle-2</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-settings-cycle-gentle-3</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1066,7 +1066,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-settings-cycle-gentle-2</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-settings-cycle-gentle-3</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1250,7 +1250,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-settings-cycle-gentle-2</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-settings-cycle-gentle-3</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero settings-hero--single">
@@ -1317,7 +1317,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.122-settings-cycle-gentle-2";
+    const VERSION = "v1.0.122-settings-cycle-gentle-3";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -3098,7 +3098,7 @@ function renderForm(){
         <label class="field"><label>Status</label><select id="field-status">${["Open","Monitoring","Resolved","Waiting"].map(opt => `<option value="${opt}" ${formState.status===opt?"selected":""}>${opt}</option>`).join("")}</select></label>
       `;
       formGrid.querySelectorAll("input,select").forEach(el => {
-        el.addEventListener("input", e => {
+        const handleFieldUpdate = e => {
           const id = e.target.id.replace("field-","");
           if (id === "time") {
             formState[id] = formatTimeForInput(e.target.value);
@@ -3109,12 +3109,14 @@ function renderForm(){
             formState.cycle = e.target.value;
             if (e.target.value !== "Custom" && String(formState.cycleManual || "").trim()) {
               formState.cycleManual = "";
-              renderForm();
             }
+            renderForm();
             return;
           }
           formState[id] = e.target.value;
-        });
+        };
+        el.addEventListener("input", handleFieldUpdate);
+        if (el.tagName === "SELECT") el.addEventListener("change", handleFieldUpdate);
       });
       autoLogSelect.innerHTML = autoLogEventTemplates.map(t => `<option value="${escapeHtml(t.label)}">${t.label}</option>`).join("");
     }
