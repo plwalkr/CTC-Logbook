@@ -246,6 +246,7 @@
     .manager-dashboard-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:stretch}
     .manager-dashboard-grid.bottom{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
     .manager-chart-card{border:1px solid #e2e8f0;border-radius:18px;background:#fff;padding:18px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;text-align:center;align-items:center}
+.manager-chart-card.span-2{grid-column:1 / -1}
     .manager-chart-head{display:flex;justify-content:center;gap:8px;align-items:center;margin-bottom:10px;text-align:center}
     .manager-chart-head h3{font-size:16px;margin:2px 0 0 0}
     .manager-chart-sub{font-size:13px;color:#475569;line-height:1.45;margin-top:3px}
@@ -641,7 +642,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-1</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-2</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1023,7 +1024,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-1</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-2</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1081,7 +1082,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-1</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-2</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
@@ -1219,7 +1220,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
             </div>
           </div>
           <div class="manager-dashboard-grid bottom">
-            <div class="manager-chart-card">
+            <div id="manager-downtime-card" class="manager-chart-card">
               <div class="manager-chart-head">
                 <div>
                   <div class="manager-list-kicker">Downtime</div>
@@ -1266,7 +1267,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-1</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-2</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero settings-hero--single">
@@ -1333,7 +1334,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
   </section>
 
   <script>
-    const VERSION = "v1.0.122-manager-confidence-strip-1";
+    const VERSION = "v1.0.122-manager-confidence-strip-2";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -2500,6 +2501,7 @@ function renderManagerTab(){
   const downtimeBars = document.getElementById("manager-downtime-bars");
   const statusBars = document.getElementById("manager-status-bars");
   const statusChartCard = statusBars ? statusBars.closest('.manager-chart-card') : null;
+  const downtimeChartCard = document.getElementById("manager-downtime-card");
   renderManagerTrendSvg(kpiSvg, dashboard.trend);
   if (kpiNote) {
     if (dashboard.trend.length) {
@@ -2513,6 +2515,7 @@ function renderManagerTab(){
   renderManagerBarList(downtimeBars, dashboard.downtimeTop, { valueFormatter: value => `${value.toFixed(1)} hrs`, emptyText: 'No downtime hours are carrying into the dashboard yet.' });
   const hasStatusPattern = dashboard.statusMix.some(item => Number(item.value || 0) > 1);
   if (statusChartCard) statusChartCard.style.display = hasStatusPattern ? '' : 'none';
+  if (downtimeChartCard) downtimeChartCard.classList.toggle('span-2', !hasStatusPattern);
   if (hasStatusPattern) {
     renderManagerBarList(statusBars, dashboard.statusMix, {
       valueFormatter: value => `${value}`,
