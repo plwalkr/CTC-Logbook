@@ -2135,6 +2135,10 @@ function shiftHoursInputDay(offsetDays){
 // 1. Aggregate saved hours/trade records and weekend-board signals.
 // 2. Derive review-friendly totals, posture signals, top issues, and notes.
 // 3. Feed the manager tab and CTC Pulse with leadership-facing summaries.
+// Why this exists: leadership asked for one place that can summarize what is
+// happening without forcing them to open each source tab separately. This is
+// the consolidation layer that turns hours, downtime, notes, and weekend flags
+// into one manager-facing operational picture.
 function aggregateManagerData(){
   const visibleLogRows = typeof getVisibleLogRowCount === "function" ? getVisibleLogRowCount() : (Array.isArray(entries) ? entries.length : 0);
   const savedShiftRecords = typeof getHoursTradeRecords === "function" ? getHoursTradeRecords() : [];
@@ -2275,6 +2279,9 @@ function aggregateManagerData(){
 // Shape chart/list data for the manager page. This stays separate from the
 // raw aggregation function so the UI can change without rewriting the base
 // operational rollups.
+// Why this exists: the manager page is presentation-heavy. Keeping this step
+// separate makes it safer to rearrange cards, charts, and rankings later
+// without disturbing the underlying operational math.
 function computeManagerDashboardData(){
   const records = typeof getHoursTradeRecords === "function" ? getHoursTradeRecords() : [];
   const byDate = new Map();
@@ -2384,6 +2391,9 @@ function renderManagerTrendSvg(target, trend){
 
 // Convert manager summary data into a simple posture signal that reads well
 // during a quick review or presentation.
+// Why this exists: managers usually need the first answer fast — are we quiet,
+// steady, watching something, or in attention mode? This creates that quick
+// posture read before someone dives into the detailed cards.
 function computeManagerPulseState(summary){
   const downtimeShareValue = summary.totalLogged > 0 ? (summary.totalDowntime / summary.totalLogged) * 100 : 0;
   let postureClass = "quiet";
@@ -2432,6 +2442,10 @@ function computeManagerPulseState(summary){
 }
 
 // Render the full manager/coaches page from aggregated data.
+// Why this exists: this page is intended to be read-only review intelligence,
+// not a primary data-entry surface. It is built to support quick leadership
+// conversations around attention items, trends, repeated issues, and where to
+// look next.
 function renderManagerTab(){
   const summary = aggregateManagerData();
   const pulseState = computeManagerPulseState(summary);
@@ -3916,6 +3930,9 @@ function renderHours(){
     }
 
     // Save a manual/operator-created logbook entry from the current form state.
+    // Why this exists: operator notes capture the human side of the record —
+    // context, judgment, and observations that would otherwise be lost if the
+    // system only stored structured machine-style events.
     function addOperatorEntry(){
       const cleanedHtml = sanitizeHtml(noteEditor.innerHTML).trim();
       const plainText = plainTextFromHtml(cleanedHtml);
@@ -3942,6 +3959,9 @@ function renderHours(){
 
     // Save a structured "system" event to keep auto-style updates readable
     // alongside operator notes in the shared logbook history.
+    // Why this exists: the shared history needs both operator judgment and
+    // repeatable system-style milestones so later reviewers can understand what
+    // happened, in order, without guessing which updates were manual vs. templated.
     function addSystemEvent(){
       const selected = autoLogSelect.value;
       const template = autoLogEventTemplates.find(t => t.label === selected);
@@ -4024,6 +4044,9 @@ function renderHours(){
 
     // Central tab switcher. Keeps one active view at a time and triggers the
     // tab-specific render/update behavior needed for that page.
+    // Why this exists: this is the main routing hinge for the single-file app,
+    // so each tab can stay self-contained while still sharing one source file,
+    // one state model, and one debug/reporting flow.
     function switchTab(tabName){
       currentTab = tabName;
       document.body.dataset.activeTab = tabName;
