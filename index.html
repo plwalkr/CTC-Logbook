@@ -1346,6 +1346,11 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
   </section>
 
   <script>
+    // CTC Unified Logbook
+    // Single-file prototype used to capture operator/system logbook entries,
+    // daily weekend status, billable-hours style logging, trade views, and a
+    // manager-facing review page. The UI is mostly render-driven: state updates
+    // happen first, then the affected tab or section is re-rendered.
     const VERSION = "v1.0.122-manager-confidence-strip-7";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
@@ -1358,6 +1363,8 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
       if (typeof structuredClone === "function") return structuredClone(value);
       return JSON.parse(JSON.stringify(value));
     }
+    // Presentation options are intentionally lightweight so the Settings tab
+    // can stay simple while still allowing a more accessible color treatment.
     const DISPLAY_MODE_STORAGE_KEY = "ctcDisplayMode";
     const DISPLAY_MODES = [
       { key: "standard", label: "Standard Display", copy: "Current default presentation style." },
@@ -1389,6 +1396,10 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
       return `${year}-${month}-${day}`;
     }
 
+    // Logbook and hours-state foundations.
+    // bannerFields = session/header information shown at the top of the app.
+    // hoursSheet / hoursRows = billable-hours style capture for a single work block.
+    // formState = current unsaved logbook-entry form values.
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
     const bannerConfig = [
       ["Engine Model","engineModel"],["Engine S/N","engineSN"],["Engineer","engineer"],["PPH","pph"],["Test Cell","testCell"],["Test Plan ID","testPlanId"],["Technician","technician"],["Shift","shift"],["Date","date"],["Start Time","startTime"],["End Time","endTime"],["Cell Hour Meter","cellHourMeter"]
@@ -1806,6 +1817,9 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     function lowQualityDowntimeComment(comment){
       return repeatedSingleCharacterComment(comment) || suspiciousStretchedComment(comment);
     }
+    // Downtime comments are validated more strictly because this information
+    // is later reused for review, accountability, trend visibility, and manager
+    // summaries. "Other" requires an even stronger note than standard downtime.
     function validDowntimeComment(rowOrComment, maybeDetail){
       if (typeof rowOrComment === "object" && rowOrComment !== null) {
         const comment = String(rowOrComment.comment || "").trim();
@@ -1876,6 +1890,9 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       return base;
     }
 
+    // This summary powers both the Hours tab review cues and parts of the
+    // CTC Pulse output. It is the main "are we ready / what is missing" check
+    // for the current shift-hours capture.
 function getHoursValidationSummary(){
       const expected = parseFloat(hoursSheet.expectedHours) || 0;
       const total = totalHoursValue();
@@ -1913,6 +1930,10 @@ function getHoursValidationSummary(){
     }
 
 
+
+// Weekend daily update helpers.
+// These functions keep the weekend board date-aware and ensure each date has
+// its own saved row set so managers can review daily status independently.
 function getWeekendBoardKey(){
   return normalizeDateValue(weekendDateInput?.value || "") || getTodayISO();
 }
@@ -1931,6 +1952,7 @@ function getWeekendRowsForCurrentDate(){
 function weekendStatusClass(status){
   return String(status || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
 }
+// Render the weekend board and wire inline edits back into saved storage.
 function renderWeekendDailyUpdate(){
   if (!weekendRowsBody) return;
   syncWeekendDateInput();
@@ -2108,6 +2130,11 @@ function shiftHoursInputDay(offsetDays){
 }
 
 
+
+// Manager dashboard flow:
+// 1. Aggregate saved hours/trade records and weekend-board signals.
+// 2. Derive review-friendly totals, posture signals, top issues, and notes.
+// 3. Feed the manager tab and CTC Pulse with leadership-facing summaries.
 function aggregateManagerData(){
   const visibleLogRows = typeof getVisibleLogRowCount === "function" ? getVisibleLogRowCount() : (Array.isArray(entries) ? entries.length : 0);
   const savedShiftRecords = typeof getHoursTradeRecords === "function" ? getHoursTradeRecords() : [];
@@ -2244,6 +2271,10 @@ function aggregateManagerData(){
   };
 }
 
+
+// Shape chart/list data for the manager page. This stays separate from the
+// raw aggregation function so the UI can change without rewriting the base
+// operational rollups.
 function computeManagerDashboardData(){
   const records = typeof getHoursTradeRecords === "function" ? getHoursTradeRecords() : [];
   const byDate = new Map();
@@ -2294,6 +2325,7 @@ function computeManagerDashboardData(){
   return { trend, productivity, downtimeTop, statusMix };
 }
 
+// Shared manager-chart renderer for horizontal bar rows.
 function renderManagerBarList(target, items, options = {}){
   if (!target) return;
   if (!items || !items.length) {
@@ -2331,6 +2363,7 @@ function renderManagerRankedList(target, items, options = {}){
   }).join('')}</div>`;
 }
 
+// Build the manager operations trend SVG directly in the single-file app.
 function renderManagerTrendSvg(target, trend){
   if (!target) return;
   if (!trend || !trend.length) {
@@ -2349,6 +2382,8 @@ function renderManagerTrendSvg(target, trend){
   target.innerHTML = `${grid}<path d="${buildPath('productiveShare')}" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="${buildPath('downtimeShare')}" fill="none" stroke="#ea580c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>${productiveDots}${downtimeDots}${labels}`;
 }
 
+// Convert manager summary data into a simple posture signal that reads well
+// during a quick review or presentation.
 function computeManagerPulseState(summary){
   const downtimeShareValue = summary.totalLogged > 0 ? (summary.totalDowntime / summary.totalLogged) * 100 : 0;
   let postureClass = "quiet";
@@ -2396,6 +2431,7 @@ function computeManagerPulseState(summary){
   };
 }
 
+// Render the full manager/coaches page from aggregated data.
 function renderManagerTab(){
   const summary = aggregateManagerData();
   const pulseState = computeManagerPulseState(summary);
@@ -3108,6 +3144,8 @@ function renderHeaderFields(){
   syncHoursDayControls();
 }
 
+// Render the logbook entry form. This is re-run after certain field changes
+// so dependent inputs (for example cycle type + custom cycle text) stay clean.
 function renderForm(){
       const selectedCycle = getCycleOptionSelection(formState.cycle);
       const manualCycleValue = getManualCycleValue();
@@ -3465,6 +3503,8 @@ function renderTradeCoverageView(){
   }
 }
 
+// Render the hours capture experience, including inline validation and review
+// cues used for billable-hours style tracking.
 function renderHours(){
       const coverage = syncAutoTechHoursFromSchedule();
       const workPattern = getWorkPatternConfig();
@@ -3663,6 +3703,7 @@ function renderHours(){
       hoursRows.forEach(row => updateHoursRowDom(row));
     }
 
+    // Compact summary cards used at the top of the Hours tab.
     function renderHoursSummary(){
       const summary = getHoursValidationSummary();
       const workPattern = getWorkPatternConfig();
@@ -3747,6 +3788,7 @@ function renderHours(){
       `).join("") : `<div class="section-card"><div class="small">No handoff snapshot saved yet.</div></div>`;
     }
 
+    // Render saved logbook entries and their detail drawers.
     function renderEntries(){
       populateCategoryFilter();
       const q = searchInput.value.trim().toLowerCase();
@@ -3873,6 +3915,7 @@ function renderHours(){
       noteEditor.innerHTML = "";
     }
 
+    // Save a manual/operator-created logbook entry from the current form state.
     function addOperatorEntry(){
       const cleanedHtml = sanitizeHtml(noteEditor.innerHTML).trim();
       const plainText = plainTextFromHtml(cleanedHtml);
@@ -3897,6 +3940,8 @@ function renderHours(){
       renderEntries();
     }
 
+    // Save a structured "system" event to keep auto-style updates readable
+    // alongside operator notes in the shared logbook history.
     function addSystemEvent(){
       const selected = autoLogSelect.value;
       const template = autoLogEventTemplates.find(t => t.label === selected);
@@ -3977,6 +4022,8 @@ function renderHours(){
       renderHandoffs();
     }
 
+    // Central tab switcher. Keeps one active view at a time and triggers the
+    // tab-specific render/update behavior needed for that page.
     function switchTab(tabName){
       currentTab = tabName;
       document.body.dataset.activeTab = tabName;
