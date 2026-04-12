@@ -425,6 +425,19 @@ body[data-theme="clarity"] .trade-table tbody tr:hover td{background:#eaf2ff !im
 .hours-day-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800;cursor:pointer}
 .hours-day-input{padding:8px 10px;border:1px solid #dbe3ed;border-radius:10px;background:#fff;color:var(--text)}
 .hours-day-note{font-size:13px;color:#334155;line-height:1.45}
+.hours-control-strip{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
+.hours-control-card{height:100%}
+.hours-control-card--wide{grid-column:1 / -1}
+.hours-tech-summary{margin:2px 0 4px 0}
+.hours-tech-summary .hours-summary-card{background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);min-height:116px;display:flex;flex-direction:column;justify-content:center}
+.hours-worksheet-card{padding:14px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);border-radius:16px;box-shadow:0 10px 24px rgba(15,23,42,.05)}
+.hours-worksheet-card .hours-entry-toolbar{gap:10px}
+.hours-worksheet-card .toolbar-note{max-width:72ch}
+.hours-worksheet-card .hours-table-wrap{margin-top:12px;border-radius:16px;box-shadow:inset 0 0 0 1px #e2e8f0}
+.hours-worksheet-card .hours-table th{top:0}
+.hours-support-grid{display:grid;grid-template-columns:1.3fr .9fr;gap:12px;margin-top:2px}
+.hours-review-card,.hours-note-card{background:#fff}
+.hours-note-card textarea{min-height:120px}
 .tech-shift-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
 .tech-shift-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800;cursor:pointer}
 .tech-shift-btn.active{border-color:#0f172a;box-shadow:0 0 0 3px rgba(15,23,42,.14);background:#0f172a;color:#fff}
@@ -592,7 +605,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
       .span-8,.span-6{grid-column:span 4}
       .actions-row{grid-template-columns:1fr 1fr}
       .hours-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-      .hours-mode-grid{grid-template-columns:1fr}
+      .hours-control-strip{grid-template-columns:1fr}
       .hours-tech-summary{grid-template-columns:1fr}
       .debug-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .trade-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -612,7 +625,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
       .span-8,.span-6,.span-4,.span-2{grid-column:span 2}
       .actions-row{grid-template-columns:1fr}
       .hours-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .hours-mode-grid{grid-template-columns:1fr}
+      .hours-control-strip{grid-template-columns:1fr}
       .hours-tech-summary{grid-template-columns:1fr}
       .debug-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .trade-strip{grid-template-columns:1fr}
@@ -647,14 +660,14 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122-manager-confidence-strip-7</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122-hours-explore-2</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-7</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-hours-explore-2</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -893,7 +906,8 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
         </div>
       </div>
 
-      <div class="section-card">
+      <div class="hours-control-strip">
+      <div class="section-card hours-control-card">
         <div class="section-title">Hours Basis</div>
         <div class="hours-mode-grid">
           <div class="hours-mode-card">
@@ -915,7 +929,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
         <div class="hours-reference-note" id="hours-mode-note">Cell Hours owns tech logging. Trade view stays separate on purpose.</div>
       </div>
 
-      <div class="section-card" id="hours-day-controls-card">
+      <div class="section-card hours-control-card" id="hours-day-controls-card">
         <div class="section-title">Input Day</div>
         <div class="hours-day-bar">
           <button class="hours-day-btn" type="button" id="hours-day-today">Today</button>
@@ -933,27 +947,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
         <div class="hours-day-note" id="hours-tech-shift-note">Pick the day and shift. Target hours update automatically.</div>
       </div>
 
-      <div class="section-card">
-        <div class="section-title" id="hours-filters-title">Hours Filters</div>
-        <div class="hours-filter-row">
-          <input id="hours-filter-search" class="search" placeholder="Search detail, comment, status, day, month, cell..." />
-          <select id="hours-filter-status">
-            <option value="">All Hour Types</option>
-            <option value="Running">Running</option>
-            <option value="Downtime">Downtime</option>
-          </select>
-          <div class="date-field">
-            <label for="hours-filter-date-from">From</label>
-            <input id="hours-filter-date-from" type="date" />
-          </div>
-          <div class="date-field">
-            <label for="hours-filter-date-to">To</label>
-            <input id="hours-filter-date-to" type="date" />
-          </div>
-          <button id="clear-hours-filters" class="filter-clear-btn" type="button">Clear Hours Filters</button>
-        </div>
       </div>
-
 
       <div class="hours-tech-summary" id="hours-tech-summary">
         <div class="hours-summary-card">
@@ -974,7 +968,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
       </div>
 
       <div id="hours-tech-section" class="hours-view-section">
-        <div class="section-card">
+        <div class="section-card hours-worksheet-card">
           <div class="hours-entry-toolbar">
             <div class="toolbar-note"><strong>Rule:</strong> Running rows do not need comments. Downtime needs 15+ characters. Other needs 20+.</div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
@@ -1000,8 +994,8 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
           </div>
         </div>
 
-        <div class="hours-review-grid">
-          <div class="hours-sidebox">
+        <div class="hours-review-grid hours-support-grid">
+          <div class="hours-sidebox hours-review-card">
             <div class="section-title">Review Summary</div>
             <div class="hours-breakdown">
               <div class="hours-breakdown-card">
@@ -1015,7 +1009,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
             </div>
             <div class="hours-issues-list" id="hours-issues-list"></div>
           </div>
-          <div class="hours-sidebox">
+          <div class="hours-sidebox hours-note-card">
             <div class="section-title">Reference Note</div>
             <textarea id="hours-shift-note" placeholder="Optional note for trade review, coach handoff, or unusual coverage context."></textarea>
             <div class="small" id="hours-trade-reference-copy" style="margin-top:8px">Trade review stays separate from tech logging.</div>
@@ -1036,7 +1030,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-7</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-hours-explore-2</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1094,7 +1088,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-7</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-hours-explore-2</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
@@ -1279,7 +1273,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-confidence-strip-7</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-hours-explore-2</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero settings-hero--single">
@@ -1351,7 +1345,7 @@ body[data-theme="clarity"] .manager-confidence-help{background:#f7faff;border-co
     // daily weekend status, billable-hours style logging, trade views, and a
     // manager-facing review page. The UI is mostly render-driven: state updates
     // happen first, then the affected tab or section is re-rendered.
-    const VERSION = "v1.0.122-manager-confidence-strip-7";
+    const VERSION = "v1.0.122-hours-explore-2";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -4109,15 +4103,15 @@ function renderHours(){
       saveCurrentHoursSheet();
       syncCtcPulseSnapshot();
     });
-    hoursFilterSearch.addEventListener("input", renderHoursSummary);
-    hoursFilterStatus.addEventListener("input", renderHoursSummary);
-    hoursFilterDateFrom.addEventListener("input", renderHoursSummary);
-    hoursFilterDateTo.addEventListener("input", renderHoursSummary);
-    clearHoursFiltersBtn.addEventListener("click", () => {
-      hoursFilterSearch.value = "";
-      hoursFilterStatus.value = "";
-      hoursFilterDateFrom.value = "";
-      hoursFilterDateTo.value = "";
+    if (hoursFilterSearch) hoursFilterSearch.addEventListener("input", renderHoursSummary);
+    if (hoursFilterStatus) hoursFilterStatus.addEventListener("input", renderHoursSummary);
+    if (hoursFilterDateFrom) hoursFilterDateFrom.addEventListener("input", renderHoursSummary);
+    if (hoursFilterDateTo) hoursFilterDateTo.addEventListener("input", renderHoursSummary);
+    if (clearHoursFiltersBtn) clearHoursFiltersBtn.addEventListener("click", () => {
+      if (hoursFilterSearch) hoursFilterSearch.value = "";
+      if (hoursFilterStatus) hoursFilterStatus.value = "";
+      if (hoursFilterDateFrom) hoursFilterDateFrom.value = "";
+      if (hoursFilterDateTo) hoursFilterDateTo.value = "";
       renderHoursSummary();
     });
     searchInput.addEventListener("input", renderEntries);
