@@ -154,7 +154,6 @@
     .compact-release-label{display:inline-block;text-align:right}
     body[data-active-tab="weekend"] .compact-release-bar,
     body[data-active-tab="manager"] .compact-release-bar,
-    body[data-active-tab="engineer"] .compact-release-bar,
     body[data-active-tab="settings"] .compact-release-bar{display:flex}
     .settings-grid{display:grid;grid-template-columns:1.35fr .9fr;gap:12px}
     .display-mode-bar{display:flex;gap:8px;flex-wrap:wrap;padding:8px;border:1px solid var(--line);border-radius:14px;background:var(--soft)}
@@ -486,12 +485,11 @@ body[data-theme="clarity"] .trade-session-chunk{border-top-color:#9aa7bd}
 body[data-theme="clarity"] .debug-fab{background:#163b69;border-color:#163b69}
 body[data-theme="clarity"] .trade-cell-card,
 body[data-theme="clarity"] .trade-empty-card{background:#f7faff;border-color:#9aa7bd}
-body[data-theme="clarity"] body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff;color:#10233d}
+body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff;color:#10233d}
 body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     body[data-active-tab="weekend"] #main-session-header,
     body[data-active-tab="manager"] #main-session-header,
-    body[data-active-tab="engineer"] #main-session-header,
     body[data-active-tab="settings"] #main-session-header{display:none !important}
 
 
@@ -608,138 +606,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       .date-filter-row .date-field{width:100%;justify-content:space-between}
       table{font-size:11px}
     }
-  
-.hours-rerun-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:8px}
-.hours-rerun-fields[hidden]{display:none !important}
-.hours-rerun-field{display:flex;flex-direction:column;gap:4px}
-.hours-rerun-field label{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:700}
-.hours-rerun-field select{width:100%;padding:7px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
-.hours-rerun-note{margin-top:6px;font-size:11px;color:#64748b;line-height:1.4}
-
-
-.engineer-mode-shell{display:flex;flex-direction:column;gap:12px}
-.engineer-toolbar{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
-.engineer-toolbar-left{display:flex;flex-direction:column;gap:6px}
-.engineer-toolbar-right{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.engineer-mode-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:14px}
-.engineer-filter-row{display:grid;grid-template-columns:minmax(180px,.8fr) minmax(220px,1.2fr) auto;gap:8px;align-items:end}
-.engineer-filter-row .field{gap:4px}
-.engineer-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-.engineer-summary-card{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:12px;min-height:98px}
-.engineer-summary-card .summary-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
-.engineer-summary-card .summary-value{font-size:24px;font-weight:800;color:#0f172a}
-.engineer-summary-card .summary-note{font-size:12px;color:#475569;line-height:1.45;margin-top:4px}
-.engineer-logbook-list{display:flex;flex-direction:column;gap:10px}
-.engineer-logbook-item{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
-.engineer-logbook-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:8px}
-.engineer-logbook-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
-.engineer-logbook-note{font-size:13px;color:#334155;line-height:1.55}
-.engineer-logbook-note strong{color:#0f172a}
-.engineer-empty{font-size:13px;color:#64748b}
-
-
-.engineer-access-bar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 14px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);margin-bottom:10px}
-.engineer-access-copy{display:flex;flex-direction:column;gap:4px}
-.engineer-access-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.engineer-tab-btn{border-color:#0f172a;background:#f8fafc}
-.engineer-cta-btn{border-color:#0f172a;background:#0f172a;color:#fff}
-.engineer-mode-shell{display:flex;flex-direction:column;gap:12px}
-.engineer-toolbar{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
-.engineer-toolbar-left{display:flex;flex-direction:column;gap:6px}
-.engineer-toolbar-right{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.engineer-mode-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:14px}
-.engineer-filter-row{display:grid;grid-template-columns:minmax(180px,.8fr) minmax(220px,1.2fr) auto;gap:8px;align-items:end}
-.engineer-filter-row .field{gap:4px}
-.engineer-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-.engineer-summary-card{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:12px;min-height:98px}
-.engineer-summary-card .summary-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
-.engineer-summary-card .summary-value{font-size:24px;font-weight:800;color:#0f172a}
-.engineer-summary-card .summary-note{font-size:12px;color:#475569;line-height:1.45;margin-top:4px}
-.engineer-logbook-list{display:flex;flex-direction:column;gap:10px}
-.engineer-logbook-item{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
-.engineer-logbook-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:8px}
-.engineer-logbook-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
-.engineer-logbook-note{font-size:13px;color:#334155;line-height:1.55}
-.engineer-logbook-note strong{color:#0f172a}
-.engineer-empty{font-size:13px;color:#64748b}
-body[data-theme="clarity"] .engineer-access-bar{background:#f7faff;border-color:#9aa7bd}
-body[data-theme="clarity"] .engineer-tab-btn{border-color:#163b69;background:#eef4ff;color:#10233d}
-body[data-theme="clarity"] .engineer-cta-btn{border-color:#163b69;background:#163b69;color:#fff}
-body[data-active-tab="engineer"] .compact-release-bar{display:flex}
-body[data-active-tab="engineer"] #main-session-header{display:none !important}
-
-
-.engineer-mode-bar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 14px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);margin-bottom:10px}
-.engineer-mode-copy{display:flex;flex-direction:column;gap:4px}
-.engineer-mode-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.engineer-mode-pill{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;font-weight:800;color:#334155}
-.engineer-filter-inline{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.engineer-filter-inline label{font-size:11px;font-weight:800;color:#475569;text-transform:uppercase;letter-spacing:.1em}
-.engineer-filter-inline select,.engineer-filter-inline input{padding:8px 10px;border:1px solid #dbe3ed;border-radius:10px;background:#fff;color:var(--text)}
-.engineer-mode-indicator{display:none;align-items:center;gap:6px;padding:7px 10px;border:1px solid #bfdbfe;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:800}
-body[data-engineer-mode="on"] .engineer-mode-indicator{display:inline-flex}
-body[data-engineer-mode="on"] .action-stack,
-body[data-engineer-mode="on"] .hours-row-actions,
-body[data-engineer-mode="on"] .temp-test-bar,
-body[data-engineer-mode="on"] button[data-hours-duplicate],
-body[data-engineer-mode="on"] button[data-hours-delete],
-body[data-engineer-mode="on"] .followup button,
-body[data-engineer-mode="on"] .primary,
-body[data-engineer-mode="on"] .secondary[data-edit-only]{display:none !important}
-body[data-engineer-mode="on"] .hours-inline-input,
-body[data-engineer-mode="on"] .hours-inline-select,
-body[data-engineer-mode="on"] .header-cell input,
-body[data-engineer-mode="on"] .header-cell select,
-body[data-engineer-mode="on"] .field input,
-body[data-engineer-mode="on"] .field select,
-body[data-engineer-mode="on"] .followup-textarea,
-body[data-engineer-mode="on"] textarea{pointer-events:none;background:#f8fafc !important;color:#334155 !important}
-body[data-engineer-mode="on"] .panel-head,
-body[data-engineer-mode="on"] .section-card,
-body[data-engineer-mode="on"] .trade-sheet-card,
-body[data-engineer-mode="on"] .hours-summary-card{box-shadow:0 0 0 1px rgba(15,23,42,.03)}
-body[data-engineer-mode="on"] #tab-logbook tbody tr[hidden]{display:none !important}
-body[data-theme="clarity"] .engineer-mode-bar{background:#f7faff;border-color:#9aa7bd}
-
-
-.engineer-review-panel{display:none;flex-direction:column;gap:12px}
-body[data-engineer-mode="on"] .engineer-review-panel{display:flex}
-.engineer-review-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:12px;align-items:start}
-.engineer-review-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:14px}
-.engineer-review-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px}
-.engineer-review-head h3{font-size:16px;margin:0}
-.engineer-review-sub{font-size:12px;color:#475569;line-height:1.45;margin-top:4px}
-.engineer-review-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-.engineer-review-stat{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:12px;min-height:94px}
-.engineer-review-stat .label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
-.engineer-review-stat .value{font-size:24px;font-weight:800;color:#0f172a}
-.engineer-review-stat .note{font-size:12px;color:#475569;line-height:1.45;margin-top:4px}
-.engineer-review-list{display:flex;flex-direction:column;gap:10px}
-.engineer-review-item{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
-.engineer-review-item-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-.engineer-review-item-title{font-size:13px;font-weight:800;color:#0f172a;line-height:1.4}
-.engineer-review-item-copy{font-size:13px;color:#334155;line-height:1.55;margin-top:6px}
-.engineer-review-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.engineer-review-empty{font-size:13px;color:#64748b}
-.engineer-review-rank{display:flex;flex-direction:column;gap:10px}
-.engineer-review-rank-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px dashed #e2e8f0}
-.engineer-review-rank-row:last-child{border-bottom:none;padding-bottom:0}
-.engineer-review-rank-badge{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;padding:0 8px;border-radius:999px;border:1px solid #dbe3ed;background:#f8fafc;font-size:12px;font-weight:800;color:#334155}
-.engineer-review-rank-main{min-width:0}
-.engineer-review-rank-title{font-size:13px;font-weight:800;color:#0f172a}
-.engineer-review-rank-sub{font-size:11px;color:#64748b;margin-top:2px}
-.engineer-review-rank-value{font-size:13px;font-weight:800;color:#0f172a;white-space:nowrap}
-.engineer-review-track{margin-top:6px;height:8px;width:min(75%,100%);border-radius:999px;background:#e2e8f0;overflow:hidden}
-.engineer-review-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#2563eb 0%,#60a5fa 100%)}
-body[data-theme="clarity"] .engineer-review-card,
-body[data-theme="clarity"] .engineer-review-stat,
-body[data-theme="clarity"] .engineer-review-item{background:#f7faff;border-color:#9aa7bd}
-@media (max-width: 1200px){
-  .engineer-review-grid{grid-template-columns:minmax(0,1fr)}
-  .engineer-review-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-
-</style>
+  </style>
 </head>
 <body data-theme="standard">
   <div class="app">
@@ -751,115 +618,17 @@ body[data-theme="clarity"] .engineer-review-item{background:#f7faff;border-color
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.127-engineer-cell-review-mode</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122-title-update-cleanbase</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.127-engineer-cell-review-mode</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-title-update-cleanbase</span></div>
     </div>
 
-    
-    <div class="engineer-mode-bar">
-  <div class="engineer-mode-copy">
-    <div class="eyebrow">Engineer info mode</div>
-    <div class="small"><strong>Read-only inline mode</strong> keeps the normal layout and turns the app into a cleaner, non-editable review view.</div>
-  </div>
-  <div class="engineer-mode-actions">
-    <span class="engineer-mode-indicator">Engineer info mode active</span>
-    <button class="tab-btn" type="button" id="engineer-mode-toggle">Enable Engineer Info Mode</button>
-    <div class="engineer-filter-inline">
-      <label for="engineer-cell-inline">Cell</label>
-      <select id="engineer-cell-inline"><option value="">All cells</option></select>
-      <label for="engineer-search-inline">Search</label>
-      <input id="engineer-search-inline" placeholder="Search notes / status / event" />
-      <button class="secondary" type="button" id="engineer-inline-clear">Clear</button>
-    </div>
-  </div>
-</div>
-
-<div id="engineer-review-panel" class="engineer-review-panel">
-  <section class="engineer-review-card">
-    <div class="engineer-review-head">
-      <div>
-        <div class="eyebrow">Engineer info mode</div>
-        <h3>Cell Review</h3>
-        <div class="engineer-review-sub">Read-only cell-focused review using existing logbook and weekend context.</div>
-      </div>
-      <span class="engineer-mode-pill" id="engineer-selected-cell-pill">All cells</span>
-    </div>
-    <div class="engineer-review-summary">
-      <div class="engineer-review-stat">
-        <div class="label">Log rows</div>
-        <div class="value" id="engineer-stat-rows">0</div>
-        <div class="note">Visible entries for the selected cell.</div>
-      </div>
-      <div class="engineer-review-stat">
-        <div class="label">Open items</div>
-        <div class="value" id="engineer-stat-open">0</div>
-        <div class="note">Rows still marked open or waiting.</div>
-      </div>
-      <div class="engineer-review-stat">
-        <div class="label">Weekend support</div>
-        <div class="value" id="engineer-stat-help">0</div>
-        <div class="note">Help-needed rows tied to the selected cell.</div>
-      </div>
-      <div class="engineer-review-stat">
-        <div class="label">Rerun mentions</div>
-        <div class="value" id="engineer-stat-rerun">0</div>
-        <div class="note">Recent rerun-related mentions in notes or events.</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="engineer-review-grid">
-    <section class="engineer-review-card">
-      <div class="engineer-review-head">
-        <div>
-          <div class="eyebrow">Recent activity</div>
-          <h3>Logbook Review</h3>
-        </div>
-      </div>
-      <div class="engineer-review-list" id="engineer-review-logbook-list"></div>
-    </section>
-
-    <section class="engineer-review-card">
-      <div class="engineer-review-head">
-        <div>
-          <div class="eyebrow">Current support picture</div>
-          <h3>Weekend + Review Signals</h3>
-        </div>
-      </div>
-      <div class="engineer-review-list" id="engineer-review-signal-list"></div>
-    </section>
-  </div>
-
-  <div class="engineer-review-grid">
-    <section class="engineer-review-card">
-      <div class="engineer-review-head">
-        <div>
-          <div class="eyebrow">Most recent categories</div>
-          <h3>Category Mix</h3>
-        </div>
-      </div>
-      <div class="engineer-review-rank" id="engineer-review-category-rank"></div>
-    </section>
-
-    <section class="engineer-review-card">
-      <div class="engineer-review-head">
-        <div>
-          <div class="eyebrow">Status / review mix</div>
-          <h3>Status / Review Mix</h3>
-        </div>
-      </div>
-      <div class="engineer-review-rank" id="engineer-review-status-rank"></div>
-    </section>
-  </div>
-</div>
-
-<div class="view-tabs"  aria-label="Main views">
+    <div class="view-tabs" aria-label="Main views">
       <button class="tab-btn active" type="button" data-tab-target="logbook">
         Logbook
         <span class="tab-sub">Running sheet + new entries</span>
@@ -1238,7 +1007,7 @@ body[data-theme="clarity"] .engineer-review-item{background:#f7faff;border-color
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.127-engineer-cell-review-mode</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-title-update-cleanbase</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1296,7 +1065,7 @@ body[data-theme="clarity"] .engineer-review-item{background:#f7faff;border-color
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.127-engineer-cell-review-mode</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-title-update-cleanbase</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1480,7 +1249,7 @@ body[data-theme="clarity"] .engineer-review-item{background:#f7faff;border-color
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.127-engineer-cell-review-mode</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-title-update-cleanbase</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1607,7 +1376,7 @@ body[data-theme="clarity"] .engineer-review-item{background:#f7faff;border-color
   </section>
 
   <script>
-    const VERSION = "v1.0.127-engineer-cell-review-mode";
+    const VERSION = "v1.0.122-title-update-cleanbase";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -1660,9 +1429,6 @@ body[data-theme="clarity"] .engineer-review-item{background:#f7faff;border-color
     const downtimeHourDetails = [
       "No Operator","No Work","Facility Down","Air Handlers","Emissions Cart","Dyno","Cyflex","PM System","AVL PM (415, 439, 483, 489)","Calterm / Cuty","Other (please note)","Install","Cell Calibration"
     ];
-    const rerunHourDetails = [
-      "Operator ReRun","System ReRun","Carryover ReRun","Other ReRun (please note)"
-    ];
 
     let bannerFields = {engineModel:"Titanium",engineSN:"80728265",engineer:"A. McCalment",pph:"E6640",testCell:"204",testPlanId:"TIHD2A-EN-B2P10",technician:"Joey Poppe",shift:"6W",date:getTodayISO(),startTime:"07:00 AM",endTime:"07:00 PM",cellHourMeter:"094"};
     bannerFields.date = normalizeDateValue(bannerFields.date) || getTodayISO();
@@ -1672,10 +1438,7 @@ body[data-theme="clarity"] .engineer-review-item{background:#f7faff;border-color
       status:"Running",
       detail:"Running Per Plan",
       comment:"",
-      hours:"",
-      rerunBy:"",
-      rerunCarryOver:"",
-      rerunSystemCaused:""
+      hours:""
     }));
 
     let formState = {time:"",run:"",cycle:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"};
@@ -2031,14 +1794,8 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     }
     function isDowntimeStatus(status){return status === "Downtime"}
     function isOtherDowntimeDetail(detail){return String(detail || "").trim() === "Other (please note)"}
-    function isRerunStatus(status){return String(status || "").trim() === "Rerun"}
-    function requiresRerunFields(row){return isRerunStatus(row.status)}
-    function rerunFieldsComplete(row){return !requiresRerunFields(row) || true}
-    function requiredCommentLength(row){
-      if (isRerunStatus(row.status)) return String(row.detail || "").trim() === "Other ReRun (please note)" ? 20 : 15;
-      return isOtherDowntimeDetail(row.detail) ? 20 : 15;
-    }
-    function requiresDowntimeComment(row){return isDowntimeStatus(row.status) || isRerunStatus(row.status)}
+    function requiredCommentLength(row){return isOtherDowntimeDetail(row.detail) ? 20 : 15}
+    function requiresDowntimeComment(row){return isDowntimeStatus(row.status)}
     function repeatedSingleCharacterComment(comment){
       const normalized = String(comment || "").trim().replace(/\s+/g, "");
       if (!normalized) return false;
@@ -2084,7 +1841,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
         return {level:"blocked", text:`${isOtherDowntimeDetail(row.detail) ? "Other downtime" : "Downtime"} requires at least ${min} characters before hours unlock.`, short:`Need ${min}+ chars`};
       }
       if (hoursMissing) return {level:"warn", text:"Enter hours for this line.", short:"Hours missing"};
-      return {level:"ok", text: isRerunStatus(row.status) ? "Rerun details captured." : needsComment ? "Downtime justification captured." : "Running line looks good.", short:"Ready"};
+      return {level:"ok", text: needsComment ? "Downtime justification captured." : "Running line looks good.", short:"Ready"};
     }
 
     
@@ -2093,10 +1850,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
         String(row.hours || "").trim() ||
         String(row.comment || "").trim() ||
         String(row.status || "").trim() !== "Running" ||
-        String(row.detail || "").trim() !== "Running Per Plan" ||
-        String(row.rerunBy || "").trim() ||
-        String(row.rerunCarryOver || "").trim() ||
-        String(row.rerunSystemCaused || "").trim()
+        String(row.detail || "").trim() !== "Running Per Plan"
       );
     }
 
@@ -2144,7 +1898,6 @@ function getHoursValidationSummary(){
       const warningRows = validations.filter(item => item.validation.level === "warn");
       const invalidDowntimeRows = blockedRows.filter(item => requiresDowntimeComment(item.row));
       const missingDetailRows = blockedRows.filter(item => !String(item.row.detail || "").trim());
-      const missingRerunRows = [];
       const missingHoursRows = warningRows.filter(item => !String(item.row.hours || "").trim());
       const totalMismatch = Math.abs(remaining) >= 0.001;
       const overTarget = remaining < -0.001;
@@ -2158,14 +1911,10 @@ function getHoursValidationSummary(){
       const ready = issues.length === 0 && total > 0 && !totalMismatch;
       const readyState = ready ? "Ready" : blockedRows.length ? "Blocked" : totalMismatch ? (overTarget ? "Over target" : "Warning") : "Warning";
       const downtime = hoursRows.reduce((sum,row) => sum + (row.status === "Downtime" ? (parseFloat(row.hours) || 0) : 0), 0);
-      return {expected,total,remaining,downtime,validations,blockedRows,warningRows,invalidDowntimeRows,missingDetailRows,missingRerunRows,missingHoursRows,issues,ready,readyState,totalMismatch,overTarget,underTarget};
+      return {expected,total,remaining,downtime,validations,blockedRows,warningRows,invalidDowntimeRows,missingDetailRows,missingHoursRows,issues,ready,readyState,totalMismatch,overTarget,underTarget};
     }
-    function detailOptionsForStatus(status){
-      if (status === "Downtime") return downtimeHourDetails;
-      if (status === "Rerun") return rerunHourDetails;
-      return runningHourDetails;
-    }
-    function makeHoursRow(){return {id:Date.now() + Math.floor(Math.random()*1000),status:"Running",detail:"Running Per Plan",comment:"",hours:"",rerunBy:"",rerunCarryOver:"",rerunSystemCaused:""}}
+    function detailOptionsForStatus(status){return status === "Downtime" ? downtimeHourDetails : runningHourDetails}
+    function makeHoursRow(){return {id:Date.now() + Math.floor(Math.random()*1000),status:"Running",detail:"Running Per Plan",comment:"",hours:""}}
     function totalHoursValue(){return hoursRows.reduce((sum,row) => sum + (parseFloat(row.hours) || 0), 0)}
     function totalHours(){return totalHoursValue().toFixed(1)}
     function breakdownForStatus(status){
@@ -3762,12 +3511,11 @@ function renderHours(){
         const validation = displayRowValidationState(row);
         const rowInvalid = validation.level === "blocked";
         return `
-          <tr class="${row.status === "Downtime" || row.status === "Rerun" ? "hours-row-downtime" : "hours-row-running"} ${rowInvalid ? "hours-row-invalid" : ""}">
+          <tr class="${row.status === "Downtime" ? "hours-row-downtime" : "hours-row-running"} ${rowInvalid ? "hours-row-invalid" : ""}">
             <td>
               <select class="hours-inline-select" data-hours-status="${row.id}">
                 <option value="Running" ${row.status === "Running" ? "selected" : ""}>Running</option>
                 <option value="Downtime" ${row.status === "Downtime" ? "selected" : ""}>Downtime</option>
-                <option value="Rerun" ${row.status === "Rerun" ? "selected" : ""}>Rerun</option>
               </select>
             </td>
             <td>
@@ -3776,37 +3524,8 @@ function renderHours(){
               </select>
             </td>
             <td>
-              <input class="hours-inline-input" data-hours-comment="${row.id}" value="${escapeHtml(row.comment || "")}" placeholder="${row.status === "Rerun" ? "Explain rerun / context / WWID-ready note..." : needsComment ? "Explain downtime / issue / hold reason..." : "Optional running note"}" />
-              <div class="hours-rerun-fields" ${row.status === "Rerun" ? "" : "hidden"}>
-                <div class="hours-rerun-field">
-                  <label>Who started</label>
-                  <select data-hours-rerun-by="${row.id}">
-                    <option value="" ${!row.rerunBy ? "selected" : ""}>Select</option>
-                    <option value="Operator" ${row.rerunBy === "Operator" ? "selected" : ""}>Operator</option>
-                    <option value="Engineer" ${row.rerunBy === "Engineer" ? "selected" : ""}>Engineer</option>
-                    <option value="System" ${row.rerunBy === "System" ? "selected" : ""}>System</option>
-                    <option value="Other" ${row.rerunBy === "Other" ? "selected" : ""}>Other</option>
-                  </select>
-                </div>
-                <div class="hours-rerun-field">
-                  <label>Carry over</label>
-                  <select data-hours-rerun-carry="${row.id}">
-                    <option value="" ${!row.rerunCarryOver ? "selected" : ""}>Select</option>
-                    <option value="Yes" ${row.rerunCarryOver === "Yes" ? "selected" : ""}>Yes</option>
-                    <option value="No" ${row.rerunCarryOver === "No" ? "selected" : ""}>No</option>
-                  </select>
-                </div>
-                <div class="hours-rerun-field">
-                  <label>System caused</label>
-                  <select data-hours-rerun-system="${row.id}">
-                    <option value="" ${!row.rerunSystemCaused ? "selected" : ""}>Select</option>
-                    <option value="Yes" ${row.rerunSystemCaused === "Yes" ? "selected" : ""}>Yes</option>
-                    <option value="No" ${row.rerunSystemCaused === "No" ? "selected" : ""}>No</option>
-                  </select>
-                </div>
-              </div>
-              ${row.status === "Rerun" ? '<div class="hours-rerun-note">Use this for a clean rerun trail without blame. Owner / carryover / system-caused stay visible for review, but only detail and note are required to proceed.</div>' : ""}
-              <div data-hours-warning class="${validation.level === "ok" ? "hours-ok" : validation.level === "warn" ? "hours-caution" : needsComment || row.status === "Rerun" ? "hours-warning" : "small"}">${validation.text}</div>
+              <input class="hours-inline-input" data-hours-comment="${row.id}" value="${escapeHtml(row.comment || "")}" placeholder="${needsComment ? "Explain downtime / issue / hold reason..." : "Optional running note"}" />
+              <div data-hours-warning class="${validation.level === "ok" ? "hours-ok" : validation.level === "warn" ? "hours-caution" : needsComment ? "hours-warning" : "small"}">${validation.text}</div>
             </td>
             <td>
               <input class="hours-inline-input" data-hours-value="${row.id}" value="${escapeHtml(row.hours || "")}" placeholder="0.0" inputmode="decimal" ${commentValid ? "" : "disabled"} />
@@ -3831,13 +3550,8 @@ function renderHours(){
           row.status = e.target.value;
           const opts = detailOptionsForStatus(row.status);
           if (!opts.includes(row.detail)) row.detail = opts[0] || "";
-          if (row.status !== "Rerun") {
-            row.rerunBy = "";
-            row.rerunCarryOver = "";
-            row.rerunSystemCaused = "";
-          }
           if (String(row.hours || "").trim() && (priorStatus !== row.status || priorDetail !== row.detail)) row.hours = "";
-          if ((requiresDowntimeComment(row) && !validDowntimeComment(row))) row.hours = "";
+          if (requiresDowntimeComment(row) && !validDowntimeComment(row)) row.hours = "";
           saveCurrentHoursSheet();
           renderHours();
         });
@@ -3849,7 +3563,7 @@ function renderHours(){
           const priorDetail = row.detail;
           row.detail = e.target.value;
           if (String(row.hours || "").trim() && priorDetail !== row.detail) row.hours = "";
-          if ((requiresDowntimeComment(row) && !validDowntimeComment(row))) row.hours = "";
+          if (requiresDowntimeComment(row) && !validDowntimeComment(row)) row.hours = "";
           saveCurrentHoursSheet();
           renderHours();
         });
@@ -3859,7 +3573,7 @@ function renderHours(){
           const row = hoursRows.find(item => item.id === Number(e.target.dataset.hoursComment));
           if (!row) return;
           row.comment = e.target.value;
-          if ((requiresDowntimeComment(row) && !validDowntimeComment(row))) row.hours = "";
+          if (requiresDowntimeComment(row) && !validDowntimeComment(row)) row.hours = "";
           refreshHoursRowStates();
           saveCurrentHoursSheet();
           renderHoursSummary();
