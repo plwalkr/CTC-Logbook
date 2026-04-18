@@ -668,6 +668,39 @@ body[data-theme="clarity"] .engineer-cta-btn{border-color:#163b69;background:#16
 body[data-active-tab="engineer"] .compact-release-bar{display:flex}
 body[data-active-tab="engineer"] #main-session-header{display:none !important}
 
+
+.engineer-mode-bar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 14px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);margin-bottom:10px}
+.engineer-mode-copy{display:flex;flex-direction:column;gap:4px}
+.engineer-mode-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.engineer-mode-pill{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;font-weight:800;color:#334155}
+.engineer-filter-inline{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.engineer-filter-inline label{font-size:11px;font-weight:800;color:#475569;text-transform:uppercase;letter-spacing:.1em}
+.engineer-filter-inline select,.engineer-filter-inline input{padding:8px 10px;border:1px solid #dbe3ed;border-radius:10px;background:#fff;color:var(--text)}
+.engineer-mode-indicator{display:none;align-items:center;gap:6px;padding:7px 10px;border:1px solid #bfdbfe;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:800}
+body[data-engineer-mode="on"] .engineer-mode-indicator{display:inline-flex}
+body[data-engineer-mode="on"] .action-stack,
+body[data-engineer-mode="on"] .hours-row-actions,
+body[data-engineer-mode="on"] .temp-test-bar,
+body[data-engineer-mode="on"] button[data-hours-duplicate],
+body[data-engineer-mode="on"] button[data-hours-delete],
+body[data-engineer-mode="on"] .followup button,
+body[data-engineer-mode="on"] .primary,
+body[data-engineer-mode="on"] .secondary[data-edit-only]{display:none !important}
+body[data-engineer-mode="on"] .hours-inline-input,
+body[data-engineer-mode="on"] .hours-inline-select,
+body[data-engineer-mode="on"] .header-cell input,
+body[data-engineer-mode="on"] .header-cell select,
+body[data-engineer-mode="on"] .field input,
+body[data-engineer-mode="on"] .field select,
+body[data-engineer-mode="on"] .followup-textarea,
+body[data-engineer-mode="on"] textarea{pointer-events:none;background:#f8fafc !important;color:#334155 !important}
+body[data-engineer-mode="on"] .panel-head,
+body[data-engineer-mode="on"] .section-card,
+body[data-engineer-mode="on"] .trade-sheet-card,
+body[data-engineer-mode="on"] .hours-summary-card{box-shadow:0 0 0 1px rgba(15,23,42,.03)}
+body[data-engineer-mode="on"] #tab-logbook tbody tr[hidden]{display:none !important}
+body[data-theme="clarity"] .engineer-mode-bar{background:#f7faff;border-color:#9aa7bd}
+
 </style>
 </head>
 <body data-theme="standard">
@@ -680,28 +713,36 @@ body[data-active-tab="engineer"] #main-session-header{display:none !important}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.125b-engineer-view-actual-ui</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.126-engineer-info-mode-inline</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.125b-engineer-view-actual-ui</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.126-engineer-info-mode-inline</span></div>
     </div>
 
-    <div class="engineer-access-bar">
-      <div class="engineer-access-copy">
-        <div class="eyebrow">Quick access</div>
-        <div class="small"><strong>Engineer Read-Only View</strong> is searchable by cell and note text, with no edit controls.</div>
-      </div>
-      <div class="engineer-access-actions">
-        <button class="tab-btn engineer-cta-btn" type="button" data-tab-target="engineer">Open Engineer View</button>
-        <button class="tab-btn" type="button" data-tab-target="logbook">Back to Standard View</button>
-      </div>
+    
+    <div class="engineer-mode-bar">
+  <div class="engineer-mode-copy">
+    <div class="eyebrow">Engineer info mode</div>
+    <div class="small"><strong>Read-only inline mode</strong> keeps the normal layout and turns the app into a cleaner, non-editable review view.</div>
+  </div>
+  <div class="engineer-mode-actions">
+    <span class="engineer-mode-indicator">Engineer info mode active</span>
+    <button class="tab-btn" type="button" id="engineer-mode-toggle">Enable Engineer Info Mode</button>
+    <div class="engineer-filter-inline">
+      <label for="engineer-cell-inline">Cell</label>
+      <select id="engineer-cell-inline"><option value="">All cells</option></select>
+      <label for="engineer-search-inline">Search</label>
+      <input id="engineer-search-inline" placeholder="Search notes / status / event" />
+      <button class="secondary" type="button" id="engineer-inline-clear">Clear</button>
     </div>
+  </div>
+</div>
 
-    <div class="view-tabs" aria-label="Main views">
+<div class="view-tabs" aria-label="Main views">
       <button class="tab-btn active" type="button" data-tab-target="logbook">
         Logbook
         <span class="tab-sub">Running sheet + new entries</span>
@@ -1080,7 +1121,7 @@ body[data-active-tab="engineer"] #main-session-header{display:none !important}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.125b-engineer-view-actual-ui</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.126-engineer-info-mode-inline</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1138,7 +1179,7 @@ body[data-active-tab="engineer"] #main-session-header{display:none !important}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.125b-engineer-view-actual-ui</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.126-engineer-info-mode-inline</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1321,78 +1362,8 @@ body[data-active-tab="engineer"] #main-session-header{display:none !important}
       </section>
     </div>
 
-
-    <div id="tab-engineer" class="tab-view" hidden>
-      <div class="compact-release-bar" aria-hidden="true">
-        <div class="compact-release-label">Version <span class="release-version-label">v1.0.125b-engineer-view-actual-ui</span></div>
-      </div>
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <div class="eyebrow">Engineer Read-Only View</div>
-            <h2>Searchable Cell Review</h2>
-            <div class="small">This mode is view-only. Review by test cell, search notes and status text, and scan activity without edit controls.</div>
-          </div>
-        </div>
-        <div class="section-body engineer-mode-shell">
-          <div class="engineer-mode-card">
-            <div class="engineer-toolbar">
-              <div class="engineer-toolbar-left">
-                <div class="section-title">Review filters</div>
-                <div class="small">Use cell search and keyword filtering to review logbook activity without entry controls.</div>
-              </div>
-              <div class="engineer-toolbar-right">
-                <span class="settings-status">Read only</span>
-              </div>
-            </div>
-            <div class="engineer-filter-row">
-              <div class="field">
-                <label for="engineer-cell-filter">Test Cell</label>
-                <select id="engineer-cell-filter">
-                  <option value="">All cells</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="engineer-search">Search notes / status</label>
-                <input id="engineer-search" class="search" placeholder="Search note text, status, event, or category" />
-              </div>
-              <button class="secondary" id="engineer-clear" type="button">Clear filters</button>
-            </div>
-          </div>
-
-          <div class="engineer-summary-grid">
-            <div class="engineer-summary-card">
-              <div class="summary-label">Visible rows</div>
-              <div class="summary-value" id="engineer-visible-rows">0</div>
-              <div class="summary-note">Filtered logbook rows in view.</div>
-            </div>
-            <div class="engineer-summary-card">
-              <div class="summary-label">Cells in view</div>
-              <div class="summary-value" id="engineer-visible-cells">0</div>
-              <div class="summary-note">Unique test cells represented after filtering.</div>
-            </div>
-            <div class="engineer-summary-card">
-              <div class="summary-label">Open items</div>
-              <div class="summary-value" id="engineer-open-items">0</div>
-              <div class="summary-note">Rows still marked open or waiting.</div>
-            </div>
-            <div class="engineer-summary-card">
-              <div class="summary-label">Resolved items</div>
-              <div class="summary-value" id="engineer-resolved-items">0</div>
-              <div class="summary-note">Rows already marked resolved.</div>
-            </div>
-          </div>
-
-          <div class="engineer-mode-card">
-            <div class="section-title">Filtered logbook review</div>
-            <div class="engineer-logbook-list" id="engineer-logbook-list"></div>
-          </div>
-        </div>
-      </section>
-    </div>
-
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.125b-engineer-view-actual-ui</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.126-engineer-info-mode-inline</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1519,7 +1490,7 @@ body[data-active-tab="engineer"] #main-session-header{display:none !important}
   </section>
 
   <script>
-    const VERSION = "v1.0.125b-engineer-view-actual-ui";
+    const VERSION = "v1.0.126-engineer-info-mode-inline";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
