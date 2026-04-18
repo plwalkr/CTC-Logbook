@@ -154,6 +154,7 @@
     .compact-release-label{display:inline-block;text-align:right}
     body[data-active-tab="weekend"] .compact-release-bar,
     body[data-active-tab="manager"] .compact-release-bar,
+    body[data-active-tab="engineer"] .compact-release-bar,
     body[data-active-tab="settings"] .compact-release-bar{display:flex}
     .settings-grid{display:grid;grid-template-columns:1.35fr .9fr;gap:12px}
     .display-mode-bar{display:flex;gap:8px;flex-wrap:wrap;padding:8px;border:1px solid var(--line);border-radius:14px;background:var(--soft)}
@@ -289,6 +290,15 @@
     .engineer-list-meta{font-size:12px;color:#64748b;line-height:1.4}
     .engineer-list-copy{font-size:13px;color:#334155;line-height:1.55;margin-top:6px}
     .engineer-empty{border:1px dashed var(--line);border-radius:14px;background:var(--soft);padding:18px 16px;font-size:13px;color:#475569}
+    .engineer-detail-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+    .engineer-detail-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
+    .engineer-detail-card strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:6px}
+    .engineer-detail-card span{font-size:13px;color:#0f172a;line-height:1.45}
+    .engineer-rows-stack{display:flex;flex-direction:column;gap:8px}
+    .engineer-row-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
+    .engineer-row-meta{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+    .engineer-row-line{font-size:13px;color:#334155;line-height:1.55;margin-top:6px}
+
     .settings-compact-head{display:flex;justify-content:flex-end;gap:10px;align-items:flex-start;flex-wrap:wrap}
     .settings-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
     .settings-hero-card{border:1px solid #e2e8f0;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:14px}
@@ -322,7 +332,9 @@
     body[data-theme="clarity"] .engineer-summary-card,
     body[data-theme="clarity"] .engineer-cell-card,
     body[data-theme="clarity"] .engineer-block,
-    body[data-theme="clarity"] .engineer-list-item{background:#f7faff;border-color:#9aa7bd}
+    body[data-theme="clarity"] .engineer-list-item,
+    body[data-theme="clarity"] .engineer-detail-card,
+    body[data-theme="clarity"] .engineer-row-card{background:#f7faff;border-color:#9aa7bd}
     body[data-theme="clarity"] .manager-mode-bar{background:#eef3fa;border-color:#9aa7bd}
     body[data-theme="clarity"] .manager-mode-btn,
     body[data-theme="clarity"] .engineer-filter-row select,
@@ -537,6 +549,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     body[data-active-tab="weekend"] #main-session-header,
     body[data-active-tab="manager"] #main-session-header,
+    body[data-active-tab="engineer"] #main-session-header,
     body[data-active-tab="settings"] #main-session-header{display:none !important}
 
 
@@ -648,6 +661,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       .manager-signal-row{grid-template-columns:1fr}
       .engineer-summary-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
       .engineer-cell-grid{grid-template-columns:1fr}
+      .engineer-detail-grid{grid-template-columns:1fr}
       .settings-hero{grid-template-columns:1fr}
       .settings-quickref{grid-template-columns:1fr}
       .filters-row .search{max-width:none}
@@ -670,14 +684,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.123-engineer-info-mode-inline</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.124-engineer-view-tab</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.123-engineer-info-mode-inline</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.124-engineer-view-tab</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -688,6 +702,10 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       <button class="tab-btn" type="button" data-tab-target="hours">
         Cell Hours
         <span class="tab-sub">Separate live daily tally</span>
+      </button>
+      <button class="tab-btn" type="button" data-tab-target="engineer">
+        Engineer Review
+        <span class="tab-sub">Cell-focused read-only detail</span>
       </button>
       <button class="tab-btn" type="button" data-tab-target="weekend">
         Weekend Days Daily Update
@@ -1058,8 +1076,61 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 </div>
 
 
+    <div id="tab-engineer" class="tab-view" hidden>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.124-engineer-view-tab</span></span></div>
+      <section class="panel">
+        <div class="section-body">
+          <div class="temp-test-bar">
+            <div class="temp-test-copy"><strong>Test tools</strong>Load sample review data, then reset when you are done checking the engineer view.</div>
+            <div class="temp-test-actions">
+              <button class="temp-test-btn" type="button" data-temp-fill="engineer">Fill This Tab</button>
+              <button class="temp-test-btn reset" type="button" data-temp-reset="true">Reset Test Data</button>
+            </div>
+          </div>
+
+          <div class="engineer-shell">
+            <div class="engineer-toolbar">
+              <div>
+                <h2>Engineer Review Mode</h2>
+                <div class="manager-note">Read-only cell review that mixes trade-style grouping with manager-level signal. All specifics stay visible here without exposing write controls.</div>
+              </div>
+              <div class="engineer-filter-row">
+                <select id="engineer-cell-filter">
+                  <option value="">All cells</option>
+                </select>
+                <input id="engineer-search-input" type="search" placeholder="Search cell, note, event, status, detail, WWID, tech, engineer..." />
+              </div>
+            </div>
+            <div class="engineer-summary-strip">
+              <div class="engineer-summary-card">
+                <div class="engineer-summary-label">Visible Cells</div>
+                <div class="engineer-summary-value" id="engineer-visible-cells">0</div>
+                <div class="engineer-summary-note" id="engineer-visible-cells-note">Cells with matching review data.</div>
+              </div>
+              <div class="engineer-summary-card">
+                <div class="engineer-summary-label">Saved Shift Chunks</div>
+                <div class="engineer-summary-value" id="engineer-visible-shifts">0</div>
+                <div class="engineer-summary-note" id="engineer-visible-shifts-note">Hours chunks in the current filter.</div>
+              </div>
+              <div class="engineer-summary-card">
+                <div class="engineer-summary-label">Matching Log Rows</div>
+                <div class="engineer-summary-value" id="engineer-visible-logs">0</div>
+                <div class="engineer-summary-note" id="engineer-visible-logs-note">Running sheet rows tied to the current filter.</div>
+              </div>
+              <div class="engineer-summary-card">
+                <div class="engineer-summary-label">Downtime Hours</div>
+                <div class="engineer-summary-value" id="engineer-visible-downtime">0.0</div>
+                <div class="engineer-summary-note" id="engineer-visible-downtime-note">Downtime hours inside the visible saved chunks.</div>
+              </div>
+            </div>
+            <div class="engineer-collection" id="engineer-collection"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.123-engineer-info-mode-inline</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.124-engineer-view-tab</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1117,7 +1188,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.123-engineer-info-mode-inline</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.124-engineer-view-tab</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1134,19 +1205,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             </div>
           </div>
 
-          <div class="manager-mode-shell">
-            <div class="manager-mode-bar" id="manager-mode-bar">
-              <button class="manager-mode-btn active" type="button" data-manager-view-mode="manager" aria-pressed="true">
-                <strong>Manager / Coaches</strong>
-                <span>Leadership readout with posture, comparisons, and trend cards.</span>
-              </button>
-              <button class="manager-mode-btn" type="button" data-manager-view-mode="engineer" aria-pressed="false">
-                <strong>Engineer Info Mode</strong>
-                <span>Read-only cell review that blends trade grouping with manager-level signal.</span>
-              </button>
-            </div>
-            <div class="manager-note" id="manager-mode-note">Engineer mode stays read-only, searchable, and grouped by test cell.</div>
-          </div>
+          <div class="manager-note">Read-only leadership view with posture, comparisons, and trend cards.</div>
 
           <div id="manager-summary-view" class="manager-view-panel">
           <div class="manager-hero">
@@ -1312,51 +1371,11 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             </div>
           </div>
         </div>
-
-        <div id="engineer-summary-view" class="manager-view-panel" hidden>
-          <div class="engineer-shell">
-            <div class="engineer-toolbar">
-              <div>
-                <h2>Engineer Info Mode</h2>
-                <div class="manager-note">Read-only review by test cell. This mode pulls from the running sheet, saved hours chunks, and the current weekend board without exposing write actions.</div>
-              </div>
-              <div class="engineer-filter-row">
-                <select id="engineer-cell-filter">
-                  <option value="">All active cells</option>
-                </select>
-                <input id="engineer-search-input" type="search" placeholder="Search note, event, status, detail, WWID..." />
-              </div>
-            </div>
-            <div class="engineer-summary-strip">
-              <div class="engineer-summary-card">
-                <div class="engineer-summary-label">Visible Cells</div>
-                <div class="engineer-summary-value" id="engineer-visible-cells">0</div>
-                <div class="engineer-summary-note" id="engineer-visible-cells-note">Cells with matching review data.</div>
-              </div>
-              <div class="engineer-summary-card">
-                <div class="engineer-summary-label">Saved Shift Chunks</div>
-                <div class="engineer-summary-value" id="engineer-visible-shifts">0</div>
-                <div class="engineer-summary-note" id="engineer-visible-shifts-note">Hours chunks in the current filter.</div>
-              </div>
-              <div class="engineer-summary-card">
-                <div class="engineer-summary-label">Matching Log Rows</div>
-                <div class="engineer-summary-value" id="engineer-visible-logs">0</div>
-                <div class="engineer-summary-note" id="engineer-visible-logs-note">Running sheet rows tied to the current filter.</div>
-              </div>
-              <div class="engineer-summary-card">
-                <div class="engineer-summary-label">Downtime Hours</div>
-                <div class="engineer-summary-value" id="engineer-visible-downtime">0.0</div>
-                <div class="engineer-summary-note" id="engineer-visible-downtime-note">Downtime hours inside the visible saved chunks.</div>
-              </div>
-            </div>
-            <div class="engineer-collection" id="engineer-collection"></div>
-          </div>
-        </div>
       </section>
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.123-engineer-info-mode-inline</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.124-engineer-view-tab</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1483,7 +1502,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.123-engineer-info-mode-inline";
+    const VERSION = "v1.0.124-engineer-view-tab";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -1786,6 +1805,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     const tabViews = {
       logbook: document.getElementById("tab-logbook"),
       hours: document.getElementById("tab-hours"),
+      engineer: document.getElementById("tab-engineer"),
       weekend: document.getElementById("tab-weekend"),
       manager: document.getElementById("tab-manager"),
       settings: document.getElementById("tab-settings")
@@ -2441,6 +2461,10 @@ function engineerTextSnippet(value, max = 160){
   return text.length > max ? `${text.slice(0, max - 1)}…` : text;
 }
 
+function engineerDetailCard(label, value){
+  return `<div class="engineer-detail-card"><strong>${escapeHtml(label)}</strong><span>${escapeHtml(value || "—")}</span></div>`;
+}
+
 function formatEngineerSessionStamp(record){
   const parts = [];
   if (record.session?.valid) {
@@ -2484,11 +2508,9 @@ function getEngineerReviewRecords(){
 }
 
 function getEngineerCellOptions(records, weekendRows, logEntries){
-  const cells = new Set();
+  const cells = new Set(TEST_CELL_OPTIONS.map(String));
   (records || []).forEach(record => { if (record.banner?.testCell) cells.add(String(record.banner.testCell)); });
-  (weekendRows || []).forEach(row => {
-    if (row && row.testCell && (String(row.tcStatus || "").trim() || String(row.comments || "").trim() || row.helpNeeded === "Yes")) cells.add(String(row.testCell));
-  });
+  (weekendRows || []).forEach(row => { if (row && row.testCell) cells.add(String(row.testCell)); });
   (logEntries || []).forEach(entry => { if (entry.headerSnapshot?.testCell) cells.add(String(entry.headerSnapshot.testCell)); });
   return Array.from(cells).sort((a, b) => Number(a) - Number(b));
 }
@@ -2588,7 +2610,7 @@ function renderEngineerInfoMode(){
 
   if (engineerCellFilter) {
     const current = engineerInfoFilters.cell || "";
-    engineerCellFilter.innerHTML = `<option value="">All active cells</option>` + data.cellOptions.map(cell => `<option value="${escapeHtml(cell)}">Cell ${escapeHtml(cell)}</option>`).join('');
+    engineerCellFilter.innerHTML = `<option value="">All cells</option>` + data.cellOptions.map(cell => `<option value="${escapeHtml(cell)}">Cell ${escapeHtml(cell)}</option>`).join('');
     engineerCellFilter.value = data.cellOptions.includes(current) ? current : "";
     engineerInfoFilters.cell = engineerCellFilter.value;
   }
@@ -2615,16 +2637,42 @@ function renderEngineerInfoMode(){
     const weekendHelp = card.weekend?.helpNeeded === 'Yes' ? 'Help needed' : 'No help request';
     const weekendComment = card.weekend && String(card.weekend.comments || '').trim() ? engineerTextSnippet(card.weekend.comments, 180) : 'No weekend board comment is carrying this cell right now.';
     const downtimeLead = card.downtimeTop.length ? card.downtimeTop.map(([label, value]) => `${label} · ${value.toFixed(1)}h`).join(' | ') : 'No downtime detail is leading.';
+    const latestShift = card.shifts[0] || null;
+    const banner = latestShift?.banner || {};
+    const hoursRowsBlock = card.shifts.length ? `<div class="engineer-rows-stack">${card.shifts.map(record => {
+      const rowCards = record.rows.length ? record.rows.map(row => {
+        const detailLine = [row.status || '—', row.detail || '—', row.hours ? `${row.hours}h` : '0.0h'].filter(Boolean).join(' · ');
+        return `<div class="engineer-row-card"><div class="engineer-row-meta"><div class="engineer-list-title">${escapeHtml(detailLine)}</div><div class="engineer-list-meta">${escapeHtml(formatEngineerSessionStamp(record))}</div></div><div class="engineer-row-line">${escapeHtml(row.comment || 'No comment entered.')}</div></div>`;
+      }).join('') : `<div class="engineer-empty">No saved billable rows live in this shift chunk.</div>`;
+      return `<div class="engineer-list-item"><div class="engineer-list-top"><div class="engineer-list-title">${escapeHtml(formatEngineerSessionStamp(record))}</div><div class="engineer-list-meta">${escapeHtml(record.coverage?.window || 'Saved shift chunk')}</div></div><div class="engineer-list-copy">Logged ${record.totalLogged.toFixed(1)}h · Downtime ${record.downtimeHours.toFixed(1)}h</div><div class="engineer-rows-stack" style="margin-top:8px">${rowCards}</div></div>`;
+    }).join('')}</div>` : `<div class="engineer-empty">No saved hours chunks matched this cell and filter.</div>`;
     const logBlock = card.logs.length ? `<div class="engineer-list">${card.logs.map(entry => {
       const stamp = [displayDate(entry.headerSnapshot?.date || ''), entry.time, entry.eventType, entry.category].filter(Boolean).join(' · ');
       const meta = [entry.cycle && entry.cycle !== '—' ? entry.cycle : '', entry.run && entry.run !== '—' ? `Run ${entry.run}` : '', entry.status].filter(Boolean).join(' · ');
-      return `<div class="engineer-list-item"><div class="engineer-list-top"><div class="engineer-list-title">${escapeHtml(stamp || 'Log entry')}</div><div class="engineer-list-meta">${escapeHtml(meta || 'Read-only log row')}</div></div><div class="engineer-list-copy">${escapeHtml(engineerTextSnippet(entry.noteText || plainTextFromHtml(entry.noteHtml || ''), 220))}</div></div>`;
+      const entryDetailGrid = `<div class="engineer-detail-grid" style="margin-top:8px">${[
+        engineerDetailCard('Cycle', entry.cycle || '—'),
+        engineerDetailCard('Run', entry.run || '—'),
+        engineerDetailCard('Review State', entry.reviewState || '—'),
+        engineerDetailCard('Torque Map', entry.torqueMap || '—'),
+        engineerDetailCard('PanT', entry.PanT || '—'),
+        engineerDetailCard('Filter', entry.filter || '—')
+      ].join('')}</div>`;
+      return `<div class="engineer-list-item"><div class="engineer-list-top"><div class="engineer-list-title">${escapeHtml(stamp || 'Log entry')}</div><div class="engineer-list-meta">${escapeHtml(meta || 'Read-only log row')}</div></div><div class="engineer-list-copy">${escapeHtml(engineerTextSnippet(entry.noteText || plainTextFromHtml(entry.noteHtml || ''), 260))}</div>${entryDetailGrid}</div>`;
     }).join('')}</div>` : `<div class="engineer-empty">No running sheet rows matched this cell and filter.</div>`;
-    const shiftsBlock = card.shifts.length ? `<div class="engineer-list">${card.shifts.map(record => {
-      const runningHours = Math.max(0, record.totalLogged - record.downtimeHours);
-      const noteLines = record.rows.filter(row => String(row.comment || '').trim()).slice(0, 2).map(row => engineerTextSnippet(`${row.detail}: ${row.comment}`, 120));
-      return `<div class="engineer-list-item"><div class="engineer-list-top"><div class="engineer-list-title">${escapeHtml(formatEngineerSessionStamp(record))}</div><div class="engineer-list-meta">${escapeHtml(record.coverage?.window || 'Saved shift chunk')}</div></div><div class="engineer-list-copy">Logged ${record.totalLogged.toFixed(1)}h · Running ${runningHours.toFixed(1)}h · Downtime ${record.downtimeHours.toFixed(1)}h${noteLines.length ? `<br>${escapeHtml(noteLines.join(' | '))}` : ''}</div></div>`;
-    }).join('')}</div>` : `<div class="engineer-empty">No saved hours chunks matched this cell and filter.</div>`;
+    const detailGrid = `<div class="engineer-detail-grid">${[
+      engineerDetailCard('Engine Model', banner.engineModel || '—'),
+      engineerDetailCard('Engine S/N', banner.engineSN || '—'),
+      engineerDetailCard('PPH', banner.pph || '—'),
+      engineerDetailCard('Test Plan ID', banner.testPlanId || '—'),
+      engineerDetailCard('Technician', banner.technician || '—'),
+      engineerDetailCard('Engineer', banner.engineer || '—'),
+      engineerDetailCard('Shift', banner.shift || '—'),
+      engineerDetailCard('Session Date', latestShift?.session?.display || banner.date || '—'),
+      engineerDetailCard('Coverage Window', latestShift?.coverage?.window || '—'),
+      engineerDetailCard('Start Time', banner.startTime || '—'),
+      engineerDetailCard('End Time', banner.endTime || '—'),
+      engineerDetailCard('Cell Hour Meter', banner.cellHourMeter || '—')
+    ].join('')}</div>`;
     return `
       <section class="engineer-cell-card">
         <div class="engineer-cell-head">
@@ -2639,16 +2687,23 @@ function renderEngineerInfoMode(){
             <span class="engineer-mini-pill">Downtime ${card.downtimeHours.toFixed(1)}h</span>
           </div>
         </div>
+        <div class="engineer-cell-grid single">
+          <div class="engineer-block">
+            <h3>Latest Cell Snapshot</h3>
+            <div class="engineer-block-note">Quick view of the most recent saved header details tied to this cell.</div>
+            ${detailGrid}
+          </div>
+        </div>
         <div class="engineer-cell-grid">
           <div class="engineer-block">
             <h3>Recent Running Sheet Entries</h3>
-            <div class="engineer-block-note">Most recent matching log rows for this cell. History stays append-only here.</div>
+            <div class="engineer-block-note">Matching running sheet history for this cell. This stays view-only here.</div>
             ${logBlock}
           </div>
           <div class="engineer-block">
-            <h3>Saved Shift Chunks</h3>
-            <div class="engineer-block-note">Trade-style grouping by saved day and shift, but kept read-only for engineer review.</div>
-            ${shiftsBlock}
+            <h3>Saved Shift Chunks + Row Details</h3>
+            <div class="engineer-block-note">Trade-style grouping by saved day and shift, but expanded so engineers can see the actual saved row specifics.</div>
+            ${hoursRowsBlock}
           </div>
         </div>
         <div class="engineer-cell-grid single">
@@ -3409,14 +3464,14 @@ function renderManagerTab(){
       const preservedHoursContext = getCurrentHoursTempContext();
       const preservedWeekendDate = getCurrentWeekendTempDate();
       applyPrototypeSnapshot(deepClone(tempTestBaseline));
-      const activeTabName = kind === 'hours' ? 'hours' : kind === 'weekend' ? 'weekend' : kind === 'manager' ? 'manager' : kind === 'settings' ? 'settings' : 'logbook';
+      const activeTabName = kind === 'hours' ? 'hours' : kind === 'engineer' ? 'engineer' : kind === 'weekend' ? 'weekend' : kind === 'manager' ? 'manager' : kind === 'settings' ? 'settings' : 'logbook';
       if (kind === 'logbook') {
         seedDemoLogbookState();
       } else if (kind === 'hours') {
         seedDemoHoursState(preservedHoursContext);
       } else if (kind === 'weekend') {
         seedDemoWeekendState(preservedWeekendDate);
-      } else if (kind === 'manager') {
+      } else if (kind === 'manager' || kind === 'engineer') {
         seedDemoLogbookState();
         seedDemoHoursState(preservedHoursContext);
         seedDemoWeekendState(preservedWeekendDate);
@@ -4332,11 +4387,12 @@ function renderHours(){
       Object.entries(tabViews).forEach(([name, view]) => {
         view.hidden = name !== tabName;
       });
-      const compactView = ["weekend", "manager", "settings"].includes(tabName);
+      const compactView = ["weekend", "manager", "engineer", "settings"].includes(tabName);
       document.body.classList.toggle("weekend-focus", tabName === "weekend");
       if (mainSessionHeader) mainSessionHeader.hidden = compactView;
       if (tabName === "weekend") renderWeekendDailyUpdate();
       if (tabName === "manager") renderManagerTab();
+      if (tabName === "engineer") renderEngineerInfoMode();
       tabButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.tabTarget === tabName));
       syncCtcPulseSnapshot();
     }
@@ -4523,6 +4579,18 @@ function renderHours(){
           helpCells: summary.helpRows.map(row => `Cell ${row.testCell}`).filter(Boolean)
         };
       }
+      if (activeTab === "engineer") {
+        const data = getFilteredEngineerData();
+        return {
+          activeTab,
+          visibleCells: data.cards.length,
+          visibleLogs: data.filteredLogs.length,
+          visibleShifts: data.totalShiftChunks,
+          totalDowntime: roundPulseNumber(data.totalDowntime),
+          selectedCell: data.selectedCell || "all",
+          query: data.query || "none"
+        };
+      }
       if (activeTab === "settings") {
         return {
           activeTab,
@@ -4568,6 +4636,13 @@ function renderHours(){
           lines.push(`Help-needed cells: ${(previous.helpCells || []).join(", ") || "none"} → ${(current.helpCells || []).join(", ") || "none"}`);
         }
         changed("Operational posture", current.postureLabel, previous.postureLabel);
+      } else if (current.activeTab === "engineer") {
+        changed("Visible cells", current.visibleCells, previous.visibleCells);
+        changed("Matching log rows", current.visibleLogs, previous.visibleLogs);
+        changed("Saved shift chunks", current.visibleShifts, previous.visibleShifts);
+        changed("Downtime hours", current.totalDowntime, previous.totalDowntime);
+        changed("Selected cell", current.selectedCell, previous.selectedCell);
+        changed("Search", current.query, previous.query);
       } else if (current.activeTab === "weekend") {
         changed("Help-needed rows", current.helpNeededCount, previous.helpNeededCount);
         changed("Rows with status", current.statusRowCount, previous.statusRowCount);
@@ -4602,6 +4677,10 @@ function renderHours(){
         const managerSummary = aggregateManagerData();
         lines.push(`Manager aggregation: ${managerSummary ? "OK" : "Review"}`);
         lines.push(`Weekend link read: ${Array.isArray(managerSummary?.helpRows) ? "OK" : "Review"}`);
+      } else if (activeTab === "engineer") {
+        const data = getFilteredEngineerData();
+        lines.push(`Engineer filter binding: ${engineerCellFilter ? "OK" : "Review"}`);
+        lines.push(`Engineer collection render: ${engineerCollection && Array.isArray(data.cards) ? "OK" : "Review"}`);
       } else if (activeTab === "weekend") {
         const rows = getWeekendRowsForCurrentDate();
         lines.push(`Weekend board rows: ${Array.isArray(rows) && rows.length ? "OK" : "Review"}`);
@@ -4628,6 +4707,12 @@ function renderHours(){
         }
         if (managerSummary.savedShiftCount) return `Check the latest saved shift record and compare against the prior day.`;
         return `No urgent manager-side follow-up is active.`;
+      }
+      if (activeTab === "engineer") {
+        const data = getFilteredEngineerData();
+        if (data.selectedCell) return `Start with Cell ${data.selectedCell} and scan the saved shift row details first.`;
+        if (data.cards.length) return `Start with Cell ${data.cards[0].cell} and scan the latest header snapshot and row details.`;
+        return `Load sample data or widen the filters to build an engineer-side review.`;
       }
       if (activeTab === "weekend") {
         const rows = getWeekendRowsForCurrentDate();
@@ -4669,6 +4754,10 @@ function renderHours(){
         if (managerSummary.helpNeededCount) blocking.push(`${managerSummary.helpNeededCount} help-needed weekend row(s) are active.`);
         if (!managerSummary.helpNeededCount && pulseState.downtimeShareValue >= 25) attention.push(`Downtime share is elevated at ${pulseState.downtimeShareValue.toFixed(1)}%.`);
         if (!managerSummary.savedShiftCount && !managerSummary.statusRowCount) cleanup.push(`Manager view is reading very light source data.`);
+      } else if (activeTab === "engineer") {
+        const data = getFilteredEngineerData();
+        if (!data.cards.length) cleanup.push(`Engineer view is not showing any matching data.`);
+        if (data.totalDowntime > 0) attention.push(`Visible engineer filter includes ${data.totalDowntime.toFixed(1)} downtime hour(s).`);
       } else if (activeTab === "weekend") {
         const rows = getWeekendRowsForCurrentDate();
         const helpCount = rows.filter(row => row.helpNeeded === "Yes").length;
@@ -4722,9 +4811,16 @@ function renderHours(){
         dbgReadyState.textContent = pulseState.postureLabel;
         return;
       }
+      if (activeTab === "engineer") {
+        const data = getFilteredEngineerData();
+        dbgLogRows.textContent = String(data.filteredLogs.length);
+        dbgHoursLines.textContent = `${data.totalShiftChunks} shifts`;
+        dbgReadyState.textContent = data.selectedCell ? `Cell ${data.selectedCell}` : `${data.cards.length} cells`;
+        return;
+      }
       if (activeTab === "settings") {
         const mode = document.body?.dataset?.theme || "standard";
-        const compactView = ["weekend","manager","settings"].includes(activeTab) ? "on" : "off";
+        const compactView = ["weekend","manager","engineer","settings"].includes(activeTab) ? "on" : "off";
         dbgLogRows.textContent = String(getVisibleLogRowCount());
         dbgHoursLines.textContent = `compact ${compactView}`;
         dbgReadyState.textContent = `${mode} mode`;
@@ -4744,6 +4840,32 @@ function renderHours(){
       const deltaLines = buildPulseDeltaLines(currentMetrics, previousMetrics);
       const guardrailLines = buildPulseGuardrailLines(activeTab);
 
+      if (activeTab === "engineer") {
+        return [
+          `CTC Pulse Report`,
+          `Version: ${VERSION}`,
+          `Active tab: ${activeTab}`,
+          `Selected cell: ${currentMetrics.selectedCell}`,
+          `Search: ${currentMetrics.query}`,
+          `Visible cells: ${currentMetrics.visibleCells}`,
+          `Matching log rows: ${currentMetrics.visibleLogs}`,
+          `Saved shift chunks: ${currentMetrics.visibleShifts}`,
+          `Downtime hours in view: ${currentMetrics.totalDowntime.toFixed(1)}`,
+          `Timestamp: ${new Date().toLocaleString()}`,
+          ``,
+          `Severity:`,
+          ...severityLines.map((line, index) => `${index + 1}. ${line}`),
+          ``,
+          `First check:`,
+          `1. ${firstCheck}`,
+          ``,
+          `Since last scan:`,
+          ...deltaLines.map((line, index) => `${index + 1}. ${line}`),
+          ``,
+          `Guardrails:`,
+          ...guardrailLines.map((line, index) => `${index + 1}. ${line}`)
+        ].join("\n");
+      }
       if (activeTab === "weekend") {
         return [
           `CTC Pulse Report`,
@@ -4873,7 +4995,11 @@ function runCtcPulseScan(){
           let allClear = !!summary.ready;
           let statusLabel = readyText;
 
-          if (activeTab === "weekend") {
+          if (activeTab === "engineer") {
+            const data = getFilteredEngineerData();
+            allClear = data.cards.length > 0;
+            statusLabel = data.selectedCell ? `Cell ${data.selectedCell}` : `${data.cards.length} visible cell(s)`;
+          } else if (activeTab === "weekend") {
             const helpCount = getWeekendRowsForCurrentDate().filter(row => row.helpNeeded === "Yes").length;
             allClear = helpCount === 0;
             statusLabel = helpCount === 0 ? "Weekend board clear" : `${helpCount} help request(s) active`;
@@ -4896,38 +5022,26 @@ function runCtcPulseScan(){
             ctcPulseLastScan.classList.add("scan-flash");
             window.setTimeout(() => ctcPulseLastScan.classList.remove("scan-flash"), 900);
           }
-          if (ctcPulseReport){
-            ctcPulseReport.textContent = `Last scan: ${stamp}
-Status: ${allClear ? `OK / ${statusLabel}` : statusLabel}
-
-${report}`;
-            ctcPulseReport.classList.add("scan-flash");
-            window.setTimeout(() => ctcPulseReport.classList.remove("scan-flash"), 900);
-          }
+          ctcPulseReport.textContent = report;
           lastCtcPulseMetrics = captureCtcPulseMetrics(activeTab);
-          pulseButtonFeedback(runBtn, allClear ? "ok" : "warn");
-        } catch (err) {
-          const stamp = new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit", second:"2-digit"});
-          ctcPulseStatus.textContent = `Debug error · ${stamp}`;
-          ctcPulseStatus.classList.add("warn");
-          if (ctcPulseLastScan) ctcPulseLastScan.textContent = `Scan failed at ${stamp}`;
-          if (ctcPulseReport) {
-            ctcPulseReport.textContent = [
-              "CTC Pulse Error",
-              `Version: ${VERSION}`,
-              `Timestamp: ${new Date().toLocaleString()}`,
-              "",
-              String(err && err.stack ? err.stack : err)
-            ].join("\n");
-          }
-          pulseButtonFeedback(runBtn, "warn");
-        } finally {
           if (runBtn){
-            runBtn.textContent = "Run Scan";
             runBtn.disabled = false;
+            runBtn.textContent = "Scan";
+          }
+        } catch (error) {
+          ctcPulseStatus.textContent = `Review needed · ${error?.message || "Scan failed"}`;
+          ctcPulseStatus.classList.add("warn");
+          if (ctcPulseLastScan) ctcPulseLastScan.textContent = `Scan stopped at ${new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit", second:"2-digit"})}`;
+          ctcPulseReport.textContent = `CTC Pulse Report
+Version: ${VERSION}
+Status: Scan failed
+Reason: ${error?.stack || error?.message || error}`;
+          if (runBtn){
+            runBtn.disabled = false;
+            runBtn.textContent = "Scan";
           }
         }
-      }, 140);
+      }, 90);
     }
 
     function initCtcPulse(){
