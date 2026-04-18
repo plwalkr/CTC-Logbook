@@ -143,9 +143,14 @@
     .followup-textarea{min-height:96px;background:#fafaf9}
     .section-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
     .section-title{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:700;margin-bottom:8px}
-    .view-tabs{display:flex;gap:8px;flex-wrap:wrap;padding:10px 12px;background:var(--soft);border:1px solid var(--line);border-radius:16px}
+    .view-tabs{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;padding:10px 12px;background:var(--soft);border:1px solid var(--line);border-radius:16px}
+    .view-tab-core{display:flex;gap:8px;flex-wrap:wrap;flex:1 1 760px}
+    .view-tab-temp{display:flex;flex-direction:column;gap:8px;flex:0 0 270px;min-width:250px;padding:10px 12px;border:1px dashed #cbd5e1;border-radius:16px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%)}
+    .view-tab-temp-label{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:800}
+    .view-tab-temp-copy{font-size:12px;color:#475569;line-height:1.45}
     .tab-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:999px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer}
     .tab-btn.active{background:#0f172a;color:#fff;border-color:#0f172a}
+    .tab-btn.tab-btn-temp{border-style:dashed}
     .tab-btn .tab-sub{display:block;font-size:10px;font-weight:600;opacity:.8;margin-top:2px}
     .tab-view[hidden]{display:none !important}
     .tab-release-note{display:none !important}
@@ -261,34 +266,57 @@
     .manager-mode-btn strong{display:block;font-size:13px;color:#0f172a;margin-bottom:4px}
     .manager-mode-btn span{display:block;font-size:12px;color:#64748b;line-height:1.45}
     .manager-view-panel[hidden]{display:none !important}
-    .engineer-shell{display:flex;flex-direction:column;gap:12px}
-    .engineer-toolbar{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+    .engineer-shell{display:flex;flex-direction:column;gap:14px}
+    .engineer-hero{display:grid;grid-template-columns:1.18fr .92fr;gap:12px}
+    .engineer-hero-card{border:1px solid #e2e8f0;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:16px}
+    .engineer-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:800;margin-bottom:8px}
+    .engineer-hero-card h2{font-size:24px;line-height:1.1;margin:0 0 8px 0;color:#0f172a}
+    .engineer-hero-copy{font-size:14px;color:#334155;line-height:1.6;max-width:62ch}
+    .engineer-toolbar{display:flex;justify-content:space-between;gap:12px;align-items:stretch;flex-wrap:wrap}
+    .engineer-filter-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:14px;min-width:320px;display:flex;flex-direction:column;gap:10px}
     .engineer-filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-    .engineer-filter-row select,.engineer-filter-row input{padding:8px 10px;border:1px solid #dbe3ed;border-radius:10px;background:#fff;color:var(--text);min-width:180px}
-    .engineer-filter-row input{min-width:260px}
+    .engineer-filter-row select,.engineer-filter-row input{padding:9px 10px;border:1px solid #dbe3ed;border-radius:10px;background:#fff;color:var(--text);min-width:180px}
+    .engineer-filter-row input{min-width:260px;flex:1 1 260px}
+    .engineer-filter-note{font-size:12px;color:#475569;line-height:1.5}
     .engineer-summary-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-    .engineer-summary-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px;text-align:center}
-    .engineer-summary-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
-    .engineer-summary-value{font-size:24px;font-weight:800;color:#0f172a}
-    .engineer-summary-note{font-size:12px;color:#475569;line-height:1.45;margin-top:4px}
-    .engineer-collection{display:flex;flex-direction:column;gap:12px}
-    .engineer-cell-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:14px}
-    .engineer-cell-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
-    .engineer-cell-title{font-size:18px;font-weight:800;color:#0f172a}
-    .engineer-cell-stamp{font-size:13px;color:#475569;line-height:1.5;margin-top:4px}
-    .engineer-mini-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .engineer-summary-card{border:1px solid #dbe3ed;border-radius:16px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:14px;text-align:left;position:relative;overflow:hidden}
+    .engineer-summary-card:before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,#2563eb 0%,#60a5fa 100%)}
+    .engineer-summary-card.warning:before{background:linear-gradient(180deg,#f59e0b 0%,#fbbf24 100%)}
+    .engineer-summary-card.attention:before{background:linear-gradient(180deg,#dc2626 0%,#ef4444 100%)}
+    .engineer-summary-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px;padding-left:6px}
+    .engineer-summary-value{font-size:26px;font-weight:800;color:#0f172a;padding-left:6px}
+    .engineer-summary-note{font-size:12px;color:#475569;line-height:1.5;margin-top:6px;padding-left:6px}
+    .engineer-collection{display:flex;flex-direction:column;gap:14px}
+    .engineer-cell-card{border:1px solid #dbe3ed;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#fbfdff 100%);padding:16px;box-shadow:0 8px 24px rgba(15,23,42,.04)}
+    .engineer-cell-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px}
+    .engineer-cell-title{font-size:22px;font-weight:900;color:#0f172a;line-height:1.1}
+    .engineer-cell-stamp{font-size:13px;color:#475569;line-height:1.55;margin-top:6px;max-width:70ch}
+    .engineer-head-side{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+    .engineer-state-badge{display:inline-flex;align-items:center;justify-content:center;padding:7px 12px;border-radius:999px;border:1px solid #dbe3ed;background:#f8fafc;font-size:12px;font-weight:800;color:#334155}
+    .engineer-state-badge.quiet{background:#f8fafc;color:#334155;border-color:#cbd5e1}
+    .engineer-state-badge.steady{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
+    .engineer-state-badge.watch{background:#fff7ed;color:#9a3412;border-color:#fed7aa}
+    .engineer-state-badge.attention{background:#fef2f2;color:#b91c1c;border-color:#fecaca}
+    .engineer-mini-strip{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
     .engineer-mini-pill{display:inline-flex;align-items:center;padding:5px 10px;border:1px solid var(--line);border-radius:999px;background:#f8fafc;font-size:11px;font-weight:700;color:#334155}
-    .engineer-cell-grid{display:grid;grid-template-columns:1.1fr .95fr;gap:12px;margin-top:12px}
+    .engineer-signal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px}
+    .engineer-signal-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
+    .engineer-signal-card strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
+    .engineer-signal-card span{display:block;font-size:16px;font-weight:800;color:#0f172a;line-height:1.3}
+    .engineer-signal-card p{margin:6px 0 0 0;font-size:12px;color:#475569;line-height:1.5}
+    .engineer-cell-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:12px;margin-top:12px}
     .engineer-cell-grid.single{grid-template-columns:1fr}
-    .engineer-block{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:12px}
-    .engineer-block h3{font-size:14px;margin:0 0 8px 0;color:#0f172a}
-    .engineer-block-note{font-size:12px;color:#475569;line-height:1.5;margin-bottom:8px}
+    .engineer-block{border:1px solid #e2e8f0;border-radius:16px;background:#f8fafc;padding:14px}
+    .engineer-block-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;flex-wrap:wrap;margin-bottom:8px}
+    .engineer-block h3{font-size:15px;margin:0;color:#0f172a}
+    .engineer-block-tag{display:inline-flex;align-items:center;padding:4px 9px;border:1px solid #dbe3ed;border-radius:999px;background:#fff;font-size:10px;font-weight:800;letter-spacing:.08em;color:#475569;text-transform:uppercase}
+    .engineer-block-note{font-size:12px;color:#475569;line-height:1.55;margin-bottom:10px}
     .engineer-list{display:flex;flex-direction:column;gap:8px}
-    .engineer-list-item{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
+    .engineer-list-item{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:11px 12px;box-shadow:0 2px 0 rgba(15,23,42,.02)}
     .engineer-list-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
-    .engineer-list-title{font-size:13px;font-weight:800;color:#0f172a;line-height:1.4}
-    .engineer-list-meta{font-size:12px;color:#64748b;line-height:1.4}
-    .engineer-list-copy{font-size:13px;color:#334155;line-height:1.55;margin-top:6px}
+    .engineer-list-title{font-size:13px;font-weight:800;color:#0f172a;line-height:1.45}
+    .engineer-list-meta{font-size:12px;color:#64748b;line-height:1.45}
+    .engineer-list-copy{font-size:13px;color:#334155;line-height:1.6;margin-top:6px}
     .engineer-empty{border:1px dashed var(--line);border-radius:14px;background:var(--soft);padding:18px 16px;font-size:13px;color:#475569}
     .engineer-detail-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
     .engineer-detail-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
@@ -297,7 +325,7 @@
     .engineer-rows-stack{display:flex;flex-direction:column;gap:8px}
     .engineer-row-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
     .engineer-row-meta{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
-    .engineer-row-line{font-size:13px;color:#334155;line-height:1.55;margin-top:6px}
+    .engineer-row-line{font-size:13px;color:#334155;line-height:1.6;margin-top:6px}
 
     .settings-compact-head{display:flex;justify-content:flex-end;gap:10px;align-items:flex-start;flex-wrap:wrap}
     .settings-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
@@ -346,6 +374,11 @@
     body[data-theme="clarity"]{--bg:#f6f7fb;--panel:#ffffff;--line:#9aa7bd;--text:#10233d;--muted:#44566f;--soft:#eef3fa}
     body[data-theme="clarity"] .tab-btn.active{background:#163b69;color:#fff;border-color:#163b69}
     body[data-theme="clarity"] .display-mode-btn.active{border-color:#163b69;box-shadow:0 0 0 2px rgba(22,59,105,.12)}
+    body[data-theme="clarity"] .tab-btn.tab-btn-temp{border-color:#8ea2bf;background:#fff;color:#10233d}
+    body[data-theme="clarity"] .tab-btn.tab-btn-temp.active{border-color:#163b69;background:#163b69;color:#fff}
+    body[data-theme="clarity"] .engineer-summary-card:before{background:linear-gradient(180deg,#163b69 0%,#60a5fa 100%)}
+    body[data-theme="clarity"] .engineer-summary-card.warning:before{background:linear-gradient(180deg,#d97706 0%,#facc15 100%)}
+    body[data-theme="clarity"] .engineer-summary-card.attention:before{background:linear-gradient(180deg,#b45309 0%,#fb923c 100%)}
     body[data-theme="clarity"] .source-system{background:#dbeafe;color:#1d4ed8;border-color:#93c5fd}
     body[data-theme="clarity"] .source-operator{background:#eef2ff;color:#4338ca;border-color:#c7d2fe}
     body[data-theme="clarity"] .status-open{background:#fff1cc;color:#8a4b00;border-color:#facc15}
@@ -634,6 +667,9 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       .handoff-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .hours-review-grid{grid-template-columns:1fr}
       .handoff-columns{grid-template-columns:1fr}
+      .engineer-hero{grid-template-columns:1fr}
+      .engineer-signal-grid{grid-template-columns:1fr}
+      .view-tab-temp{flex:1 1 100%}
     }
     @media (max-width:800px){
       .header-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -649,6 +685,8 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       .trade-strip{grid-template-columns:1fr}
       .trade-main-grid{grid-template-columns:1fr}
       .engineer-summary-strip{grid-template-columns:1fr}
+      .view-tabs{flex-direction:column}
+      .view-tab-core,.view-tab-temp{width:100%}
       .details-grid,.snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .snapshot-grid.hours-snapshot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .handoff-grid,.handoff-columns{grid-template-columns:1fr}
@@ -684,41 +722,47 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.124-engineer-view-tab</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.125-engineer-review-tab-refine</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.124-engineer-view-tab</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.125-engineer-review-tab-refine</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
-      <button class="tab-btn active" type="button" data-tab-target="logbook">
-        Logbook
-        <span class="tab-sub">Running sheet + new entries</span>
-      </button>
-      <button class="tab-btn" type="button" data-tab-target="hours">
-        Cell Hours
-        <span class="tab-sub">Separate live daily tally</span>
-      </button>
-      <button class="tab-btn" type="button" data-tab-target="engineer">
-        Engineer Review
-        <span class="tab-sub">Cell-focused read-only detail</span>
-      </button>
-      <button class="tab-btn" type="button" data-tab-target="weekend">
-        Weekend Days Daily Update
-        <span class="tab-sub">Pilot weekend status board</span>
-      </button>
-      <button class="tab-btn" type="button" data-tab-target="manager">
-        Manager / Coaches
-        <span class="tab-sub">Read-only trends + summaries</span>
-      </button>
-      <button class="tab-btn" type="button" data-tab-target="settings">
-        Settings
-        <span class="tab-sub">Display + quick reference</span>
-      </button>
+      <div class="view-tab-core">
+        <button class="tab-btn active" type="button" data-tab-target="logbook">
+          Logbook
+          <span class="tab-sub">Running sheet + new entries</span>
+        </button>
+        <button class="tab-btn" type="button" data-tab-target="hours">
+          Cell Hours
+          <span class="tab-sub">Separate live daily tally</span>
+        </button>
+        <button class="tab-btn" type="button" data-tab-target="weekend">
+          Weekend Days Daily Update
+          <span class="tab-sub">Pilot weekend status board</span>
+        </button>
+        <button class="tab-btn" type="button" data-tab-target="manager">
+          Manager / Coaches
+          <span class="tab-sub">Read-only trends + summaries</span>
+        </button>
+        <button class="tab-btn" type="button" data-tab-target="settings">
+          Settings
+          <span class="tab-sub">Display + quick reference</span>
+        </button>
+      </div>
+      <div class="view-tab-temp" aria-label="Temporary review views">
+        <div class="view-tab-temp-label">Temporary review tab</div>
+        <div class="view-tab-temp-copy">Keep Engineer Review visible for prototyping, but visually separated from the core product tabs.</div>
+        <button class="tab-btn tab-btn-temp" type="button" data-tab-target="engineer">
+          Engineer Review
+          <span class="tab-sub">Read-only cell detail · temporary</span>
+        </button>
+      </div>
     </div>
 
     <div id="tab-logbook" class="tab-view">
@@ -1077,7 +1121,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.124-engineer-view-tab</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.125-engineer-review-tab-refine</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1089,35 +1133,40 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
           </div>
 
           <div class="engineer-shell">
-            <div class="engineer-toolbar">
-              <div>
-                <h2>Engineer Review Mode</h2>
-                <div class="manager-note">Read-only cell review that mixes trade-style grouping with manager-level signal. All specifics stay visible here without exposing write controls.</div>
+            <div class="engineer-hero">
+              <div class="engineer-hero-card">
+                <div class="engineer-kicker">Engineer review</div>
+                <h2>Cell-focused read-only detail without touching the live entry flow.</h2>
+                <div class="engineer-hero-copy">This temporary tab blends trade-style grouping with manager-style signal. It keeps the specifics visible for engineers while staying entirely view-only.</div>
               </div>
-              <div class="engineer-filter-row">
-                <select id="engineer-cell-filter">
-                  <option value="">All cells</option>
-                </select>
-                <input id="engineer-search-input" type="search" placeholder="Search cell, note, event, status, detail, WWID, tech, engineer..." />
+              <div class="engineer-filter-card">
+                <div class="engineer-kicker">Filter + search</div>
+                <div class="engineer-filter-row">
+                  <select id="engineer-cell-filter">
+                    <option value="">All cells</option>
+                  </select>
+                  <input id="engineer-search-input" type="search" placeholder="Search cell, note, event, status, detail, WWID, tech, engineer..." />
+                </div>
+                <div class="engineer-filter-note">All cells stay available in the dropdown. Search narrows the visible read-only review cards without exposing any edit controls.</div>
               </div>
             </div>
             <div class="engineer-summary-strip">
-              <div class="engineer-summary-card">
+              <div class="engineer-summary-card" id="engineer-summary-cells-card">
                 <div class="engineer-summary-label">Visible Cells</div>
                 <div class="engineer-summary-value" id="engineer-visible-cells">0</div>
                 <div class="engineer-summary-note" id="engineer-visible-cells-note">Cells with matching review data.</div>
               </div>
-              <div class="engineer-summary-card">
+              <div class="engineer-summary-card" id="engineer-summary-shifts-card">
                 <div class="engineer-summary-label">Saved Shift Chunks</div>
                 <div class="engineer-summary-value" id="engineer-visible-shifts">0</div>
                 <div class="engineer-summary-note" id="engineer-visible-shifts-note">Hours chunks in the current filter.</div>
               </div>
-              <div class="engineer-summary-card">
+              <div class="engineer-summary-card" id="engineer-summary-logs-card">
                 <div class="engineer-summary-label">Matching Log Rows</div>
                 <div class="engineer-summary-value" id="engineer-visible-logs">0</div>
                 <div class="engineer-summary-note" id="engineer-visible-logs-note">Running sheet rows tied to the current filter.</div>
               </div>
-              <div class="engineer-summary-card">
+              <div class="engineer-summary-card" id="engineer-summary-downtime-card">
                 <div class="engineer-summary-label">Downtime Hours</div>
                 <div class="engineer-summary-value" id="engineer-visible-downtime">0.0</div>
                 <div class="engineer-summary-note" id="engineer-visible-downtime-note">Downtime hours inside the visible saved chunks.</div>
@@ -1130,7 +1179,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.124-engineer-view-tab</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.125-engineer-review-tab-refine</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1188,7 +1237,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.124-engineer-view-tab</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.125-engineer-review-tab-refine</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1375,7 +1424,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.124-engineer-view-tab</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.125-engineer-review-tab-refine</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1502,7 +1551,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.124-engineer-view-tab";
+    const VERSION = "v1.0.125-engineer-review-tab-refine";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -2627,6 +2676,19 @@ function renderEngineerInfoMode(){
   setText(engineerVisibleLogsNote, data.filteredLogs.length ? 'Running sheet rows tied to the current filter.' : 'No running sheet rows match yet.');
   setText(engineerVisibleDowntimeNote, data.totalDowntime > 0 ? 'Downtime hours inside the visible saved chunks.' : 'No downtime hours are visible in the current filter.');
 
+  const summaryCards = [
+    { el: document.getElementById('engineer-summary-cells-card'), tone: data.cards.length ? 'normal' : 'warning' },
+    { el: document.getElementById('engineer-summary-shifts-card'), tone: data.totalShiftChunks ? 'normal' : 'warning' },
+    { el: document.getElementById('engineer-summary-logs-card'), tone: data.filteredLogs.length ? 'normal' : 'warning' },
+    { el: document.getElementById('engineer-summary-downtime-card'), tone: data.totalDowntime >= 6 ? 'attention' : (data.totalDowntime > 0 ? 'warning' : 'normal') }
+  ];
+  summaryCards.forEach(item => {
+    if (!item.el) return;
+    item.el.classList.remove('warning','attention');
+    if (item.tone === 'warning') item.el.classList.add('warning');
+    if (item.tone === 'attention') item.el.classList.add('attention');
+  });
+
   if (!data.cards.length) {
     engineerCollection.innerHTML = `<div class="engineer-empty">No engineer review matches are visible yet. Try a different cell or search term, or load sample data first.</div>`;
     return;
@@ -2639,6 +2701,9 @@ function renderEngineerInfoMode(){
     const downtimeLead = card.downtimeTop.length ? card.downtimeTop.map(([label, value]) => `${label} · ${value.toFixed(1)}h`).join(' | ') : 'No downtime detail is leading.';
     const latestShift = card.shifts[0] || null;
     const banner = latestShift?.banner || {};
+    const stateTone = card.weekend?.helpNeeded === 'Yes' ? 'attention' : (card.downtimeHours >= 3 ? 'watch' : ((card.logs.length || card.shifts.length) ? 'steady' : 'quiet'));
+    const stateLabel = stateTone === 'attention' ? 'Priority Review' : stateTone === 'watch' ? 'Watch Cell' : stateTone === 'steady' ? 'Active Review' : 'Quiet Cell';
+    const stateReason = stateTone === 'attention' ? 'Weekend help request is active on this cell.' : stateTone === 'watch' ? 'Downtime is present and worth a closer look.' : 'This cell has visible saved history but no immediate red flag.';
     const hoursRowsBlock = card.shifts.length ? `<div class="engineer-rows-stack">${card.shifts.map(record => {
       const rowCards = record.rows.length ? record.rows.map(row => {
         const detailLine = [row.status || '—', row.detail || '—', row.hours ? `${row.hours}h` : '0.0h'].filter(Boolean).join(' · ');
@@ -2677,41 +2742,62 @@ function renderEngineerInfoMode(){
       <section class="engineer-cell-card">
         <div class="engineer-cell-head">
           <div>
+            <div class="engineer-kicker">Cell review</div>
             <div class="engineer-cell-title">Cell ${escapeHtml(card.cell)}</div>
             <div class="engineer-cell-stamp">Read-only cell review built from saved hours chunks, current weekend board status, and running sheet history.</div>
           </div>
-          <div class="engineer-mini-strip">
-            <span class="engineer-mini-pill">${card.shifts.length} shift chunk${card.shifts.length === 1 ? '' : 's'}</span>
-            <span class="engineer-mini-pill">${card.logs.length} log row${card.logs.length === 1 ? '' : 's'}</span>
-            <span class="engineer-mini-pill">Logged ${card.totalLogged.toFixed(1)}h</span>
-            <span class="engineer-mini-pill">Downtime ${card.downtimeHours.toFixed(1)}h</span>
+          <div class="engineer-head-side">
+            <span class="engineer-state-badge ${stateTone}">${stateLabel}</span>
+            <div class="engineer-mini-strip">
+              <span class="engineer-mini-pill">${card.shifts.length} shift chunk${card.shifts.length === 1 ? '' : 's'}</span>
+              <span class="engineer-mini-pill">${card.logs.length} log row${card.logs.length === 1 ? '' : 's'}</span>
+              <span class="engineer-mini-pill">Logged ${card.totalLogged.toFixed(1)}h</span>
+              <span class="engineer-mini-pill">Downtime ${card.downtimeHours.toFixed(1)}h</span>
+            </div>
+          </div>
+        </div>
+        <div class="engineer-signal-grid">
+          <div class="engineer-signal-card">
+            <strong>Review state</strong>
+            <span>${escapeHtml(stateLabel)}</span>
+            <p>${escapeHtml(stateReason)}</p>
+          </div>
+          <div class="engineer-signal-card">
+            <strong>Weekend board</strong>
+            <span>${escapeHtml(weekendLabel)}</span>
+            <p>${escapeHtml(weekendHelp)}${card.weekend?.wwid ? ` · WWID ${escapeHtml(card.weekend.wwid)}` : ''}${card.weekend?.lastUpdate ? ` · Updated ${escapeHtml(card.weekend.lastUpdate)}` : ''}</p>
+          </div>
+          <div class="engineer-signal-card">
+            <strong>Main downtime driver</strong>
+            <span>${escapeHtml(card.downtimeTop[0]?.[0] || 'None leading')}</span>
+            <p>${escapeHtml(downtimeLead)}</p>
           </div>
         </div>
         <div class="engineer-cell-grid single">
           <div class="engineer-block">
-            <h3>Latest Cell Snapshot</h3>
+            <div class="engineer-block-head"><h3>Latest Cell Snapshot</h3><span class="engineer-block-tag">View only</span></div>
             <div class="engineer-block-note">Quick view of the most recent saved header details tied to this cell.</div>
             ${detailGrid}
           </div>
         </div>
         <div class="engineer-cell-grid">
           <div class="engineer-block">
-            <h3>Recent Running Sheet Entries</h3>
+            <div class="engineer-block-head"><h3>Recent Running Sheet Entries</h3><span class="engineer-block-tag">History</span></div>
             <div class="engineer-block-note">Matching running sheet history for this cell. This stays view-only here.</div>
             ${logBlock}
           </div>
           <div class="engineer-block">
-            <h3>Saved Shift Chunks + Row Details</h3>
-            <div class="engineer-block-note">Trade-style grouping by saved day and shift, but expanded so engineers can see the actual saved row specifics.</div>
+            <div class="engineer-block-head"><h3>Saved Shift Chunks + Row Details</h3><span class="engineer-block-tag">Trades-style grouping</span></div>
+            <div class="engineer-block-note">Grouped by saved day and shift, but expanded so engineers can see the actual saved row specifics.</div>
             ${hoursRowsBlock}
           </div>
         </div>
         <div class="engineer-cell-grid single">
           <div class="engineer-block">
-            <h3>Weekend Signal + Review Flags</h3>
+            <div class="engineer-block-head"><h3>Weekend Signal + Review Flags</h3><span class="engineer-block-tag">Quick read</span></div>
             <div class="engineer-list">
-              <div class="engineer-list-item"><div class="engineer-list-top"><div class="engineer-list-title">Weekend board</div><div class="engineer-list-meta">${escapeHtml(weekendHelp)}</div></div><div class="engineer-list-copy">${escapeHtml(weekendLabel)}${card.weekend?.wwid ? ` · WWID ${card.weekend.wwid}` : ''}${card.weekend?.lastUpdate ? ` · Updated ${card.weekend.lastUpdate}` : ''}<br>${escapeHtml(weekendComment)}</div></div>
-              <div class="engineer-list-item"><div class="engineer-list-top"><div class="engineer-list-title">Downtime drivers</div><div class="engineer-list-meta">Saved hours view</div></div><div class="engineer-list-copy">${escapeHtml(downtimeLead)}</div></div>
+              <div class="engineer-list-item"><div class="engineer-list-top"><div class="engineer-list-title">Weekend board context</div><div class="engineer-list-meta">${escapeHtml(weekendHelp)}</div></div><div class="engineer-list-copy">${escapeHtml(weekendComment)}</div></div>
+              <div class="engineer-list-item"><div class="engineer-list-top"><div class="engineer-list-title">Review note</div><div class="engineer-list-meta">Engineer read-only layer</div></div><div class="engineer-list-copy">Use this view to inspect the full picture by cell without entering or changing any live data.</div></div>
             </div>
           </div>
         </div>
