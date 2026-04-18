@@ -154,6 +154,7 @@
     .compact-release-label{display:inline-block;text-align:right}
     body[data-active-tab="weekend"] .compact-release-bar,
     body[data-active-tab="manager"] .compact-release-bar,
+    body[data-active-tab="engineer"] .compact-release-bar,
     body[data-active-tab="settings"] .compact-release-bar{display:flex}
     .settings-grid{display:grid;grid-template-columns:1.35fr .9fr;gap:12px}
     .display-mode-bar{display:flex;gap:8px;flex-wrap:wrap;padding:8px;border:1px solid var(--line);border-radius:14px;background:var(--soft)}
@@ -490,6 +491,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     body[data-active-tab="weekend"] #main-session-header,
     body[data-active-tab="manager"] #main-session-header,
+    body[data-active-tab="engineer"] #main-session-header,
     body[data-active-tab="settings"] #main-session-header{display:none !important}
 
 
@@ -614,6 +616,27 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 .hours-rerun-field select{width:100%;padding:7px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
 .hours-rerun-note{margin-top:6px;font-size:11px;color:#64748b;line-height:1.4}
 
+
+.engineer-mode-shell{display:flex;flex-direction:column;gap:12px}
+.engineer-toolbar{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.engineer-toolbar-left{display:flex;flex-direction:column;gap:6px}
+.engineer-toolbar-right{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.engineer-mode-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:14px}
+.engineer-filter-row{display:grid;grid-template-columns:minmax(180px,.8fr) minmax(220px,1.2fr) auto;gap:8px;align-items:end}
+.engineer-filter-row .field{gap:4px}
+.engineer-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.engineer-summary-card{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:12px;min-height:98px}
+.engineer-summary-card .summary-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
+.engineer-summary-card .summary-value{font-size:24px;font-weight:800;color:#0f172a}
+.engineer-summary-card .summary-note{font-size:12px;color:#475569;line-height:1.45;margin-top:4px}
+.engineer-logbook-list{display:flex;flex-direction:column;gap:10px}
+.engineer-logbook-item{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:12px}
+.engineer-logbook-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:8px}
+.engineer-logbook-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.engineer-logbook-note{font-size:13px;color:#334155;line-height:1.55}
+.engineer-logbook-note strong{color:#0f172a}
+.engineer-empty{font-size:13px;color:#64748b}
+
 </style>
 </head>
 <body data-theme="standard">
@@ -626,14 +649,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.123-rerun-status-foundation</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.124-engineer-view-mode</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.123-rerun-status-foundation</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.124-engineer-view-mode</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1015,7 +1038,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.123-rerun-status-foundation</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.124-engineer-view-mode</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1073,7 +1096,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.123-rerun-status-foundation</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.124-engineer-view-mode</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1257,7 +1280,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.123-rerun-status-foundation</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.124-engineer-view-mode</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1384,7 +1407,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.123-rerun-status-foundation";
+    const VERSION = "v1.0.124-engineer-view-mode";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -1810,7 +1833,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     function isOtherDowntimeDetail(detail){return String(detail || "").trim() === "Other (please note)"}
     function isRerunStatus(status){return String(status || "").trim() === "Rerun"}
     function requiresRerunFields(row){return isRerunStatus(row.status)}
-    function rerunFieldsComplete(row){return !requiresRerunFields(row) || (String(row.rerunBy || "").trim() && String(row.rerunCarryOver || "").trim() && String(row.rerunSystemCaused || "").trim())}
+    function rerunFieldsComplete(row){return !requiresRerunFields(row) || true}
     function requiredCommentLength(row){
       if (isRerunStatus(row.status)) return String(row.detail || "").trim() === "Other ReRun (please note)" ? 20 : 15;
       return isOtherDowntimeDetail(row.detail) ? 20 : 15;
@@ -1852,7 +1875,6 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       const detailMissing = !String(row.detail || "").trim();
       const hoursMissing = !String(row.hours || "").trim();
       if (detailMissing) return {level:"blocked", text:"Choose a status detail.", short:"Choose detail"};
-      if (requiresRerunFields(row) && !rerunFieldsComplete(row)) return {level:"blocked", text:"Complete rerun owner, carryover, and system-caused fields before hours unlock.", short:"Need rerun fields"};
       if (needsComment && !validDowntimeComment(row)) {
         const min = requiredCommentLength(row);
         const comment = String(row.comment || "").trim();
@@ -1922,7 +1944,7 @@ function getHoursValidationSummary(){
       const warningRows = validations.filter(item => item.validation.level === "warn");
       const invalidDowntimeRows = blockedRows.filter(item => requiresDowntimeComment(item.row));
       const missingDetailRows = blockedRows.filter(item => !String(item.row.detail || "").trim());
-      const missingRerunRows = blockedRows.filter(item => requiresRerunFields(item.row) && !rerunFieldsComplete(item.row));
+      const missingRerunRows = [];
       const missingHoursRows = warningRows.filter(item => !String(item.row.hours || "").trim());
       const totalMismatch = Math.abs(remaining) >= 0.001;
       const overTarget = remaining < -0.001;
@@ -1930,7 +1952,6 @@ function getHoursValidationSummary(){
       const issues = [];
       if (invalidDowntimeRows.length) issues.push(`${invalidDowntimeRows.length} downtime row(s) still need stronger justification.`);
       if (missingDetailRows.length) issues.push(`${missingDetailRows.length} row(s) still need a status detail.`);
-      if (missingRerunRows.length) issues.push(`${missingRerunRows.length} rerun row(s) still need owner / carryover / system-caused fields.`);
       if (missingHoursRows.length) issues.push(`${missingHoursRows.length} row(s) still need hours entered.`);
       if (underTarget) issues.push(`${remaining.toFixed(1)} hour(s) still missing from the expected shift total.`);
       if (overTarget) issues.push(`${Math.abs(remaining).toFixed(1)} hour(s) over the expected shift total.`);
@@ -3584,11 +3605,11 @@ function renderHours(){
                   </select>
                 </div>
               </div>
-              ${row.status === "Rerun" ? '<div class="hours-rerun-note">Use this for a clean rerun trail without blame. Capture owner, carryover, system-caused status, and a stronger note.</div>' : ""}
+              ${row.status === "Rerun" ? '<div class="hours-rerun-note">Use this for a clean rerun trail without blame. Owner / carryover / system-caused stay visible for review, but only detail and note are required to proceed.</div>' : ""}
               <div data-hours-warning class="${validation.level === "ok" ? "hours-ok" : validation.level === "warn" ? "hours-caution" : needsComment || row.status === "Rerun" ? "hours-warning" : "small"}">${validation.text}</div>
             </td>
             <td>
-              <input class="hours-inline-input" data-hours-value="${row.id}" value="${escapeHtml(row.hours || "")}" placeholder="0.0" inputmode="decimal" ${commentValid && rerunFieldsComplete(row) ? "" : "disabled"} />
+              <input class="hours-inline-input" data-hours-value="${row.id}" value="${escapeHtml(row.hours || "")}" placeholder="0.0" inputmode="decimal" ${commentValid ? "" : "disabled"} />
             </td>
             <td>
               <div class="hours-row-badge ${validation.level}">${validation.short}</div>
@@ -3616,7 +3637,7 @@ function renderHours(){
             row.rerunSystemCaused = "";
           }
           if (String(row.hours || "").trim() && (priorStatus !== row.status || priorDetail !== row.detail)) row.hours = "";
-          if ((requiresDowntimeComment(row) && !validDowntimeComment(row)) || !rerunFieldsComplete(row)) row.hours = "";
+          if ((requiresDowntimeComment(row) && !validDowntimeComment(row))) row.hours = "";
           saveCurrentHoursSheet();
           renderHours();
         });
@@ -3628,7 +3649,7 @@ function renderHours(){
           const priorDetail = row.detail;
           row.detail = e.target.value;
           if (String(row.hours || "").trim() && priorDetail !== row.detail) row.hours = "";
-          if ((requiresDowntimeComment(row) && !validDowntimeComment(row)) || !rerunFieldsComplete(row)) row.hours = "";
+          if ((requiresDowntimeComment(row) && !validDowntimeComment(row))) row.hours = "";
           saveCurrentHoursSheet();
           renderHours();
         });
@@ -3638,7 +3659,7 @@ function renderHours(){
           const row = hoursRows.find(item => item.id === Number(e.target.dataset.hoursComment));
           if (!row) return;
           row.comment = e.target.value;
-          if ((requiresDowntimeComment(row) && !validDowntimeComment(row)) || !rerunFieldsComplete(row)) row.hours = "";
+          if ((requiresDowntimeComment(row) && !validDowntimeComment(row))) row.hours = "";
           refreshHoursRowStates();
           saveCurrentHoursSheet();
           renderHoursSummary();
