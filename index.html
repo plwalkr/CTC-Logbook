@@ -606,7 +606,15 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       .date-filter-row .date-field{width:100%;justify-content:space-between}
       table{font-size:11px}
     }
-  </style>
+  
+.hours-rerun-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:8px}
+.hours-rerun-fields[hidden]{display:none !important}
+.hours-rerun-field{display:flex;flex-direction:column;gap:4px}
+.hours-rerun-field label{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:700}
+.hours-rerun-field select{width:100%;padding:7px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
+.hours-rerun-note{margin-top:6px;font-size:11px;color:#64748b;line-height:1.4}
+
+</style>
 </head>
 <body data-theme="standard">
   <div class="app">
@@ -618,14 +626,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.122-manager-arrangement-refine</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.123-rerun-status-foundation</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.122-manager-arrangement-refine</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.123-rerun-status-foundation</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1007,7 +1015,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-arrangement-refine</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.123-rerun-status-foundation</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1065,7 +1073,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-arrangement-refine</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.123-rerun-status-foundation</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1249,7 +1257,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.122-manager-arrangement-refine</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.123-rerun-status-foundation</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1376,7 +1384,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.122-manager-arrangement-refine";
+    const VERSION = "v1.0.123-rerun-status-foundation";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -1429,6 +1437,9 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     const downtimeHourDetails = [
       "No Operator","No Work","Facility Down","Air Handlers","Emissions Cart","Dyno","Cyflex","PM System","AVL PM (415, 439, 483, 489)","Calterm / Cuty","Other (please note)","Install","Cell Calibration"
     ];
+    const rerunHourDetails = [
+      "Operator ReRun","System ReRun","Carryover ReRun","Other ReRun (please note)"
+    ];
 
     let bannerFields = {engineModel:"Titanium",engineSN:"80728265",engineer:"A. McCalment",pph:"E6640",testCell:"204",testPlanId:"TIHD2A-EN-B2P10",technician:"Joey Poppe",shift:"6W",date:getTodayISO(),startTime:"07:00 AM",endTime:"07:00 PM",cellHourMeter:"094"};
     bannerFields.date = normalizeDateValue(bannerFields.date) || getTodayISO();
@@ -1438,7 +1449,10 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       status:"Running",
       detail:"Running Per Plan",
       comment:"",
-      hours:""
+      hours:"",
+      rerunBy:"",
+      rerunCarryOver:"",
+      rerunSystemCaused:""
     }));
 
     let formState = {time:"",run:"",cycle:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"};
@@ -1794,8 +1808,14 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     }
     function isDowntimeStatus(status){return status === "Downtime"}
     function isOtherDowntimeDetail(detail){return String(detail || "").trim() === "Other (please note)"}
-    function requiredCommentLength(row){return isOtherDowntimeDetail(row.detail) ? 20 : 15}
-    function requiresDowntimeComment(row){return isDowntimeStatus(row.status)}
+    function isRerunStatus(status){return String(status || "").trim() === "Rerun"}
+    function requiresRerunFields(row){return isRerunStatus(row.status)}
+    function rerunFieldsComplete(row){return !requiresRerunFields(row) || (String(row.rerunBy || "").trim() && String(row.rerunCarryOver || "").trim() && String(row.rerunSystemCaused || "").trim())}
+    function requiredCommentLength(row){
+      if (isRerunStatus(row.status)) return String(row.detail || "").trim() === "Other ReRun (please note)" ? 20 : 15;
+      return isOtherDowntimeDetail(row.detail) ? 20 : 15;
+    }
+    function requiresDowntimeComment(row){return isDowntimeStatus(row.status) || isRerunStatus(row.status)}
     function repeatedSingleCharacterComment(comment){
       const normalized = String(comment || "").trim().replace(/\s+/g, "");
       if (!normalized) return false;
@@ -1832,6 +1852,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       const detailMissing = !String(row.detail || "").trim();
       const hoursMissing = !String(row.hours || "").trim();
       if (detailMissing) return {level:"blocked", text:"Choose a status detail.", short:"Choose detail"};
+      if (requiresRerunFields(row) && !rerunFieldsComplete(row)) return {level:"blocked", text:"Complete rerun owner, carryover, and system-caused fields before hours unlock.", short:"Need rerun fields"};
       if (needsComment && !validDowntimeComment(row)) {
         const min = requiredCommentLength(row);
         const comment = String(row.comment || "").trim();
@@ -1841,7 +1862,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
         return {level:"blocked", text:`${isOtherDowntimeDetail(row.detail) ? "Other downtime" : "Downtime"} requires at least ${min} characters before hours unlock.`, short:`Need ${min}+ chars`};
       }
       if (hoursMissing) return {level:"warn", text:"Enter hours for this line.", short:"Hours missing"};
-      return {level:"ok", text: needsComment ? "Downtime justification captured." : "Running line looks good.", short:"Ready"};
+      return {level:"ok", text: isRerunStatus(row.status) ? "Rerun details captured." : needsComment ? "Downtime justification captured." : "Running line looks good.", short:"Ready"};
     }
 
     
@@ -1850,7 +1871,10 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
         String(row.hours || "").trim() ||
         String(row.comment || "").trim() ||
         String(row.status || "").trim() !== "Running" ||
-        String(row.detail || "").trim() !== "Running Per Plan"
+        String(row.detail || "").trim() !== "Running Per Plan" ||
+        String(row.rerunBy || "").trim() ||
+        String(row.rerunCarryOver || "").trim() ||
+        String(row.rerunSystemCaused || "").trim()
       );
     }
 
@@ -1898,6 +1922,7 @@ function getHoursValidationSummary(){
       const warningRows = validations.filter(item => item.validation.level === "warn");
       const invalidDowntimeRows = blockedRows.filter(item => requiresDowntimeComment(item.row));
       const missingDetailRows = blockedRows.filter(item => !String(item.row.detail || "").trim());
+      const missingRerunRows = blockedRows.filter(item => requiresRerunFields(item.row) && !rerunFieldsComplete(item.row));
       const missingHoursRows = warningRows.filter(item => !String(item.row.hours || "").trim());
       const totalMismatch = Math.abs(remaining) >= 0.001;
       const overTarget = remaining < -0.001;
@@ -1905,16 +1930,21 @@ function getHoursValidationSummary(){
       const issues = [];
       if (invalidDowntimeRows.length) issues.push(`${invalidDowntimeRows.length} downtime row(s) still need stronger justification.`);
       if (missingDetailRows.length) issues.push(`${missingDetailRows.length} row(s) still need a status detail.`);
+      if (missingRerunRows.length) issues.push(`${missingRerunRows.length} rerun row(s) still need owner / carryover / system-caused fields.`);
       if (missingHoursRows.length) issues.push(`${missingHoursRows.length} row(s) still need hours entered.`);
       if (underTarget) issues.push(`${remaining.toFixed(1)} hour(s) still missing from the expected shift total.`);
       if (overTarget) issues.push(`${Math.abs(remaining).toFixed(1)} hour(s) over the expected shift total.`);
       const ready = issues.length === 0 && total > 0 && !totalMismatch;
       const readyState = ready ? "Ready" : blockedRows.length ? "Blocked" : totalMismatch ? (overTarget ? "Over target" : "Warning") : "Warning";
       const downtime = hoursRows.reduce((sum,row) => sum + (row.status === "Downtime" ? (parseFloat(row.hours) || 0) : 0), 0);
-      return {expected,total,remaining,downtime,validations,blockedRows,warningRows,invalidDowntimeRows,missingDetailRows,missingHoursRows,issues,ready,readyState,totalMismatch,overTarget,underTarget};
+      return {expected,total,remaining,downtime,validations,blockedRows,warningRows,invalidDowntimeRows,missingDetailRows,missingRerunRows,missingHoursRows,issues,ready,readyState,totalMismatch,overTarget,underTarget};
     }
-    function detailOptionsForStatus(status){return status === "Downtime" ? downtimeHourDetails : runningHourDetails}
-    function makeHoursRow(){return {id:Date.now() + Math.floor(Math.random()*1000),status:"Running",detail:"Running Per Plan",comment:"",hours:""}}
+    function detailOptionsForStatus(status){
+      if (status === "Downtime") return downtimeHourDetails;
+      if (status === "Rerun") return rerunHourDetails;
+      return runningHourDetails;
+    }
+    function makeHoursRow(){return {id:Date.now() + Math.floor(Math.random()*1000),status:"Running",detail:"Running Per Plan",comment:"",hours:"",rerunBy:"",rerunCarryOver:"",rerunSystemCaused:""}}
     function totalHoursValue(){return hoursRows.reduce((sum,row) => sum + (parseFloat(row.hours) || 0), 0)}
     function totalHours(){return totalHoursValue().toFixed(1)}
     function breakdownForStatus(status){
@@ -3511,11 +3541,12 @@ function renderHours(){
         const validation = displayRowValidationState(row);
         const rowInvalid = validation.level === "blocked";
         return `
-          <tr class="${row.status === "Downtime" ? "hours-row-downtime" : "hours-row-running"} ${rowInvalid ? "hours-row-invalid" : ""}">
+          <tr class="${row.status === "Downtime" || row.status === "Rerun" ? "hours-row-downtime" : "hours-row-running"} ${rowInvalid ? "hours-row-invalid" : ""}">
             <td>
               <select class="hours-inline-select" data-hours-status="${row.id}">
                 <option value="Running" ${row.status === "Running" ? "selected" : ""}>Running</option>
                 <option value="Downtime" ${row.status === "Downtime" ? "selected" : ""}>Downtime</option>
+                <option value="Rerun" ${row.status === "Rerun" ? "selected" : ""}>Rerun</option>
               </select>
             </td>
             <td>
@@ -3524,11 +3555,40 @@ function renderHours(){
               </select>
             </td>
             <td>
-              <input class="hours-inline-input" data-hours-comment="${row.id}" value="${escapeHtml(row.comment || "")}" placeholder="${needsComment ? "Explain downtime / issue / hold reason..." : "Optional running note"}" />
-              <div data-hours-warning class="${validation.level === "ok" ? "hours-ok" : validation.level === "warn" ? "hours-caution" : needsComment ? "hours-warning" : "small"}">${validation.text}</div>
+              <input class="hours-inline-input" data-hours-comment="${row.id}" value="${escapeHtml(row.comment || "")}" placeholder="${row.status === "Rerun" ? "Explain rerun / context / WWID-ready note..." : needsComment ? "Explain downtime / issue / hold reason..." : "Optional running note"}" />
+              <div class="hours-rerun-fields" ${row.status === "Rerun" ? "" : "hidden"}>
+                <div class="hours-rerun-field">
+                  <label>Who started</label>
+                  <select data-hours-rerun-by="${row.id}">
+                    <option value="" ${!row.rerunBy ? "selected" : ""}>Select</option>
+                    <option value="Operator" ${row.rerunBy === "Operator" ? "selected" : ""}>Operator</option>
+                    <option value="Engineer" ${row.rerunBy === "Engineer" ? "selected" : ""}>Engineer</option>
+                    <option value="System" ${row.rerunBy === "System" ? "selected" : ""}>System</option>
+                    <option value="Other" ${row.rerunBy === "Other" ? "selected" : ""}>Other</option>
+                  </select>
+                </div>
+                <div class="hours-rerun-field">
+                  <label>Carry over</label>
+                  <select data-hours-rerun-carry="${row.id}">
+                    <option value="" ${!row.rerunCarryOver ? "selected" : ""}>Select</option>
+                    <option value="Yes" ${row.rerunCarryOver === "Yes" ? "selected" : ""}>Yes</option>
+                    <option value="No" ${row.rerunCarryOver === "No" ? "selected" : ""}>No</option>
+                  </select>
+                </div>
+                <div class="hours-rerun-field">
+                  <label>System caused</label>
+                  <select data-hours-rerun-system="${row.id}">
+                    <option value="" ${!row.rerunSystemCaused ? "selected" : ""}>Select</option>
+                    <option value="Yes" ${row.rerunSystemCaused === "Yes" ? "selected" : ""}>Yes</option>
+                    <option value="No" ${row.rerunSystemCaused === "No" ? "selected" : ""}>No</option>
+                  </select>
+                </div>
+              </div>
+              ${row.status === "Rerun" ? '<div class="hours-rerun-note">Use this for a clean rerun trail without blame. Capture owner, carryover, system-caused status, and a stronger note.</div>' : ""}
+              <div data-hours-warning class="${validation.level === "ok" ? "hours-ok" : validation.level === "warn" ? "hours-caution" : needsComment || row.status === "Rerun" ? "hours-warning" : "small"}">${validation.text}</div>
             </td>
             <td>
-              <input class="hours-inline-input" data-hours-value="${row.id}" value="${escapeHtml(row.hours || "")}" placeholder="0.0" inputmode="decimal" ${commentValid ? "" : "disabled"} />
+              <input class="hours-inline-input" data-hours-value="${row.id}" value="${escapeHtml(row.hours || "")}" placeholder="0.0" inputmode="decimal" ${commentValid && rerunFieldsComplete(row) ? "" : "disabled"} />
             </td>
             <td>
               <div class="hours-row-badge ${validation.level}">${validation.short}</div>
@@ -3550,8 +3610,13 @@ function renderHours(){
           row.status = e.target.value;
           const opts = detailOptionsForStatus(row.status);
           if (!opts.includes(row.detail)) row.detail = opts[0] || "";
+          if (row.status !== "Rerun") {
+            row.rerunBy = "";
+            row.rerunCarryOver = "";
+            row.rerunSystemCaused = "";
+          }
           if (String(row.hours || "").trim() && (priorStatus !== row.status || priorDetail !== row.detail)) row.hours = "";
-          if (requiresDowntimeComment(row) && !validDowntimeComment(row)) row.hours = "";
+          if ((requiresDowntimeComment(row) && !validDowntimeComment(row)) || !rerunFieldsComplete(row)) row.hours = "";
           saveCurrentHoursSheet();
           renderHours();
         });
@@ -3563,7 +3628,7 @@ function renderHours(){
           const priorDetail = row.detail;
           row.detail = e.target.value;
           if (String(row.hours || "").trim() && priorDetail !== row.detail) row.hours = "";
-          if (requiresDowntimeComment(row) && !validDowntimeComment(row)) row.hours = "";
+          if ((requiresDowntimeComment(row) && !validDowntimeComment(row)) || !rerunFieldsComplete(row)) row.hours = "";
           saveCurrentHoursSheet();
           renderHours();
         });
@@ -3573,7 +3638,7 @@ function renderHours(){
           const row = hoursRows.find(item => item.id === Number(e.target.dataset.hoursComment));
           if (!row) return;
           row.comment = e.target.value;
-          if (requiresDowntimeComment(row) && !validDowntimeComment(row)) row.hours = "";
+          if ((requiresDowntimeComment(row) && !validDowntimeComment(row)) || !rerunFieldsComplete(row)) row.hours = "";
           refreshHoursRowStates();
           saveCurrentHoursSheet();
           renderHoursSummary();
