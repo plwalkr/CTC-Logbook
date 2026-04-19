@@ -91,12 +91,12 @@
     .hours-sidebox{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
     .hours-sidebox textarea{width:100%;min-height:84px;padding:8px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
     .pill{display:inline-flex;align-items:center;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:#f8fafc;font-size:12px;font-weight:600;color:#334155}
-    .table-wrap{max-height:46vh;overflow-y:auto}
+    .table-wrap{height:46vh;min-height:280px;max-height:78vh;overflow:auto;resize:vertical}
     table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
     thead th{position:sticky;top:0;z-index:1;background:#f1f5f9}
     th,td{border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;padding:8px;text-align:left;vertical-align:top}
     th:last-child,td:last-child{border-right:none}
-    .w-time{width:7%}.w-source{width:7%}.w-event{width:9%}.w-run{width:8%}.w-cycle{width:8%}.w-category{width:8%}.w-status{width:7%}.w-review{width:7%}.w-note{width:27%}.w-actions{width:12%}
+    .w-time{width:7%}.w-source{width:7%}.w-event{width:10%}.w-run{width:8%}.w-cycle{width:9%}.w-category{width:10%}.w-status{width:0}.w-review{width:8%}.w-note{width:34%}.w-actions{width:14%}
     .badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;border:1px solid transparent;font-size:10px;font-weight:700;text-transform:uppercase;white-space:nowrap}
     .source-system{background:#e0f2fe;color:#075985;border-color:#bae6fd}
     .source-operator{background:#f5f5f4;color:#44403c;border-color:#d6d3d1}
@@ -769,14 +769,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.129-manager-logbook-controls-refine</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.130-running-sheet-resize-declutter</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.129-manager-logbook-controls-refine</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.130-running-sheet-resize-declutter</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -914,7 +914,6 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
               <th class="w-run">Run #</th>
               <th class="w-cycle">Cycle</th>
               <th class="w-category">Category</th>
-              <th class="w-status">Status</th>
               <th class="w-review">Review</th>
               <th class="w-note">Note</th>
               <th class="w-actions">Actions</th>
@@ -1168,7 +1167,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.129-manager-logbook-controls-refine</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.130-running-sheet-resize-declutter</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1226,7 +1225,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.129-manager-logbook-controls-refine</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.130-running-sheet-resize-declutter</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1284,7 +1283,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.129-manager-logbook-controls-refine</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.130-running-sheet-resize-declutter</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1471,7 +1470,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.129-manager-logbook-controls-refine</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.130-running-sheet-resize-declutter</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1598,7 +1597,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.129-manager-logbook-controls-refine";
+    const VERSION = "v1.0.130-running-sheet-resize-declutter";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -4477,7 +4476,6 @@ function renderHours(){
             <td>${escapeHtml(entry.run || "—")}</td>
             <td>${escapeHtml(entry.cycle || "—")}</td>
             <td>${escapeHtml(entry.category || "—")}</td>
-            <td><span class="badge ${statusClass(entry.status)}">${entry.status}</span></td>
             <td><span class="badge ${reviewClass(entry.reviewState)}">${entry.reviewState}</span></td>
             <td class="entry-note">${entry.noteHtml || entry.noteText || ""}</td>
             <td>
@@ -4493,7 +4491,7 @@ function renderHours(){
           </tr>
           ${detailsOpen ? `
             <tr class="details-row">
-              <td colspan="10">
+              <td colspan="9">
                 <div class="detail-sections">
                   <div class="snapshot">
                     <div class="snapshot-title">Header Snapshot at Time of Entry</div>
@@ -4513,12 +4511,12 @@ function renderHours(){
                     </div>
                   </div>
                   <div class="log-meta-panel">
-                    <div class="section-title">Log Status & Review Controls</div>
+                    <div class="section-title">Log Details / Review Controls</div>
                     <div class="log-meta-grid">
                       <label class="field"><label>Status</label><select class="log-meta-select" data-entry-status="${entry.id}">${LOG_STATUS_OPTIONS.map(opt => `<option value="${opt}" ${entry.status===opt?"selected":""}>${opt}</option>`).join("")}</select></label>
                       <label class="field"><label>Review</label><select class="log-meta-select" data-entry-review="${entry.id}">${LOG_REVIEW_OPTIONS.map(opt => `<option value="${opt}" ${entry.reviewState===opt?"selected":""}>${opt}</option>`).join("")}</select></label>
                     </div>
-                    <div class="log-meta-help">Status = the current condition of the issue or event. Review = how the team is handling that row inside the running sheet.</div>
+                    <div class="log-meta-help">Status is still kept here for context, but it was removed from the main running sheet column to keep the elog scan cleaner. Review shows how the team is handling that row.</div>
                   </div>
                   <div class="section-card">
                     <div class="section-title">Technical Values</div>
