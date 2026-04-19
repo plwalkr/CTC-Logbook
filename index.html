@@ -91,7 +91,12 @@
     .hours-sidebox{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
     .hours-sidebox textarea{width:100%;min-height:84px;padding:8px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
     .pill{display:inline-flex;align-items:center;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:#f8fafc;font-size:12px;font-weight:600;color:#334155}
-    .table-wrap{height:46vh;min-height:280px;max-height:78vh;overflow:auto;resize:vertical}
+    .table-wrap{height:46vh;min-height:280px;max-height:none;overflow:auto;position:relative}
+    .table-wrap.is-resizable{resize:none}
+    .table-wrap-resize-handle{position:absolute;right:8px;bottom:8px;width:18px;height:18px;border:none;border-radius:6px;background:linear-gradient(135deg, transparent 0 38%, rgba(15,23,42,.18) 38% 48%, transparent 48% 58%, rgba(15,23,42,.28) 58% 68%, transparent 68% 78%, rgba(15,23,42,.38) 78% 88%, transparent 88% 100%);cursor:nwse-resize;opacity:.9;z-index:4}
+    .table-wrap-resize-handle:hover{opacity:1}
+    .table-wrap-resize-handle:focus{outline:2px solid rgba(37,99,235,.35);outline-offset:2px}
+    body.is-resizing-running-sheet{user-select:none;cursor:ns-resize}
     table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
     thead th{position:sticky;top:0;z-index:1;background:#f1f5f9}
     th,td{border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;padding:8px;text-align:left;vertical-align:top}
@@ -622,6 +627,7 @@ body[data-theme="clarity"] .trade-cell-card,
 body[data-theme="clarity"] .trade-empty-card{background:#f7faff;border-color:#9aa7bd}
 body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff;color:#10233d}
 body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
+body[data-theme="clarity"] .table-wrap-resize-handle{background:linear-gradient(135deg, transparent 0 38%, rgba(22,59,105,.22) 38% 48%, transparent 48% 58%, rgba(22,59,105,.32) 58% 68%, transparent 68% 78%, rgba(22,59,105,.42) 78% 88%, transparent 88% 100%)}
 
     body[data-active-tab="weekend"] #main-session-header,
     body[data-active-tab="manager"] #main-session-header,
@@ -769,14 +775,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.130-running-sheet-resize-declutter</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.131-running-sheet-resize-toggle</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.130-running-sheet-resize-declutter</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.131-running-sheet-resize-toggle</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1167,7 +1173,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.130-running-sheet-resize-declutter</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.131-running-sheet-resize-toggle</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1225,7 +1231,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.130-running-sheet-resize-declutter</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.131-running-sheet-resize-toggle</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1283,7 +1289,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.130-running-sheet-resize-declutter</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.131-running-sheet-resize-toggle</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1470,7 +1476,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.130-running-sheet-resize-declutter</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.131-running-sheet-resize-toggle</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1597,7 +1603,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.130-running-sheet-resize-declutter";
+    const VERSION = "v1.0.131-running-sheet-resize-toggle";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -1830,6 +1836,7 @@ const tradeSummaryGrid = document.getElementById("trade-summary-grid");
 const tradeCollection = document.getElementById("trade-collection");
 const tradeReferenceNote = document.getElementById("trade-reference-note");
     const entriesBody = document.getElementById("entries-body");
+    const entriesTableWrap = entriesBody ? entriesBody.closest(".table-wrap") : null;
     const followupPanel = document.getElementById("followup-panel");
     const followupTitle = document.getElementById("followup-title");
     const followupText = document.getElementById("followup-text");
@@ -1986,6 +1993,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
         });
       }
       applyDisplayMode(getSavedDisplayMode());
+    setupRunningSheetResizeHandle();
     }
     function formatTimeForInput(value){
       const raw = (value || "").toUpperCase().replace(/[^0-9APM]/g, "");
@@ -4443,6 +4451,96 @@ function renderHours(){
       `).join("") : `<div class="section-card"><div class="small">No handoff snapshot saved yet.</div></div>`;
     }
 
+    const RUNNING_SHEET_DEFAULT_HEIGHT = "46vh";
+    let runningSheetFitAllActive = false;
+
+    function getRunningSheetDefaultHeightPx(){
+      if (!entriesTableWrap) return 280;
+      const probe = document.createElement("div");
+      probe.style.position = "absolute";
+      probe.style.visibility = "hidden";
+      probe.style.pointerEvents = "none";
+      probe.style.height = RUNNING_SHEET_DEFAULT_HEIGHT;
+      probe.style.width = "1px";
+      document.body.appendChild(probe);
+      const px = Math.round(probe.getBoundingClientRect().height || window.innerHeight * 0.46);
+      probe.remove();
+      return Math.max(280, px);
+    }
+
+    function setRunningSheetHeightPx(nextHeight){
+      if (!entriesTableWrap) return;
+      const safeHeight = Math.max(280, Math.round(nextHeight || getRunningSheetDefaultHeightPx()));
+      entriesTableWrap.style.height = `${safeHeight}px`;
+    }
+
+    function setRunningSheetCompact(){
+      if (!entriesTableWrap) return;
+      entriesTableWrap.style.height = RUNNING_SHEET_DEFAULT_HEIGHT;
+      runningSheetFitAllActive = false;
+    }
+
+    function setRunningSheetFitAll(){
+      if (!entriesTableWrap) return;
+      requestAnimationFrame(() => {
+        const targetHeight = Math.max(getRunningSheetDefaultHeightPx(), entriesTableWrap.scrollHeight + 8);
+        setRunningSheetHeightPx(targetHeight);
+        runningSheetFitAllActive = true;
+      });
+    }
+
+    function toggleRunningSheetSizeMode(){
+      if (runningSheetFitAllActive) {
+        setRunningSheetCompact();
+      } else {
+        setRunningSheetFitAll();
+      }
+    }
+
+    function syncRunningSheetHeightMode(){
+      if (runningSheetFitAllActive) setRunningSheetFitAll();
+    }
+
+    function setupRunningSheetResizeHandle(){
+      if (!entriesTableWrap || entriesTableWrap.querySelector(".table-wrap-resize-handle")) return;
+      entriesTableWrap.classList.add("is-resizable");
+      const handle = document.createElement("button");
+      handle.type = "button";
+      handle.className = "table-wrap-resize-handle";
+      handle.title = "Drag to resize. Double-click to fit all entries.";
+      handle.setAttribute("aria-label", "Resize running sheet. Double-click to fit all entries.");
+      entriesTableWrap.appendChild(handle);
+
+      let dragState = null;
+
+      handle.addEventListener("mousedown", event => {
+        event.preventDefault();
+        runningSheetFitAllActive = false;
+        dragState = {
+          startY: event.clientY,
+          startHeight: entriesTableWrap.getBoundingClientRect().height
+        };
+        document.body.classList.add("is-resizing-running-sheet");
+      });
+
+      window.addEventListener("mousemove", event => {
+        if (!dragState) return;
+        const deltaY = event.clientY - dragState.startY;
+        setRunningSheetHeightPx(dragState.startHeight + deltaY);
+      });
+
+      window.addEventListener("mouseup", () => {
+        if (!dragState) return;
+        dragState = null;
+        document.body.classList.remove("is-resizing-running-sheet");
+      });
+
+      handle.addEventListener("dblclick", event => {
+        event.preventDefault();
+        toggleRunningSheetSizeMode();
+      });
+    }
+
     function renderEntries(){
       populateCategoryFilter();
       const q = searchInput.value.trim().toLowerCase();
@@ -4569,6 +4667,7 @@ function renderHours(){
       entriesBody.querySelectorAll("[data-entry-review]").forEach(select => {
         select.addEventListener("change", e => updateReviewState(Number(e.target.dataset.entryReview), e.target.value));
       });
+      syncRunningSheetHeightMode();
     }
 
     function updateEntryStatus(id, nextStatus){
