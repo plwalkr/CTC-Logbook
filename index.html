@@ -96,6 +96,10 @@
     .table-wrap-resize-handle{position:absolute;right:8px;bottom:8px;width:18px;height:18px;border:none;border-radius:6px;background:linear-gradient(135deg, transparent 0 38%, rgba(15,23,42,.18) 38% 48%, transparent 48% 58%, rgba(15,23,42,.28) 58% 68%, transparent 68% 78%, rgba(15,23,42,.38) 78% 88%, transparent 88% 100%);cursor:nwse-resize;opacity:.9;z-index:4}
     .table-wrap-resize-handle:hover{opacity:1}
     .table-wrap-resize-handle:focus{outline:2px solid rgba(37,99,235,.35);outline-offset:2px}
+    .table-wrap-back-to-top{position:absolute;right:34px;bottom:8px;border:1px solid #cbd5e1;background:#ffffff;color:#0f172a;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800;line-height:1;cursor:pointer;box-shadow:0 4px 10px rgba(15,23,42,.08);opacity:0;transform:translateY(6px);pointer-events:none;transition:opacity .16s ease,transform .16s ease,box-shadow .16s ease;z-index:4}
+    .table-wrap-back-to-top.is-visible{opacity:1;transform:translateY(0);pointer-events:auto}
+    .table-wrap-back-to-top:hover{box-shadow:0 6px 14px rgba(15,23,42,.12)}
+    .table-wrap-back-to-top:focus{outline:2px solid rgba(37,99,235,.35);outline-offset:2px}
     body.is-resizing-running-sheet{user-select:none;cursor:ns-resize}
     table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
     thead th{position:sticky;top:0;z-index:1;background:#f1f5f9}
@@ -628,6 +632,7 @@ body[data-theme="clarity"] .trade-empty-card{background:#f7faff;border-color:#9a
 body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff;color:#10233d}
 body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 body[data-theme="clarity"] .table-wrap-resize-handle{background:linear-gradient(135deg, transparent 0 38%, rgba(22,59,105,.22) 38% 48%, transparent 48% 58%, rgba(22,59,105,.32) 58% 68%, transparent 68% 78%, rgba(22,59,105,.42) 78% 88%, transparent 88% 100%)}
+body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;background:#fff;color:#10233d}
 
     body[data-active-tab="weekend"] #main-session-header,
     body[data-active-tab="manager"] #main-session-header,
@@ -775,14 +780,14 @@ body[data-theme="clarity"] .table-wrap-resize-handle{background:linear-gradient(
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.131-running-sheet-resize-toggle</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.132-running-sheet-toggle-backtotop</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.131-running-sheet-resize-toggle</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.132-running-sheet-toggle-backtotop</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1173,7 +1178,7 @@ body[data-theme="clarity"] .table-wrap-resize-handle{background:linear-gradient(
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.131-running-sheet-resize-toggle</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.132-running-sheet-toggle-backtotop</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1231,7 +1236,7 @@ body[data-theme="clarity"] .table-wrap-resize-handle{background:linear-gradient(
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.131-running-sheet-resize-toggle</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.132-running-sheet-toggle-backtotop</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1289,7 +1294,7 @@ body[data-theme="clarity"] .table-wrap-resize-handle{background:linear-gradient(
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.131-running-sheet-resize-toggle</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.132-running-sheet-toggle-backtotop</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1476,7 +1481,7 @@ body[data-theme="clarity"] .table-wrap-resize-handle{background:linear-gradient(
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.131-running-sheet-resize-toggle</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.132-running-sheet-toggle-backtotop</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1603,7 +1608,7 @@ body[data-theme="clarity"] .table-wrap-resize-handle{background:linear-gradient(
   </section>
 
   <script>
-    const VERSION = "v1.0.131-running-sheet-resize-toggle";
+    const VERSION = "v1.0.132-running-sheet-toggle-backtotop";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -4472,12 +4477,28 @@ function renderHours(){
       if (!entriesTableWrap) return;
       const safeHeight = Math.max(280, Math.round(nextHeight || getRunningSheetDefaultHeightPx()));
       entriesTableWrap.style.height = `${safeHeight}px`;
+      updateRunningSheetBackToTopVisibility();
+    }
+
+    function isRunningSheetExpanded(){
+      if (!entriesTableWrap) return false;
+      const currentHeight = Math.round(entriesTableWrap.getBoundingClientRect().height || 0);
+      return currentHeight > getRunningSheetDefaultHeightPx() + 8;
+    }
+
+    function updateRunningSheetBackToTopVisibility(){
+      if (!entriesTableWrap) return;
+      const btn = entriesTableWrap.querySelector('.table-wrap-back-to-top');
+      if (!btn) return;
+      const shouldShow = entriesTableWrap.scrollTop > 120;
+      btn.classList.toggle('is-visible', shouldShow);
     }
 
     function setRunningSheetCompact(){
       if (!entriesTableWrap) return;
-      entriesTableWrap.style.height = RUNNING_SHEET_DEFAULT_HEIGHT;
+      entriesTableWrap.style.height = `${getRunningSheetDefaultHeightPx()}px`;
       runningSheetFitAllActive = false;
+      updateRunningSheetBackToTopVisibility();
     }
 
     function setRunningSheetFitAll(){
@@ -4490,7 +4511,7 @@ function renderHours(){
     }
 
     function toggleRunningSheetSizeMode(){
-      if (runningSheetFitAllActive) {
+      if (runningSheetFitAllActive || isRunningSheetExpanded()) {
         setRunningSheetCompact();
       } else {
         setRunningSheetFitAll();
@@ -4498,7 +4519,11 @@ function renderHours(){
     }
 
     function syncRunningSheetHeightMode(){
-      if (runningSheetFitAllActive) setRunningSheetFitAll();
+      if (runningSheetFitAllActive) {
+        setRunningSheetFitAll();
+      } else {
+        updateRunningSheetBackToTopVisibility();
+      }
     }
 
     function setupRunningSheetResizeHandle(){
@@ -4507,9 +4532,20 @@ function renderHours(){
       const handle = document.createElement("button");
       handle.type = "button";
       handle.className = "table-wrap-resize-handle";
-      handle.title = "Drag to resize. Double-click to fit all entries.";
-      handle.setAttribute("aria-label", "Resize running sheet. Double-click to fit all entries.");
+      handle.title = "Drag to resize. Double-click to fit all entries or return to compact.";
+      handle.setAttribute("aria-label", "Resize running sheet. Double-click to fit all entries or return to compact.");
       entriesTableWrap.appendChild(handle);
+
+      const backToTopBtn = document.createElement("button");
+      backToTopBtn.type = "button";
+      backToTopBtn.className = "table-wrap-back-to-top";
+      backToTopBtn.textContent = "Top";
+      backToTopBtn.title = "Back to top";
+      backToTopBtn.setAttribute("aria-label", "Back to top of running sheet");
+      backToTopBtn.addEventListener("click", () => {
+        entriesTableWrap.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      entriesTableWrap.appendChild(backToTopBtn);
 
       let dragState = null;
 
@@ -4539,6 +4575,9 @@ function renderHours(){
         event.preventDefault();
         toggleRunningSheetSizeMode();
       });
+
+      entriesTableWrap.addEventListener('scroll', updateRunningSheetBackToTopVisibility, { passive: true });
+      updateRunningSheetBackToTopVisibility();
     }
 
     function renderEntries(){
