@@ -39,7 +39,7 @@
     .toolbar-title{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-right:8px}
     .toolbar button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:5px 8px;font-size:12px;cursor:pointer}
     .toolbar .swatch{font-weight:700;min-width:28px}
-    .editor{min-height:110px;max-height:320px;overflow:auto;padding:10px;outline:none;background:#fafaf9;line-height:1.45;white-space:pre-wrap}
+    .editor{min-height:110px;max-height:none;overflow:hidden;padding:10px;outline:none;background:#fafaf9;line-height:1.45;white-space:pre-wrap}
     .editor:empty:before{content:attr(data-placeholder);color:#94a3b8}
     .editor ul{padding-left:20px;margin:.3rem 0}
     .actions-row{display:grid;grid-template-columns:auto auto 1fr auto;gap:8px;align-items:end;padding-top:8px;border-top:1px solid #e2e8f0}
@@ -183,7 +183,7 @@
     .manager-card h3{font-size:14px;margin:0 0 8px 0}
     .manager-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
     .manager-value{font-size:24px;font-weight:800;color:#0f172a}
-    .manager-list{display:flex;flex-direction:column;gap:10px}
+    .manager-list{display:flex;flex-direction:column;gap:10px;justify-content:flex-start;align-content:flex-start;flex:1 1 auto}
     #manager-help-list{justify-content:flex-start;padding-top:2px}
     .manager-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 16px;align-items:start;padding:12px 0;border-bottom:1px dashed #e2e8f0;font-size:13px;line-height:1.55}
     .manager-item:last-child{border-bottom:none;padding-bottom:0}
@@ -231,8 +231,14 @@
     .manager-band-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center;display:flex;flex-direction:column;justify-content:center}
     .manager-band-card .manager-label{margin-bottom:4px}
     .manager-band-card .manager-value{font-size:28px}
-    .manager-list-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:16px;display:flex;flex-direction:column;justify-content:flex-start;align-self:stretch;min-height:100%}
+    .manager-list-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:16px;display:flex;flex-direction:column;justify-content:flex-start;align-self:stretch;min-height:100%;height:100%}
     .manager-list-head{display:flex;justify-content:center;gap:8px;align-items:center;margin-bottom:12px;text-align:center}
+#manager-confidence-list{justify-content:flex-start;align-items:stretch;margin-top:0;padding-top:0}
+    .form-hint{font-size:12px;color:#475569;line-height:1.5;margin-top:6px}
+    .log-meta-panel{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:12px;margin-bottom:10px}
+    .log-meta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .log-meta-help{font-size:12px;color:#475569;line-height:1.5;margin-top:10px}
+    .log-meta-select{width:100%;padding:8px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
     .manager-list-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700}
     .manager-story-box{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:14px;font-size:14px;color:#334155;line-height:1.6;max-width:92ch;margin:0 auto;text-align:center}
     .manager-story-box strong{color:#0f172a}
@@ -595,6 +601,7 @@ body[data-theme="clarity"] .trade-session-chunk{border-top-color:#9aa7bd}
     body[data-theme="clarity"] .search,
     body[data-theme="clarity"] .followup-textarea,
     body[data-theme="clarity"] .hours-sidebox textarea,
+    body[data-theme="clarity"] .log-meta-select,
     body[data-theme="clarity"] .debug-actions button,
     body[data-theme="clarity"] .filter-clear-btn,
     body[data-theme="clarity"] .tab-btn,
@@ -762,14 +769,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.128-manager-chart-centering</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.129-manager-logbook-controls-refine</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.128-manager-chart-centering</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.129-manager-logbook-controls-refine</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1161,7 +1168,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.128-manager-chart-centering</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.129-manager-logbook-controls-refine</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1219,7 +1226,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.128-manager-chart-centering</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.129-manager-logbook-controls-refine</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1277,7 +1284,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.128-manager-chart-centering</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.129-manager-logbook-controls-refine</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1464,7 +1471,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.128-manager-chart-centering</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.129-manager-logbook-controls-refine</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1591,7 +1598,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.128-manager-chart-centering";
+    const VERSION = "v1.0.129-manager-logbook-controls-refine";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -1635,6 +1642,8 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     }
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
+    const LOG_STATUS_OPTIONS = ["Open","Monitoring","Resolved","Waiting"];
+    const LOG_REVIEW_OPTIONS = ["Active","Monitoring","Needs Attention","Reviewed","Ignored"];
     const bannerConfig = [
       ["Engine Model","engineModel"],["Engine S/N","engineSN"],["Engineer","engineer"],["PPH","pph"],["Test Cell","testCell"],["Test Plan ID","testPlanId"],["Technician","technician"],["Shift","shift"],["Date","date"],["Start Time","startTime"],["End Time","endTime"],["Cell Hour Meter","cellHourMeter"]
     ];
@@ -1656,7 +1665,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       hours:""
     }));
 
-    let formState = {time:"",run:"",cycle:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"};
+    let formState = {time:"",run:"",cycle:"",customCycle:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"};
     function createWeekendUpdateRows(){
       return TEST_CELL_OPTIONS.map(cell => ({ testCell: cell, tcStatus: "", helpNeeded: "", comments: "", lastUpdate: "", wwid: "" }));
     }
@@ -3313,6 +3322,7 @@ function renderManagerTab(){
 
       renderHeaderFields();
       renderForm();
+    autoSizeNoteEditor();
       renderHours();
       renderHandoffs();
       renderEntries();
@@ -3408,7 +3418,7 @@ function renderManagerTab(){
         {id:9101,time:'09:42 AM',state:'Running',priority:'Normal',owner:'Joey Poppe',ready:'Ready',completed:'Emissions cart reconnect and warm-up checks completed.',open:'Morning calibration note should stay attached to the active shift context.',watch:'Watch for any repeated comms drop before the next cart swap.',header:deepClone(header)}
       ];
       expandedRows = {};
-      formState = {time:'06:30 PM',run:'1229756',cycle:'vLLC',torqueMap:'19',PanT:'180.4',carbon:'-0.70',nox:'-0.010',thc:'-0.003',pm:'0.001',work:'56.05',filter:'17',testMap:'19',category:'General',status:'Open'};
+      formState = {time:'06:30 PM',run:'1229756',cycle:'vLLC',customCycle:'',torqueMap:'19',PanT:'180.4',carbon:'-0.70',nox:'-0.010',thc:'-0.003',pm:'0.001',work:'56.05',filter:'17',testMap:'19',category:'General',status:'Open'};
       if (noteEditor) noteEditor.innerHTML = '<div><strong>Operator test note:</strong> Use this staged note to check formatting, spacing, and manager-facing language with a fuller logbook story already loaded.</div><ul><li>TRI / Rev update still visible</li><li>Weekend help queue active on TC 207</li><li>Late dyno verify cleared on TC 204</li></ul>';
       if (handoffState) handoffState.value = 'Ready for Next Shift';
       if (handoffPriority) handoffPriority.value = 'Watch';
@@ -3791,10 +3801,13 @@ function renderHeaderFields(){
 }
 
 function renderForm(){
+      const showCustomCycle = formState.cycle === "Custom" || (!!formState.customCycle && !cycleOptions.includes(formState.cycle));
+      const cycleSelectValue = cycleOptions.includes(formState.cycle) ? formState.cycle : (formState.customCycle ? "Custom" : formState.cycle);
       formGrid.innerHTML = `
         <label class="field"><label>Time</label><input id="field-time" value="${escapeHtml(formState.time)}" placeholder="--:-- AM" /></label>
         <label class="field"><label>Run #</label><input id="field-run" value="${escapeHtml(formState.run)}" placeholder="Run #" /></label>
-        <label class="field span-2"><label>Cycle Type</label><select id="field-cycle">${cycleOptions.map(opt => `<option value="${escapeHtml(opt)}" ${formState.cycle===opt?"selected":""}>${opt || "Select cycle"}</option>`).join("")}</select></label>
+        <label class="field span-2"><label>Cycle Type</label><select id="field-cycle">${cycleOptions.map(opt => `<option value="${escapeHtml(opt)}" ${cycleSelectValue===opt?"selected":""}>${opt || "Select cycle"}</option>`).join("")}</select></label>
+        ${showCustomCycle ? `<label class="field span-2 custom-cycle-field"><label>Custom Cycle</label><input id="field-customCycle" value="${escapeHtml(formState.customCycle || "")}" placeholder="Enter custom cycle" /></label>` : ''}
         <label class="field"><label>Torque</label><input id="field-torqueMap" value="${escapeHtml(formState.torqueMap)}" placeholder="Map" /></label>
         <label class="field"><label>PanT</label><input id="field-PanT" value="${escapeHtml(formState.PanT)}" placeholder="°F" /></label>
         <label class="field"><label>Carbon</label><input id="field-carbon" value="${escapeHtml(formState.carbon)}" placeholder="Carbon" /></label>
@@ -3805,16 +3818,35 @@ function renderForm(){
         <label class="field"><label>Filter</label><input id="field-filter" value="${escapeHtml(formState.filter)}" placeholder="#" /></label>
         <label class="field"><label>Test Map</label><input id="field-testMap" value="${escapeHtml(formState.testMap)}" placeholder="#" /></label>
         <label class="field"><label>Category</label><select id="field-category">${["General","Test Update","Issue","Emissions","Calibration","Engineer Direction","Handoff"].map(opt => `<option value="${opt}" ${formState.category===opt?"selected":""}>${opt}</option>`).join("")}</select></label>
-        <label class="field"><label>Status</label><select id="field-status">${["Open","Monitoring","Resolved","Waiting"].map(opt => `<option value="${opt}" ${formState.status===opt?"selected":""}>${opt}</option>`).join("")}</select></label>
+        <label class="field"><label>Status</label><select id="field-status">${LOG_STATUS_OPTIONS.map(opt => `<option value="${opt}" ${formState.status===opt?"selected":""}>${opt}</option>`).join("")}</select></label>
       `;
       formGrid.querySelectorAll("input,select").forEach(el => {
         el.addEventListener("input", e => {
           const id = e.target.id.replace("field-","");
-          formState[id] = id === "time" ? formatTimeForInput(e.target.value) : e.target.value;
+          const value = id === "time" ? formatTimeForInput(e.target.value) : e.target.value;
+          formState[id] = value;
           if (id === "time") e.target.value = formState[id];
+          if (id === "cycle") {
+            if (value !== "Custom") formState.customCycle = "";
+            renderForm();
+          }
         });
       });
       autoLogSelect.innerHTML = autoLogEventTemplates.map(t => `<option value="${escapeHtml(t.label)}">${t.label}</option>`).join("");
+    }
+
+
+    function selectedCycleValue(){
+      if (formState.cycle === "Custom") {
+        return String(formState.customCycle || "").trim() || "Custom";
+      }
+      return formState.cycle || "";
+    }
+
+    function autoSizeNoteEditor(){
+      if (!noteEditor) return;
+      noteEditor.style.height = "auto";
+      noteEditor.style.height = `${Math.max(110, noteEditor.scrollHeight + 2)}px`;
     }
 
     function getWorkPatternConfig(){
@@ -4480,6 +4512,14 @@ function renderHours(){
                       ${snapshotBox("Cell Hour Meter", headerSnapshot.cellHourMeter || "—")}
                     </div>
                   </div>
+                  <div class="log-meta-panel">
+                    <div class="section-title">Log Status & Review Controls</div>
+                    <div class="log-meta-grid">
+                      <label class="field"><label>Status</label><select class="log-meta-select" data-entry-status="${entry.id}">${LOG_STATUS_OPTIONS.map(opt => `<option value="${opt}" ${entry.status===opt?"selected":""}>${opt}</option>`).join("")}</select></label>
+                      <label class="field"><label>Review</label><select class="log-meta-select" data-entry-review="${entry.id}">${LOG_REVIEW_OPTIONS.map(opt => `<option value="${opt}" ${entry.reviewState===opt?"selected":""}>${opt}</option>`).join("")}</select></label>
+                    </div>
+                    <div class="log-meta-help">Status = the current condition of the issue or event. Review = how the team is handling that row inside the running sheet.</div>
+                  </div>
                   <div class="section-card">
                     <div class="section-title">Technical Values</div>
                     <div class="details-grid">
@@ -4525,6 +4565,17 @@ function renderHours(){
           }
         });
       });
+      entriesBody.querySelectorAll("[data-entry-status]").forEach(select => {
+        select.addEventListener("change", e => updateEntryStatus(Number(e.target.dataset.entryStatus), e.target.value));
+      });
+      entriesBody.querySelectorAll("[data-entry-review]").forEach(select => {
+        select.addEventListener("change", e => updateReviewState(Number(e.target.dataset.entryReview), e.target.value));
+      });
+    }
+
+    function updateEntryStatus(id, nextStatus){
+      entries = entries.map(entry => entry.id === id ? {...entry, status: nextStatus} : entry);
+      renderEntries();
     }
 
     function updateReviewState(id, nextState){
@@ -4533,9 +4584,10 @@ function renderHours(){
     }
 
     function resetForm(){
-      Object.assign(formState, {time:formatCurrentTime(),run:"",cycle:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"});
+      Object.assign(formState, {time:formatCurrentTime(),run:"",cycle:"",customCycle:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"});
       renderForm();
       noteEditor.innerHTML = "";
+      autoSizeNoteEditor();
     }
 
     function addOperatorEntry(){
@@ -4546,6 +4598,7 @@ function renderHours(){
         ...formState,
         id: Date.now(),
         time: formState.time || formatCurrentTime(),
+        cycle: selectedCycleValue() || "—",
         source: "operator",
         locked: true,
         ignored: false,
@@ -4572,7 +4625,7 @@ function renderHours(){
         eventType: template.eventType,
         time: formState.time || formatCurrentTime(),
         run: formState.run || "—",
-        cycle: formState.cycle || "—",
+        cycle: selectedCycleValue() || "—",
         torqueMap: formState.torqueMap || "—",
         PanT: formState.PanT || "—",
         carbon: formState.carbon || "—",
@@ -4707,6 +4760,7 @@ function renderHours(){
       });
     }
 
+    noteEditor.addEventListener("input", autoSizeNoteEditor);
     document.getElementById("add-entry-btn").addEventListener("click", addOperatorEntry);
     document.getElementById("auto-log-btn").addEventListener("click", addSystemEvent);
     document.getElementById("clear-btn").addEventListener("click", resetForm);
