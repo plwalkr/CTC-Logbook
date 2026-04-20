@@ -39,7 +39,7 @@
     .toolbar-title{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-right:8px}
     .toolbar button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:5px 8px;font-size:12px;cursor:pointer}
     .toolbar .swatch{font-weight:700;min-width:28px}
-    .editor{min-height:110px;max-height:none;overflow:hidden;padding:10px;outline:none;background:#fafaf9;line-height:1.45;white-space:pre-wrap}
+    .editor{min-height:110px;max-height:320px;overflow:auto;padding:10px;outline:none;background:#fafaf9;line-height:1.45;white-space:pre-wrap}
     .editor:empty:before{content:attr(data-placeholder);color:#94a3b8}
     .editor ul{padding-left:20px;margin:.3rem 0}
     .actions-row{display:grid;grid-template-columns:auto auto 1fr auto;gap:8px;align-items:end;padding-top:8px;border-top:1px solid #e2e8f0}
@@ -91,21 +91,12 @@
     .hours-sidebox{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
     .hours-sidebox textarea{width:100%;min-height:84px;padding:8px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
     .pill{display:inline-flex;align-items:center;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:#f8fafc;font-size:12px;font-weight:600;color:#334155}
-    .table-wrap{height:46vh;min-height:280px;max-height:none;overflow:auto;position:relative}
-    .table-wrap.is-resizable{resize:none}
-    .table-wrap-resize-handle{position:absolute;right:8px;bottom:8px;width:18px;height:18px;border:none;border-radius:6px;background:linear-gradient(135deg, transparent 0 38%, rgba(15,23,42,.18) 38% 48%, transparent 48% 58%, rgba(15,23,42,.28) 58% 68%, transparent 68% 78%, rgba(15,23,42,.38) 78% 88%, transparent 88% 100%);cursor:nwse-resize;opacity:.9;z-index:4}
-    .table-wrap-resize-handle:hover{opacity:1}
-    .table-wrap-resize-handle:focus{outline:2px solid rgba(37,99,235,.35);outline-offset:2px}
-    .table-wrap-back-to-top{position:absolute;right:34px;bottom:8px;border:1px solid #cbd5e1;background:#ffffff;color:#0f172a;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800;line-height:1;cursor:pointer;box-shadow:0 4px 10px rgba(15,23,42,.08);opacity:0;transform:translateY(6px);pointer-events:none;transition:opacity .16s ease,transform .16s ease,box-shadow .16s ease;z-index:4}
-    .table-wrap-back-to-top.is-visible{opacity:1;transform:translateY(0);pointer-events:auto}
-    .table-wrap-back-to-top:hover{box-shadow:0 6px 14px rgba(15,23,42,.12)}
-    .table-wrap-back-to-top:focus{outline:2px solid rgba(37,99,235,.35);outline-offset:2px}
-    body.is-resizing-running-sheet{user-select:none;cursor:ns-resize}
+    .table-wrap{max-height:46vh;overflow-y:auto}
     table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
     thead th{position:sticky;top:0;z-index:1;background:#f1f5f9}
     th,td{border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;padding:8px;text-align:left;vertical-align:top}
     th:last-child,td:last-child{border-right:none}
-    .w-time{width:7%}.w-source{width:7%}.w-event{width:10%}.w-run{width:8%}.w-cycle{width:9%}.w-category{width:10%}.w-status{width:0}.w-review{width:8%}.w-note{width:34%}.w-actions{width:14%}
+    .w-time{width:7%}.w-source{width:7%}.w-event{width:9%}.w-run{width:8%}.w-cycle{width:8%}.w-category{width:8%}.w-status{width:7%}.w-review{width:7%}.w-note{width:27%}.w-actions{width:12%}
     .badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;border:1px solid transparent;font-size:10px;font-weight:700;text-transform:uppercase;white-space:nowrap}
     .source-system{background:#e0f2fe;color:#075985;border-color:#bae6fd}
     .source-operator{background:#f5f5f4;color:#44403c;border-color:#d6d3d1}
@@ -154,7 +145,7 @@
     .section-title{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:700;margin-bottom:8px}
     .view-tabs{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;padding:10px 12px;background:var(--soft);border:1px solid var(--line);border-radius:16px}
     .view-tab-core{display:flex;gap:8px;flex-wrap:wrap;flex:1 1 760px}
-    .view-tab-temp{display:flex;flex-direction:column;gap:8px;flex:0 0 270px;min-width:250px;padding:10px 12px;border:1px dashed #cbd5e1;border-radius:16px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%)}
+    .view-tab-temp{display:flex;flex-direction:column;gap:8px;flex:0 0 280px;min-width:260px;padding:12px 14px;border:1px dashed #cbd5e1;border-radius:16px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);margin-left:auto;box-shadow:0 8px 20px rgba(15,23,42,.04)}
     .view-tab-temp-label{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:800}
     .view-tab-temp-copy{font-size:12px;color:#475569;line-height:1.45}
     .tab-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:999px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer}
@@ -192,7 +183,7 @@
     .manager-card h3{font-size:14px;margin:0 0 8px 0}
     .manager-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px}
     .manager-value{font-size:24px;font-weight:800;color:#0f172a}
-    .manager-list{display:flex;flex-direction:column;gap:10px;justify-content:flex-start;align-content:flex-start;flex:1 1 auto}
+    .manager-list{display:flex;flex-direction:column;gap:10px}
     #manager-help-list{justify-content:flex-start;padding-top:2px}
     .manager-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 16px;align-items:start;padding:12px 0;border-bottom:1px dashed #e2e8f0;font-size:13px;line-height:1.55}
     .manager-item:last-child{border-bottom:none;padding-bottom:0}
@@ -218,10 +209,10 @@
     .manager-rank-track{margin-top:6px;height:8px;width:min(75%,100%);border-radius:999px;background:#e2e8f0;overflow:hidden}
     .manager-rank-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#2563eb 0%,#60a5fa 100%)}
     .manager-rank-fill.warn{background:linear-gradient(90deg,#f59e0b 0%,#fbbf24 100%)}
-    .manager-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:stretch}
+    .manager-layout{display:grid;grid-template-columns:1.2fr .95fr;gap:12px;align-items:start}
     .manager-note{font-size:13px;color:#475569;line-height:1.5}
     .manager-empty{font-size:13px;color:#64748b}
-    .manager-hero{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:stretch}
+    .manager-hero{display:grid;grid-template-columns:1.35fr 1fr;gap:12px;align-items:stretch}
     .manager-hero-card{border:1px solid #e2e8f0;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);padding:16px;text-align:center;display:flex;flex-direction:column;justify-content:center}
     .manager-hero-card h2{font-size:24px;line-height:1.1;margin:2px 0 8px 0;color:#0f172a}
     .manager-hero-copy{font-size:14px;color:#334155;line-height:1.55;margin:0;max-width:62ch}
@@ -236,24 +227,18 @@
     .manager-posture.watch{background:#fff7ed;color:#9a3412;border-color:#fed7aa}
     .manager-posture.attention{background:#fef2f2;color:#b91c1c;border-color:#fecaca}
     .manager-posture-note{font-size:13px;color:#334155;line-height:1.5;margin-top:10px;max-width:60ch}
-    .manager-band{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:stretch}
+    .manager-band{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:stretch}
     .manager-band-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center;display:flex;flex-direction:column;justify-content:center}
     .manager-band-card .manager-label{margin-bottom:4px}
     .manager-band-card .manager-value{font-size:28px}
-    .manager-list-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:16px;display:flex;flex-direction:column;justify-content:flex-start;align-self:stretch;min-height:100%;height:100%}
+    .manager-list-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:16px;display:flex;flex-direction:column;justify-content:flex-start;align-self:start}
     .manager-list-head{display:flex;justify-content:center;gap:8px;align-items:center;margin-bottom:12px;text-align:center}
-#manager-confidence-list{justify-content:flex-start;align-items:stretch;margin-top:0;padding-top:0}
-    .form-hint{font-size:12px;color:#475569;line-height:1.5;margin-top:6px}
-    .log-meta-panel{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:12px;margin-bottom:10px}
-    .log-meta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-    .log-meta-help{font-size:12px;color:#475569;line-height:1.5;margin-top:10px}
-    .log-meta-select{width:100%;padding:8px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
     .manager-list-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700}
     .manager-story-box{border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;padding:14px;font-size:14px;color:#334155;line-height:1.6;max-width:92ch;margin:0 auto;text-align:center}
     .manager-story-box strong{color:#0f172a}
-    .manager-dashboard-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:stretch}
-    .manager-dashboard-grid.bottom{grid-template-columns:minmax(0,1fr);align-items:stretch}
-    .manager-chart-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:16px 18px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;text-align:center;width:100%}
+    .manager-dashboard-grid{display:grid;grid-template-columns:1.25fr .95fr;gap:12px;align-items:stretch}
+    .manager-dashboard-grid.bottom{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
+    .manager-chart-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:14px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;text-align:center}
     .manager-chart-head{display:flex;justify-content:center;gap:8px;align-items:center;margin-bottom:10px;text-align:center}
     .manager-chart-head h3{font-size:16px;margin:2px 0 0 0}
     .manager-chart-sub{font-size:13px;color:#475569;line-height:1.45;margin-top:3px}
@@ -263,18 +248,15 @@
     .manager-dot.availability{background:#2563eb}
     .manager-dot.productivity{background:#ea580c}
     .manager-kpi-svg{width:100%;height:230px;display:block;background:linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);border:1px solid #e2e8f0;border-radius:14px}
-.manager-chart-card.full-width-chart{min-width:0}
-    .manager-chart-card .manager-bars{width:min(100%,900px);margin:0 auto}
-    .manager-chart-card .manager-kpi-note,.manager-chart-card .manager-chart-sub{max-width:72ch;margin-left:auto;margin-right:auto}
     .manager-kpi-note{font-size:13px;color:#334155;margin-top:8px;line-height:1.45}
     .manager-bars{display:flex;flex-direction:column;gap:10px}
-    .manager-bar-row{display:grid;grid-template-columns:150px minmax(0,1fr) 96px;gap:12px;align-items:center;font-size:12px;width:100%}
-    .manager-bar-label{color:#334155;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right;padding-right:4px}
+    .manager-bar-row{display:grid;grid-template-columns:minmax(90px,1.1fr) minmax(0,2.3fr) auto;gap:10px;align-items:center;font-size:12px}
+    .manager-bar-label{color:#334155;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .manager-bar-track{height:14px;border-radius:999px;background:#e2e8f0;overflow:hidden;position:relative}
     .manager-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#3b82f6 0%,#60a5fa 100%)}
     .manager-bar-fill.warn{background:linear-gradient(90deg,#f59e0b 0%,#fbbf24 100%)}
     .manager-bar-fill.danger{background:linear-gradient(90deg,#dc2626 0%,#ef4444 100%)}
-    .manager-bar-value{font-weight:800;color:#0f172a;white-space:nowrap;text-align:left;min-width:96px}
+    .manager-bar-value{font-weight:800;color:#0f172a;white-space:nowrap}
     .manager-empty-chart{font-size:12px;color:#64748b;padding:10px 0}
     .manager-mode-shell{display:flex;flex-direction:column;gap:8px;margin-top:2px}
     .manager-mode-bar{display:flex;gap:8px;flex-wrap:wrap;padding:8px;border:1px solid var(--line);border-radius:14px;background:var(--soft)}
@@ -304,6 +286,25 @@
     .engineer-summary-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700;margin-bottom:6px;padding-left:6px}
     .engineer-summary-value{font-size:26px;font-weight:800;color:#0f172a;padding-left:6px}
     .engineer-summary-note{font-size:12px;color:#475569;line-height:1.5;margin-top:6px;padding-left:6px}
+    .engineer-overview-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:12px}
+    .engineer-visual-card{border:1px solid #dbe3ed;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#fbfdff 100%);padding:14px;box-shadow:0 6px 18px rgba(15,23,42,.04)}
+    .engineer-visual-list,.engineer-note-list,.engineer-meter-stack{display:flex;flex-direction:column;gap:10px}
+    .engineer-bar-row,.engineer-note-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:11px 12px}
+    .engineer-bar-top,.engineer-note-top,.engineer-meter-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+    .engineer-bar-stack{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .engineer-bar-line,.engineer-meter-line{display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:8px;align-items:center}
+    .engineer-bar-line span,.engineer-meter-line span{font-size:11px;font-weight:800;color:#475569;text-transform:uppercase;letter-spacing:.08em}
+    .engineer-bar-track,.engineer-meter-track{height:12px;border-radius:999px;background:#e2e8f0;overflow:hidden;position:relative}
+    .engineer-bar-fill,.engineer-meter-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#2563eb 0%,#60a5fa 100%)}
+    .engineer-bar-fill.downtime,.engineer-meter-fill.downtime{background:linear-gradient(90deg,#f59e0b 0%,#fbbf24 100%)}
+    .engineer-bar-fill.attention,.engineer-meter-fill.attention{background:linear-gradient(90deg,#dc2626 0%,#ef4444 100%)}
+    .engineer-bar-value,.engineer-meter-value{font-size:12px;font-weight:800;color:#0f172a;white-space:nowrap}
+    .engineer-visual-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+    .engineer-note-card.attention{border-color:#fecaca;background:#fff7f7}
+    .engineer-note-card.muted{background:#f8fafc}
+    .engineer-note-meta{font-size:12px;color:#64748b;line-height:1.45}
+    .engineer-note-copy{font-size:13px;color:#334155;line-height:1.6;margin-top:6px}
+
     .engineer-collection{display:flex;flex-direction:column;gap:14px}
     .engineer-cell-card{border:1px solid #dbe3ed;border-radius:18px;background:linear-gradient(180deg,#ffffff 0%,#fbfdff 100%);padding:16px;box-shadow:0 8px 24px rgba(15,23,42,.04)}
     .engineer-cell-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px}
@@ -344,36 +345,6 @@
     .engineer-row-card{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px}
     .engineer-row-meta{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
     .engineer-row-line{font-size:13px;color:#334155;line-height:1.6;margin-top:6px}
-    .engineer-flow-grid{display:grid;grid-template-columns:1.02fr 1.18fr .8fr;gap:10px;margin-bottom:12px}
-    .engineer-callout-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:14px}
-    .engineer-callout-card strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:7px}
-    .engineer-callout-big{font-size:28px;font-weight:900;color:#0f172a;line-height:1.05}
-    .engineer-callout-big.running{color:#166534}
-    .engineer-callout-big.down{color:#b91c1c}
-    .engineer-callout-big.mixed{color:#9a3412}
-    .engineer-callout-big.quiet{color:#475569}
-    .engineer-callout-copy{font-size:13px;color:#334155;line-height:1.55;margin-top:7px}
-    .engineer-meter{display:flex;height:12px;border-radius:999px;overflow:hidden;background:#e2e8f0;margin-top:8px}
-    .engineer-meter-run{background:linear-gradient(90deg,#16a34a 0%,#4ade80 100%);min-width:0}
-    .engineer-meter-down{background:linear-gradient(90deg,#f59e0b 0%,#ef4444 100%);min-width:0}
-    .engineer-meter-labels{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:7px;font-size:12px;color:#475569;line-height:1.45;flex-wrap:wrap}
-    .engineer-meter-labels strong{display:inline;font-size:12px;letter-spacing:0;color:#0f172a;text-transform:none;margin:0}
-    .engineer-why-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-    .engineer-reason-stack{display:flex;flex-direction:column;gap:10px}
-    .engineer-reason-item{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px 12px}
-    .engineer-reason-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
-    .engineer-reason-title{font-size:13px;font-weight:800;color:#0f172a;line-height:1.4}
-    .engineer-reason-meta{font-size:11px;color:#64748b;line-height:1.4}
-    .engineer-reason-copy{font-size:12px;color:#334155;line-height:1.55;margin-top:6px}
-    .engineer-mini-bar-track{height:8px;border-radius:999px;background:#e2e8f0;overflow:hidden;margin-top:7px}
-    .engineer-mini-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#ea580c 0%,#fbbf24 100%)}
-    .engineer-mini-bar-fill.running{background:linear-gradient(90deg,#16a34a 0%,#4ade80 100%)}
-    .engineer-proof-list{display:flex;flex-direction:column;gap:8px}
-    .engineer-proof-item{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:10px 12px}
-    .engineer-proof-title{font-size:13px;font-weight:800;color:#0f172a;line-height:1.45}
-    .engineer-proof-meta{font-size:11px;color:#64748b;line-height:1.45;margin-top:2px}
-    .engineer-proof-copy{font-size:12px;color:#334155;line-height:1.55;margin-top:6px}
-    .engineer-specifics-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 
     .settings-compact-head{display:flex;justify-content:flex-end;gap:10px;align-items:flex-start;flex-wrap:wrap}
     .settings-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
@@ -411,9 +382,6 @@
     body[data-theme="clarity"] .engineer-list-item,
     body[data-theme="clarity"] .engineer-detail-card,
     body[data-theme="clarity"] .engineer-row-card{background:#f7faff;border-color:#9aa7bd}
-    body[data-theme="clarity"] .engineer-callout-card,
-    body[data-theme="clarity"] .engineer-reason-item,
-    body[data-theme="clarity"] .engineer-proof-item{background:#f7faff;border-color:#9aa7bd}
     body[data-theme="clarity"] .manager-mode-bar{background:#eef3fa;border-color:#9aa7bd}
     body[data-theme="clarity"] .manager-mode-btn,
     body[data-theme="clarity"] .engineer-filter-row select,
@@ -453,7 +421,7 @@
     .manager-note,.manager-chart-sub,.manager-kpi-note,.manager-posture-note,.manager-hero-copy,.manager-signal-note{max-width:58ch;margin-left:auto;margin-right:auto;text-align:center}
     .manager-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;text-align:left}
     .manager-item > div:last-child,.manager-item > strong:last-child{text-align:right}
-    .manager-bar-row{grid-template-columns:150px minmax(0,1fr) 96px}
+    .manager-bar-row{grid-template-columns:minmax(110px,1fr) minmax(0,2.2fr) auto}
     .manager-layout,.manager-hero,.manager-dashboard-grid,.manager-dashboard-grid.bottom,.manager-band{justify-items:stretch}
     .debug-fab{position:fixed;right:16px;bottom:16px;z-index:999;border:1px solid #0f172a;background:#0f172a;color:#fff;border-radius:999px;padding:10px 14px;font-size:12px;font-weight:800;letter-spacing:.04em;box-shadow:0 10px 25px rgba(15,23,42,.18);cursor:pointer}
     .debug-fab:hover{transform:translateY(-1px)}
@@ -610,7 +578,6 @@ body[data-theme="clarity"] .trade-session-chunk{border-top-color:#9aa7bd}
     body[data-theme="clarity"] .search,
     body[data-theme="clarity"] .followup-textarea,
     body[data-theme="clarity"] .hours-sidebox textarea,
-    body[data-theme="clarity"] .log-meta-select,
     body[data-theme="clarity"] .debug-actions button,
     body[data-theme="clarity"] .filter-clear-btn,
     body[data-theme="clarity"] .tab-btn,
@@ -631,8 +598,6 @@ body[data-theme="clarity"] .trade-cell-card,
 body[data-theme="clarity"] .trade-empty-card{background:#f7faff;border-color:#9aa7bd}
 body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff;color:#10233d}
 body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
-body[data-theme="clarity"] .table-wrap-resize-handle{background:linear-gradient(135deg, transparent 0 38%, rgba(22,59,105,.22) 38% 48%, transparent 48% 58%, rgba(22,59,105,.32) 58% 68%, transparent 68% 78%, rgba(22,59,105,.42) 78% 88%, transparent 88% 100%)}
-body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;background:#fff;color:#10233d}
 
     body[data-active-tab="weekend"] #main-session-header,
     body[data-active-tab="manager"] #main-session-header,
@@ -752,18 +717,14 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
       .manager-band{grid-template-columns:repeat(2,minmax(0,1fr))}
       .manager-signal-row{grid-template-columns:1fr}
       .engineer-summary-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .engineer-flow-grid{grid-template-columns:1fr}
-      .engineer-why-grid{grid-template-columns:1fr}
       .engineer-cell-grid{grid-template-columns:1fr}
       .engineer-detail-grid{grid-template-columns:1fr}
-      .engineer-specifics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .settings-hero{grid-template-columns:1fr}
       .settings-quickref{grid-template-columns:1fr}
       .filters-row .search{max-width:none}
       .hours-filter-row .search{max-width:none}
       .engineer-filter-row{width:100%}
       .engineer-filter-row select,.engineer-filter-row input{min-width:0;width:100%}
-      .engineer-specifics-grid{grid-template-columns:1fr}
       .date-filter-row{align-items:stretch}
       .date-filter-row .date-field{width:100%;justify-content:space-between}
       table{font-size:11px}
@@ -780,14 +741,14 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.132-running-sheet-toggle-backtotop</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.126-engineer-review-visual-pass</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.132-running-sheet-toggle-backtotop</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.126-engineer-review-visual-pass</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -810,7 +771,7 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
         </button>
         <button class="tab-btn" type="button" data-tab-target="settings">
           Settings
-          <span class="tab-sub">Display + quick reference</span>
+          <span class="tab-sub">Themes only for now</span>
         </button>
       </div>
       <div class="view-tab-temp" aria-label="Temporary review views">
@@ -925,6 +886,7 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
               <th class="w-run">Run #</th>
               <th class="w-cycle">Cycle</th>
               <th class="w-category">Category</th>
+              <th class="w-status">Status</th>
               <th class="w-review">Review</th>
               <th class="w-note">Note</th>
               <th class="w-actions">Actions</th>
@@ -1178,7 +1140,7 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.132-running-sheet-toggle-backtotop</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.126-engineer-review-visual-pass</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1207,6 +1169,7 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
                 <div class="engineer-filter-note">All cells stay available in the dropdown. Search narrows the visible read-only review cards without exposing any edit controls.</div>
               </div>
             </div>
+            
             <div class="engineer-summary-strip">
               <div class="engineer-summary-card" id="engineer-summary-cells-card">
                 <div class="engineer-summary-label">Visible Cells</div>
@@ -1229,6 +1192,18 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
                 <div class="engineer-summary-note" id="engineer-visible-downtime-note">Downtime hours inside the visible saved chunks.</div>
               </div>
             </div>
+            <div class="engineer-overview-grid">
+              <div class="engineer-visual-card">
+                <div class="engineer-block-head"><h3>Visible Cell Readout</h3><span class="engineer-block-tag">Scan first</span></div>
+                <div class="engineer-block-note">Bars compare logged activity against downtime shape across the cells in view.</div>
+                <div class="engineer-visual-list" id="engineer-overview-bars"></div>
+              </div>
+              <div class="engineer-visual-card">
+                <div class="engineer-block-head"><h3>Recent Notes in View</h3><span class="engineer-block-tag">Text spotlight</span></div>
+                <div class="engineer-block-note">Comments and notes stay near the top so engineers do not have to hunt through the page to find the real text.</div>
+                <div class="engineer-note-list" id="engineer-notes-spotlight"></div>
+              </div>
+            </div>
             <div class="engineer-collection" id="engineer-collection"></div>
           </div>
         </div>
@@ -1236,7 +1211,7 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.132-running-sheet-toggle-backtotop</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.126-engineer-review-visual-pass</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1294,7 +1269,7 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.132-running-sheet-toggle-backtotop</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.126-engineer-review-visual-pass</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1311,7 +1286,7 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
             </div>
           </div>
 
-          <div class="manager-note">Read-only leadership view with full-width graphics and cleaner paired readout cards.</div>
+          <div class="manager-note">Read-only leadership view with posture, comparisons, and trend cards.</div>
 
           <div id="manager-summary-view" class="manager-view-panel">
           <div class="manager-hero">
@@ -1408,7 +1383,7 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
             </div>
           </div>
           <div class="manager-dashboard-grid">
-            <div class="manager-chart-card full-width-chart">
+            <div class="manager-chart-card">
               <div class="manager-chart-head">
                 <div>
                   <div class="manager-list-kicker">Trend</div>
@@ -1423,7 +1398,7 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
               <svg class="manager-kpi-svg" id="manager-kpi-svg" viewBox="0 0 640 230" aria-label="Operations KPI Trend"></svg>
               <div class="manager-kpi-note" id="manager-kpi-note">Saved dates will build the trend view.</div>
             </div>
-            <div class="manager-chart-card full-width-chart">
+            <div class="manager-chart-card">
               <div class="manager-chart-head">
                 <div>
                   <div class="manager-list-kicker">Cells</div>
@@ -1435,7 +1410,7 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
             </div>
           </div>
           <div class="manager-dashboard-grid bottom">
-            <div class="manager-chart-card full-width-chart">
+            <div class="manager-chart-card">
               <div class="manager-chart-head">
                 <div>
                   <div class="manager-list-kicker">Downtime</div>
@@ -1445,7 +1420,7 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
               </div>
               <div class="manager-bars" id="manager-downtime-bars"></div>
             </div>
-            <div class="manager-chart-card full-width-chart">
+            <div class="manager-chart-card">
               <div class="manager-chart-head">
                 <div>
                   <div class="manager-list-kicker">Weekend</div>
@@ -1480,28 +1455,20 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
       </section>
     </div>
 
+    
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.132-running-sheet-toggle-backtotop</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.126-engineer-review-visual-pass</span></span></div>
       <section class="panel">
         <div class="section-body">
-          <div class="temp-test-bar">
-            <div class="temp-test-copy"><strong>Test tools</strong>Preview display mode changes and reset when finished.</div>
-            <div class="temp-test-actions">
-              <button class="temp-test-btn" type="button" data-temp-fill="settings">Fill This Tab</button>
-              <button class="temp-test-btn reset" type="button" data-temp-reset="true">Reset Test Data</button>
-            </div>
-          </div>
-
-          <div class="settings-hero">
+          <div class="settings-hero" style="grid-template-columns:1fr">
             <div class="settings-hero-card">
-              <div class="section-title">Display + Behavior</div>
-              <h3>Keep the prototype readable first.</h3>
-              <div class="settings-copy">Settings stays light. It handles display choices, quick guidance, and reminders — not analytics.</div>
+              <div class="section-title">Themes</div>
+              <h3>Keep settings simple for now.</h3>
+              <div class="settings-copy">This page stays focused on display themes only while the rest of the prototype is still being shaped.</div>
               <div class="display-mode-bar" id="display-mode-bar" style="margin-top:12px"></div>
               <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-                <span class="pill">Current Display: <span id="display-mode-status" style="margin-left:6px">Standard</span></span>
+                <span class="pill">Current Theme: <span id="display-mode-status" style="margin-left:6px">Standard</span></span>
                 <span class="pill">Saved Locally</span>
-                <span class="pill">Compact Headers: Weekend / Manager / Settings</span>
               </div>
               <div class="theme-preview" aria-hidden="true">
                 <div class="theme-chip">
@@ -1523,57 +1490,7 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div class="settings-hero-card">
-              <div class="section-title">Settings</div>
-              <h3>Controls, guardrails, and fast reference.</h3>
-              <div class="settings-copy">Use Settings for display choices, tab roles, and quick reminders.</div>
-              <div class="settings-callout-grid">
-                <div class="settings-callout">
-                  <strong>Settings owns</strong>
-                  Display mode, compact-header behavior, shift reminders, tab roles, and a quick read on how the tool is supposed to flow.
-                </div>
-                <div class="settings-callout">
-                  <strong>Manager owns</strong>
-                  Help-needed visibility, rollups, downtime patterns, recent notes, and the review story built from already-entered data.
-                </div>
-                <div class="settings-callout">
-                  <strong>Cell Hours</strong>
-                  Day + shift selection, tech-side hours entry, downtime detail, and saved shift records that later feed trades and manager rollups.
-                </div>
-                <div class="settings-callout">
-                  <strong>Weekend owns</strong>
-                  The live status board by test cell, visible support calls, and quick operational awareness during pilot weekend use.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="settings-quickref">
-            <div class="settings-mini-card">
-              <h3>Confirmed Tech Schedule</h3>
-              <div class="settings-copy">Mon–Thu: 7a–5p / 5p–3a<br>Fri–Sun: 7a–7p / 7p–7a</div>
-            </div>
-            <div class="settings-mini-card">
-              <h3>Trade Tracking Reminder</h3>
-              <div class="settings-copy">Weekdays use 10-hour runs, Thu→Fri carries a 14-hour transition run, and weekends use 12-hour chunks.</div>
-            </div>
-            <div class="settings-mini-card">
-              <h3>Tab Quick Guide</h3>
-              <div class="settings-copy">Logbook = history layer.<br>Cell Hours = tech entry side.<br>Weekend = fast TC status board.<br>Manager = read-only rollup.</div>
-            </div>
-            <div class="settings-mini-card">
-              <h3>Operational Reminders</h3>
-              <div class="settings-copy">Start with day + shift on Cell Hours. Keep downtime comments meaningful. Use Weekend Help Needed when support is visible.</div>
-            </div>
-            <div class="settings-mini-card">
-              <h3>CTC Pulse Quick Meaning</h3>
-              <div class="settings-copy">Pulse reads each tab in context. Hours stay strict. Weekend behaves like a board. Manager surfaces true attention items.</div>
-            </div>
-            <div class="settings-mini-card">
-              <h3>Prototype Guardrails</h3>
-              <div class="settings-copy">Small surgical changes only. Keep tech entry, trades review, weekend board, and manager intelligence separate.</div>
+              <div class="settings-copy" style="margin-top:14px">Anything beyond themes can come back later once the core views are locked down.</div>
             </div>
           </div>
         </div>
@@ -1608,7 +1525,7 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
   </section>
 
   <script>
-    const VERSION = "v1.0.132-running-sheet-toggle-backtotop";
+    const VERSION = "v1.0.126-engineer-review-visual-pass";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -1652,8 +1569,6 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
     }
 
     const cycleOptions = ["","605 Parent","WHTP","vLLC","LLC","FTP","RMC","Hot Soak","Cold Start","Custom"];
-    const LOG_STATUS_OPTIONS = ["Open","Monitoring","Resolved","Waiting"];
-    const LOG_REVIEW_OPTIONS = ["Active","Monitoring","Needs Attention","Reviewed","Ignored"];
     const bannerConfig = [
       ["Engine Model","engineModel"],["Engine S/N","engineSN"],["Engineer","engineer"],["PPH","pph"],["Test Cell","testCell"],["Test Plan ID","testPlanId"],["Technician","technician"],["Shift","shift"],["Date","date"],["Start Time","startTime"],["End Time","endTime"],["Cell Hour Meter","cellHourMeter"]
     ];
@@ -1675,7 +1590,7 @@ body[data-theme="clarity"] .table-wrap-back-to-top{border-color:#8ea2bf;backgrou
       hours:""
     }));
 
-    let formState = {time:"",run:"",cycle:"",customCycle:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"};
+    let formState = {time:"",run:"",cycle:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"};
     function createWeekendUpdateRows(){
       return TEST_CELL_OPTIONS.map(cell => ({ testCell: cell, tcStatus: "", helpNeeded: "", comments: "", lastUpdate: "", wwid: "" }));
     }
@@ -1841,7 +1756,6 @@ const tradeSummaryGrid = document.getElementById("trade-summary-grid");
 const tradeCollection = document.getElementById("trade-collection");
 const tradeReferenceNote = document.getElementById("trade-reference-note");
     const entriesBody = document.getElementById("entries-body");
-    const entriesTableWrap = entriesBody ? entriesBody.closest(".table-wrap") : null;
     const followupPanel = document.getElementById("followup-panel");
     const followupTitle = document.getElementById("followup-title");
     const followupText = document.getElementById("followup-text");
@@ -1910,6 +1824,8 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     const engineerVisibleLogsNote = document.getElementById("engineer-visible-logs-note");
     const engineerVisibleDowntime = document.getElementById("engineer-visible-downtime");
     const engineerVisibleDowntimeNote = document.getElementById("engineer-visible-downtime-note");
+    const engineerOverviewBars = document.getElementById("engineer-overview-bars");
+    const engineerNotesSpotlight = document.getElementById("engineer-notes-spotlight");
     const engineerCollection = document.getElementById("engineer-collection");
     const tabViews = {
       logbook: document.getElementById("tab-logbook"),
@@ -1998,7 +1914,6 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
         });
       }
       applyDisplayMode(getSavedDisplayMode());
-    setupRunningSheetResizeHandle();
     }
     function formatTimeForInput(value){
       const raw = (value || "").toUpperCase().replace(/[^0-9APM]/g, "");
@@ -2715,109 +2630,75 @@ function renderManagerModeControls(){
 }
 
 
-function summarizeEngineerHours(card){
-  const runningHours = Math.max(0, card.totalLogged - card.downtimeHours);
-  const total = Math.max(card.totalLogged, 0);
-  const runningShare = total > 0 ? (runningHours / total) * 100 : 0;
-  const downtimeShare = total > 0 ? (card.downtimeHours / total) * 100 : 0;
-  return { runningHours, total, runningShare, downtimeShare };
+function engineerMeterRow(label, valueLabel, width, tone = 'primary'){
+  const toneClass = tone === 'downtime' ? ' downtime' : tone === 'attention' ? ' attention' : '';
+  return `<div class="engineer-meter-line"><span>${escapeHtml(label)}</span><div class="engineer-meter-track"><div class="engineer-meter-fill${toneClass}" style="width:${Math.max(0, Math.min(100, width))}%"></div></div><div class="engineer-meter-value">${escapeHtml(valueLabel)}</div></div>`;
 }
 
-function getEngineerRunningTop(card){
-  const runningMap = new Map();
-  card.shifts.forEach(record => {
-    (record.rows || []).filter(row => row.status !== "Downtime" && (parseFloat(row.hours) || 0) > 0).forEach(row => {
-      const key = String(row.detail || "Running");
-      runningMap.set(key, (runningMap.get(key) || 0) + (parseFloat(row.hours) || 0));
-    });
-  });
-  return Array.from(runningMap.entries()).sort((a,b) => b[1] - a[1]).slice(0, 3);
-}
+function getEngineerCardNotes(card){
+  const notes = [];
+  const seen = new Set();
+  function pushNote(label, meta, copy, tone = 'normal', rank = 0){
+    const snippet = engineerTextSnippet(copy || '', 220);
+    const normalized = String(snippet || '').trim();
+    if (!normalized || normalized === '—' || normalized === 'No comment entered.' || normalized === 'No weekend board comment is carrying this cell right now.') return;
+    const key = `${label}|${meta}|${normalized}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+    notes.push({ label, meta, copy: normalized, tone, rank });
+  }
 
-function getEngineerRecentProof(card){
-  const proof = [];
-  if (card.weekend) {
+  if (card.weekend && String(card.weekend.comments || '').trim()) {
     const weekendMeta = [card.weekend.tcStatus || 'Weekend board', card.weekend.helpNeeded === 'Yes' ? 'Help needed' : 'No help request', card.weekend.lastUpdate ? `Updated ${card.weekend.lastUpdate}` : ''].filter(Boolean).join(' · ');
-    proof.push({
-      title: 'Weekend board',
-      meta: weekendMeta,
-      copy: engineerTextSnippet(card.weekend.comments || 'No weekend board comment is attached right now.', 180)
-    });
-  }
-  (card.logs || []).slice(0, 2).forEach(entry => {
-    const stamp = [displayDate(entry.headerSnapshot?.date || ''), entry.time, entry.eventType || 'Log row'].filter(Boolean).join(' · ');
-    proof.push({
-      title: entry.category || entry.eventType || 'Running sheet entry',
-      meta: stamp || 'Running sheet',
-      copy: engineerTextSnippet(entry.noteText || plainTextFromHtml(entry.noteHtml || '') || 'No note text captured.', 180)
-    });
-  });
-  (card.shifts || []).slice(0, 2).forEach(record => {
-    const keyRow = (record.rows || []).find(row => (parseFloat(row.hours) || 0) > 0) || (record.rows || [])[0];
-    if (!keyRow) return;
-    proof.push({
-      title: keyRow.detail || keyRow.status || 'Saved row',
-      meta: formatEngineerSessionStamp(record),
-      copy: engineerTextSnippet(keyRow.comment || `${keyRow.status || 'Saved row'} logged for ${parseFloat(keyRow.hours) || 0}h.`, 180)
-    });
-  });
-  return proof.slice(0, 4);
-}
-
-function getEngineerStateSummary(card){
-  const weekendStatus = String(card.weekend?.tcStatus || '').trim();
-  const hours = summarizeEngineerHours(card);
-  const latestShift = card.shifts[0] || null;
-  const latestRows = latestShift?.rows || [];
-  const latestDownRow = latestRows.find(row => row.status === 'Downtime' && (parseFloat(row.hours) || 0) > 0) || null;
-  const latestRunningRow = latestRows.find(row => row.status !== 'Downtime' && (parseFloat(row.hours) || 0) > 0) || null;
-  const runningTop = getEngineerRunningTop(card);
-  const weekendDown = /down|no engine|parts|facility|install/i.test(weekendStatus);
-  const weekendRunning = /^running$/i.test(weekendStatus);
-
-  let state = 'quiet';
-  let label = 'Quiet';
-  let toneClass = 'quiet';
-  let whyTitle = 'No clear operating story yet';
-  let whyCopy = 'This cell has little recent review evidence in the current filter.';
-  let sectionTitle = 'What is shaping this cell';
-  let sectionIntro = 'The current filter does not show much saved history yet.';
-
-  if (weekendDown || (hours.total > 0 && (hours.downtimeShare >= 50 || hours.runningHours === 0))) {
-    state = 'down';
-    label = 'Down';
-    toneClass = 'down';
-    whyTitle = weekendDown ? weekendStatus : (card.downtimeTop[0]?.[0] || latestDownRow?.detail || 'Downtime is leading');
-    whyCopy = weekendDown
-      ? `Weekend board is calling this cell ${weekendStatus.toLowerCase()}.`
-      : card.downtimeTop[0]
-        ? `${card.downtimeTop[0][1].toFixed(1)} downtime hour(s) are currently leading this cell story.`
-        : 'Recent saved rows lean mostly downtime.';
-    sectionTitle = 'Why it is down';
-    sectionIntro = 'Start with the strongest downtime driver, then read the evidence below it.';
-  } else if (weekendRunning || hours.runningHours > 0) {
-    state = hours.downtimeHours > 0 ? 'mixed' : 'running';
-    label = hours.downtimeHours > 0 ? 'Running with interruptions' : 'Running';
-    toneClass = hours.downtimeHours > 0 ? 'mixed' : 'running';
-    whyTitle = weekendRunning ? 'Running' : (runningTop[0]?.[0] || latestRunningRow?.detail || 'Running work is leading');
-    whyCopy = weekendRunning
-      ? 'Weekend board is calling this cell running.'
-      : runningTop[0]
-        ? `${runningTop[0][1].toFixed(1)} running hour(s) are leading the visible work.`
-        : 'Recent saved rows show the cell moving through running work.';
-    sectionTitle = hours.downtimeHours > 0 ? 'Why it keeps moving' : 'Why it is running';
-    sectionIntro = hours.downtimeHours > 0
-      ? 'Running still leads, but there are interruptions worth keeping in view.'
-      : 'The strongest visible signal says the cell is actively moving through planned work.';
+    pushNote('Weekend comment', weekendMeta, card.weekend.comments, card.weekend.helpNeeded === 'Yes' ? 'attention' : 'normal', 120);
   }
 
-  return { state, label, toneClass, whyTitle, whyCopy, sectionTitle, sectionIntro, hours, latestShift, latestRows, latestDownRow, latestRunningRow, runningTop };
+  card.logs.forEach((entry, idx) => {
+    const logText = entry.noteText || plainTextFromHtml(entry.noteHtml || '');
+    const meta = [displayDate(entry.headerSnapshot?.date || ''), entry.time, entry.eventType || 'Running sheet', entry.status].filter(Boolean).join(' · ');
+    pushNote(entry.eventType || 'Running sheet note', meta, logText, idx === 0 ? 'normal' : 'muted', 100 - idx);
+  });
+
+  card.shifts.forEach((record, recordIdx) => {
+    record.rows.forEach((row, rowIdx) => {
+      const meta = [formatEngineerSessionStamp(record), row.status || 'Saved row', row.detail || '', row.hours ? `${row.hours}h` : ''].filter(Boolean).join(' · ');
+      pushNote(row.detail || row.status || 'Saved row comment', meta, row.comment, row.status === 'Downtime' ? 'attention' : 'normal', 80 - recordIdx - (rowIdx * 0.1));
+    });
+  });
+
+  return notes.sort((a, b) => b.rank - a.rank).slice(0, 6);
 }
 
-function engineerReasonItem(label, value, hours, tone, maxHours, note){
-  const numeric = Number(hours || 0);
-  const width = maxHours > 0 ? Math.max(8, (numeric / maxHours) * 100) : 0;
-  return `<div class="engineer-reason-item"><div class="engineer-reason-top"><div><div class="engineer-reason-title">${escapeHtml(label || 'No lead')}</div><div class="engineer-reason-meta">${escapeHtml(value || 'No detail')}</div></div><div class="engineer-reason-meta">${numeric ? `${numeric.toFixed(1)}h` : ''}</div></div>${note ? `<div class="engineer-reason-copy">${escapeHtml(note)}</div>` : ''}${numeric ? `<div class="engineer-mini-bar-track"><div class="engineer-mini-bar-fill ${tone === 'running' ? 'running' : ''}" style="width:${width}%"></div></div>` : ''}</div>`;
+function renderEngineerOverviewBars(target, cards){
+  if (!target) return;
+  if (!cards || !cards.length) {
+    target.innerHTML = `<div class="engineer-empty">Load sample data or widen the filter to build the visual readout.</div>`;
+    return;
+  }
+  const ranked = cards.slice().sort((a, b) => {
+    const aScore = (a.weekend?.helpNeeded === 'Yes' ? 1000 : 0) + a.downtimeHours * 10 + a.logs.length;
+    const bScore = (b.weekend?.helpNeeded === 'Yes' ? 1000 : 0) + b.downtimeHours * 10 + b.logs.length;
+    return bScore - aScore;
+  }).slice(0, 8);
+  const maxHours = Math.max(...ranked.map(card => Math.max(card.totalLogged, card.downtimeHours, 1)), 1);
+  target.innerHTML = ranked.map(card => {
+    const downtimeShare = card.totalLogged > 0 ? (card.downtimeHours / card.totalLogged) * 100 : 0;
+    const toneClass = card.weekend?.helpNeeded === 'Yes' ? 'attention' : (downtimeShare >= 25 ? 'downtime' : '');
+    return `<div class="engineer-bar-row"><div class="engineer-bar-top"><div class="engineer-list-title">Cell ${escapeHtml(card.cell)}</div><div class="engineer-list-meta">${card.totalLogged.toFixed(1)}h logged · ${card.downtimeHours.toFixed(1)}h down · ${card.logs.length} log row${card.logs.length === 1 ? '' : 's'}</div></div><div class="engineer-bar-stack"><div class="engineer-bar-line"><span>Logged</span><div class="engineer-bar-track"><div class="engineer-bar-fill" style="width:${Math.max(6, (card.totalLogged / maxHours) * 100)}%"></div></div><div class="engineer-bar-value">${card.totalLogged.toFixed(1)}h</div></div><div class="engineer-bar-line"><span>Down</span><div class="engineer-bar-track"><div class="engineer-bar-fill ${toneClass}" style="width:${card.downtimeHours > 0 ? Math.max(6, (card.downtimeHours / maxHours) * 100) : 0}%"></div></div><div class="engineer-bar-value">${downtimeShare.toFixed(0)}%</div></div></div></div>`;
+  }).join('');
+}
+
+function renderEngineerNotesSpotlight(target, cards){
+  if (!target) return;
+  const notes = (cards || []).flatMap(card => getEngineerCardNotes(card).map(note => ({ ...note, cell: card.cell })));
+  if (!notes.length) {
+    target.innerHTML = `<div class="engineer-empty">No meaningful comments are visible in the current filter yet.</div>`;
+    return;
+  }
+  target.innerHTML = notes.sort((a, b) => b.rank - a.rank).slice(0, 8).map(note => {
+    const toneClass = note.tone === 'attention' ? ' attention' : note.tone === 'muted' ? ' muted' : '';
+    return `<div class="engineer-note-card${toneClass}"><div class="engineer-note-top"><div class="engineer-list-title">Cell ${escapeHtml(note.cell)} · ${escapeHtml(note.label)}</div><div class="engineer-note-meta">${escapeHtml(note.meta || 'Read-only note')}</div></div><div class="engineer-note-copy">${escapeHtml(note.copy)}</div></div>`;
+  }).join('');
 }
 
 
@@ -2839,10 +2720,10 @@ function renderEngineerInfoMode(){
   setText(engineerVisibleShifts, String(data.totalShiftChunks));
   setText(engineerVisibleLogs, String(data.filteredLogs.length));
   setText(engineerVisibleDowntime, data.totalDowntime.toFixed(1));
-  setText(engineerVisibleCellsNote, data.selectedCell ? `Focused on Cell ${data.selectedCell}.` : 'Visible cells in the current review filter.');
-  setText(engineerVisibleShiftsNote, data.totalShiftChunks ? 'Saved shift chunks behind the visible review cards.' : 'No saved shift chunks match yet.');
-  setText(engineerVisibleLogsNote, data.filteredLogs.length ? 'Running sheet rows feeding the visible review cards.' : 'No running sheet rows match yet.');
-  setText(engineerVisibleDowntimeNote, data.totalDowntime > 0 ? 'Downtime hours visible in the current review filter.' : 'No downtime hours are visible in the current filter.');
+  setText(engineerVisibleCellsNote, data.selectedCell ? `Focused on Cell ${data.selectedCell}.` : 'Cells with matching review data.');
+  setText(engineerVisibleShiftsNote, data.totalShiftChunks ? 'Saved shift chunks visible in the current filter.' : 'No saved shift chunks match yet.');
+  setText(engineerVisibleLogsNote, data.filteredLogs.length ? 'Running sheet rows tied to the current filter.' : 'No running sheet rows match yet.');
+  setText(engineerVisibleDowntimeNote, data.totalDowntime > 0 ? 'Downtime hours inside the visible saved chunks.' : 'No downtime hours are visible in the current filter.');
 
   const summaryCards = [
     { el: document.getElementById('engineer-summary-cells-card'), tone: data.cards.length ? 'normal' : 'warning' },
@@ -2857,47 +2738,64 @@ function renderEngineerInfoMode(){
     if (item.tone === 'attention') item.el.classList.add('attention');
   });
 
+  renderEngineerOverviewBars(engineerOverviewBars, data.cards);
+  renderEngineerNotesSpotlight(engineerNotesSpotlight, data.cards);
+
   if (!data.cards.length) {
     engineerCollection.innerHTML = `<div class="engineer-empty">No engineer review matches are visible yet. Try a different cell or search term, or load sample data first.</div>`;
     return;
   }
 
   engineerCollection.innerHTML = data.cards.map(card => {
-    const state = getEngineerStateSummary(card);
     const weekendLabel = card.weekend && String(card.weekend.tcStatus || '').trim() ? card.weekend.tcStatus : 'No weekend status';
-    const weekendComment = card.weekend && String(card.weekend.comments || '').trim() ? engineerTextSnippet(card.weekend.comments, 180) : 'No weekend board comment is carrying this cell right now.';
-    const latestShift = state.latestShift || card.shifts[0] || null;
+    const weekendHelp = card.weekend?.helpNeeded === 'Yes' ? 'Help needed' : 'No help request';
+    const downtimeLead = card.downtimeTop.length ? card.downtimeTop.map(([label, value]) => `${label} · ${value.toFixed(1)}h`).join(' | ') : 'No downtime detail is leading.';
+    const latestShift = card.shifts[0] || null;
     const banner = latestShift?.banner || {};
-    const runningReasons = state.runningTop.length ? state.runningTop : [];
-    const downtimeReasons = card.downtimeTop.length ? card.downtimeTop : [];
-    const reasonsToShow = state.state === 'down' ? downtimeReasons : (state.state === 'running' || state.state === 'mixed' ? runningReasons : downtimeReasons);
-    const maxReasonHours = Math.max(...(reasonsToShow.map(item => Number(item[1] || 0))), 0);
-    const reasonItems = reasonsToShow.length
-      ? reasonsToShow.map(([label, value]) => engineerReasonItem(
-          label,
-          state.state === 'down' ? 'Downtime driver' : 'Running driver',
-          value,
-          state.state === 'down' ? 'down' : 'running',
-          maxReasonHours,
-          state.state === 'down'
-            ? 'This driver is taking the biggest visible share of the down time.'
-            : 'This driver is taking the biggest visible share of the running time.'
-        )).join('')
-      : `<div class="engineer-empty">No strong ${state.state === 'down' ? 'downtime' : 'running'} driver is visible yet.</div>`;
-    const proofItems = getEngineerRecentProof(card);
-    const proofBlock = proofItems.length ? `<div class="engineer-proof-list">${proofItems.map(item => `<div class="engineer-proof-item"><div class="engineer-proof-title">${escapeHtml(item.title || 'Proof point')}</div><div class="engineer-proof-meta">${escapeHtml(item.meta || 'Read-only evidence')}</div><div class="engineer-proof-copy">${escapeHtml(item.copy || 'No extra note captured.')}</div></div>`).join('')}</div>` : `<div class="engineer-empty">No recent proof items are visible in the current filter.</div>`;
-    const detailGrid = `<div class="engineer-specifics-grid">${[
-      engineerDetailCard('Weekend Status', weekendLabel || '—'),
-      engineerDetailCard('Top Why', state.whyTitle || '—'),
+    const stateTone = card.weekend?.helpNeeded === 'Yes' ? 'attention' : (card.downtimeHours >= 3 ? 'watch' : ((card.logs.length || card.shifts.length) ? 'steady' : 'quiet'));
+    const stateLabel = stateTone === 'attention' ? 'Priority Review' : stateTone === 'watch' ? 'Watch Cell' : stateTone === 'steady' ? 'Active Review' : 'Quiet Cell';
+    const stateReason = stateTone === 'attention' ? 'Weekend help request is active on this cell.' : stateTone === 'watch' ? 'Downtime is present and worth a closer look.' : 'This cell has visible saved history but no immediate red flag.';
+    const cardNotes = getEngineerCardNotes(card);
+    const downtimeShare = card.totalLogged > 0 ? (card.downtimeHours / card.totalLogged) * 100 : 0;
+    const visualBlock = `<div class="engineer-visual-grid"><div class="engineer-visual-card"><div class="engineer-block-head"><h3>Activity Mix</h3><span class="engineer-block-tag">At a glance</span></div><div class="engineer-block-note">Quick comparison of work logged, downtime share, and history volume for this cell.</div><div class="engineer-meter-stack">${[
+      engineerMeterRow('Logged hours', `${card.totalLogged.toFixed(1)}h`, 100, 'primary'),
+      engineerMeterRow('Downtime share', `${downtimeShare.toFixed(0)}%`, downtimeShare, downtimeShare >= 25 ? 'attention' : 'downtime'),
+      engineerMeterRow('Log rows', `${card.logs.length}`, Math.min(100, card.logs.length * 16.7), 'primary'),
+      engineerMeterRow('Saved chunks', `${card.shifts.length}`, Math.min(100, card.shifts.length * 18), 'primary')
+    ].join('')}</div></div><div class="engineer-visual-card"><div class="engineer-block-head"><h3>Notes + Comments</h3><span class="engineer-block-tag">Read first</span></div><div class="engineer-block-note">Meaningful text lives here near the top instead of getting buried under the detail blocks.</div>${cardNotes.length ? `<div class="engineer-note-list">${cardNotes.slice(0, 4).map(note => `<div class="engineer-note-card${note.tone === 'attention' ? ' attention' : note.tone === 'muted' ? ' muted' : ''}"><div class="engineer-note-top"><div class="engineer-list-title">${escapeHtml(note.label)}</div><div class="engineer-note-meta">${escapeHtml(note.meta || 'Read-only note')}</div></div><div class="engineer-note-copy">${escapeHtml(note.copy)}</div></div>`).join('')}</div>` : `<div class="engineer-empty">No visible comments or notes are tied to this cell yet.</div>`}</div></div>`;
+
+    const hoursRowsBlock = card.shifts.length ? `<div class="engineer-rows-stack">${card.shifts.map(record => {
+      const rowCards = record.rows.length ? record.rows.map(row => {
+        const detailLine = [row.status || '—', row.detail || '—', row.hours ? `${row.hours}h` : '0.0h'].filter(Boolean).join(' · ');
+        return `<div class="engineer-row-card"><div class="engineer-row-meta"><div class="engineer-list-title">${escapeHtml(detailLine)}</div><div class="engineer-list-meta">${escapeHtml(formatEngineerSessionStamp(record))}</div></div><div class="engineer-row-line">${escapeHtml(row.comment || 'No comment entered.')}</div></div>`;
+      }).join('') : `<div class="engineer-empty">No saved billable rows live in this shift chunk.</div>`;
+      return `<div class="engineer-list-item"><div class="engineer-list-top"><div class="engineer-list-title">${escapeHtml(formatEngineerSessionStamp(record))}</div><div class="engineer-list-meta">${escapeHtml(record.coverage?.window || 'Saved shift chunk')}</div></div><div class="engineer-list-copy">Logged ${record.totalLogged.toFixed(1)}h · Downtime ${record.downtimeHours.toFixed(1)}h</div><div class="engineer-rows-stack" style="margin-top:8px">${rowCards}</div></div>`;
+    }).join('')}</div>` : `<div class="engineer-empty">No saved hours chunks matched this cell and filter.</div>`;
+    const logBlock = card.logs.length ? `<div class="engineer-list">${card.logs.map(entry => {
+      const stamp = [displayDate(entry.headerSnapshot?.date || ''), entry.time, entry.eventType, entry.category].filter(Boolean).join(' · ');
+      const meta = [entry.cycle && entry.cycle !== '—' ? entry.cycle : '', entry.run && entry.run !== '—' ? `Run ${entry.run}` : '', entry.status].filter(Boolean).join(' · ');
+      const entryDetailGrid = `<div class="engineer-detail-grid" style="margin-top:8px">${[
+        engineerDetailCard('Cycle', entry.cycle || '—'),
+        engineerDetailCard('Run', entry.run || '—'),
+        engineerDetailCard('Review State', entry.reviewState || '—'),
+        engineerDetailCard('Torque Map', entry.torqueMap || '—'),
+        engineerDetailCard('PanT', entry.PanT || '—'),
+        engineerDetailCard('Filter', entry.filter || '—')
+      ].join('')}</div>`;
+      return `<div class="engineer-list-item"><div class="engineer-list-top"><div class="engineer-list-title">${escapeHtml(stamp || 'Log entry')}</div><div class="engineer-list-meta">${escapeHtml(meta || 'Read-only log row')}</div></div><div class="engineer-list-copy">${escapeHtml(engineerTextSnippet(entry.noteText || plainTextFromHtml(entry.noteHtml || ''), 260))}</div>${entryDetailGrid}</div>`;
+    }).join('')}</div>` : `<div class="engineer-empty">No running sheet rows matched this cell and filter.</div>`;
+    const detailGrid = `<div class="engineer-detail-grid">${[
       engineerDetailCard('Engine Model', banner.engineModel || '—'),
       engineerDetailCard('Engine S/N', banner.engineSN || '—'),
-      engineerDetailCard('Engineer', banner.engineer || '—'),
-      engineerDetailCard('Technician', banner.technician || '—'),
-      engineerDetailCard('Shift', banner.shift || '—'),
-      engineerDetailCard('Coverage Window', latestShift?.coverage?.window || '—'),
-      engineerDetailCard('Test Plan ID', banner.testPlanId || '—'),
       engineerDetailCard('PPH', banner.pph || '—'),
-      engineerDetailCard('Start → End', banner.startTime && banner.endTime ? `${banner.startTime} → ${banner.endTime}` : (banner.startTime || banner.endTime || '—')),
+      engineerDetailCard('Test Plan ID', banner.testPlanId || '—'),
+      engineerDetailCard('Technician', banner.technician || '—'),
+      engineerDetailCard('Engineer', banner.engineer || '—'),
+      engineerDetailCard('Shift', banner.shift || '—'),
+      engineerDetailCard('Session Date', latestShift?.session?.display || banner.date || '—'),
+      engineerDetailCard('Coverage Window', latestShift?.coverage?.window || '—'),
+      engineerDetailCard('Start Time', banner.startTime || '—'),
+      engineerDetailCard('End Time', banner.endTime || '—'),
       engineerDetailCard('Cell Hour Meter', banner.cellHourMeter || '—')
     ].join('')}</div>`;
     return `
@@ -2906,90 +2804,53 @@ function renderEngineerInfoMode(){
           <div>
             <div class="engineer-kicker">Cell review</div>
             <div class="engineer-cell-title">Cell ${escapeHtml(card.cell)}</div>
-            <div class="engineer-cell-stamp">Read-only cell review. Start with whether the cell is running or down, then move into why, then confirm the details.</div>
+            <div class="engineer-cell-stamp">Read-only engineer view built from saved hours chunks, weekend status, and running sheet history.</div>
           </div>
           <div class="engineer-head-side">
-            <span class="engineer-state-badge ${state.state === 'down' ? 'attention' : (state.state === 'mixed' ? 'watch' : (state.state === 'running' ? 'steady' : 'quiet'))}">${escapeHtml(state.label)}</span>
+            <span class="engineer-state-badge ${stateTone}">${stateLabel}</span>
             <div class="engineer-mini-strip">
               <span class="engineer-mini-pill">${card.shifts.length} shift chunk${card.shifts.length === 1 ? '' : 's'}</span>
               <span class="engineer-mini-pill">${card.logs.length} log row${card.logs.length === 1 ? '' : 's'}</span>
-              <span class="engineer-mini-pill">Logged ${state.hours.total.toFixed(1)}h</span>
-              <span class="engineer-mini-pill">Down ${card.downtimeHours.toFixed(1)}h</span>
+              <span class="engineer-mini-pill">Logged ${card.totalLogged.toFixed(1)}h</span>
+              <span class="engineer-mini-pill">Downtime ${card.downtimeHours.toFixed(1)}h</span>
             </div>
           </div>
         </div>
-
-        <div class="engineer-flow-grid">
-          <div class="engineer-callout-card">
-            <strong>Cell state</strong>
-            <div class="engineer-callout-big ${state.toneClass}">${escapeHtml(state.label)}</div>
-            <div class="engineer-callout-copy">${escapeHtml(state.state === 'down' ? 'This cell currently reads as down first.' : state.state === 'mixed' ? 'This cell is still running, but interruptions are part of the story.' : state.state === 'running' ? 'This cell currently reads as running first.' : 'This cell does not have a strong operating signal yet.')}</div>
+        <div class="engineer-signal-grid">
+          <div class="engineer-signal-card">
+            <strong>Review state</strong>
+            <span>${escapeHtml(stateLabel)}</span>
+            <p>${escapeHtml(stateReason)}</p>
           </div>
-          <div class="engineer-callout-card">
-            <strong>Why first</strong>
-            <div class="engineer-callout-big" style="font-size:22px">${escapeHtml(state.whyTitle)}</div>
-            <div class="engineer-callout-copy">${escapeHtml(state.whyCopy)}</div>
+          <div class="engineer-signal-card">
+            <strong>Weekend board</strong>
+            <span>${escapeHtml(weekendLabel)}</span>
+            <p>${escapeHtml(weekendHelp)}${card.weekend?.wwid ? ` · WWID ${escapeHtml(card.weekend.wwid)}` : ''}${card.weekend?.lastUpdate ? ` · Updated ${escapeHtml(card.weekend.lastUpdate)}` : ''}</p>
           </div>
-          <div class="engineer-callout-card">
-            <strong>Run vs down</strong>
-            <div class="engineer-meter"><div class="engineer-meter-run" style="width:${state.hours.runningShare.toFixed(1)}%"></div><div class="engineer-meter-down" style="width:${state.hours.downtimeShare.toFixed(1)}%"></div></div>
-            <div class="engineer-meter-labels">
-              <span><strong>Running</strong> ${state.hours.runningHours.toFixed(1)}h · ${state.hours.runningShare.toFixed(0)}%</span>
-              <span><strong>Down</strong> ${card.downtimeHours.toFixed(1)}h · ${state.hours.downtimeShare.toFixed(0)}%</span>
-            </div>
+          <div class="engineer-signal-card">
+            <strong>Main downtime driver</strong>
+            <span>${escapeHtml(card.downtimeTop[0]?.[0] || 'None leading')}</span>
+            <p>${escapeHtml(downtimeLead)}</p>
           </div>
         </div>
-
-        <div class="engineer-why-grid">
-          <div class="engineer-block">
-            <div class="engineer-block-head"><h3>${escapeHtml(state.sectionTitle)}</h3><span class="engineer-block-tag">Main driver</span></div>
-            <div class="engineer-block-note">${escapeHtml(state.sectionIntro)}</div>
-            <div class="engineer-reason-stack">${reasonItems}</div>
-          </div>
-          <div class="engineer-block">
-            <div class="engineer-block-head"><h3>Recent proof</h3><span class="engineer-block-tag">Read only</span></div>
-            <div class="engineer-block-note">Small evidence points pulled from weekend board, running sheet history, and saved shift rows.</div>
-            ${proofBlock}
-          </div>
-        </div>
-
+        ${visualBlock}
         <div class="engineer-cell-grid single">
           <div class="engineer-block">
-            <div class="engineer-block-head"><h3>Cell specifics</h3><span class="engineer-block-tag">View only</span></div>
-            <div class="engineer-block-note">Once the state and why make sense, use these specifics to confirm who, what, and when.</div>
+            <div class="engineer-block-head"><h3>Latest Cell Snapshot</h3><span class="engineer-block-tag">View only</span></div>
+            <div class="engineer-block-note">Most recent saved header details tied to this cell.</div>
             ${detailGrid}
           </div>
         </div>
-
         <div class="engineer-cell-grid">
           <div class="engineer-block">
-            <div class="engineer-block-head"><h3>Saved shift chunks</h3><span class="engineer-block-tag">By shift</span></div>
-            <div class="engineer-block-note">Grouped by saved day and shift so engineers can inspect the actual logged rows without editing anything.</div>
-            ${card.shifts.length ? `<div class="engineer-list">${card.shifts.map(record => {
-              const rowCards = record.rows.length ? record.rows.map(row => {
-                const detailLine = [row.status || '—', row.detail || '—', row.hours ? `${row.hours}h` : '0.0h'].filter(Boolean).join(' · ');
-                return `<div class="engineer-row-card"><div class="engineer-row-meta"><div class="engineer-list-title">${escapeHtml(detailLine)}</div><div class="engineer-list-meta">${escapeHtml(formatEngineerSessionStamp(record))}</div></div><div class="engineer-row-line">${escapeHtml(row.comment || 'No comment entered.')}</div></div>`;
-              }).join('') : `<div class="engineer-empty">No saved billable rows live in this shift chunk.</div>`;
-              return `<div class="engineer-list-item"><div class="engineer-list-top"><div class="engineer-list-title">${escapeHtml(formatEngineerSessionStamp(record))}</div><div class="engineer-list-meta">${escapeHtml(record.coverage?.window || 'Saved shift chunk')}</div></div><div class="engineer-list-copy">Logged ${record.totalLogged.toFixed(1)}h · Down ${record.downtimeHours.toFixed(1)}h</div><div class="engineer-rows-stack" style="margin-top:8px">${rowCards}</div></div>`;
-            }).join('')}</div>` : `<div class="engineer-empty">No saved hours chunks matched this cell and filter.</div>`}
+            <div class="engineer-block-head"><h3>Recent Running Sheet Entries</h3><span class="engineer-block-tag">History</span></div>
+            <div class="engineer-block-note">Read-only running sheet history for this cell.</div>
+            ${logBlock}
           </div>
           <div class="engineer-block">
-            <div class="engineer-block-head"><h3>Running sheet history</h3><span class="engineer-block-tag">By entry</span></div>
-            <div class="engineer-block-note">Running sheet notes stay secondary here. Use them to support the operating story, not lead it.</div>
-            ${card.logs.length ? `<div class="engineer-list">${card.logs.map(entry => {
-              const stamp = [displayDate(entry.headerSnapshot?.date || ''), entry.time, entry.eventType, entry.category].filter(Boolean).join(' · ');
-              const meta = [entry.cycle && entry.cycle !== '—' ? entry.cycle : '', entry.run && entry.run !== '—' ? `Run ${entry.run}` : '', entry.status].filter(Boolean).join(' · ');
-              return `<div class="engineer-list-item"><div class="engineer-list-top"><div class="engineer-list-title">${escapeHtml(stamp || 'Log entry')}</div><div class="engineer-list-meta">${escapeHtml(meta || 'Read-only log row')}</div></div><div class="engineer-list-copy">${escapeHtml(engineerTextSnippet(entry.noteText || plainTextFromHtml(entry.noteHtml || ''), 220))}</div></div>`;
-            }).join('')}</div>` : `<div class="engineer-empty">No running sheet rows matched this cell and filter.</div>`}
-          </div>
-        </div>
-
-        <div class="engineer-cell-grid single">
-          <div class="engineer-block">
-            <div class="engineer-block-head"><h3>Weekend context</h3><span class="engineer-block-tag">Quick read</span></div>
-            <div class="engineer-list">
-              <div class="engineer-list-item"><div class="engineer-list-top"><div class="engineer-list-title">${escapeHtml(weekendLabel)}</div><div class="engineer-list-meta">${card.weekend?.helpNeeded === 'Yes' ? 'Help needed' : 'No help request'}</div></div><div class="engineer-list-copy">${escapeHtml(weekendComment)}</div></div>
-            </div>
+            <div class="engineer-block-head"><h3>Saved Shift Chunks + Row Details</h3><span class="engineer-block-tag">Trades-style grouping</span></div>
+            <div class="engineer-block-note">Saved day and shift grouping with the actual row specifics still visible.</div>
+            ${hoursRowsBlock}
           </div>
         </div>
       </section>`;
@@ -3334,7 +3195,6 @@ function renderManagerTab(){
 
       renderHeaderFields();
       renderForm();
-    autoSizeNoteEditor();
       renderHours();
       renderHandoffs();
       renderEntries();
@@ -3430,7 +3290,7 @@ function renderManagerTab(){
         {id:9101,time:'09:42 AM',state:'Running',priority:'Normal',owner:'Joey Poppe',ready:'Ready',completed:'Emissions cart reconnect and warm-up checks completed.',open:'Morning calibration note should stay attached to the active shift context.',watch:'Watch for any repeated comms drop before the next cart swap.',header:deepClone(header)}
       ];
       expandedRows = {};
-      formState = {time:'06:30 PM',run:'1229756',cycle:'vLLC',customCycle:'',torqueMap:'19',PanT:'180.4',carbon:'-0.70',nox:'-0.010',thc:'-0.003',pm:'0.001',work:'56.05',filter:'17',testMap:'19',category:'General',status:'Open'};
+      formState = {time:'06:30 PM',run:'1229756',cycle:'vLLC',torqueMap:'19',PanT:'180.4',carbon:'-0.70',nox:'-0.010',thc:'-0.003',pm:'0.001',work:'56.05',filter:'17',testMap:'19',category:'General',status:'Open'};
       if (noteEditor) noteEditor.innerHTML = '<div><strong>Operator test note:</strong> Use this staged note to check formatting, spacing, and manager-facing language with a fuller logbook story already loaded.</div><ul><li>TRI / Rev update still visible</li><li>Weekend help queue active on TC 207</li><li>Late dyno verify cleared on TC 204</li></ul>';
       if (handoffState) handoffState.value = 'Ready for Next Shift';
       if (handoffPriority) handoffPriority.value = 'Watch';
@@ -3813,13 +3673,10 @@ function renderHeaderFields(){
 }
 
 function renderForm(){
-      const showCustomCycle = formState.cycle === "Custom" || (!!formState.customCycle && !cycleOptions.includes(formState.cycle));
-      const cycleSelectValue = cycleOptions.includes(formState.cycle) ? formState.cycle : (formState.customCycle ? "Custom" : formState.cycle);
       formGrid.innerHTML = `
         <label class="field"><label>Time</label><input id="field-time" value="${escapeHtml(formState.time)}" placeholder="--:-- AM" /></label>
         <label class="field"><label>Run #</label><input id="field-run" value="${escapeHtml(formState.run)}" placeholder="Run #" /></label>
-        <label class="field span-2"><label>Cycle Type</label><select id="field-cycle">${cycleOptions.map(opt => `<option value="${escapeHtml(opt)}" ${cycleSelectValue===opt?"selected":""}>${opt || "Select cycle"}</option>`).join("")}</select></label>
-        ${showCustomCycle ? `<label class="field span-2 custom-cycle-field"><label>Custom Cycle</label><input id="field-customCycle" value="${escapeHtml(formState.customCycle || "")}" placeholder="Enter custom cycle" /></label>` : ''}
+        <label class="field span-2"><label>Cycle Type</label><select id="field-cycle">${cycleOptions.map(opt => `<option value="${escapeHtml(opt)}" ${formState.cycle===opt?"selected":""}>${opt || "Select cycle"}</option>`).join("")}</select></label>
         <label class="field"><label>Torque</label><input id="field-torqueMap" value="${escapeHtml(formState.torqueMap)}" placeholder="Map" /></label>
         <label class="field"><label>PanT</label><input id="field-PanT" value="${escapeHtml(formState.PanT)}" placeholder="°F" /></label>
         <label class="field"><label>Carbon</label><input id="field-carbon" value="${escapeHtml(formState.carbon)}" placeholder="Carbon" /></label>
@@ -3830,35 +3687,16 @@ function renderForm(){
         <label class="field"><label>Filter</label><input id="field-filter" value="${escapeHtml(formState.filter)}" placeholder="#" /></label>
         <label class="field"><label>Test Map</label><input id="field-testMap" value="${escapeHtml(formState.testMap)}" placeholder="#" /></label>
         <label class="field"><label>Category</label><select id="field-category">${["General","Test Update","Issue","Emissions","Calibration","Engineer Direction","Handoff"].map(opt => `<option value="${opt}" ${formState.category===opt?"selected":""}>${opt}</option>`).join("")}</select></label>
-        <label class="field"><label>Status</label><select id="field-status">${LOG_STATUS_OPTIONS.map(opt => `<option value="${opt}" ${formState.status===opt?"selected":""}>${opt}</option>`).join("")}</select></label>
+        <label class="field"><label>Status</label><select id="field-status">${["Open","Monitoring","Resolved","Waiting"].map(opt => `<option value="${opt}" ${formState.status===opt?"selected":""}>${opt}</option>`).join("")}</select></label>
       `;
       formGrid.querySelectorAll("input,select").forEach(el => {
         el.addEventListener("input", e => {
           const id = e.target.id.replace("field-","");
-          const value = id === "time" ? formatTimeForInput(e.target.value) : e.target.value;
-          formState[id] = value;
+          formState[id] = id === "time" ? formatTimeForInput(e.target.value) : e.target.value;
           if (id === "time") e.target.value = formState[id];
-          if (id === "cycle") {
-            if (value !== "Custom") formState.customCycle = "";
-            renderForm();
-          }
         });
       });
       autoLogSelect.innerHTML = autoLogEventTemplates.map(t => `<option value="${escapeHtml(t.label)}">${t.label}</option>`).join("");
-    }
-
-
-    function selectedCycleValue(){
-      if (formState.cycle === "Custom") {
-        return String(formState.customCycle || "").trim() || "Custom";
-      }
-      return formState.cycle || "";
-    }
-
-    function autoSizeNoteEditor(){
-      if (!noteEditor) return;
-      noteEditor.style.height = "auto";
-      noteEditor.style.height = `${Math.max(110, noteEditor.scrollHeight + 2)}px`;
     }
 
     function getWorkPatternConfig(){
@@ -4456,130 +4294,6 @@ function renderHours(){
       `).join("") : `<div class="section-card"><div class="small">No handoff snapshot saved yet.</div></div>`;
     }
 
-    const RUNNING_SHEET_DEFAULT_HEIGHT = "46vh";
-    let runningSheetFitAllActive = false;
-
-    function getRunningSheetDefaultHeightPx(){
-      if (!entriesTableWrap) return 280;
-      const probe = document.createElement("div");
-      probe.style.position = "absolute";
-      probe.style.visibility = "hidden";
-      probe.style.pointerEvents = "none";
-      probe.style.height = RUNNING_SHEET_DEFAULT_HEIGHT;
-      probe.style.width = "1px";
-      document.body.appendChild(probe);
-      const px = Math.round(probe.getBoundingClientRect().height || window.innerHeight * 0.46);
-      probe.remove();
-      return Math.max(280, px);
-    }
-
-    function setRunningSheetHeightPx(nextHeight){
-      if (!entriesTableWrap) return;
-      const safeHeight = Math.max(280, Math.round(nextHeight || getRunningSheetDefaultHeightPx()));
-      entriesTableWrap.style.height = `${safeHeight}px`;
-      updateRunningSheetBackToTopVisibility();
-    }
-
-    function isRunningSheetExpanded(){
-      if (!entriesTableWrap) return false;
-      const currentHeight = Math.round(entriesTableWrap.getBoundingClientRect().height || 0);
-      return currentHeight > getRunningSheetDefaultHeightPx() + 8;
-    }
-
-    function updateRunningSheetBackToTopVisibility(){
-      if (!entriesTableWrap) return;
-      const btn = entriesTableWrap.querySelector('.table-wrap-back-to-top');
-      if (!btn) return;
-      const shouldShow = entriesTableWrap.scrollTop > 120;
-      btn.classList.toggle('is-visible', shouldShow);
-    }
-
-    function setRunningSheetCompact(){
-      if (!entriesTableWrap) return;
-      entriesTableWrap.style.height = `${getRunningSheetDefaultHeightPx()}px`;
-      runningSheetFitAllActive = false;
-      updateRunningSheetBackToTopVisibility();
-    }
-
-    function setRunningSheetFitAll(){
-      if (!entriesTableWrap) return;
-      requestAnimationFrame(() => {
-        const targetHeight = Math.max(getRunningSheetDefaultHeightPx(), entriesTableWrap.scrollHeight + 8);
-        setRunningSheetHeightPx(targetHeight);
-        runningSheetFitAllActive = true;
-      });
-    }
-
-    function toggleRunningSheetSizeMode(){
-      if (runningSheetFitAllActive || isRunningSheetExpanded()) {
-        setRunningSheetCompact();
-      } else {
-        setRunningSheetFitAll();
-      }
-    }
-
-    function syncRunningSheetHeightMode(){
-      if (runningSheetFitAllActive) {
-        setRunningSheetFitAll();
-      } else {
-        updateRunningSheetBackToTopVisibility();
-      }
-    }
-
-    function setupRunningSheetResizeHandle(){
-      if (!entriesTableWrap || entriesTableWrap.querySelector(".table-wrap-resize-handle")) return;
-      entriesTableWrap.classList.add("is-resizable");
-      const handle = document.createElement("button");
-      handle.type = "button";
-      handle.className = "table-wrap-resize-handle";
-      handle.title = "Drag to resize. Double-click to fit all entries or return to compact.";
-      handle.setAttribute("aria-label", "Resize running sheet. Double-click to fit all entries or return to compact.");
-      entriesTableWrap.appendChild(handle);
-
-      const backToTopBtn = document.createElement("button");
-      backToTopBtn.type = "button";
-      backToTopBtn.className = "table-wrap-back-to-top";
-      backToTopBtn.textContent = "Top";
-      backToTopBtn.title = "Back to top";
-      backToTopBtn.setAttribute("aria-label", "Back to top of running sheet");
-      backToTopBtn.addEventListener("click", () => {
-        entriesTableWrap.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-      entriesTableWrap.appendChild(backToTopBtn);
-
-      let dragState = null;
-
-      handle.addEventListener("mousedown", event => {
-        event.preventDefault();
-        runningSheetFitAllActive = false;
-        dragState = {
-          startY: event.clientY,
-          startHeight: entriesTableWrap.getBoundingClientRect().height
-        };
-        document.body.classList.add("is-resizing-running-sheet");
-      });
-
-      window.addEventListener("mousemove", event => {
-        if (!dragState) return;
-        const deltaY = event.clientY - dragState.startY;
-        setRunningSheetHeightPx(dragState.startHeight + deltaY);
-      });
-
-      window.addEventListener("mouseup", () => {
-        if (!dragState) return;
-        dragState = null;
-        document.body.classList.remove("is-resizing-running-sheet");
-      });
-
-      handle.addEventListener("dblclick", event => {
-        event.preventDefault();
-        toggleRunningSheetSizeMode();
-      });
-
-      entriesTableWrap.addEventListener('scroll', updateRunningSheetBackToTopVisibility, { passive: true });
-      updateRunningSheetBackToTopVisibility();
-    }
-
     function renderEntries(){
       populateCategoryFilter();
       const q = searchInput.value.trim().toLowerCase();
@@ -4613,6 +4327,7 @@ function renderHours(){
             <td>${escapeHtml(entry.run || "—")}</td>
             <td>${escapeHtml(entry.cycle || "—")}</td>
             <td>${escapeHtml(entry.category || "—")}</td>
+            <td><span class="badge ${statusClass(entry.status)}">${entry.status}</span></td>
             <td><span class="badge ${reviewClass(entry.reviewState)}">${entry.reviewState}</span></td>
             <td class="entry-note">${entry.noteHtml || entry.noteText || ""}</td>
             <td>
@@ -4628,7 +4343,7 @@ function renderHours(){
           </tr>
           ${detailsOpen ? `
             <tr class="details-row">
-              <td colspan="9">
+              <td colspan="10">
                 <div class="detail-sections">
                   <div class="snapshot">
                     <div class="snapshot-title">Header Snapshot at Time of Entry</div>
@@ -4646,14 +4361,6 @@ function renderHours(){
                       ${snapshotBox("End Time", headerSnapshot.endTime || "—")}
                       ${snapshotBox("Cell Hour Meter", headerSnapshot.cellHourMeter || "—")}
                     </div>
-                  </div>
-                  <div class="log-meta-panel">
-                    <div class="section-title">Log Details / Review Controls</div>
-                    <div class="log-meta-grid">
-                      <label class="field"><label>Status</label><select class="log-meta-select" data-entry-status="${entry.id}">${LOG_STATUS_OPTIONS.map(opt => `<option value="${opt}" ${entry.status===opt?"selected":""}>${opt}</option>`).join("")}</select></label>
-                      <label class="field"><label>Review</label><select class="log-meta-select" data-entry-review="${entry.id}">${LOG_REVIEW_OPTIONS.map(opt => `<option value="${opt}" ${entry.reviewState===opt?"selected":""}>${opt}</option>`).join("")}</select></label>
-                    </div>
-                    <div class="log-meta-help">Status is still kept here for context, but it was removed from the main running sheet column to keep the elog scan cleaner. Review shows how the team is handling that row.</div>
                   </div>
                   <div class="section-card">
                     <div class="section-title">Technical Values</div>
@@ -4700,18 +4407,6 @@ function renderHours(){
           }
         });
       });
-      entriesBody.querySelectorAll("[data-entry-status]").forEach(select => {
-        select.addEventListener("change", e => updateEntryStatus(Number(e.target.dataset.entryStatus), e.target.value));
-      });
-      entriesBody.querySelectorAll("[data-entry-review]").forEach(select => {
-        select.addEventListener("change", e => updateReviewState(Number(e.target.dataset.entryReview), e.target.value));
-      });
-      syncRunningSheetHeightMode();
-    }
-
-    function updateEntryStatus(id, nextStatus){
-      entries = entries.map(entry => entry.id === id ? {...entry, status: nextStatus} : entry);
-      renderEntries();
     }
 
     function updateReviewState(id, nextState){
@@ -4720,10 +4415,9 @@ function renderHours(){
     }
 
     function resetForm(){
-      Object.assign(formState, {time:formatCurrentTime(),run:"",cycle:"",customCycle:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"});
+      Object.assign(formState, {time:formatCurrentTime(),run:"",cycle:"",torqueMap:"",PanT:"",carbon:"",nox:"",thc:"",pm:"",work:"",filter:"",testMap:"",category:"General",status:"Open"});
       renderForm();
       noteEditor.innerHTML = "";
-      autoSizeNoteEditor();
     }
 
     function addOperatorEntry(){
@@ -4734,7 +4428,6 @@ function renderHours(){
         ...formState,
         id: Date.now(),
         time: formState.time || formatCurrentTime(),
-        cycle: selectedCycleValue() || "—",
         source: "operator",
         locked: true,
         ignored: false,
@@ -4761,7 +4454,7 @@ function renderHours(){
         eventType: template.eventType,
         time: formState.time || formatCurrentTime(),
         run: formState.run || "—",
-        cycle: selectedCycleValue() || "—",
+        cycle: formState.cycle || "—",
         torqueMap: formState.torqueMap || "—",
         PanT: formState.PanT || "—",
         carbon: formState.carbon || "—",
@@ -4896,7 +4589,6 @@ function renderHours(){
       });
     }
 
-    noteEditor.addEventListener("input", autoSizeNoteEditor);
     document.getElementById("add-entry-btn").addEventListener("click", addOperatorEntry);
     document.getElementById("auto-log-btn").addEventListener("click", addSystemEvent);
     document.getElementById("clear-btn").addEventListener("click", resetForm);
