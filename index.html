@@ -201,12 +201,19 @@
 .manager-band-card{min-height:130px}
 .manager-signal-card{min-height:118px}
 .manager-list-head,.manager-chart-head{min-height:74px;padding-bottom:10px;border-bottom:1px solid #e2e8f0}
-.manager-list{flex:1 1 auto}
-.manager-story-box{display:flex;align-items:center;justify-content:center;min-height:138px}
-.manager-note{margin:0 auto;text-align:center}
+.manager-list{flex:1 1 auto;width:min(100%,980px);margin:0 auto}
+.manager-story-card{grid-column:1 / -1;min-height:0}
+.manager-story-card .manager-list-head{justify-content:flex-start;text-align:left;min-height:auto;padding-bottom:8px}
+.manager-story-box{display:flex;align-items:flex-start;justify-content:flex-start;min-height:138px;width:100%;max-width:none;margin:0;text-align:left}
+.manager-story-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;width:100%}
+.manager-story-item{border:1px solid #e2e8f0;border-radius:12px;background:#fff;padding:12px 14px;color:#334155;line-height:1.55}
+.manager-story-item strong{display:block;color:#0f172a;font-size:12px;margin-bottom:4px}
+.manager-note{margin:0 auto;text-align:center;max-width:38ch}
 .manager-hero-card .section-title,.manager-chart-head,.manager-list-head{text-align:center}
-.manager-layout{grid-auto-rows:1fr}
 .manager-dashboard-grid,.manager-dashboard-grid.bottom{grid-auto-rows:1fr}
+.manager-chart-card > .manager-bars,.manager-chart-card > .manager-kpi-svg{width:min(100%,1120px);margin-left:auto;margin-right:auto}
+.manager-bar-row{grid-template-columns:minmax(160px,1.1fr) minmax(280px,3fr) auto;max-width:1100px;margin:0 auto}
+.manager-band-card .manager-value,.manager-signal-value,.manager-value{margin-left:auto;margin-right:auto}
     .manager-topline{display:flex;justify-content:center;gap:10px;align-items:stretch;flex-wrap:wrap}
     .manager-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:stretch}
     .manager-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center}
@@ -403,6 +410,7 @@
     body[data-theme="clarity"] .manager-chart-card,
     body[data-theme="clarity"] .manager-signal-card,
     body[data-theme="clarity"] .manager-story-box,
+    body[data-theme="clarity"] .manager-story-item,
     body[data-theme="clarity"] .settings-mini-card,
     body[data-theme="clarity"] .settings-hero-card,
     body[data-theme="clarity"] .settings-callout,
@@ -781,14 +789,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.132-manager-graphics-wide-running-sheet-full-toggle</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.133-manager-center-story-clean-running-sheet-full-height</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.132-manager-graphics-wide-running-sheet-full-toggle</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.133-manager-center-story-clean-running-sheet-full-height</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1183,7 +1191,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.132-manager-graphics-wide-running-sheet-full-toggle</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.133-manager-center-story-clean-running-sheet-full-height</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1254,7 +1262,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.132-manager-graphics-wide-running-sheet-full-toggle</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.133-manager-center-story-clean-running-sheet-full-height</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1312,7 +1320,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.132-manager-graphics-wide-running-sheet-full-toggle</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.133-manager-center-story-clean-running-sheet-full-height</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1386,7 +1394,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             </div>
           </div>
           <div class="manager-layout">
-<div class="manager-list-card">
+<div class="manager-list-card manager-story-card">
               <div class="manager-list-head">
                 <div>
                   <div class="manager-list-kicker">Action now</div>
@@ -1500,7 +1508,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.132-manager-graphics-wide-running-sheet-full-toggle</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.133-manager-center-story-clean-running-sheet-full-height</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -1568,7 +1576,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.132-manager-graphics-wide-running-sheet-full-toggle";
+    const VERSION = "v1.0.133-manager-center-story-clean-running-sheet-full-height";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -3056,14 +3064,29 @@ function renderManagerTab(){
   const topDowntimeLabel = summary.topDowntime.length ? summary.topDowntime[0][0] : "no downtime bucket yet";
   const topStatusLabel = summary.topStatus ? `${summary.topStatus[0]} (${summary.topStatus[1]})` : "No strong weekend status pattern yet";
   const storyBits = [];
-  if (summary.helpNeededCount > 0) storyBits.push(`<strong>${summary.helpNeededCount} weekend row(s)</strong> need support now.`);
-  if (summary.totalLogged > 0) storyBits.push(`<strong>${summary.totalLogged.toFixed(1)} logged hours</strong> sit across <strong>${summary.savedShiftCount}</strong> saved shift record(s).`);
-  if (summary.totalDowntime > 0) storyBits.push(`Top downtime category is <strong>${escapeHtml(topDowntimeLabel)}</strong> at <strong>${summary.topDowntime[0][1].toFixed(1)} hour(s)</strong>.`);
-  if (summary.downtimeShareDelta != null) storyBits.push(`Latest saved day is <strong>${summary.downtimeShareDelta > 0.05 ? 'running hotter' : summary.downtimeShareDelta < -0.05 ? 'running cleaner' : 'holding steady'}</strong> versus the prior saved day.`);
-  if (summary.repeatedIssueCells && summary.repeatedIssueCells.length) storyBits.push(`<strong>${escapeHtml(summary.repeatedIssueCells[0].cell)}</strong> is the strongest recurring pressure point right now.`);
+  if (summary.helpNeededCount > 0) storyBits.push({
+    heading: `${summary.helpNeededCount} weekend row(s) need support`,
+    body: 'Start with the weekend queue first so the next handoff does not inherit hidden blockers.'
+  });
+  if (summary.totalLogged > 0) storyBits.push({
+    heading: `${summary.totalLogged.toFixed(1)} logged hours across ${summary.savedShiftCount} saved shift record(s)`,
+    body: 'This is the current coverage footprint represented in saved hours data.'
+  });
+  if (summary.totalDowntime > 0) storyBits.push({
+    heading: `Top downtime is ${escapeHtml(topDowntimeLabel)} at ${summary.topDowntime[0][1].toFixed(1)} hour(s)`,
+    body: 'This is the strongest downtime driver showing up in the saved records.'
+  });
+  if (summary.downtimeShareDelta != null) storyBits.push({
+    heading: `Latest saved day is ${summary.downtimeShareDelta > 0.05 ? 'running hotter' : summary.downtimeShareDelta < -0.05 ? 'running cleaner' : 'holding steady'}`,
+    body: 'Use this as the first trend check against the prior saved day before digging into row details.'
+  });
+  if (summary.repeatedIssueCells && summary.repeatedIssueCells.length) storyBits.push({
+    heading: `${escapeHtml(summary.repeatedIssueCells[0].cell)} is the strongest recurring pressure point`,
+    body: 'This cell is repeating often enough to deserve a closer read before it turns into background noise.'
+  });
   if (managerStoryBox) managerStoryBox.innerHTML = storyBits.length
-    ? storyBits.join(' ')
-    : 'Add saved hours or weekend rows to build a useful manager story.';
+    ? `<div class="manager-story-list">${storyBits.map(item => `<div class="manager-story-item"><strong>${item.heading}</strong><div>${item.body}</div></div>`).join('')}</div>`
+    : '<div class="manager-story-list"><div class="manager-story-item"><strong>Manager story not ready yet</strong><div>Add saved hours or weekend rows to build a useful manager story.</div></div></div>';
 
   if (managerReadoutList) {
     const latestDelta = summary.latestVsPreviousLoggedDelta == null
@@ -4354,10 +4377,12 @@ function renderHours(){
     }
 
     // Clamp the table viewport so the resize never pushes the running sheet off-screen or below a usable reading height.
-    function applyRunningSheetHeight(height){
+    function applyRunningSheetHeight(height, options = {}){
       if (!runningSheetWrap) return;
       const viewportCap = Math.max(MIN_RUNNING_SHEET_HEIGHT, window.innerHeight - 220);
-      const nextHeight = Math.max(MIN_RUNNING_SHEET_HEIGHT, Math.min(Number(height) || 0, viewportCap));
+      const contentCap = Math.max(MIN_RUNNING_SHEET_HEIGHT, runningSheetWrap.scrollHeight + 12);
+      const hardCap = options.mode === 'show-all' ? contentCap : Math.max(viewportCap, Math.min(contentCap, viewportCap + 180));
+      const nextHeight = Math.max(MIN_RUNNING_SHEET_HEIGHT, Math.min(Number(height) || 0, hardCap));
       runningSheetWrap.style.height = `${Math.round(nextHeight)}px`;
       saveRunningSheetHeight(nextHeight);
     }
@@ -4374,11 +4399,11 @@ function renderHours(){
       if (!runningSheetWrap) return;
       const current = runningSheetWrap.getBoundingClientRect().height || getSavedRunningSheetHeight() || 0;
       const defaultHeight = Math.max(MIN_RUNNING_SHEET_HEIGHT, Math.round(window.innerHeight * (DEFAULT_RUNNING_SHEET_HEIGHT / 100)));
-      const viewportCap = Math.max(MIN_RUNNING_SHEET_HEIGHT, window.innerHeight - 220);
-      const contentHeight = runningSheetWrap.scrollHeight + 4;
-      const expandedHeight = Math.max(defaultHeight + 40, Math.min(contentHeight, viewportCap));
+      const table = runningSheetWrap.querySelector('table');
+      const contentHeight = Math.max(runningSheetWrap.scrollHeight + 12, table ? Math.ceil(table.getBoundingClientRect().height) + 12 : 0);
+      const expandedHeight = Math.max(defaultHeight + 40, contentHeight);
       const threshold = (defaultHeight + expandedHeight) / 2;
-      applyRunningSheetHeight(current < threshold ? expandedHeight : defaultHeight);
+      applyRunningSheetHeight(current < threshold ? expandedHeight : defaultHeight, { mode: current < threshold ? 'show-all' : 'normal' });
     }
 
     // Pointer events keep the resize behavior consistent for mouse, touch, and pen without separate code paths.
@@ -4426,7 +4451,9 @@ function renderHours(){
 
       window.addEventListener('resize', () => {
         const current = runningSheetWrap.getBoundingClientRect().height;
-        applyRunningSheetHeight(current || getSavedRunningSheetHeight() || Math.round(window.innerHeight * (DEFAULT_RUNNING_SHEET_HEIGHT / 100)));
+        const defaultHeight = Math.max(MIN_RUNNING_SHEET_HEIGHT, Math.round(window.innerHeight * (DEFAULT_RUNNING_SHEET_HEIGHT / 100)));
+        const mode = current > defaultHeight + 40 ? 'show-all' : 'normal';
+        applyRunningSheetHeight(current || getSavedRunningSheetHeight() || defaultHeight, { mode });
       });
     }
 
