@@ -218,18 +218,20 @@
 .manager-bar-row{grid-template-columns:minmax(160px,1.1fr) minmax(280px,3fr) auto;max-width:none;margin:0}
 .manager-band-card .manager-value,.manager-signal-value,.manager-value{margin-left:auto;margin-right:auto}
 /* Manager chart centering pass:
-   Keep the graphics nearly card-width, but center the chart stack as one visual
-   unit so the heading, legend, graphic, and note read together instead of feeling
-   scattered vertically. The goal is stronger scan flow, not a smaller chart. */
-.manager-chart-card{align-items:center}
-.manager-chart-head,.manager-legend,.manager-chart-card > .manager-bars,.manager-chart-card > .manager-kpi-svg,.manager-kpi-note{width:100%}
+   Center the actual chart stack inside each manager card while keeping the
+   graphics nearly full-card width. This keeps the heading, legend, plot, and
+   supporting note visually locked together instead of drifting left or right. */
+.manager-chart-card{align-items:stretch}
+.manager-chart-head,.manager-legend,.manager-chart-card > .manager-bars,.manager-chart-card > .manager-kpi-svg,.manager-kpi-note{width:calc(100% - 8px);margin-left:auto;margin-right:auto}
 .manager-chart-head{margin-bottom:8px}
 .manager-chart-head > div{width:100%;margin:0 auto}
 .manager-chart-sub{margin-top:4px;max-width:none}
-.manager-legend{margin:6px 0 8px;justify-content:center}
-.manager-kpi-svg{margin:0 auto}
+.manager-legend{margin:6px auto 8px;justify-content:center}
+.manager-kpi-svg{margin:0 auto;display:block}
 .manager-kpi-note{margin:8px auto 0;padding:0 2px}
-.manager-chart-card > .manager-bars{margin-top:6px}
+.manager-chart-card > .manager-bars{margin:6px auto 0}
+.manager-bars{justify-content:flex-start;align-items:stretch}
+.manager-bar-row{width:100%;margin-left:auto;margin-right:auto}
     .manager-topline{display:flex;justify-content:center;gap:10px;align-items:stretch;flex-wrap:wrap}
     .manager-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:stretch}
     .manager-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center}
@@ -805,14 +807,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.135-manager-graphics-centered-tight</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.136-manager-graphics-actually-centered</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.135-manager-graphics-centered-tight</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.136-manager-graphics-actually-centered</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1207,7 +1209,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.135-manager-graphics-centered-tight</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.136-manager-graphics-actually-centered</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1278,7 +1280,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.135-manager-graphics-centered-tight</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.136-manager-graphics-actually-centered</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1336,7 +1338,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.135-manager-graphics-centered-tight</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.136-manager-graphics-actually-centered</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1524,7 +1526,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.135-manager-graphics-centered-tight</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.136-manager-graphics-actually-centered</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -1592,7 +1594,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.135-manager-graphics-centered-tight";
+    const VERSION = "v1.0.136-manager-graphics-actually-centered";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
