@@ -92,6 +92,11 @@
     .hours-sidebox textarea{width:100%;min-height:84px;padding:8px 9px;border:1px solid #dbe3ed;border-radius:8px;background:#fff;color:var(--text)}
     .pill{display:inline-flex;align-items:center;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:#f8fafc;font-size:12px;font-weight:600;color:#334155}
     .table-wrap{max-height:46vh;overflow-y:auto}
+    .running-sheet-shell{display:flex;flex-direction:column}
+    .running-sheet-wrap{max-height:none;min-height:280px;height:46vh}
+    .running-sheet-resizer{display:flex;align-items:center;justify-content:center;height:18px;border-top:1px solid #e2e8f0;background:#f8fafc;cursor:ns-resize;user-select:none;touch-action:none}
+    .running-sheet-resizer:before{content:"";width:84px;height:4px;border-radius:999px;background:#cbd5e1;box-shadow:0 0 0 1px rgba(15,23,42,.04)}
+    .running-sheet-resizer:hover:before{background:#94a3b8}
     table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
     thead th{position:sticky;top:0;z-index:1;background:#f1f5f9}
     th,td{border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;padding:8px;text-align:left;vertical-align:top}
@@ -562,6 +567,8 @@ body[data-theme="clarity"] .trade-session-chunk{border-top-color:#9aa7bd}
     body[data-theme="clarity"] .hours-row-running td{background:#eef4ff}
     body[data-theme="clarity"] .hours-row-downtime td{background:#fff6da}
     body[data-theme="clarity"] .hours-row-invalid td{box-shadow:inset 0 0 0 9999px rgba(217,119,6,.12)}
+    body[data-theme="clarity"] .running-sheet-resizer{border-top-color:#9aa7bd;background:#eef3fa}
+    body[data-theme="clarity"] .running-sheet-resizer:before{background:#8ea2bf}
     body[data-theme="clarity"] .action-stack button.attention-btn{background:#fff6da;color:#8a4b00;border-color:#facc15}
     body[data-theme="clarity"] .trade-sheet-card,
     body[data-theme="clarity"] .trade-strip-item,
@@ -741,14 +748,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.127-engineer-fill-all-aspects</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.128-engineer-fill-cell-respect-running-sheet-resize</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.127-engineer-fill-all-aspects</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.128-engineer-fill-cell-respect-running-sheet-resize</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -876,7 +883,8 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
           </div>
         </div>
       </div>
-      <div class="table-wrap">
+      <div class="running-sheet-shell">
+        <div class="table-wrap running-sheet-wrap" id="running-sheet-wrap">
         <table>
           <thead>
             <tr>
@@ -894,6 +902,8 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
           </thead>
           <tbody id="entries-body"></tbody>
         </table>
+        </div>
+        <div class="running-sheet-resizer" id="running-sheet-resizer" title="Drag to resize. Double-click to reset."></div>
       </div>
     </main>
 
@@ -1140,7 +1150,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.127-engineer-fill-all-aspects</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.128-engineer-fill-cell-respect-running-sheet-resize</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1211,7 +1221,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.127-engineer-fill-all-aspects</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.128-engineer-fill-cell-respect-running-sheet-resize</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1269,7 +1279,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.127-engineer-fill-all-aspects</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.128-engineer-fill-cell-respect-running-sheet-resize</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1457,7 +1467,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.127-engineer-fill-all-aspects</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.128-engineer-fill-cell-respect-running-sheet-resize</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -1525,7 +1535,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.127-engineer-fill-all-aspects";
+    const VERSION = "v1.0.128-engineer-fill-cell-respect-running-sheet-resize";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -1766,6 +1776,8 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     const filterDateFrom = document.getElementById("filter-date-from");
     const filterDateTo = document.getElementById("filter-date-to");
     const clearDateFiltersBtn = document.getElementById("clear-date-filters");
+    const runningSheetWrap = document.getElementById("running-sheet-wrap");
+    const runningSheetResizer = document.getElementById("running-sheet-resizer");
     const handoffState = document.getElementById("handoff-state");
     const handoffPriority = document.getElementById("handoff-priority");
     const handoffOwner = document.getElementById("handoff-owner");
@@ -1827,6 +1839,9 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     const engineerOverviewBars = document.getElementById("engineer-overview-bars");
     const engineerNotesSpotlight = document.getElementById("engineer-notes-spotlight");
     const engineerCollection = document.getElementById("engineer-collection");
+    const RUNNING_SHEET_HEIGHT_STORAGE_KEY = "cumminsUnifiedLogbook.runningSheetHeight";
+    const DEFAULT_RUNNING_SHEET_HEIGHT = 46;
+    const MIN_RUNNING_SHEET_HEIGHT = 280;
     const tabViews = {
       logbook: document.getElementById("tab-logbook"),
       hours: document.getElementById("tab-hours"),
@@ -3594,11 +3609,12 @@ function renderManagerTab(){
       if (weekendDateInput) weekendDateInput.value = boardIso;
     }
 
-    function seedDemoEngineerState(hoursContext = getCurrentHoursTempContext(), weekendDate = getCurrentWeekendTempDate()){
+    function seedDemoEngineerState(hoursContext = getCurrentHoursTempContext(), weekendDate = getCurrentWeekendTempDate(), filterOptions = {}){
       seedDemoLogbookState();
       seedDemoHoursState(hoursContext);
       seedDemoWeekendState(weekendDate);
-      resetEngineerReviewFilters({ cell:'', query:'' });
+      const nextCell = Object.prototype.hasOwnProperty.call(filterOptions, 'cell') ? String(filterOptions.cell || '') : '';
+      resetEngineerReviewFilters({ cell: nextCell, query: '' });
     }
 
 
@@ -3618,8 +3634,9 @@ function renderManagerTab(){
       rememberTempTestBaseline();
       const preservedHoursContext = getCurrentHoursTempContext();
       const preservedWeekendDate = getCurrentWeekendTempDate();
+      const preservedEngineerCell = String(engineerInfoFilters.cell || engineerCellFilter?.value || '').trim();
       applyPrototypeSnapshot(deepClone(tempTestBaseline));
-      resetEngineerReviewFilters({ cell:'', query:'' });
+      if (kind !== 'engineer') resetEngineerReviewFilters({ cell:'', query:'' });
       const activeTabName = kind === 'hours' ? 'hours' : kind === 'engineer' ? 'engineer' : kind === 'weekend' ? 'weekend' : kind === 'manager' ? 'manager' : kind === 'settings' ? 'settings' : 'logbook';
       if (kind === 'logbook') {
         seedDemoLogbookState();
@@ -3628,7 +3645,7 @@ function renderManagerTab(){
       } else if (kind === 'weekend') {
         seedDemoWeekendState(preservedWeekendDate);
       } else if (kind === 'engineer') {
-        seedDemoEngineerState(preservedHoursContext, preservedWeekendDate);
+        seedDemoEngineerState(preservedHoursContext, preservedWeekendDate, { cell: preservedEngineerCell });
       } else if (kind === 'manager') {
         seedDemoLogbookState();
         seedDemoHoursState(preservedHoursContext);
@@ -4284,6 +4301,83 @@ function renderHours(){
       syncCtcPulseSnapshot();
     }
 
+
+    function getSavedRunningSheetHeight(){
+      try {
+        const saved = parseFloat(localStorage.getItem(RUNNING_SHEET_HEIGHT_STORAGE_KEY) || "");
+        return Number.isFinite(saved) && saved >= MIN_RUNNING_SHEET_HEIGHT ? saved : null;
+      } catch {
+        return null;
+      }
+    }
+
+    function saveRunningSheetHeight(height){
+      try {
+        localStorage.setItem(RUNNING_SHEET_HEIGHT_STORAGE_KEY, String(Math.round(height)));
+      } catch {}
+    }
+
+    function applyRunningSheetHeight(height){
+      if (!runningSheetWrap) return;
+      const viewportCap = Math.max(MIN_RUNNING_SHEET_HEIGHT, window.innerHeight - 220);
+      const nextHeight = Math.max(MIN_RUNNING_SHEET_HEIGHT, Math.min(Number(height) || 0, viewportCap));
+      runningSheetWrap.style.height = `${Math.round(nextHeight)}px`;
+      saveRunningSheetHeight(nextHeight);
+    }
+
+    function resetRunningSheetHeight(){
+      if (!runningSheetWrap) return;
+      const fallback = Math.max(MIN_RUNNING_SHEET_HEIGHT, Math.round(window.innerHeight * (DEFAULT_RUNNING_SHEET_HEIGHT / 100)));
+      applyRunningSheetHeight(fallback);
+    }
+
+    function initRunningSheetResize(){
+      if (!runningSheetWrap || !runningSheetResizer) return;
+      const savedHeight = getSavedRunningSheetHeight();
+      if (savedHeight) {
+        applyRunningSheetHeight(savedHeight);
+      } else {
+        runningSheetWrap.style.height = `${Math.max(MIN_RUNNING_SHEET_HEIGHT, Math.round(window.innerHeight * (DEFAULT_RUNNING_SHEET_HEIGHT / 100)))}px`;
+      }
+
+      let dragState = null;
+
+      const onPointerMove = (event) => {
+        if (!dragState) return;
+        const delta = event.clientY - dragState.startY;
+        applyRunningSheetHeight(dragState.startHeight + delta);
+      };
+
+      const stopDrag = () => {
+        if (!dragState) return;
+        dragState = null;
+        window.removeEventListener('pointermove', onPointerMove);
+        window.removeEventListener('pointerup', stopDrag);
+        window.removeEventListener('pointercancel', stopDrag);
+      };
+
+      runningSheetResizer.addEventListener('pointerdown', (event) => {
+        event.preventDefault();
+        dragState = {
+          startY: event.clientY,
+          startHeight: runningSheetWrap.getBoundingClientRect().height
+        };
+        runningSheetResizer.setPointerCapture?.(event.pointerId);
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', stopDrag);
+        window.addEventListener('pointercancel', stopDrag);
+      });
+
+      runningSheetResizer.addEventListener('dblclick', () => {
+        resetRunningSheetHeight();
+      });
+
+      window.addEventListener('resize', () => {
+        const current = runningSheetWrap.getBoundingClientRect().height;
+        applyRunningSheetHeight(current || getSavedRunningSheetHeight() || Math.round(window.innerHeight * (DEFAULT_RUNNING_SHEET_HEIGHT / 100)));
+      });
+    }
+
     function detailBox(label, value){return `<div class="detail-box"><span>${label}</span><span style="font-weight:600">${escapeHtml(value || "—")}</span></div>`}
     function snapshotBox(label, value){return `<div class="snapshot-box"><span>${label}</span><span style="font-weight:600">${escapeHtml(value || "—")}</span></div>`}
 
@@ -4582,6 +4676,7 @@ function renderHours(){
       }
       renderManagerModeControls();
       renderEngineerInfoMode();
+      initRunningSheetResize();
     }
 
     function initTempTestTools(){
