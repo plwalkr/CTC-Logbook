@@ -94,9 +94,16 @@
     .table-wrap{max-height:46vh;overflow-y:auto}
     .running-sheet-shell{display:flex;flex-direction:column}
     .running-sheet-wrap{max-height:none;min-height:280px;height:46vh}
-    .running-sheet-resizer{display:flex;align-items:center;justify-content:center;height:18px;border-top:1px solid #e2e8f0;background:#f8fafc;cursor:ns-resize;user-select:none;touch-action:none}
-    .running-sheet-resizer:before{content:"";width:84px;height:4px;border-radius:999px;background:#cbd5e1;box-shadow:0 0 0 1px rgba(15,23,42,.04)}
-    .running-sheet-resizer:hover:before{background:#94a3b8}
+    /* Preserve a familiar bottom-right resize cue so operators immediately know the running sheet can expand. */
+    .running-sheet-resizer{display:flex;align-items:flex-end;justify-content:flex-end;height:20px;padding:0 8px 3px 0;border-top:1px solid #e2e8f0;background:linear-gradient(180deg,#f8fafc 0%,#f1f5f9 100%);cursor:ns-resize;user-select:none;touch-action:none}
+    .running-sheet-resizer:before{content:"";width:16px;height:16px;border-radius:2px;opacity:.96;background:
+      linear-gradient(135deg, transparent 0 55%, #94a3b8 55% 61%, transparent 61%) center/100% 100% no-repeat,
+      linear-gradient(135deg, transparent 0 35%, #94a3b8 35% 41%, transparent 41%) center/100% 100% no-repeat,
+      linear-gradient(135deg, transparent 0 15%, #94a3b8 15% 21%, transparent 21%) center/100% 100% no-repeat}
+    .running-sheet-resizer:hover:before{background:
+      linear-gradient(135deg, transparent 0 55%, #64748b 55% 61%, transparent 61%) center/100% 100% no-repeat,
+      linear-gradient(135deg, transparent 0 35%, #64748b 35% 41%, transparent 41%) center/100% 100% no-repeat,
+      linear-gradient(135deg, transparent 0 15%, #64748b 15% 21%, transparent 21%) center/100% 100% no-repeat}
     table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
     thead th{position:sticky;top:0;z-index:1;background:#f1f5f9}
     th,td{border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;padding:8px;text-align:left;vertical-align:top}
@@ -428,9 +435,12 @@
     .manager-item > div:last-child,.manager-item > strong:last-child{text-align:right}
     .manager-bar-row{grid-template-columns:minmax(110px,1fr) minmax(0,2.2fr) auto}
     .manager-layout,.manager-hero,.manager-dashboard-grid,.manager-dashboard-grid.bottom,.manager-band{justify-items:stretch}
-    .debug-fab{position:fixed;right:16px;bottom:16px;z-index:999;border:1px solid #0f172a;background:#0f172a;color:#fff;border-radius:999px;padding:10px 14px;font-size:12px;font-weight:800;letter-spacing:.04em;box-shadow:0 10px 25px rgba(15,23,42,.18);cursor:pointer}
-    .debug-fab:hover{transform:translateY(-1px)}
-    .debug-panel{position:fixed;right:16px;bottom:68px;width:min(580px,calc(100vw - 24px));max-height:78vh;overflow-y:auto;overflow-x:hidden;z-index:998;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 16px 40px rgba(15,23,42,.22)}
+    /* CTC Pulse should read like a serious tool: obvious, high-contrast, and easy to re-open under pressure. */
+    .debug-fab{position:fixed;right:16px;bottom:16px;z-index:999;border:1px solid #0f172a;background:linear-gradient(180deg,#1e293b 0%,#0f172a 100%);color:#fff;border-radius:999px;padding:12px 16px;font-size:12px;font-weight:900;letter-spacing:.06em;box-shadow:0 14px 34px rgba(15,23,42,.28),0 0 0 1px rgba(15,23,42,.08);cursor:pointer;transition:transform .16s ease, box-shadow .18s ease, filter .18s ease}
+    .debug-fab:hover{transform:translateY(-1px);box-shadow:0 18px 38px rgba(15,23,42,.32),0 0 0 1px rgba(15,23,42,.12)}
+    .debug-fab:focus-visible{outline:none;box-shadow:0 18px 38px rgba(15,23,42,.32),0 0 0 4px rgba(59,130,246,.24)}
+    .debug-fab.is-open{filter:brightness(1.04);box-shadow:0 18px 42px rgba(15,23,42,.34),0 0 0 3px rgba(59,130,246,.18)}
+    .debug-panel{position:fixed;right:16px;bottom:68px;width:min(580px,calc(100vw - 24px));max-height:78vh;overflow-y:auto;overflow-x:hidden;z-index:998;border:1px solid #0f172a;border-radius:18px;background:#fff;box-shadow:0 20px 44px rgba(15,23,42,.26)}
     .debug-panel[hidden]{display:none !important}
     .debug-head{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);background:#f8fafc}
     .debug-sub{font-size:13px;color:#475569;margin-top:4px;line-height:1.45}
@@ -567,8 +577,11 @@ body[data-theme="clarity"] .trade-session-chunk{border-top-color:#9aa7bd}
     body[data-theme="clarity"] .hours-row-running td{background:#eef4ff}
     body[data-theme="clarity"] .hours-row-downtime td{background:#fff6da}
     body[data-theme="clarity"] .hours-row-invalid td{box-shadow:inset 0 0 0 9999px rgba(217,119,6,.12)}
-    body[data-theme="clarity"] .running-sheet-resizer{border-top-color:#9aa7bd;background:#eef3fa}
-    body[data-theme="clarity"] .running-sheet-resizer:before{background:#8ea2bf}
+    body[data-theme="clarity"] .running-sheet-resizer{border-top-color:#9aa7bd;background:linear-gradient(180deg,#eef3fa 0%,#e2ebf7 100%)}
+    body[data-theme="clarity"] .running-sheet-resizer:before{background:
+      linear-gradient(135deg, transparent 0 55%, #8ea2bf 55% 61%, transparent 61%) center/100% 100% no-repeat,
+      linear-gradient(135deg, transparent 0 35%, #8ea2bf 35% 41%, transparent 41%) center/100% 100% no-repeat,
+      linear-gradient(135deg, transparent 0 15%, #8ea2bf 15% 21%, transparent 21%) center/100% 100% no-repeat}
     body[data-theme="clarity"] .action-stack button.attention-btn{background:#fff6da;color:#8a4b00;border-color:#facc15}
     body[data-theme="clarity"] .trade-sheet-card,
     body[data-theme="clarity"] .trade-strip-item,
@@ -600,7 +613,7 @@ body[data-theme="clarity"] .trade-session-chunk{border-top-color:#9aa7bd}
     body[data-theme="clarity"] .hours-warning{color:#8a4b00}
     body[data-theme="clarity"] .review-attention{background:#fff1cc;color:#8a4b00;border-color:#facc15}
     
-body[data-theme="clarity"] .debug-fab{background:#163b69;border-color:#163b69}
+body[data-theme="clarity"] .debug-fab{background:linear-gradient(180deg,#23518f 0%,#163b69 100%);border-color:#163b69}
 body[data-theme="clarity"] .trade-cell-card,
 body[data-theme="clarity"] .trade-empty-card{background:#f7faff;border-color:#9aa7bd}
 body[data-theme="clarity"] .trade-mini-pill{border-color:#8ea2bf;background:#fff;color:#10233d}
@@ -748,14 +761,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.128-engineer-fill-cell-respect-running-sheet-resize</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.129-running-sheet-corner-debug-stronger</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.128-engineer-fill-cell-respect-running-sheet-resize</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.129-running-sheet-corner-debug-stronger</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1150,7 +1163,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.128-engineer-fill-cell-respect-running-sheet-resize</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.129-running-sheet-corner-debug-stronger</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1221,7 +1234,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.128-engineer-fill-cell-respect-running-sheet-resize</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.129-running-sheet-corner-debug-stronger</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1279,7 +1292,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.128-engineer-fill-cell-respect-running-sheet-resize</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.129-running-sheet-corner-debug-stronger</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1467,7 +1480,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.128-engineer-fill-cell-respect-running-sheet-resize</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.129-running-sheet-corner-debug-stronger</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -1535,7 +1548,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.128-engineer-fill-cell-respect-running-sheet-resize";
+    const VERSION = "v1.0.129-running-sheet-corner-debug-stronger";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -1839,6 +1852,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     const engineerOverviewBars = document.getElementById("engineer-overview-bars");
     const engineerNotesSpotlight = document.getElementById("engineer-notes-spotlight");
     const engineerCollection = document.getElementById("engineer-collection");
+    // Persist the running sheet height per browser so long notes stay readable across scans and refreshes.
     const RUNNING_SHEET_HEIGHT_STORAGE_KEY = "cumminsUnifiedLogbook.runningSheetHeight";
     const DEFAULT_RUNNING_SHEET_HEIGHT = 46;
     const MIN_RUNNING_SHEET_HEIGHT = 280;
@@ -4302,6 +4316,7 @@ function renderHours(){
     }
 
 
+    // Read the last user-sized running sheet height. If storage is blocked or corrupted, fall back cleanly.
     function getSavedRunningSheetHeight(){
       try {
         const saved = parseFloat(localStorage.getItem(RUNNING_SHEET_HEIGHT_STORAGE_KEY) || "");
@@ -4317,6 +4332,7 @@ function renderHours(){
       } catch {}
     }
 
+    // Clamp the table viewport so the resize never pushes the running sheet off-screen or below a usable reading height.
     function applyRunningSheetHeight(height){
       if (!runningSheetWrap) return;
       const viewportCap = Math.max(MIN_RUNNING_SHEET_HEIGHT, window.innerHeight - 220);
@@ -4331,6 +4347,7 @@ function renderHours(){
       applyRunningSheetHeight(fallback);
     }
 
+    // Pointer events keep the resize behavior consistent for mouse, touch, and pen without separate code paths.
     function initRunningSheetResize(){
       if (!runningSheetWrap || !runningSheetResizer) return;
       const savedHeight = getSavedRunningSheetHeight();
@@ -4368,6 +4385,7 @@ function renderHours(){
         window.addEventListener('pointercancel', stopDrag);
       });
 
+      // Double-click is the fast operator escape hatch back to the default reading height.
       runningSheetResizer.addEventListener('dblclick', () => {
         resetRunningSheetHeight();
       });
@@ -5298,13 +5316,23 @@ Reason: ${error?.stack || error?.message || error}`;
       }, 90);
     }
 
+    // Keep panel open/close state in one place so button styling, accessibility, and open behavior never drift apart.
+    function setCtcPulseOpen(open, options = {}){
+      if (!ctcPulseFab || !ctcPulsePanel) return;
+      const shouldOpen = !!open;
+      ctcPulsePanel.hidden = !shouldOpen;
+      ctcPulseFab.classList.toggle("is-open", shouldOpen);
+      ctcPulseFab.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
+      if (shouldOpen && options.scan !== false) syncCtcPulseSnapshot();
+    }
+
     function initCtcPulse(){
       if (!ctcPulseFab || !ctcPulsePanel) return;
+      ctcPulseFab.setAttribute("aria-controls", "ctc-pulse-panel");
+      ctcPulseFab.setAttribute("aria-expanded", "false");
       ctcPulseFab.addEventListener("click", (e) => {
         e.stopPropagation();
-        const opening = ctcPulsePanel.hidden;
-        ctcPulsePanel.hidden = !ctcPulsePanel.hidden;
-        if (opening) syncCtcPulseSnapshot();
+        setCtcPulseOpen(ctcPulsePanel.hidden);
       });
       ctcPulsePanel.addEventListener("click", (e) => e.stopPropagation());
       const runBtn = document.getElementById("ctc-pulse-run");
@@ -5332,6 +5360,7 @@ Reason: ${error?.stack || error?.message || error}`;
           }
         };
 
+        // Clipboard APIs are preferred, but we keep layered fallbacks because debug output is only useful if people can actually extract it.
         const fallbackTextareaCopy = () => {
           const ta = document.createElement("textarea");
           ta.value = report;
@@ -5385,7 +5414,12 @@ Reason: ${error?.stack || error?.message || error}`;
       });
       document.addEventListener("click", (e) => {
         if (!ctcPulsePanel.hidden && !ctcPulsePanel.contains(e.target) && e.target !== ctcPulseFab) {
-          ctcPulsePanel.hidden = true;
+          setCtcPulseOpen(false, {scan:false});
+        }
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !ctcPulsePanel.hidden) {
+          setCtcPulseOpen(false, {scan:false});
         }
       });
       syncCtcPulseSnapshot();
