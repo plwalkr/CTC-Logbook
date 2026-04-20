@@ -189,6 +189,24 @@
     .settings-copy{font-size:13px;color:#334155;line-height:1.5}
     .settings-status{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;font-weight:700;color:#334155}
     .manager-shell{display:flex;flex-direction:column;gap:14px;max-width:1480px;margin:0 auto}
+/* Manager uniformity pass:
+   Keep the existing data and card order, but force a cleaner visual rhythm so
+   leadership cards scan as one system instead of mixed independent blocks. */
+.manager-hero-card,.manager-band-card,.manager-signal-card,.manager-list-card,.manager-chart-card{box-shadow:0 1px 2px rgba(15,23,42,.04)}
+.manager-layout > .manager-list-card,
+.manager-dashboard-grid > .manager-chart-card,
+.manager-dashboard-grid.bottom > .manager-chart-card{height:100%;align-self:stretch}
+.manager-list-card{min-height:238px}
+.manager-chart-card{min-height:328px}
+.manager-band-card{min-height:130px}
+.manager-signal-card{min-height:118px}
+.manager-list-head,.manager-chart-head{min-height:74px;padding-bottom:10px;border-bottom:1px solid #e2e8f0}
+.manager-list{flex:1 1 auto}
+.manager-story-box{display:flex;align-items:center;justify-content:center;min-height:138px}
+.manager-note{margin:0 auto;text-align:center}
+.manager-hero-card .section-title,.manager-chart-head,.manager-list-head{text-align:center}
+.manager-layout{grid-auto-rows:1fr}
+.manager-dashboard-grid,.manager-dashboard-grid.bottom{grid-auto-rows:1fr}
     .manager-topline{display:flex;justify-content:center;gap:10px;align-items:stretch;flex-wrap:wrap}
     .manager-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:stretch}
     .manager-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:14px;text-align:center}
@@ -400,6 +418,8 @@
     body[data-theme="clarity"] .engineer-filter-row input,
     body[data-theme="clarity"] .engineer-mini-pill{border-color:#8ea2bf;background:#fff;color:#10233d}
     body[data-theme="clarity"] .manager-mode-btn.active{border-color:#163b69;box-shadow:0 0 0 2px rgba(22,59,105,.12);background:#eef4ff}
+body[data-theme="clarity"] .manager-list-head,
+body[data-theme="clarity"] .manager-chart-head{border-bottom-color:#c8d5e7}
 
 
     body[data-theme="clarity"]{--bg:#f6f7fb;--panel:#ffffff;--line:#9aa7bd;--text:#10233d;--muted:#44566f;--soft:#eef3fa}
@@ -761,14 +781,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.129-running-sheet-corner-debug-stronger</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.131-manager-uniform-restore</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.129-running-sheet-corner-debug-stronger</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.131-manager-uniform-restore</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1163,7 +1183,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.129-running-sheet-corner-debug-stronger</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.131-manager-uniform-restore</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1234,7 +1254,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.129-running-sheet-corner-debug-stronger</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.131-manager-uniform-restore</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1292,7 +1312,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.129-running-sheet-corner-debug-stronger</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.131-manager-uniform-restore</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1480,7 +1500,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.129-running-sheet-corner-debug-stronger</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.131-manager-uniform-restore</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -1548,7 +1568,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.129-running-sheet-corner-debug-stronger";
+    const VERSION = "v1.0.131-manager-uniform-restore";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -1855,6 +1875,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     // Persist the running sheet height per browser so long notes stay readable across scans and refreshes.
     const RUNNING_SHEET_HEIGHT_STORAGE_KEY = "cumminsUnifiedLogbook.runningSheetHeight";
     const DEFAULT_RUNNING_SHEET_HEIGHT = 46;
+    const EXPANDED_RUNNING_SHEET_HEIGHT = 72;
     const MIN_RUNNING_SHEET_HEIGHT = 280;
     const tabViews = {
       logbook: document.getElementById("tab-logbook"),
@@ -4347,6 +4368,17 @@ function renderHours(){
       applyRunningSheetHeight(fallback);
     }
 
+    // Double-click toggles between a roomy reading height and the default operating height.
+    // This matches the expected desk behavior: expand first for long note review, then collapse back on the next double-click.
+    function toggleRunningSheetHeight(){
+      if (!runningSheetWrap) return;
+      const current = runningSheetWrap.getBoundingClientRect().height || getSavedRunningSheetHeight() || 0;
+      const defaultHeight = Math.max(MIN_RUNNING_SHEET_HEIGHT, Math.round(window.innerHeight * (DEFAULT_RUNNING_SHEET_HEIGHT / 100)));
+      const expandedHeight = Math.max(defaultHeight + 40, Math.round(window.innerHeight * (EXPANDED_RUNNING_SHEET_HEIGHT / 100)));
+      const threshold = (defaultHeight + expandedHeight) / 2;
+      applyRunningSheetHeight(current < threshold ? expandedHeight : defaultHeight);
+    }
+
     // Pointer events keep the resize behavior consistent for mouse, touch, and pen without separate code paths.
     function initRunningSheetResize(){
       if (!runningSheetWrap || !runningSheetResizer) return;
@@ -4385,9 +4417,9 @@ function renderHours(){
         window.addEventListener('pointercancel', stopDrag);
       });
 
-      // Double-click is the fast operator escape hatch back to the default reading height.
+      // Double-click is a fast toggle: first expand the reading area, then shrink it back on the next double-click.
       runningSheetResizer.addEventListener('dblclick', () => {
-        resetRunningSheetHeight();
+        toggleRunningSheetHeight();
       });
 
       window.addEventListener('resize', () => {
