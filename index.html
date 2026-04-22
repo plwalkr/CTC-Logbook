@@ -883,6 +883,159 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       text-align:left;
     }
 
+
+    /* Product consistency sweep.
+       Goal:
+       Keep the prototype feeling like one product across Logbook, Hours, Trades,
+       Weekend, Manager, Engineer, and Settings without resetting working logic.
+       This pass is intentionally presentation-only. It standardizes card rhythm,
+       header spacing, and section density while leaving tab logic and data flow
+       untouched. */
+    .view-tabs{
+      padding:12px 14px;
+      align-items:flex-start;
+      gap:12px;
+    }
+    .view-tab-core{
+      align-items:flex-start;
+      row-gap:10px;
+    }
+    .tab-btn{
+      min-height:58px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:flex-start;
+      text-align:left;
+    }
+    .section-body{
+      gap:12px;
+    }
+    .temp-test-bar,
+    .trade-sheet-card,
+    .trade-cell-card,
+    .hours-summary-card,
+    .hours-breakdown-card,
+    .hours-sidebox,
+    .manager-hero-card,
+    .manager-band-card,
+    .manager-signal-card,
+    .manager-list-card,
+    .manager-chart-card,
+    .engineer-hero-card,
+    .engineer-filter-card,
+    .engineer-summary-card,
+    .engineer-signal-card,
+    .engineer-visual-card,
+    .engineer-priority-card,
+    .engineer-note-card,
+    .engineer-detail-card,
+    .engineer-row-card,
+    .engineer-cell-card,
+    .settings-hero-card{
+      border-radius:16px;
+      box-shadow:0 1px 2px rgba(15,23,42,.04);
+    }
+    .temp-test-bar{
+      padding:12px 14px;
+      gap:12px;
+    }
+    .manager-list-head,
+    .manager-chart-head{
+      gap:8px;
+      margin-bottom:12px;
+    }
+    .manager-chart-sub,
+    .manager-kpi-note,
+    .manager-note,
+    .manager-hero-copy,
+    .manager-signal-note,
+    .engineer-hero-copy,
+    .engineer-filter-note,
+    .engineer-story-copy,
+    .engineer-priority-copy,
+    .settings-copy{
+      line-height:1.55;
+    }
+    .manager-band,
+    .manager-signal-row,
+    .manager-dashboard-grid,
+    .manager-dashboard-grid.bottom,
+    .engineer-summary-strip,
+    .engineer-signal-grid,
+    .engineer-visual-grid,
+    .engineer-focus-grid,
+    .engineer-detail-grid{
+      gap:12px;
+    }
+    .engineer-shell{
+      gap:16px;
+    }
+    .engineer-summary-card,
+    .engineer-signal-card,
+    .engineer-visual-card,
+    .engineer-priority-card,
+    .engineer-note-card,
+    .engineer-detail-card,
+    .engineer-row-card,
+    .engineer-cell-card{
+      padding:14px;
+    }
+    .engineer-block-head,
+    .engineer-cell-head,
+    .trade-sheet-head{
+      margin-bottom:10px;
+      gap:10px;
+    }
+    .engineer-mini-strip,
+    .trade-mini-strip{
+      gap:8px;
+      margin-bottom:10px;
+    }
+    .engineer-list-item,
+    .manager-item,
+    .trade-summary-item{
+      padding-top:10px;
+      padding-bottom:10px;
+    }
+    .settings-hero{
+      max-width:980px;
+      margin:0 auto;
+      gap:14px;
+    }
+    .settings-hero-card{
+      padding:16px;
+    }
+    .display-mode-bar{
+      gap:10px;
+      padding:10px;
+    }
+    body[data-theme="clarity"] .temp-test-bar,
+    body[data-theme="clarity"] .trade-sheet-card,
+    body[data-theme="clarity"] .trade-cell-card,
+    body[data-theme="clarity"] .hours-summary-card,
+    body[data-theme="clarity"] .hours-breakdown-card,
+    body[data-theme="clarity"] .hours-sidebox,
+    body[data-theme="clarity"] .manager-hero-card,
+    body[data-theme="clarity"] .manager-band-card,
+    body[data-theme="clarity"] .manager-signal-card,
+    body[data-theme="clarity"] .manager-list-card,
+    body[data-theme="clarity"] .manager-chart-card,
+    body[data-theme="clarity"] .engineer-hero-card,
+    body[data-theme="clarity"] .engineer-filter-card,
+    body[data-theme="clarity"] .engineer-summary-card,
+    body[data-theme="clarity"] .engineer-signal-card,
+    body[data-theme="clarity"] .engineer-visual-card,
+    body[data-theme="clarity"] .engineer-priority-card,
+    body[data-theme="clarity"] .engineer-note-card,
+    body[data-theme="clarity"] .engineer-detail-card,
+    body[data-theme="clarity"] .engineer-row-card,
+    body[data-theme="clarity"] .engineer-cell-card,
+    body[data-theme="clarity"] .settings-hero-card{
+      border-color:#9aa7bd;
+      background:#f7faff;
+    }
+
 </style>
 </head>
 <body data-theme="standard">
@@ -895,14 +1048,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.141-engineer-review-presentation-polish</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.142-ui-consistency-sweep</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.141-engineer-review-presentation-polish</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.142-ui-consistency-sweep</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1297,7 +1450,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.141-engineer-review-presentation-polish</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.142-ui-consistency-sweep</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1368,7 +1521,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.141-engineer-review-presentation-polish</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.142-ui-consistency-sweep</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1426,7 +1579,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.141-engineer-review-presentation-polish</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.142-ui-consistency-sweep</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1614,7 +1767,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.141-engineer-review-presentation-polish</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.142-ui-consistency-sweep</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -1682,7 +1835,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.141-engineer-review-presentation-polish";
+    const VERSION = "v1.0.142-ui-consistency-sweep";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
