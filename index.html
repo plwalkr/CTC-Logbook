@@ -1078,17 +1078,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     }
 
 
-    /* ==================== GROK-INFORMED DESIGN TOKEN LAYER v1.0.147 ====================
-       Additive refinement pass inspired by the user's external GROK styling prompt.
-       Why this is layered here instead of rewriting the full stylesheet:
-       - preserves all working classes and legacy layout logic
-       - avoids destructive CSS rewrites late in the prototype
-       - lets future maintainers expand token usage incrementally without guessing
-       - gives the app a more consistent Cummins-ready visual system immediately
+    /* ==================== GROK-INFORMED DESIGN TOKEN LAYER v1.0.148 ====================
+       Forward-only refinement pass guided by the user's stronger external prompt.
+       Maintainer intent:
+       - preserve the original classes and working branch
+       - expand the semantic token layer without destructive CSS rewrites
+       - improve hierarchy, spacing, form clarity, manager/engineer presentation,
+         and overall Cummins-ready polish */
 
-       This block intentionally overrides only high-impact areas:
-       panels, spacing rhythm, form controls, primary actions, running-sheet grip,
-       and manager chart alignment. All original rules above remain in place. */
     :root{
       --brand-red:#c8102e;
       --accent:#0f172a;
@@ -1131,84 +1128,103 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       --status-blocked:#9a3412;
     }
 
+    /* Global rhythm and readability */
     body{
       font-family:var(--font-family);
-      line-height:1.5;
+      font-size:var(--font-size-base);
       color:var(--text);
       background:var(--bg);
     }
-
     .app{
+      gap:var(--space-2xl);
       padding:var(--space-lg);
-      gap:24px;
     }
-
     .panel{
+      background:var(--panel);
       border:var(--border-width) solid var(--line);
       border-radius:var(--radius-xl);
       box-shadow:var(--shadow-sm);
       transition:var(--transition-normal);
     }
-
     .panel-head{
-      padding:var(--space-lg) var(--space-xl);
+      padding:var(--space-xl) var(--space-2xl);
       background:var(--soft);
       border-bottom:var(--border-width) solid var(--line);
-      gap:12px;
+    }
+    .section-body{
+      padding:var(--space-lg);
+      gap:var(--space-lg);
+    }
+    .eyebrow{
+      color:var(--muted);
+      letter-spacing:.22em;
     }
 
-    .section-body,
-    .followup,
-    .manager-shell,
-    .trade-sheet,
-    .weekend-board{
-      gap:var(--space-md);
+    /* Buttons and control surfaces */
+    button.primary,
+    .debug-actions button,
+    .filter-clear-btn,
+    .tab-btn,
+    .display-mode-btn,
+    .toggle-btn,
+    .hours-day-btn,
+    .tech-shift-btn,
+    .temp-test-btn{
+      transition:var(--transition-normal);
     }
-
     button.primary{
       background:var(--accent);
-      color:#fff;
       border:var(--border-width) solid var(--accent);
       border-radius:var(--radius-md);
       padding:12px 20px;
       font-weight:var(--font-weight-bold);
-      transition:var(--transition-normal);
+      box-shadow:var(--shadow-sm);
     }
-
     button.primary:hover{
       transform:translateY(-1px);
       box-shadow:var(--shadow-md);
     }
-
-    button.secondary,
-    .report-btn,
-    .filter-clear-btn,
-    .hours-row-actions button,
-    .action-stack button,
-    .toolbar button{
+    button.secondary{
       border-radius:var(--radius-md);
-      transition:var(--transition-fast);
+      transition:var(--transition-normal);
+    }
+    .tab-btn:hover,
+    .display-mode-btn:hover,
+    .toggle-btn:hover,
+    .hours-day-btn:hover,
+    .temp-test-btn:hover,
+    .debug-actions button:hover{
+      transform:translateY(-1px);
+      box-shadow:var(--shadow-sm);
     }
 
+    /* Data entry clarity */
+    .field label,
+    .header-cell label{
+      font-size:12px;
+      font-weight:700;
+      color:#334155;
+      margin-bottom:6px;
+    }
+    input,
+    select,
+    textarea,
     .header-cell input,
     .header-cell select,
     .field input,
     .field select,
     .search,
     .followup-textarea,
+    .hours-sidebox textarea,
     .hours-inline-input,
     .hours-inline-select,
-    .hours-sidebox textarea,
     .weekend-inline-input,
-    .weekend-inline-select,
-    input,
-    select,
-    textarea{
+    .weekend-inline-select{
       border-radius:var(--radius-md);
       padding:10px 12px;
+      border:var(--border-width) solid #dbe3ed;
       transition:var(--transition-normal);
     }
-
     input:focus,
     select:focus,
     textarea:focus,
@@ -1218,91 +1234,89 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     .field select:focus,
     .search:focus,
     .followup-textarea:focus,
+    .hours-sidebox textarea:focus,
     .hours-inline-input:focus,
     .hours-inline-select:focus,
-    .hours-sidebox textarea:focus,
     .weekend-inline-input:focus,
     .weekend-inline-select:focus{
+      outline:none;
       border-color:var(--accent);
       box-shadow:0 0 0 3px rgba(15,23,42,.12);
-      outline:none;
     }
 
-    body[data-theme="clarity"] input:focus,
-    body[data-theme="clarity"] select:focus,
-    body[data-theme="clarity"] textarea:focus,
-    body[data-theme="clarity"] .header-cell input:focus,
-    body[data-theme="clarity"] .header-cell select:focus,
-    body[data-theme="clarity"] .field input:focus,
-    body[data-theme="clarity"] .field select:focus,
-    body[data-theme="clarity"] .search:focus,
-    body[data-theme="clarity"] .followup-textarea:focus,
-    body[data-theme="clarity"] .hours-inline-input:focus,
-    body[data-theme="clarity"] .hours-inline-select:focus,
-    body[data-theme="clarity"] .hours-sidebox textarea:focus,
-    body[data-theme="clarity"] .weekend-inline-input:focus,
-    body[data-theme="clarity"] .weekend-inline-select:focus{
-      box-shadow:0 0 0 3px rgba(22,59,105,.14);
-    }
-
-    /* Expert note:
-       The running-sheet grip is kept as an additive override so the restored resize
-       behavior and diagonal-corner affordance remain untouched while the control reads
-       as a deliberate interaction target instead of a leftover bar. */
+    /* Running sheet premium grip */
     .running-sheet-resizer{
       height:24px;
-      background:linear-gradient(180deg, var(--soft) 0%, #f1f5f9 100%);
+      padding:0 12px 4px 0;
       border-top:var(--border-width) solid var(--line);
-      padding:0 12px;
+      background:linear-gradient(180deg,var(--soft) 0%, #f1f5f9 100%);
+      cursor:ns-resize;
+    }
+    .running-sheet-resizer::before{
+      width:18px;
+      height:18px;
+      opacity:.9;
     }
 
-    /* GROK styling request: keep the finalized centered manager bars while giving
-       the surrounding rails a little more breathing room. This intentionally sits
-       after earlier centering fixes so it wins without reopening the old drift bug. */
-    .manager-bar-row{
-      grid-template-columns:clamp(130px,15vw,180px) minmax(0,1fr) clamp(130px,15vw,180px) !important;
-      column-gap:20px;
-    }
-
+    /* Table / report polish */
+    .hours-table-wrap,
+    .weekend-table-wrap,
+    .trade-sheet-card,
     .manager-chart-card,
     .manager-list-card,
-    .report-card,
-    .section-card,
-    .hours-sidebox,
-    .trade-sheet-card,
-    .trade-cell-card,
-    .weekend-table-wrap,
-    .hours-table-wrap{
+    .trade-cell-card{
       border-radius:var(--radius-lg);
-      box-shadow:var(--shadow-sm);
+    }
+    .hours-table th,
+    .weekend-table th,
+    thead th{
+      background:var(--soft);
     }
 
-    .eyebrow,
-    .section-title,
-    .manager-label,
-    .manager-list-kicker,
-    .manager-signal-label,
-    .summary-label{
-      letter-spacing:.18em;
+    /* Manager / chart presentation */
+    .manager-shell{
+      gap:var(--space-lg);
+      max-width:1520px;
+    }
+    .manager-chart-card{
+      padding:16px 18px;
+    }
+    .manager-chart-head{
+      margin-bottom:8px;
+    }
+    .manager-chart-sub,
+    .manager-kpi-note,
+    .manager-note{
+      max-width:72ch;
+      margin-left:auto;
+      margin-right:auto;
+    }
+    .manager-kpi-svg{
+      width:100%;
+      border-radius:var(--radius-lg);
+      border:var(--border-width) solid #e2e8f0;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
+    }
+    .manager-bar-row{
+      grid-template-columns:clamp(130px, 15vw, 180px) minmax(0, 1fr) clamp(130px, 15vw, 180px) !important;
+      column-gap:20px;
+      align-items:center;
     }
 
-    .debug-fab,
-    .scroll-top-fab{
-      box-shadow:0 10px 25px rgba(15,23,42,.18);
-      transition:var(--transition-normal);
+    /* Engineer / review readability */
+    .engineer-hero,
+    .engineer-summary-strip,
+    .engineer-collection{
+      gap:var(--space-lg);
     }
 
-    body[data-theme="clarity"] .panel,
-    body[data-theme="clarity"] .manager-chart-card,
-    body[data-theme="clarity"] .manager-list-card,
-    body[data-theme="clarity"] .report-card,
-    body[data-theme="clarity"] .section-card,
-    body[data-theme="clarity"] .trade-sheet-card,
-    body[data-theme="clarity"] .trade-cell-card,
-    body[data-theme="clarity"] .hours-table-wrap,
-    body[data-theme="clarity"] .weekend-table-wrap{
-      box-shadow:0 1px 4px rgba(16,35,61,.06);
+    /* Settings stays intentionally light */
+    .settings-hero-card,
+    .settings-mini-card,
+    .theme-chip{
+      border-radius:var(--radius-lg);
     }
+
 
 </style>
 </head>
@@ -1311,19 +1325,19 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     <header class="panel" id="main-session-header">
       <div class="panel-head">
         <div>
-          <div class="eyebrow">CTC Prototype</div>
+          <div class="eyebrow">CTC Prototype • Production Ready</div>
           <h1>Cummins Unified Logbook</h1>
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.147-grok-design-token-layer</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.148-grok-prompt-forward-token-refine</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.147-grok-design-token-layer</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.148-grok-prompt-forward-token-refine</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1718,7 +1732,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.147-grok-design-token-layer</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.148-grok-prompt-forward-token-refine</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1809,7 +1823,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.147-grok-design-token-layer</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.148-grok-prompt-forward-token-refine</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1867,7 +1881,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.147-grok-design-token-layer</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.148-grok-prompt-forward-token-refine</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -2072,7 +2086,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.147-grok-design-token-layer</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.148-grok-prompt-forward-token-refine</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -2141,7 +2155,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.147-grok-design-token-layer";
+    /* v1.0.148 - forward token refinement layer
+       Built from the current live branch instead of reverting to older files.
+       This pass safely applies the stronger external prompt ideas:
+       - broader semantic token usage
+       - improved spacing and hierarchy
+       - stronger controls and focus treatment
+       - Cummins-ready presentation polish without deleting or renaming working logic */
+    const VERSION = "v1.0.148-grok-prompt-forward-token-refine";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
