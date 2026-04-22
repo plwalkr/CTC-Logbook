@@ -805,7 +805,54 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       .date-filter-row .date-field{width:100%;justify-content:space-between}
       table{font-size:11px}
     }
-  </style>
+  
+    /* Final manager bar centering override.
+       Why this exists:
+       Earlier passes centered the card and widened the chart area, but a later generic
+       .manager-bar-row rule still used an asymmetric three-column grid
+       (wide left label rail + auto-sized right value rail). That made the full graphic
+       read visually right-heavy even when the card itself was centered.
+       These overrides force equal left/right rails around the bar track so the full
+       chart block centers as one visual unit inside the card. */
+    .manager-chart-card{
+      align-items:center;
+    }
+    .manager-chart-card > .manager-chart-head,
+    .manager-chart-card > .manager-legend,
+    .manager-chart-card > .manager-bars,
+    .manager-chart-card > .manager-kpi-svg,
+    .manager-chart-card > .manager-kpi-note{
+      width:100%;
+      max-width:none;
+      margin-left:auto;
+      margin-right:auto;
+    }
+    .manager-chart-card > .manager-bars{
+      padding-inline:12px;
+      box-sizing:border-box;
+    }
+    .manager-bar-row{
+      width:100%;
+      margin-left:0;
+      margin-right:0;
+      grid-template-columns:clamp(120px,15vw,170px) minmax(0,1fr) clamp(120px,15vw,170px) !important;
+      column-gap:16px;
+      align-items:center;
+    }
+    .manager-bar-label{
+      justify-self:end;
+      text-align:right;
+    }
+    .manager-bar-track{
+      width:100%;
+      justify-self:stretch;
+    }
+    .manager-bar-value{
+      justify-self:start;
+      text-align:left;
+    }
+
+</style>
 </head>
 <body data-theme="standard">
   <div class="app">
@@ -817,14 +864,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.139-manager-bar-block-balanced-centered</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.140-manager-bars-true-center-equal-rails</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.139-manager-bar-block-balanced-centered</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.140-manager-bars-true-center-equal-rails</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1219,7 +1266,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.139-manager-bar-block-balanced-centered</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.140-manager-bars-true-center-equal-rails</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1290,7 +1337,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.139-manager-bar-block-balanced-centered</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.140-manager-bars-true-center-equal-rails</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1348,7 +1395,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.139-manager-bar-block-balanced-centered</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.140-manager-bars-true-center-equal-rails</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1536,7 +1583,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.139-manager-bar-block-balanced-centered</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.140-manager-bars-true-center-equal-rails</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -1604,7 +1651,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.139-manager-bar-block-balanced-centered";
+    const VERSION = "v1.0.140-manager-bars-true-center-equal-rails";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
