@@ -1078,7 +1078,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     }
 
 
-    /* ==================== GROK-INFORMED DESIGN TOKEN LAYER v1.0.148 ====================
+    /* ==================== GROK-INFORMED DESIGN TOKEN LAYER v1.0.149 ====================
        Forward-only refinement pass guided by the user's stronger external prompt.
        Maintainer intent:
        - preserve the original classes and working branch
@@ -1318,6 +1318,243 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     }
 
 
+
+
+    /* ==================== GROK FULL TOKEN REFINE FORWARD PASS v1.0.149 ====================
+       Maintainer note:
+       - additive override layer only
+       - keeps the original stylesheet and class names intact
+       - expands the earlier token pass into higher-impact workflow/presentation areas
+       - intended to make the tool calmer, more consistent, and easier to scan
+         without deleting any working behavior */
+
+    /* Shared layout rhythm */
+    .panel + .panel{
+      margin-top:0;
+    }
+    .panel-head{
+      gap:var(--space-lg);
+      min-height:76px;
+    }
+    .small{
+      font-size:var(--font-size-sm);
+      line-height:1.6;
+    }
+    .section-card,
+    .hours-summary-card,
+    .hours-breakdown-card,
+    .hours-sidebox,
+    .manager-card,
+    .manager-band-card,
+    .manager-list-card,
+    .manager-chart-card,
+    .manager-hero-card,
+    .manager-signal-card,
+    .trade-sheet-card,
+    .trade-cell-card,
+    .handoff-card,
+    .settings-hero-card,
+    .settings-mini-card,
+    .settings-callout,
+    .theme-chip,
+    .detail-box,
+    .snapshot-box,
+    .debug-card{
+      border-radius:var(--radius-lg);
+      box-shadow:var(--shadow-sm);
+    }
+
+    /* Form readability and data-entry comfort */
+    .form-grid,
+    .filters-row,
+    .hours-filter-row,
+    .date-filter-row,
+    .hours-day-bar,
+    .tech-shift-bar,
+    .display-mode-bar,
+    .toggle-bar,
+    .manager-legend,
+    .weekend-meta-strip{
+      gap:var(--space-md);
+    }
+    .field{
+      gap:6px;
+    }
+    .field label,
+    .header-cell label{
+      letter-spacing:.02em;
+    }
+    .header-cell,
+    .field,
+    .date-filter-row .date-field{
+      border-radius:var(--radius-md);
+    }
+    .header-cell input,
+    .header-cell select,
+    .field input,
+    .field select,
+    .search,
+    .followup-textarea,
+    .hours-sidebox textarea,
+    .hours-inline-input,
+    .hours-inline-select,
+    .weekend-inline-input,
+    .weekend-inline-select{
+      background:#fff;
+    }
+
+    /* Buttons */
+    button.primary:active,
+    button.secondary:active,
+    .tab-btn:active,
+    .display-mode-btn:active,
+    .toggle-btn:active,
+    .temp-test-btn:active,
+    .hours-day-btn:active,
+    .tech-shift-btn:active,
+    .debug-actions button:active{
+      transform:translateY(0);
+    }
+    .tab-btn,
+    .display-mode-btn,
+    .toggle-btn,
+    .temp-test-btn,
+    .hours-day-btn,
+    .tech-shift-btn,
+    .debug-actions button,
+    .filter-clear-btn{
+      border-radius:var(--radius-md);
+    }
+
+    /* Running sheet and table refinement */
+    .table-wrap,
+    .hours-table-wrap,
+    .weekend-table-wrap{
+      border-radius:var(--radius-lg);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
+    }
+    th, td,
+    .weekend-table th, .weekend-table td,
+    .hours-table th, .hours-table td{
+      padding-top:10px;
+      padding-bottom:10px;
+    }
+    thead th,
+    .hours-table th,
+    .weekend-table th,
+    .trade-table th{
+      font-size:12px;
+      letter-spacing:.08em;
+      font-weight:800;
+    }
+    .hours-table tbody tr:hover td,
+    .weekend-table tbody tr:hover td{
+      background:#f8fafc;
+    }
+
+    /* Running sheet resize grip remains the same behavior, just cleaner visually */
+    .running-sheet-resizer{
+      position:relative;
+      display:flex;
+      align-items:flex-end;
+      justify-content:flex-end;
+    }
+    .running-sheet-resizer::after{
+      content:"";
+      width:18px;
+      height:18px;
+      margin:0 4px 2px 0;
+      opacity:.6;
+      background:
+        linear-gradient(135deg, transparent 0 58%, rgba(15,23,42,.34) 58% 64%, transparent 64% 100%),
+        linear-gradient(135deg, transparent 0 68%, rgba(15,23,42,.24) 68% 74%, transparent 74% 100%),
+        linear-gradient(135deg, transparent 0 78%, rgba(15,23,42,.18) 78% 84%, transparent 84% 100%);
+      pointer-events:none;
+    }
+
+    /* Manager / coach polish */
+    .manager-shell{
+      gap:20px;
+    }
+    .manager-story-box{
+      border-radius:var(--radius-lg);
+      padding:16px 18px;
+      max-width:none;
+    }
+    .manager-list-head,
+    .manager-chart-head{
+      margin-bottom:12px;
+    }
+    .manager-chart-sub,
+    .manager-kpi-note,
+    .manager-note,
+    .manager-posture-note,
+    .manager-hero-copy,
+    .manager-signal-note{
+      line-height:1.6;
+    }
+    .manager-bars{
+      gap:12px;
+    }
+    .manager-bar-track{
+      height:16px;
+      border-radius:999px;
+    }
+
+    /* Engineer readability */
+    .engineer-hero,
+    .engineer-summary-strip,
+    .engineer-collection{
+      margin-top:0;
+    }
+    .engineer-note-spotlight,
+    .engineer-insight-banner,
+    .engineer-state-rail,
+    .engineer-what-jumps-out,
+    .engineer-scope-chip{
+      box-shadow:var(--shadow-sm);
+      border-radius:var(--radius-lg);
+    }
+
+    /* Weekend and trades */
+    .trade-note-box,
+    .trade-empty-card,
+    .hours-reference-note{
+      border-radius:var(--radius-lg);
+      line-height:1.6;
+    }
+    .weekend-board .pill,
+    .trade-mini-pill,
+    .hours-row-badge,
+    .badge{
+      border-radius:999px;
+    }
+
+    /* Debug / Pulse */
+    .debug-panel{
+      border-radius:var(--radius-xl);
+      box-shadow:0 18px 44px rgba(15,23,42,.22);
+    }
+    .debug-head{
+      padding:14px 16px;
+    }
+    .debug-report{
+      border-radius:var(--radius-lg);
+    }
+
+    /* Top button stays small and out of the way */
+    .scroll-top-fab{
+      border-radius:999px;
+      box-shadow:var(--shadow-md);
+    }
+
+    /* Report sections */
+    .report-shell,
+    .report-panel{
+      border-radius:var(--radius-lg);
+      box-shadow:var(--shadow-sm);
+    }
+
 </style>
 </head>
 <body data-theme="standard">
@@ -1330,14 +1567,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.148-grok-prompt-forward-token-refine</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.149-grok-full-token-refine-forward</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.148-grok-prompt-forward-token-refine</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.149-grok-full-token-refine-forward</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1732,7 +1969,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.148-grok-prompt-forward-token-refine</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.149-grok-full-token-refine-forward</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1823,7 +2060,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.148-grok-prompt-forward-token-refine</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.149-grok-full-token-refine-forward</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1881,7 +2118,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.148-grok-prompt-forward-token-refine</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.149-grok-full-token-refine-forward</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -2086,7 +2323,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.148-grok-prompt-forward-token-refine</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.149-grok-full-token-refine-forward</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -2155,14 +2392,12 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    /* v1.0.148 - forward token refinement layer
-       Built from the current live branch instead of reverting to older files.
-       This pass safely applies the stronger external prompt ideas:
-       - broader semantic token usage
-       - improved spacing and hierarchy
-       - stronger controls and focus treatment
-       - Cummins-ready presentation polish without deleting or renaming working logic */
-    const VERSION = "v1.0.148-grok-prompt-forward-token-refine";
+    /* v1.0.149 - forward token refinement layer
+       This pass continues from the live branch instead of reverting to older files.
+       Goal: keep every working behavior intact while widening the token-driven polish
+       across spacing rhythm, forms, tables, section hierarchy, and review presentation.
+       No JS features are removed. No tab/data logic is deleted. */
+    const VERSION = "v1.0.149-grok-full-token-refine-forward";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
