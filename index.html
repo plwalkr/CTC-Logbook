@@ -1036,6 +1036,32 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       background:#f7faff;
     }
 
+
+    /* Report foundation: keeps Manager and Engineer reports readable on-screen now,
+       while leaving room for later print/PDF styling. The copy buttons intentionally
+       use the same visual language as the prototype tools so the report layer feels
+       native to the current app instead of bolted on later. */
+    .report-shell{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
+    .report-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:14px;display:flex;flex-direction:column;gap:10px}
+    .report-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+    .report-head h3{font-size:18px;margin:0}
+    .report-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:800;margin-bottom:6px}
+    .report-sub{font-size:13px;color:#475569;line-height:1.55}
+    .report-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .report-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .report-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800;cursor:pointer}
+    .report-btn:hover{transform:translateY(-1px)}
+    .report-btn.copy-ok{background:#ecfdf5;border-color:#86efac}
+    .report-btn.copy-warn{background:#fff7ed;border-color:#fdba74}
+    .report-output{width:100%;min-height:260px;margin:0;padding:14px;border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc;color:#0f172a;font:13px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;overflow:auto}
+    .report-mini-note{font-size:12px;color:#64748b;line-height:1.5}
+    body[data-theme="clarity"] .report-card{background:#f7faff;border-color:#9aa7bd}
+    body[data-theme="clarity"] .report-output{background:#f8fbff;border-color:#9aa7bd;color:#10233d}
+    body[data-theme="clarity"] .report-btn{border-color:#8ea2bf;background:#fff;color:#10233d}
+    @media (max-width: 980px){
+      .report-shell{grid-template-columns:1fr}
+    }
+
 </style>
 </head>
 <body data-theme="standard">
@@ -1048,14 +1074,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.142-ui-consistency-sweep</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.143-manager-engineer-report-foundation</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.142-ui-consistency-sweep</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.143-manager-engineer-report-foundation</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1450,7 +1476,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.142-ui-consistency-sweep</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.143-manager-engineer-report-foundation</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1514,14 +1540,32 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                 <div class="engineer-note-list" id="engineer-notes-spotlight"></div>
               </div>
             </div>
+            
             <div class="engineer-collection" id="engineer-collection"></div>
+            <div class="report-shell">
+              <div class="report-card">
+                <div class="report-head">
+                  <div>
+                    <div class="report-kicker">Engineer report</div>
+                    <h3>Generated review summary</h3>
+                    <div class="report-sub">Live summary of the current engineer scope, with the selected cell and search state folded into the output.</div>
+                  </div>
+                  <div class="report-actions">
+                    <button class="report-btn" type="button" data-report-copy="engineer">Copy report</button>
+                  </div>
+                </div>
+                <div class="report-meta" id="engineer-report-meta"></div>
+                <pre class="report-output" id="engineer-report-output">Engineer report will build from the current visible review state.</pre>
+                <div class="report-mini-note">Foundation pass: on-screen generated report first. Print/PDF styling can layer on later without changing the core summary logic.</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.142-ui-consistency-sweep</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.143-manager-engineer-report-foundation</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1579,7 +1623,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.142-ui-consistency-sweep</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.143-manager-engineer-report-foundation</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1761,13 +1805,30 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
               <div class="manager-list" id="manager-notes-list"></div>
             </div>
           </div>
+          <div class="report-shell">
+            <div class="report-card">
+              <div class="report-head">
+                <div>
+                  <div class="report-kicker">Manager report</div>
+                  <h3>Generated operating summary</h3>
+                  <div class="report-sub">Leadership-ready summary built from the current manager view so coaches and managers can copy the operating posture quickly.</div>
+                </div>
+                <div class="report-actions">
+                  <button class="report-btn" type="button" data-report-copy="manager">Copy report</button>
+                </div>
+              </div>
+              <div class="report-meta" id="manager-report-meta"></div>
+              <pre class="report-output" id="manager-report-output">Manager report will build from the current operating posture and dashboard state.</pre>
+              <div class="report-mini-note">Foundation pass: the report is generated directly from live manager signals, not from a separate manual form.</div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.142-ui-consistency-sweep</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.143-manager-engineer-report-foundation</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -1835,7 +1896,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.142-ui-consistency-sweep";
+    const VERSION = "v1.0.143-manager-engineer-report-foundation";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -2149,6 +2210,10 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     const engineerPriorityNoteTitle = document.getElementById("engineer-priority-note-title");
     const engineerPriorityNoteMeta = document.getElementById("engineer-priority-note-meta");
     const engineerPriorityNoteCopy = document.getElementById("engineer-priority-note-copy");
+    const managerReportOutput = document.getElementById("manager-report-output");
+    const managerReportMeta = document.getElementById("manager-report-meta");
+    const engineerReportOutput = document.getElementById("engineer-report-output");
+    const engineerReportMeta = document.getElementById("engineer-report-meta");
     // Persist the running sheet height per browser so long notes stay readable across scans and refreshes.
     const RUNNING_SHEET_HEIGHT_STORAGE_KEY = "cumminsUnifiedLogbook.runningSheetHeight";
     const DEFAULT_RUNNING_SHEET_HEIGHT = 46;
@@ -3089,6 +3154,218 @@ function applyEngineerPrioritySnapshot(snapshot){
 }
 
 
+
+function setReportMeta(target, items){
+  if (!target) return;
+  target.innerHTML = (items || []).filter(Boolean).map(item => `<span class="pill">${escapeHtml(item)}</span>`).join('');
+}
+
+function pulseButtonFeedback(button, tone){
+  if (!button) return;
+  button.classList.remove('copy-ok','copy-warn');
+  button.classList.add(tone === 'ok' ? 'copy-ok' : 'copy-warn');
+  window.setTimeout(() => button.classList.remove('copy-ok','copy-warn'), 1200);
+}
+
+async function copyPlainTextReport(text, button){
+  const report = String(text || '').trim();
+  if (!report) return false;
+
+  const fallbackTextareaCopy = () => {
+    const ta = document.createElement('textarea');
+    ta.value = report;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '12px';
+    ta.style.left = '12px';
+    ta.style.width = '1px';
+    ta.style.height = '1px';
+    ta.style.opacity = '0.01';
+    ta.style.pointerEvents = 'none';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    ta.setSelectionRange(0, ta.value.length);
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch {}
+    document.body.removeChild(ta);
+    return ok;
+  };
+
+  let copied = false;
+  try {
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+      await navigator.clipboard.writeText(report);
+      copied = true;
+    }
+  } catch {}
+
+  if (!copied) copied = fallbackTextareaCopy();
+  if (!copied) {
+    try { window.prompt('Copy report:', report); } catch {}
+  }
+  pulseButtonFeedback(button, copied ? 'ok' : 'warn');
+  return copied;
+}
+
+function buildManagerReport(summary, pulseState, dashboard){
+  const lines = [
+    'Cummins Unified Logbook',
+    'Manager / Coaches Generated Report',
+    `Version: ${VERSION}`,
+    `Generated: ${new Date().toLocaleString()}`,
+    `Board date: ${displayDate(weekendDateInput?.value || bannerFields?.date || '')}`,
+    '',
+    'Operating posture',
+    `- Posture: ${pulseState.postureLabel}`,
+    `- Focus: ${pulseState.focusHeadline}`,
+    `- Why it matters: ${pulseState.focusCopy}`,
+    '',
+    'Coverage snapshot',
+    `- Active cells: ${summary.activeCells}`,
+    `- Visible running-sheet rows: ${summary.visibleLogRows}`,
+    `- Saved shift records: ${summary.savedShiftCount}`,
+    `- Logged hours: ${summary.totalLogged.toFixed(1)}`,
+    `- Downtime hours: ${summary.totalDowntime.toFixed(1)}`,
+    `- Confidence: ${summary.confidence.label} — ${summary.confidence.note}`,
+    '',
+    'Immediate readout',
+    `- Help-needed rows: ${summary.helpNeededCount}`,
+    `- Biggest driver: ${summary.biggestDriver}`,
+    `- Average hours per cell: ${summary.avgHoursPerCell.toFixed(1)}`,
+    `- Average hours per saved shift: ${summary.avgHoursPerShift.toFixed(1)}`
+  ];
+
+  if (summary.latestDate) {
+    lines.push('', 'Latest saved-day trend');
+    lines.push(`- Latest saved date: ${summary.latestDate.date}`);
+    lines.push(`- Logged hours: ${summary.latestDate.logged.toFixed(1)}`);
+    lines.push(`- Downtime share: ${summary.latestDowntimeShare != null ? summary.latestDowntimeShare.toFixed(1) + '%' : '—'}`);
+    if (summary.previousDate) {
+      lines.push(`- Prior saved date: ${summary.previousDate.date}`);
+      lines.push(`- Logged delta: ${summary.latestVsPreviousLoggedDelta >= 0 ? '+' : ''}${summary.latestVsPreviousLoggedDelta.toFixed(1)} hrs`);
+      lines.push(`- Downtime-share delta: ${summary.downtimeShareDelta >= 0 ? '+' : ''}${summary.downtimeShareDelta.toFixed(1)} pts`);
+    }
+  }
+
+  lines.push('', 'Action now');
+  if (summary.helpRows.length) {
+    summary.helpRows.slice(0, 3).forEach((row, index) => {
+      lines.push(`${index + 1}. Cell ${row.testCell} · ${row.tcStatus || 'No status'} · ${row.comments || 'No comment entered yet.'}`);
+    });
+  } else if (summary.repeatedIssueCells.length) {
+    summary.repeatedIssueCells.slice(0, 3).forEach((item, index) => {
+      lines.push(`${index + 1}. Cell ${item.cell} is repeating as a pressure point with ${item.downtime.toFixed(1)} downtime hrs.`);
+    });
+  } else {
+    lines.push('1. No help-needed row or repeated issue cell is standing out right now.');
+  }
+
+  lines.push('', 'Top downtime');
+  if (summary.topDowntime.length) {
+    summary.topDowntime.slice(0, 5).forEach(([label, hours], index) => lines.push(`${index + 1}. ${label} · ${hours.toFixed(1)} hrs`));
+  } else {
+    lines.push('1. No downtime pattern is visible yet.');
+  }
+
+  lines.push('', 'Cell ranking');
+  if (dashboard.productivity.length) {
+    dashboard.productivity.slice(0, 5).forEach((item, index) => lines.push(`${index + 1}. Cell ${item.cell} · score ${item.score.toFixed(0)}% · ${item.logged.toFixed(1)}h logged · ${item.downtime.toFixed(1)}h down`));
+  } else {
+    lines.push('1. No saved cell ranking is available yet.');
+  }
+
+  lines.push('', 'Recent downtime notes');
+  if (summary.recentNotes.length) {
+    summary.recentNotes.slice(0, 4).forEach((item, index) => lines.push(`${index + 1}. Cell ${item.cell} · ${item.detail} · ${item.hours.toFixed(1)}h · ${item.comment}`));
+  } else {
+    lines.push('1. No recent downtime notes are available yet.');
+  }
+
+  return lines.join('\n');
+}
+
+function buildEngineerReport(data){
+  const leadCard = typeof getEngineerLeadCard === 'function' ? getEngineerLeadCard(data.cards) : (data.cards[0] || null);
+  const lines = [
+    'Cummins Unified Logbook',
+    'Engineer Review Generated Report',
+    `Version: ${VERSION}`,
+    `Generated: ${new Date().toLocaleString()}`,
+    `Scope: ${data.selectedCell ? `Cell ${data.selectedCell}` : 'All cells'}`,
+    `Search: ${data.query ? `"${data.query}"` : 'None'}`,
+    '',
+    'Visible review footprint',
+    `- Visible cells: ${data.cards.length}`,
+    `- Matching running-sheet rows: ${data.filteredLogs.length}`,
+    `- Saved shift chunks: ${data.totalShiftChunks}`,
+    `- Downtime hours in scope: ${data.totalDowntime.toFixed(1)}`
+  ];
+
+  if (leadCard) {
+    const downtimeShare = leadCard.totalLogged > 0 ? (leadCard.downtimeHours / leadCard.totalLogged) * 100 : 0;
+    lines.push('', 'Primary read-first cell');
+    lines.push(`- Cell ${leadCard.cell}`);
+    lines.push(`- Logged hours: ${leadCard.totalLogged.toFixed(1)}`);
+    lines.push(`- Downtime hours: ${leadCard.downtimeHours.toFixed(1)} (${downtimeShare.toFixed(0)}%)`);
+    lines.push(`- Running-sheet rows: ${leadCard.logs.length}`);
+    lines.push(`- Saved shift chunks: ${leadCard.shifts.length}`);
+    if (leadCard.weekend) {
+      lines.push(`- Weekend status: ${leadCard.weekend.tcStatus || 'No status'} · ${leadCard.weekend.helpNeeded === 'Yes' ? 'Help needed' : 'No help request'}`);
+    }
+  }
+
+  lines.push('', 'Cells in view');
+  if (data.cards.length) {
+    data.cards.slice(0, 6).forEach((card, index) => {
+      const downtimeShare = card.totalLogged > 0 ? (card.downtimeHours / card.totalLogged) * 100 : 0;
+      lines.push(`${index + 1}. Cell ${card.cell} · ${card.totalLogged.toFixed(1)}h logged · ${card.downtimeHours.toFixed(1)}h down (${downtimeShare.toFixed(0)}%) · ${card.logs.length} log row(s)`);
+    });
+  } else {
+    lines.push('1. No engineer review cards match the current scope.');
+  }
+
+  lines.push('', 'Highlighted text');
+  const spotlightNotes = data.cards.flatMap(card => getEngineerCardNotes(card).map(note => ({ cell: card.cell, note }))).sort((a, b) => b.note.rank - a.note.rank).slice(0, 5);
+  if (spotlightNotes.length) {
+    spotlightNotes.forEach((item, index) => lines.push(`${index + 1}. Cell ${item.cell} · ${item.note.label} · ${item.note.meta || 'Read-only note'} · ${item.note.copy}`));
+  } else {
+    lines.push('1. No meaningful comments or notes are visible in the current scope yet.');
+  }
+
+  lines.push('', 'Downtime pattern');
+  const downtimePairs = data.cards.flatMap(card => (card.downtimeTop || []).map(([label, hours]) => ({ cell: card.cell, label, hours }))).sort((a, b) => b.hours - a.hours).slice(0, 5);
+  if (downtimePairs.length) {
+    downtimePairs.forEach((item, index) => lines.push(`${index + 1}. Cell ${item.cell} · ${item.label} · ${item.hours.toFixed(1)} hrs`));
+  } else {
+    lines.push('1. No downtime bucket is standing out in the current scope.');
+  }
+
+  return lines.join('\n');
+}
+
+function renderManagerReport(summary, pulseState, dashboard){
+  if (!managerReportOutput) return;
+  managerReportOutput.textContent = buildManagerReport(summary, pulseState, dashboard);
+  setReportMeta(managerReportMeta, [
+    `Posture: ${pulseState.postureLabel}`,
+    `Board date: ${displayDate(weekendDateInput?.value || bannerFields?.date || '')}`,
+    summary.helpNeededCount > 0 ? `${summary.helpNeededCount} help-needed row(s)` : 'No help-needed rows',
+    `${summary.savedShiftCount} saved shift record(s)`
+  ]);
+}
+
+function renderEngineerReport(data){
+  if (!engineerReportOutput) return;
+  engineerReportOutput.textContent = buildEngineerReport(data);
+  setReportMeta(engineerReportMeta, [
+    data.selectedCell ? `Scope: Cell ${data.selectedCell}` : 'Scope: All cells',
+    data.query ? `Search: "${data.query}"` : 'Search: none',
+    `${data.cards.length} visible cell(s)`,
+    `${data.totalShiftChunks} saved shift chunk(s)`
+  ]);
+}
+
 function renderEngineerOverviewBars(target, cards){
   if (!target) return;
   if (!cards || !cards.length) {
@@ -3161,6 +3438,7 @@ function renderEngineerInfoMode(){
   applyEngineerPrioritySnapshot(buildEngineerPrioritySnapshot(data));
   renderEngineerOverviewBars(engineerOverviewBars, data.cards);
   renderEngineerNotesSpotlight(engineerNotesSpotlight, data.cards);
+  renderEngineerReport(data);
 
   if (!data.cards.length) {
     engineerCollection.innerHTML = `<div class="engineer-empty">No engineer review matches are visible yet. Try a different cell or search term, or load sample data first.</div>`;
@@ -3563,6 +3841,8 @@ function renderManagerTab(){
   } else if (statusBars) {
     statusBars.innerHTML = '';
   }
+
+  renderManagerReport(summary, pulseState, dashboard);
 }
 
     let tempTestBaseline = null;
@@ -5904,6 +6184,19 @@ Reason: ${error?.stack || error?.message || error}`;
       });
     }
 
+    function initReportTools(){
+      document.addEventListener('click', async (event) => {
+        const button = event.target.closest('[data-report-copy]');
+        if (!button) return;
+        const scope = button.dataset.reportCopy;
+        const reportText = scope === 'manager'
+          ? (managerReportOutput ? managerReportOutput.textContent : '')
+          : (engineerReportOutput ? engineerReportOutput.textContent : '');
+        await copyPlainTextReport(reportText, button);
+      });
+    }
+
+
     renderHeaderFields();
     renderForm();
     renderHours();
@@ -5915,6 +6208,7 @@ Reason: ${error?.stack || error?.message || error}`;
     initHoursModeControls();
     initManagerModeControls();
     initCtcPulse();
+    initReportTools();
     resetForm();
     renderEntries();
     switchTab("logbook");
