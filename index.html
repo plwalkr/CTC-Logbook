@@ -1037,29 +1037,35 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     }
 
 
-    /* Report foundation: keeps Manager and Engineer reports readable on-screen now,
-       while leaving room for later print/PDF styling. The copy buttons intentionally
-       use the same visual language as the prototype tools so the report layer feels
-       native to the current app instead of bolted on later. */
-    .report-shell{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
-    .report-card{border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:14px;display:flex;flex-direction:column;gap:10px}
+    /* Report polish: the Manager and Engineer reports should read like a natural
+       continuation of the page instead of a narrow bolt-on block. These styles
+       keep the report lane full-width, let the report output size normally, and
+       use auto overflow only when the report truly grows tall enough to need it. */
+    .report-lane-intro{display:flex;flex-direction:column;gap:4px;margin-top:4px}
+    .report-lane-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:800}
+    .report-lane-intro h3{margin:0;font-size:20px;color:#0f172a}
+    .report-lane-copy{font-size:13px;color:#475569;line-height:1.55;max-width:82ch}
+    .report-shell{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:start;width:100%}
+    .report-card{width:100%;border:1px solid #e2e8f0;border-radius:16px;background:#fff;padding:16px;display:flex;flex-direction:column;gap:12px}
     .report-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
     .report-head h3{font-size:18px;margin:0}
     .report-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:800;margin-bottom:6px}
-    .report-sub{font-size:13px;color:#475569;line-height:1.55}
+    .report-sub{font-size:13px;color:#475569;line-height:1.55;max-width:78ch}
     .report-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
     .report-actions{display:flex;gap:8px;flex-wrap:wrap}
     .report-btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800;cursor:pointer}
     .report-btn:hover{transform:translateY(-1px)}
     .report-btn.copy-ok{background:#ecfdf5;border-color:#86efac}
     .report-btn.copy-warn{background:#fff7ed;border-color:#fdba74}
-    .report-output{width:100%;min-height:260px;margin:0;padding:14px;border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc;color:#0f172a;font:13px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;overflow:auto}
+    .report-output{width:100%;min-height:220px;max-height:min(56vh,640px);margin:0;padding:14px;border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc;color:#0f172a;font:13px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;overflow:auto;resize:vertical;scrollbar-gutter:stable}
     .report-mini-note{font-size:12px;color:#64748b;line-height:1.5}
+    body[data-theme="clarity"] .report-lane-intro h3{color:#10233d}
+    body[data-theme="clarity"] .report-lane-copy{color:#44566f}
     body[data-theme="clarity"] .report-card{background:#f7faff;border-color:#9aa7bd}
     body[data-theme="clarity"] .report-output{background:#f8fbff;border-color:#9aa7bd;color:#10233d}
     body[data-theme="clarity"] .report-btn{border-color:#8ea2bf;background:#fff;color:#10233d}
     @media (max-width: 980px){
-      .report-shell{grid-template-columns:1fr}
+      .report-output{max-height:min(52vh,520px)}
     }
 
 </style>
@@ -1074,14 +1080,14 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.143-manager-engineer-report-foundation</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.144-report-placement-width-scroll-polish</span></div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.143-manager-engineer-report-foundation</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.144-report-placement-width-scroll-polish</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1476,7 +1482,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.143-manager-engineer-report-foundation</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.144-report-placement-width-scroll-polish</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1542,6 +1548,8 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             </div>
             
             <div class="engineer-collection" id="engineer-collection"></div>
+            <div class="report-lane-intro"><div class="report-lane-kicker">Generated report</div><h3>Manager summary</h3><div class="report-lane-copy">A full-width operating summary that sits naturally under the dashboard and scrolls normally when the text grows.</div></div>
+          <div class="report-lane-intro"><div class="report-lane-kicker">Generated report</div><h3>Engineer summary</h3><div class="report-lane-copy">A full-width review summary that stays easy to read while keeping the live scope and note signal close by.</div></div>
             <div class="report-shell">
               <div class="report-card">
                 <div class="report-head">
@@ -1565,7 +1573,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.143-manager-engineer-report-foundation</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.144-report-placement-width-scroll-polish</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -1623,7 +1631,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.143-manager-engineer-report-foundation</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.144-report-placement-width-scroll-polish</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -1828,7 +1836,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.143-manager-engineer-report-foundation</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.144-report-placement-width-scroll-polish</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -1896,7 +1904,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
   </section>
 
   <script>
-    const VERSION = "v1.0.143-manager-engineer-report-foundation";
+    const VERSION = "v1.0.144-report-placement-width-scroll-polish";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
