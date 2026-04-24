@@ -1770,7 +1770,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small header-meta-stack" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.154-engineer-dashboard-structure-cleanup</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.155-button-startup-guard</span></div>
           <div id="data-quality-header" class="data-quality-badge good" title="No significant anomalies detected today — 94% high-quality data" hidden>Data Quality: <span id="quality-percent">94</span>%</div>
         </div>
       </div>
@@ -1778,7 +1778,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.154-engineer-dashboard-structure-cleanup</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.155-button-startup-guard</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -2173,7 +2173,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.154-engineer-dashboard-structure-cleanup</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.155-button-startup-guard</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -2421,7 +2421,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.154-engineer-dashboard-structure-cleanup</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.155-button-startup-guard</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -2479,7 +2479,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.154-engineer-dashboard-structure-cleanup</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.155-button-startup-guard</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -2684,7 +2684,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.154-engineer-dashboard-structure-cleanup</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.155-button-startup-guard</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -2765,7 +2765,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
        - improved spacing and hierarchy
        - stronger controls and focus treatment
        - Cummins-ready presentation polish without deleting or renaming working logic */
-    const VERSION = "v1.0.154-engineer-dashboard-structure-cleanup";
+    const VERSION = "v1.0.155-button-startup-guard";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -3215,8 +3215,16 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       try { localStorage.setItem(ENGINEERING_GRAPHICS_STORAGE_KEY, String(next)); } catch {}
       if (engineeringGraphicsToggle) engineeringGraphicsToggle.checked = next;
       syncEngineeringGraphicsVisibility();
-      if (next) updateEngineerGraphicsOverview(getFilteredEngineerData());
-      else stopEngineerLiveSimulation();
+      // v1.0.155 - startup/click rescue:
+      // The old lightweight graphics renderer was removed from the markup, so the toggle must render
+      // the premium 2026 dashboard directly. Calling the retired renderer here could touch old globals
+      // and strand the boot sequence before tab/debug click handlers were wired.
+      if (next) {
+        renderEngineerPremiumDashboard();
+        bindEngineerDashboardButtons();
+      } else {
+        stopEngineerLiveSimulation();
+      }
       syncCtcPulseSnapshot();
     }
 
@@ -3244,7 +3252,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
 
     function toggleEngineerGraphics(){
       setEngineeringGraphicsCollapsed(!getEngineeringGraphicsCollapsed());
-      if (!getEngineeringGraphicsCollapsed()) updateEngineerGraphicsOverview(getFilteredEngineerData());
+      if (!getEngineeringGraphicsCollapsed()) { renderEngineerPremiumDashboard(); bindEngineerDashboardButtons(); }
       else stopEngineerLiveSimulation();
     }
 
@@ -3281,7 +3289,9 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     function updateDataQuality(){
       const hoursRowsLocal = Array.isArray(hoursRows) ? hoursRows : [];
       const entriesLocal = Array.isArray(entries) ? entries : [];
-      const weekendRowsLocal = Array.isArray(weekendRows) ? weekendRows : [];
+      // v1.0.155 - do not reference a removed global weekendRows array here.
+      // The weekend board is date-scoped, so pull it through the existing accessor.
+      const weekendRowsLocal = typeof getWeekendRowsForCurrentDate === "function" ? getWeekendRowsForCurrentDate() : [];
 
       let green = 0;
       let yellow = 0;
@@ -3456,7 +3466,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     function toggleEngineerLiveSimulation(){
       if (window.engineerGraphicsLiveTimer) {
         stopEngineerLiveSimulation();
-        updateEngineerGraphicsOverview(getFilteredEngineerData());
+        renderEngineerPremiumDashboard();
         return;
       }
 
@@ -3465,24 +3475,21 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
         engineerLiveToggleBtn.classList.add("is-live");
       }
 
+      // v1.0.155 - premium dashboard live simulation now refreshes the active 2026 cards/sparklines.
+      // The previous version still drove the retired RPM/torque/temp mini-gauges, which no longer exist
+      // in the markup and made the click issue harder to diagnose.
       const applySimulatedRead = () => {
-        const data = getFilteredEngineerData();
-        const base = deriveEngineerLiveMetrics(data);
-
-        const simulated = {
-          rpm: clampNumber(Math.round(base.rpm + ((Math.random() - 0.5) * 160)), 700, 5200),
-          torque: clampNumber(Math.round(base.torque + ((Math.random() - 0.5) * 90)), 400, 2800),
-          coolantTemp: clampNumber(Math.round(base.coolantTemp + ((Math.random() - 0.5) * 4)), 60, 115)
-        };
-
-        const simulatedTrend = base.tempTrend.slice(-8).concat(simulated.coolantTemp);
-        animateGaugeTo(engineerRpmGauge, clampNumber(Math.round((simulated.rpm / 5200) * 100), 10, 100));
-        animateGaugeTo(engineerTorqueGauge, clampNumber(Math.round((simulated.torque / 2800) * 100), 10, 100));
-        animateGaugeTo(engineerTempGauge, clampNumber(Math.round((simulated.coolantTemp / 115) * 100), 10, 100));
-        setText(engineerRpmValue, String(simulated.rpm));
-        setText(engineerTorqueValue, String(simulated.torque));
-        setText(engineerTempValue, String(simulated.coolantTemp));
-        drawEngineerSparkline(data, simulatedTrend);
+        renderEngineerPremiumDashboard();
+        const hero = document.getElementById("engineer-hero-uptime");
+        const shift = document.getElementById("metric-shift-uptime");
+        const caption = document.getElementById("engineer-hero-caption");
+        const base = deriveEngineerPremiumMetrics();
+        const jitter = Math.max(0, Math.min(100, Number(base.heroUptime) + ((Math.random() - 0.5) * 1.6)));
+        const rounded = jitter.toFixed(1);
+        if (hero) hero.textContent = rounded;
+        if (shift) shift.textContent = String(Math.round(jitter));
+        if (caption) caption.textContent = "Live simulation pulse active — values are gently refreshed from the current visible scope.";
+        applyEngineerArcMeter("meter-shift-uptime", Math.round(jitter), jitter >= 85 ? "meter-good" : jitter >= 70 ? "meter-warn" : "meter-attn");
       };
 
       applySimulatedRead();
@@ -3553,26 +3560,23 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
 
     
     function getEngineerDashboardScope() {
-      const scopedHours = Array.isArray(hoursRows) ? hoursRows.filter((row) => {
-        if (!engineerSelectedCell || engineerSelectedCell === "all") return true;
-        const value = String(row?.cell || row?.testCell || row?.sourceCell || "");
-        return value.includes(engineerSelectedCell);
-      }) : [];
-
-      const scopedEntries = Array.isArray(entries) ? entries.filter((row) => {
-        if (!engineerSelectedCell || engineerSelectedCell === "all") return true;
-        const value = String(row?.cell || row?.testCell || row?.sourceCell || "");
-        return value.includes(engineerSelectedCell);
-      }) : [];
-
-      const scopedWeekend = Array.isArray(weekendRows) ? weekendRows.filter((row) => {
-        if (!engineerSelectedCell || engineerSelectedCell === "all") return true;
+      // v1.0.155 - the premium dashboard should follow the existing Engineer Review filter.
+      // engineerSelectedCell and a global weekendRows array do not exist on this branch, and those
+      // stale references were capable of stopping boot before buttons/debug were wired.
+      const selectedCell = String(engineerInfoFilters?.cell || "").trim();
+      const matchesSelectedCell = (row) => {
+        if (!selectedCell || selectedCell === "all") return true;
         const value = String(row?.cell || row?.testCell || row?.sourceCell || row?.testCellLabel || "");
-        return value.includes(engineerSelectedCell);
-      }) : [];
+        return value.includes(selectedCell);
+      };
+
+      const scopedHours = Array.isArray(hoursRows) ? hoursRows.filter(matchesSelectedCell) : [];
+      const scopedEntries = Array.isArray(entries) ? entries.filter(matchesSelectedCell) : [];
+      const weekendRowsForDate = typeof getWeekendRowsForCurrentDate === "function" ? getWeekendRowsForCurrentDate() : [];
+      const scopedWeekend = Array.isArray(weekendRowsForDate) ? weekendRowsForDate.filter(matchesSelectedCell) : [];
 
       return {
-        selectedCell: engineerSelectedCell,
+        selectedCell,
         hoursSheet: scopedHours,
         entries: scopedEntries,
         weekendBoard: scopedWeekend
@@ -5097,7 +5101,7 @@ function renderEngineerInfoMode(){
   renderEngineerOverviewBars(engineerOverviewBars, data.cards);
   renderEngineerNotesSpotlight(engineerNotesSpotlight, data.cards);
   renderEngineerReport(data);
-  updateEngineerGraphicsOverview(data);
+  if (getEngineeringGraphicsEnabled()) { renderEngineerPremiumDashboard(); bindEngineerDashboardButtons(); }
   updateDataQuality();
 
   if (!data.cards.length) {
@@ -7897,21 +7901,37 @@ Reason: ${error?.stack || error?.message || error}`;
     }
 
 
-    renderHeaderFields();
-    renderForm();
-    renderHours();
-    renderHandoffs();
-    initTabs();
-    initToolbar();
-    initSettings();
-    initTempTestTools();
-    initHoursModeControls();
-    initManagerModeControls();
-    initCtcPulse();
-    initReportTools();
-    resetForm();
-    renderEntries();
-    switchTab("logbook");
+    // v1.0.155 - guarded boot sequence.
+    // A single dashboard/render error should never make the whole prototype feel dead.
+    // These startup steps are intentionally isolated so tabs, CTC Pulse, and core buttons
+    // still wire even if one visual/reporting panel needs attention.
+    function runStartupStep(label, fn){
+      try {
+        if (typeof fn === "function") fn();
+      } catch (error) {
+        console.error("[Cummins Unified Logbook boot] " + label + " failed", error);
+        const pulseReport = document.getElementById("ctc-pulse-report");
+        if (pulseReport) {
+          pulseReport.textContent = "CTC Pulse boot notice\nVersion: " + VERSION + "\nStartup step failed: " + label + "\nReason: " + (error?.message || error);
+        }
+      }
+    }
+
+    runStartupStep("renderHeaderFields", renderHeaderFields);
+    runStartupStep("renderForm", renderForm);
+    runStartupStep("renderHours", renderHours);
+    runStartupStep("renderHandoffs", renderHandoffs);
+    runStartupStep("initTabs", initTabs);
+    runStartupStep("initToolbar", initToolbar);
+    runStartupStep("initSettings", initSettings);
+    runStartupStep("initTempTestTools", initTempTestTools);
+    runStartupStep("initHoursModeControls", initHoursModeControls);
+    runStartupStep("initManagerModeControls", initManagerModeControls);
+    runStartupStep("initCtcPulse", initCtcPulse);
+    runStartupStep("initReportTools", initReportTools);
+    runStartupStep("resetForm", resetForm);
+    runStartupStep("renderEntries", renderEntries);
+    runStartupStep("switchTab:logbook", () => switchTab("logbook"));
   </script>
 </body>
 </html>
