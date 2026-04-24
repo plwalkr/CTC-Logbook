@@ -1758,6 +1758,338 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       }
     }
 
+
+    /* ==================== v1.0.156 - MODERN TEST CELL GRAPHICS ====================
+       Engineer-only command view. Pure CSS/SVG. No external libraries.
+       This layer replaces RPM/torque/temp prototype gauges with uptime-focused
+       test-cell metrics while preserving the optional Settings toggle. */
+
+    .engineer-testcell-command .engineer-command-subtitle{
+      margin-top:6px;
+      max-width:70ch;
+      color:var(--eng-copy);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .engineer-testcell-command [data-engineer-graphics-body]{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      animation:engineerCommandIn .42s ease both;
+    }
+
+    .engineer-command-layout{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:16px;
+      align-items:stretch;
+    }
+
+    .engineer-modern-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:16px;
+      align-items:stretch;
+    }
+
+    .engineer-command-hero,
+    .engineer-command-health,
+    .engineer-command-tile{
+      border:1px solid var(--eng-card-line);
+      background:var(--eng-card-bg);
+      backdrop-filter:var(--eng-card-blur);
+      -webkit-backdrop-filter:var(--eng-card-blur);
+      border-radius:22px;
+      box-shadow:0 10px 24px rgba(2,6,23,.12);
+    }
+
+    .engineer-command-hero,
+    .engineer-command-health{
+      min-height:286px;
+      padding:22px;
+    }
+
+    .engineer-command-tile{
+      min-height:228px;
+      padding:18px;
+    }
+
+    .engineer-command-card-head{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:16px;
+    }
+
+    .engineer-command-label{
+      color:var(--eng-muted);
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      margin-bottom:4px;
+    }
+
+    .engineer-command-title{
+      color:#F8FAFC;
+      font-size:16px;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+
+    .engineer-dashboard--lightcards .engineer-command-title{
+      color:#0F172A;
+    }
+
+    .engineer-command-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:72px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      border:1px solid transparent;
+      white-space:nowrap;
+    }
+
+    .engineer-command-pill.good{
+      background:rgba(20,184,166,.16);
+      color:#67E8F9;
+      border-color:rgba(34,211,238,.24);
+    }
+
+    .engineer-command-pill.warn{
+      background:rgba(245,158,11,.16);
+      color:#FCD34D;
+      border-color:rgba(251,191,36,.26);
+    }
+
+    .engineer-command-pill.attn{
+      background:rgba(248,113,113,.16);
+      color:#FCA5A5;
+      border-color:rgba(248,113,113,.26);
+    }
+
+    .engineer-command-arc{
+      --meter-pct:94;
+      --meter-fill:var(--eng-good-a);
+      --meter-fill-2:var(--eng-good-b);
+      position:relative;
+      width:212px;
+      height:212px;
+      margin:6px auto 0;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 50% 50%, transparent 56%, rgba(148,163,184,.10) 57%, rgba(148,163,184,.10) 61%, transparent 62%),
+        conic-gradient(from 225deg, var(--meter-fill) 0%, var(--meter-fill-2) calc((270deg * var(--meter-pct)) / 100), rgba(148,163,184,.18) 0 270deg, transparent 270deg 360deg);
+      filter:drop-shadow(0 0 14px rgba(34,211,238,.14));
+      transition:background .35s ease, transform .25s ease;
+    }
+
+    .engineer-command-arc::before{
+      content:"";
+      position:absolute;
+      inset:22px;
+      border-radius:50%;
+      background:rgba(15,23,42,.86);
+      border:1px solid rgba(255,255,255,.07);
+    }
+
+    .engineer-dashboard--lightcards .engineer-command-arc::before{
+      background:rgba(255,255,255,.96);
+      border-color:rgba(148,163,184,.18);
+    }
+
+    .engineer-command-arc-inner{
+      position:absolute;
+      inset:0;
+      z-index:2;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+    }
+
+    .engineer-command-arc-value{
+      color:#F8FAFC;
+      font-size:42px;
+      line-height:1;
+      font-weight:900;
+      letter-spacing:-.05em;
+      text-shadow:0 0 28px var(--eng-glow);
+    }
+
+    .engineer-dashboard--lightcards .engineer-command-arc-value{
+      color:#0F172A;
+    }
+
+    .engineer-command-unit{
+      font-size:22px;
+      font-weight:800;
+      margin-left:3px;
+      color:var(--eng-muted);
+    }
+
+    .engineer-command-arc-caption,
+    .engineer-command-caption{
+      color:var(--eng-copy);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .engineer-command-caption{
+      margin-top:14px;
+    }
+
+    .engineer-health-score{
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      gap:4px;
+      margin:32px 0 16px;
+      color:#F8FAFC;
+      font-size:60px;
+      line-height:.92;
+      font-weight:950;
+      letter-spacing:-.06em;
+    }
+
+    .engineer-health-score span:last-child{
+      color:var(--eng-muted);
+      font-size:20px;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+
+    .engineer-dashboard--lightcards .engineer-health-score{
+      color:#0F172A;
+    }
+
+    .engineer-health-track{
+      height:12px;
+      border-radius:999px;
+      overflow:hidden;
+      background:rgba(148,163,184,.20);
+      border:1px solid rgba(148,163,184,.14);
+    }
+
+    .engineer-health-fill{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--eng-good-a),var(--eng-good-b));
+      box-shadow:0 0 18px var(--eng-glow);
+      transition:width .55s ease, background .25s ease;
+    }
+
+    .engineer-health-fill.warn{
+      background:linear-gradient(90deg,var(--eng-warn-a),var(--eng-warn-b));
+    }
+
+    .engineer-health-fill.attn{
+      background:linear-gradient(90deg,var(--eng-attn-a),var(--eng-attn-b));
+    }
+
+    .engineer-mini-meter{
+      --meter-pct:0;
+      --meter-fill:var(--eng-good-a);
+      --meter-fill-2:var(--eng-good-b);
+      height:12px;
+      border-radius:999px;
+      overflow:hidden;
+      background:
+        linear-gradient(90deg,var(--meter-fill),var(--meter-fill-2)) left/calc(var(--meter-pct) * 1%) 100% no-repeat,
+        rgba(148,163,184,.18);
+      border:1px solid rgba(148,163,184,.14);
+      transition:background .35s ease;
+    }
+
+    .engineer-breakdown-title{
+      margin-top:16px;
+      margin-bottom:8px;
+      color:var(--eng-muted);
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+
+    .engineer-breakdown-list,
+    .engineer-help-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .engineer-breakdown-row,
+    .engineer-help-row{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      gap:10px;
+      align-items:center;
+      padding:9px 0;
+      border-bottom:1px dashed rgba(148,163,184,.20);
+      color:var(--eng-copy);
+      font-size:12px;
+      line-height:1.4;
+    }
+
+    .engineer-breakdown-row:last-child,
+    .engineer-help-row:last-child{
+      border-bottom:none;
+    }
+
+    .engineer-breakdown-row strong,
+    .engineer-help-row strong{
+      color:#F8FAFC;
+    }
+
+    .engineer-dashboard--lightcards .engineer-breakdown-row strong,
+    .engineer-dashboard--lightcards .engineer-help-row strong{
+      color:#0F172A;
+    }
+
+    .engineer-breakdown-row.muted,
+    .engineer-help-row.muted{
+      display:block;
+      color:var(--eng-muted);
+    }
+
+    .engineer-command-sparkline{
+      height:92px;
+      margin-top:10px;
+    }
+
+    @keyframes engineerCommandIn{
+      from{opacity:0;transform:translateY(8px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    @media (max-width: 1200px){
+      .engineer-modern-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+    }
+
+    @media (max-width: 900px){
+      .engineer-command-layout,
+      .engineer-modern-grid{
+        grid-template-columns:1fr;
+      }
+
+      .engineer-command-arc{
+        width:184px;
+        height:184px;
+      }
+    }
+
 </style>
 </head>
 <body data-theme="standard">
@@ -1770,7 +2102,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small header-meta-stack" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.155-button-startup-guard</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.156-modern-test-cell-graphics</span></div>
           <div id="data-quality-header" class="data-quality-badge good" title="No significant anomalies detected today — 94% high-quality data" hidden>Data Quality: <span id="quality-percent">94</span>%</div>
         </div>
       </div>
@@ -1778,7 +2110,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.155-button-startup-guard</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.156-modern-test-cell-graphics</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -2173,7 +2505,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.155-button-startup-guard</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.156-modern-test-cell-graphics</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -2205,11 +2537,12 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             
 
             
-          <!-- v1.0.154 - premium engineer dashboard replaces the earlier lightweight graphics block entirely.
-                 Keep this as the only engineer graphics section to avoid ghost overlays and broken click layers. -->
+          <!-- v1.0.156 - Modern Test Cell Graphics
+                 Optional/collapsible Engineer-only command view.
+                 Keep hidden by default through existing Settings toggle/localStorage behavior. -->
           <section
             id="engineer-graphics-section"
-            class="panel engineer-2026-dashboard engineer-dashboard--dark"
+            class="panel engineer-2026-dashboard engineer-dashboard--dark engineer-testcell-command"
             hidden
           >
             <div class="engineer-2026-shell">
@@ -2218,7 +2551,10 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
               <div class="engineer-2026-topbar">
                 <div>
                   <div class="engineer-2026-kicker">Prototype Graphical Overview</div>
-                  <h3 class="engineer-2026-title">Engineer Performance Overview</h3>
+                  <h3 class="engineer-2026-title">2026 Test Cell Command View</h3>
+                  <div id="engineer-command-subtitle" class="engineer-command-subtitle">
+                    Uptime, downtime, utilization, help queue, and cell health from the current Engineer scope.
+                  </div>
                 </div>
 
                 <div class="engineer-2026-topbar-actions">
@@ -2233,129 +2569,135 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                 </div>
               </div>
 
-              <div class="engineer-hero-card">
-                <div class="engineer-hero-copy">
-                  <div class="engineer-hero-label">Cell Uptime</div>
-                  <div class="engineer-hero-value">
-                    <span id="engineer-hero-uptime">96.2</span><span class="engineer-hero-unit">%</span>
-                  </div>
-                  <div id="engineer-hero-caption" class="engineer-hero-caption">
-                    Strong uptime across the current engineer scope.
-                  </div>
+              <div id="engineer-graphics-body" data-engineer-graphics-body>
+                <div class="engineer-command-layout">
+                  <article class="engineer-command-hero">
+                    <div class="engineer-command-card-head">
+                      <div>
+                        <div class="engineer-command-label">Cell Uptime</div>
+                        <div class="engineer-command-title">Current visible scope</div>
+                      </div>
+                      <span id="engineer-uptime-band" class="engineer-command-pill good">Healthy</span>
+                    </div>
+
+                    <div class="engineer-command-arc meter-good" id="meter-cell-uptime" style="--meter-pct:96;">
+                      <div class="engineer-command-arc-inner">
+                        <div class="engineer-command-arc-value">
+                          <span id="engineer-cell-uptime">96.2</span><span class="engineer-command-unit">%</span>
+                        </div>
+                        <div class="engineer-command-arc-caption">Uptime</div>
+                      </div>
+                    </div>
+
+                    <div id="engineer-uptime-caption" class="engineer-command-caption">
+                      Derived from logged hours and downtime rows.
+                    </div>
+                  </article>
+
+                  <article class="engineer-command-health">
+                    <div class="engineer-command-card-head">
+                      <div>
+                        <div class="engineer-command-label">Overall Cell Health</div>
+                        <div class="engineer-command-title">Operational readiness score</div>
+                      </div>
+                      <span id="engineer-health-label" class="engineer-command-pill good">Stable</span>
+                    </div>
+
+                    <div class="engineer-health-score">
+                      <span id="engineer-health-score">94</span>
+                      <span>/100</span>
+                    </div>
+
+                    <div class="engineer-health-track">
+                      <div id="engineer-health-fill" class="engineer-health-fill" style="width:94%;"></div>
+                    </div>
+
+                    <div id="engineer-health-note" class="engineer-command-caption">
+                      Blends uptime, downtime, utilization, data completeness, and help-needed pressure.
+                    </div>
+                  </article>
                 </div>
-                <div class="engineer-hero-glow"></div>
-              </div>
 
-              <div class="engineer-metric-grid">
-                <article class="engineer-metric-card">
-                  <div class="engineer-metric-head">
-                    <div class="engineer-metric-title">Shift Uptime</div>
-                    <div class="engineer-metric-subtle">Current shift</div>
-                  </div>
-                  <div class="engineer-arc-meter meter-good" id="meter-shift-uptime" style="--meter-pct:96;">
-                    <div class="engineer-arc-meter-inner">
-                      <div class="engineer-arc-meter-value"><span id="metric-shift-uptime">96</span>%</div>
+                <div class="engineer-modern-grid">
+                  <article class="engineer-command-tile">
+                    <div class="engineer-command-card-head">
+                      <div>
+                        <div class="engineer-command-label">Downtime Hours</div>
+                        <div class="engineer-command-title"><span id="metric-downtime-hours">0.0</span> hrs</div>
+                      </div>
+                      <span id="engineer-downtime-band" class="engineer-command-pill good">Low</span>
                     </div>
-                  </div>
-                </article>
 
-                <article class="engineer-metric-card">
-                  <div class="engineer-metric-head">
-                    <div class="engineer-metric-title">Downtime Hours</div>
-                    <div class="engineer-metric-subtle">Target &lt;4</div>
-                  </div>
-                  <div class="engineer-arc-meter meter-warn" id="meter-downtime-hours" style="--meter-pct:38;">
-                    <div class="engineer-arc-meter-inner">
-                      <div class="engineer-arc-meter-value"><span id="metric-downtime-hours">3.8</span><span class="metric-inline-unit"> hrs</span></div>
+                    <div class="engineer-mini-meter meter-good" id="meter-downtime-hours" style="--meter-pct:0;"></div>
+
+                    <div class="engineer-breakdown-title">Breakdown</div>
+                    <div id="engineer-downtime-breakdown" class="engineer-breakdown-list">
+                      <div class="engineer-breakdown-row muted">No downtime rows in scope.</div>
                     </div>
-                  </div>
-                </article>
+                  </article>
 
-                <article class="engineer-metric-card">
-                  <div class="engineer-metric-head">
-                    <div class="engineer-metric-title">Problems Logged</div>
-                    <div class="engineer-metric-subtle">This shift</div>
-                  </div>
-                  <div class="engineer-arc-meter meter-attn" id="meter-problems-logged" style="--meter-pct:40;">
-                    <div class="engineer-arc-meter-inner">
-                      <div class="engineer-arc-meter-value"><span id="metric-problems-logged">7</span></div>
+                  <article class="engineer-command-tile">
+                    <div class="engineer-command-card-head">
+                      <div>
+                        <div class="engineer-command-label">Active Cells / Utilization</div>
+                        <div class="engineer-command-title">
+                          <span id="metric-active-cells">0</span> active · <span id="metric-utilization">0</span>%
+                        </div>
+                      </div>
+                      <span id="engineer-utilization-band" class="engineer-command-pill warn">Watching</span>
                     </div>
-                  </div>
-                </article>
-              </div>
 
-              <div class="engineer-metric-grid">
-                <article class="engineer-metric-card">
-                  <div class="engineer-metric-head">
-                    <div class="engineer-metric-title">Data Completeness</div>
-                    <div class="engineer-metric-subtle">Required fields</div>
-                  </div>
-                  <div class="engineer-arc-meter meter-good" id="meter-data-completeness" style="--meter-pct:89;">
-                    <div class="engineer-arc-meter-inner">
-                      <div class="engineer-arc-meter-value"><span id="metric-data-completeness">89</span>%</div>
+                    <svg id="sparkline-utilization" class="engineer-sparkline engineer-command-sparkline" viewBox="0 0 220 72" preserveAspectRatio="none"></svg>
+
+                    <div id="engineer-utilization-note" class="engineer-command-caption">
+                      Reads saved shift chunks and weekend board status rows.
                     </div>
-                  </div>
-                </article>
+                  </article>
 
-                <article class="engineer-metric-card">
-                  <div class="engineer-metric-head">
-                    <div class="engineer-metric-title">Cell Posture</div>
-                    <div class="engineer-metric-subtle">Operational read</div>
-                  </div>
-                  <div class="engineer-posture-chip posture-good" id="metric-cell-posture-chip">
-                    <span id="metric-cell-posture">Steady</span>
-                  </div>
-                </article>
-
-                <article class="engineer-metric-card">
-                  <div class="engineer-metric-head">
-                    <div class="engineer-metric-title">Help Queue</div>
-                    <div class="engineer-metric-subtle">Weekend / support signal</div>
-                  </div>
-                  <div class="engineer-arc-meter meter-warn" id="meter-help-queue" style="--meter-pct:32;">
-                    <div class="engineer-arc-meter-inner">
-                      <div class="engineer-arc-meter-value"><span id="metric-help-queue">4</span><span class="metric-inline-unit"> cells</span></div>
+                  <article class="engineer-command-tile">
+                    <div class="engineer-command-card-head">
+                      <div>
+                        <div class="engineer-command-label">Help Needed</div>
+                        <div class="engineer-command-title"><span id="metric-help-count">0</span> request(s)</div>
+                      </div>
+                      <span id="engineer-help-band" class="engineer-command-pill good">Clear</span>
                     </div>
-                  </div>
-                </article>
-              </div>
 
-              <div class="engineer-sparkline-grid">
-                <article class="engineer-spark-card">
-                  <div class="engineer-spark-head">
-                    <div class="engineer-spark-title">Last 7 Shifts Trends</div>
-                    <div class="engineer-spark-label">Uptime</div>
-                  </div>
-                  <svg id="sparkline-uptime" class="engineer-sparkline" viewBox="0 0 220 72" preserveAspectRatio="none"></svg>
-                </article>
+                    <div id="engineer-help-list" class="engineer-help-list">
+                      <div class="engineer-help-row muted">No active help-needed rows.</div>
+                    </div>
+                  </article>
 
-                <article class="engineer-spark-card">
-                  <div class="engineer-spark-head">
-                    <div class="engineer-spark-title">Last 7 Shifts Trends</div>
-                    <div class="engineer-spark-label">Downtime</div>
-                  </div>
-                  <svg id="sparkline-downtime" class="engineer-sparkline" viewBox="0 0 220 72" preserveAspectRatio="none"></svg>
-                </article>
+                  <article class="engineer-command-tile">
+                    <div class="engineer-command-card-head">
+                      <div>
+                        <div class="engineer-command-label">Cell Visibility</div>
+                        <div class="engineer-command-title">
+                          <span id="metric-data-completeness">100</span>% complete
+                        </div>
+                      </div>
+                      <span id="engineer-data-band" class="engineer-command-pill good">Clean</span>
+                    </div>
 
-                <article class="engineer-spark-card">
-                  <div class="engineer-spark-head">
-                    <div class="engineer-spark-title">Last 7 Shifts Trends</div>
-                    <div class="engineer-spark-label">Problems / Shift</div>
-                  </div>
-                  <svg id="sparkline-problems" class="engineer-sparkline" viewBox="0 0 220 72" preserveAspectRatio="none"></svg>
-                </article>
-              </div>
+                    <div class="engineer-mini-meter meter-good" id="meter-data-completeness" style="--meter-pct:100;"></div>
 
-              <div class="engineer-2026-footer">
-                <button id="engineer-live-toggle-btn" class="secondary" type="button" onclick="toggleEngineerLiveSimulation()">
-                  Simulate Live Update
-                </button>
-                <button id="engineer-export-snapshot-btn" class="secondary" type="button" onclick="exportEngineerSnapshot()">
-                  Export Snapshot
-                </button>
-                <button id="engineer-view-hours-btn" class="secondary" type="button" onclick="openHoursBreakdownFromEngineer()">
-                  View Full Hours Breakdown
-                </button>
+                    <div id="engineer-data-note" class="engineer-command-caption">
+                      Checks required hours rows, details, and downtime comments.
+                    </div>
+                  </article>
+                </div>
+
+                <div class="engineer-2026-footer">
+                  <button id="engineer-live-toggle-btn" class="secondary" type="button" onclick="toggleEngineerLiveSimulation()">
+                    Simulate Live Shift
+                  </button>
+                  <button id="engineer-export-snapshot-btn" class="secondary" type="button" onclick="exportEngineerSnapshot()">
+                    Export Snapshot
+                  </button>
+                  <button id="engineer-view-hours-btn" class="secondary" type="button" onclick="openHoursBreakdownFromEngineer()">
+                    View Full Hours Breakdown
+                  </button>
+                </div>
               </div>
             </div>
           </section>
@@ -2421,7 +2763,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.155-button-startup-guard</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.156-modern-test-cell-graphics</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -2479,7 +2821,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.155-button-startup-guard</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.156-modern-test-cell-graphics</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -2684,7 +3026,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.155-button-startup-guard</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.156-modern-test-cell-graphics</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -2765,7 +3107,8 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
        - improved spacing and hierarchy
        - stronger controls and focus treatment
        - Cummins-ready presentation polish without deleting or renaming working logic */
-    const VERSION = "v1.0.155-button-startup-guard";
+    const VERSION = "v1.0.156-modern-test-cell-graphics";
+    const VERSION_DESCRIPTION = "Optional modern Engineer test-cell command view: uptime, downtime, utilization, help queue, and health score.";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -3250,12 +3593,6 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       updateDataQuality();
     }
 
-    function toggleEngineerGraphics(){
-      setEngineeringGraphicsCollapsed(!getEngineeringGraphicsCollapsed());
-      if (!getEngineeringGraphicsCollapsed()) { renderEngineerPremiumDashboard(); bindEngineerDashboardButtons(); }
-      else stopEngineerLiveSimulation();
-    }
-
     function clampNumber(value, min, max){
       return Math.max(min, Math.min(max, Number(value) || 0));
     }
@@ -3451,132 +3788,31 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       };
     }
 
-    function stopEngineerLiveSimulation(){
-      if (window.engineerGraphicsLiveTimer) {
-        window.clearInterval(window.engineerGraphicsLiveTimer);
-        window.engineerGraphicsLiveTimer = null;
-      }
-      try { localStorage.setItem(ENGINEERING_GRAPHICS_LIVE_STORAGE_KEY, "false"); } catch {}
-      if (engineerLiveToggleBtn) {
-        engineerLiveToggleBtn.textContent = "Simulate Live Update";
-        engineerLiveToggleBtn.classList.remove("is-live");
-      }
-    }
-
-    function toggleEngineerLiveSimulation(){
-      if (window.engineerGraphicsLiveTimer) {
-        stopEngineerLiveSimulation();
-        renderEngineerPremiumDashboard();
-        return;
-      }
-
-      if (engineerLiveToggleBtn) {
-        engineerLiveToggleBtn.textContent = "Stop Live Update";
-        engineerLiveToggleBtn.classList.add("is-live");
-      }
-
-      // v1.0.155 - premium dashboard live simulation now refreshes the active 2026 cards/sparklines.
-      // The previous version still drove the retired RPM/torque/temp mini-gauges, which no longer exist
-      // in the markup and made the click issue harder to diagnose.
-      const applySimulatedRead = () => {
-        renderEngineerPremiumDashboard();
-        const hero = document.getElementById("engineer-hero-uptime");
-        const shift = document.getElementById("metric-shift-uptime");
-        const caption = document.getElementById("engineer-hero-caption");
-        const base = deriveEngineerPremiumMetrics();
-        const jitter = Math.max(0, Math.min(100, Number(base.heroUptime) + ((Math.random() - 0.5) * 1.6)));
-        const rounded = jitter.toFixed(1);
-        if (hero) hero.textContent = rounded;
-        if (shift) shift.textContent = String(Math.round(jitter));
-        if (caption) caption.textContent = "Live simulation pulse active — values are gently refreshed from the current visible scope.";
-        applyEngineerArcMeter("meter-shift-uptime", Math.round(jitter), jitter >= 85 ? "meter-good" : jitter >= 70 ? "meter-warn" : "meter-attn");
-      };
-
-      applySimulatedRead();
-      window.engineerGraphicsLiveTimer = window.setInterval(applySimulatedRead, 3500);
-      try { localStorage.setItem(ENGINEERING_GRAPHICS_LIVE_STORAGE_KEY, "true"); } catch {}
-    }
-
+    // v1.0.156 - modern test-cell command metrics.
+    // Uses existing hours rows, running sheet entries, weekend board rows, and manager aggregation where available.
+    // This block intentionally replaces RPM/torque/temp graphics without touching operator workflows.
     function updateEngineerGraphicsOverview(data){
       syncEngineeringGraphicsVisibility();
       if (!getEngineeringGraphicsEnabled()) return;
-      const lead = typeof getEngineerLeadCard === "function" ? getEngineerLeadCard(data?.cards || []) : null;
-      const totalLogged = lead ? lead.totalLogged : (data?.cards || []).reduce((sum, card) => sum + (card.totalLogged || 0), 0);
-      const totalDowntime = lead ? lead.downtimeHours : Number(data?.totalDowntime || 0);
-      const totalLogs = lead ? lead.logs.length : Number(data?.filteredLogs?.length || 0);
-      const totalShifts = lead ? lead.shifts.length : Number(data?.totalShiftChunks || 0);
-
-      const metrics = deriveEngineerLiveMetrics(data);
-      animateGaugeTo(engineerRpmGauge, metrics.rpmPct);
-      animateGaugeTo(engineerTorqueGauge, metrics.torquePct);
-      animateGaugeTo(engineerTempGauge, clampNumber(Math.round((metrics.coolantTemp / 115) * 100), 10, 100));
-      setText(engineerRpmValue, String(metrics.rpm));
-      setText(engineerTorqueValue, String(metrics.torque));
-      setText(engineerTempValue, String(metrics.coolantTemp));
-      drawEngineerSparkline(data, metrics.tempTrend);
-
-      const graphicsSummary = document.getElementById("engineer-graphics-summary");
-      if (graphicsSummary) {
-        graphicsSummary.textContent = `Derived from ${metrics.scopedHoursCount} visible hour row(s) and ${metrics.scopedEntryCount} running sheet entr${metrics.scopedEntryCount === 1 ? "y" : "ies"}.`;
-      }
-
-      if (engineerAnomalyList) {
-        const lines = [];
-        lines.push({
-          title: data?.selectedCell ? `Scope locked to Cell ${data.selectedCell}` : "All visible engineer cells in scope",
-          copy: data?.selectedCell
-            ? "The graphical layer is following the same cell filter as the read-only engineer cards below."
-            : "The graphical layer is reading the combined visible engineer footprint instead of inventing a separate data path.",
-          pill: `${(data?.cards || []).length} cell${(data?.cards || []).length === 1 ? "" : "s"}`
-        });
-        if (lead) {
-          lines.push({
-            title: `Lead cell: ${lead.cell}`,
-            copy: lead.weekend?.helpNeeded === "Yes"
-              ? "Weekend help is active here, so this cell should still be read first before the deeper detail blocks."
-              : `${lead.logs.length} running-sheet row(s) and ${lead.shifts.length} saved shift chunk(s) are carrying the strongest visible signal here.`,
-            pill: `${lead.downtimeHours.toFixed(1)}h down`
-          });
-        }
-        const topDowntime = lead?.downtimeTop?.[0];
-        lines.push({
-          title: topDowntime ? `Main downtime driver: ${topDowntime[0]}` : "No single downtime driver is leading",
-          copy: topDowntime
-            ? `Current visible scope shows ${topDowntime[1].toFixed(1)} hour(s) clustering around this detail first.`
-            : "The current engineer scope is not pointing to one dominant downtime detail yet.",
-          pill: topDowntime ? `${topDowntime[1].toFixed(1)}h` : "Stable"
-        });
-        engineerAnomalyList.innerHTML = lines.map(item => `
-          <div class="engineer-anomaly-item">
-            <div class="engineer-anomaly-main">
-              <div class="engineer-anomaly-title">${escapeHtml(item.title)}</div>
-              <div class="engineer-anomaly-copy">${escapeHtml(item.copy)}</div>
-            </div>
-            <div class="engineer-anomaly-pill">${escapeHtml(item.pill)}</div>
-          </div>
-        `).join("");
-      }
+      renderEngineerPremiumDashboard();
+      bindEngineerDashboardButtons();
     }
 
-    
     function getEngineerDashboardScope() {
-      // v1.0.155 - the premium dashboard should follow the existing Engineer Review filter.
-      // engineerSelectedCell and a global weekendRows array do not exist on this branch, and those
-      // stale references were capable of stopping boot before buttons/debug were wired.
-      const selectedCell = String(engineerInfoFilters?.cell || "").trim();
-      const matchesSelectedCell = (row) => {
-        if (!selectedCell || selectedCell === "all") return true;
-        const value = String(row?.cell || row?.testCell || row?.sourceCell || row?.testCellLabel || "");
-        return value.includes(selectedCell);
+      const selectedCell = (engineerCellFilter && engineerCellFilter.value) || "All";
+      const matchesSelectedCell = (item) => {
+        if (!selectedCell || selectedCell === "All") return true;
+        const cellValue = String(item?.cell || item?.testCell || item?.sourceCell || item?.headerSnapshot?.testCell || item?.header?.testCell || "").trim();
+        return cellValue === selectedCell;
       };
 
+      const weekendRowsForDate = typeof getWeekendRowsForCurrentDate === "function" ? getWeekendRowsForCurrentDate() : [];
       const scopedHours = Array.isArray(hoursRows) ? hoursRows.filter(matchesSelectedCell) : [];
       const scopedEntries = Array.isArray(entries) ? entries.filter(matchesSelectedCell) : [];
-      const weekendRowsForDate = typeof getWeekendRowsForCurrentDate === "function" ? getWeekendRowsForCurrentDate() : [];
       const scopedWeekend = Array.isArray(weekendRowsForDate) ? weekendRowsForDate.filter(matchesSelectedCell) : [];
 
       return {
-        selectedCell,
+        selectedCell: selectedCell === "All" ? null : selectedCell,
         hoursSheet: scopedHours,
         entries: scopedEntries,
         weekendBoard: scopedWeekend
@@ -3595,95 +3831,186 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       return !hoursValue || !detail || (isDowntimeEngineerRow(row) && !comment);
     }
 
-    function buildEngineerShiftBuckets(scope) {
-      const rows = [...(scope.hoursSheet || [])];
-      const lastSeven = rows.slice(-7);
+    function getEngineerCellValue(row){
+      return String(row?.cell || row?.testCell || row?.sourceCell || row?.headerSnapshot?.testCell || row?.header?.testCell || row?.banner?.testCell || "").trim();
+    }
 
-      const buckets = lastSeven.map((row, index) => {
-        const logged = Number(row?.hours ?? row?.loggedHours ?? 0);
-        const down = isDowntimeEngineerRow(row) ? logged : 0;
+    function toneClassForScore(value, goodAt = 90, warnAt = 75){
+      const n = Number(value) || 0;
+      if (n >= goodAt) return "good";
+      if (n >= warnAt) return "warn";
+      return "attn";
+    }
 
-        const relatedProblems = (scope.entries || []).filter((entry) => {
-          const info = `${entry?.status || ""} ${entry?.review || ""} ${entry?.note || ""}`.toLowerCase();
-          const cellA = String(entry?.cell || entry?.testCell || entry?.sourceCell || "");
-          const cellB = String(row?.cell || row?.testCell || row?.sourceCell || "");
-          const relevant = !cellB || cellA.includes(cellB);
-          return relevant && (info.includes("attention") || info.includes("blocked") || info.includes("monitor") || info.includes("open"));
-        }).length;
+    function toneClassForInverse(value, warnAt, attentionAt){
+      const n = Number(value) || 0;
+      if (n >= attentionAt) return "attn";
+      if (n >= warnAt) return "warn";
+      return "good";
+    }
 
-        const uptimePct = logged > 0
-          ? Math.max(0, Math.min(100, ((logged - down) / logged) * 100))
-          : 100;
+    function applyEngineerTone(node, tone){
+      if (!node) return;
+      node.classList.remove("good", "warn", "attn");
+      node.classList.add(tone);
+    }
 
-        return {
-          label: `Shift ${index + 1}`,
-          logged,
-          down,
-          uptimePct,
-          problems: relatedProblems
-        };
+    function applyEngineerMeterTone(node, tone){
+      if (!node) return;
+      node.classList.remove("meter-good", "meter-warn", "meter-attn");
+      node.classList.add(tone === "attn" ? "meter-attn" : tone === "warn" ? "meter-warn" : "meter-good");
+    }
+
+    function setEngineerText(id, value){
+      const node = document.getElementById(id);
+      if (node) node.textContent = value;
+    }
+
+    function buildEngineerDowntimeBreakdown(scope, managerSummary){
+      const buckets = new Map();
+
+      (scope.hoursSheet || []).forEach((row) => {
+        if (!isDowntimeEngineerRow(row)) return;
+        const hours = Number(row?.hours ?? row?.loggedHours ?? 0) || 0;
+        if (!hours) return;
+        const key = String(row?.detail || row?.status || "Downtime").trim() || "Downtime";
+        buckets.set(key, (buckets.get(key) || 0) + hours);
       });
 
-      while (buckets.length < 7) {
-        buckets.unshift({
-          label: `Shift ${buckets.length + 1}`,
-          logged: 8,
-          down: 0.2,
-          uptimePct: 97.5,
-          problems: 1
+      if (!buckets.size && Array.isArray(managerSummary?.topDowntime)) {
+        managerSummary.topDowntime.forEach((item) => {
+          const key = Array.isArray(item) ? item[0] : item?.detail;
+          const value = Array.isArray(item) ? item[1] : item?.hours;
+          if (key && Number(value)) buckets.set(String(key), Number(value));
         });
       }
 
-      return buckets;
+      return Array.from(buckets.entries())
+        .sort((a,b) => b[1] - a[1])
+        .slice(0,4)
+        .map(([label, hours]) => ({ label, hours }));
+    }
+
+    function buildEngineerHelpList(scope, managerSummary){
+      const scoped = (scope.weekendBoard || [])
+        .filter((row) => String(row?.helpNeeded || row?.help || "").toLowerCase().includes("yes") || String(row?.helpNeeded || row?.help || "").toLowerCase().includes("help"))
+        .map((row) => ({
+          cell: String(row?.testCell || row?.cell || "—"),
+          status: String(row?.tcStatus || row?.status || "No status"),
+          note: String(row?.comments || row?.comment || "No comment entered yet."),
+          time: String(row?.lastUpdate || row?.time || "—")
+        }));
+
+      if (scoped.length) return scoped.slice(0,4);
+
+      const managerRows = Array.isArray(managerSummary?.helpRows) ? managerSummary.helpRows : [];
+      return managerRows.slice(0,4).map((row) => ({
+        cell: String(row?.testCell || row?.cell || "—"),
+        status: String(row?.tcStatus || row?.status || "No status"),
+        note: String(row?.comments || row?.comment || "No comment entered yet."),
+        time: String(row?.lastUpdate || row?.time || "—")
+      }));
+    }
+
+    function buildEngineerUtilizationSeries(scope, utilizationPct){
+      const rows = (scope.hoursSheet || []).slice(-7);
+      const series = rows.map((row, index) => {
+        const logged = Number(row?.hours ?? row?.loggedHours ?? 0) || 0;
+        const down = isDowntimeEngineerRow(row) ? logged : 0;
+        const base = logged > 0 ? ((logged - down) / Math.max(logged, 1)) * 100 : utilizationPct;
+        return clampNumber(base - (index % 2 ? 2 : 0), 5, 100);
+      });
+
+      while (series.length < 7) {
+        const drift = series.length % 2 === 0 ? -3 : 2;
+        series.unshift(clampNumber(utilizationPct + drift, 5, 100));
+      }
+
+      return series.slice(-7);
     }
 
     function deriveEngineerPremiumMetrics() {
       const scope = getEngineerDashboardScope();
-      const buckets = buildEngineerShiftBuckets(scope);
+      const managerSummary = typeof aggregateManagerData === "function" ? aggregateManagerData() : null;
 
-      const totalLogged = scope.hoursSheet.reduce((sum, row) => sum + Number(row?.hours ?? row?.loggedHours ?? 0), 0);
-      const totalDowntime = scope.hoursSheet.reduce((sum, row) => sum + (isDowntimeEngineerRow(row) ? Number(row?.hours ?? row?.loggedHours ?? 0) : 0), 0);
+      const totalLogged = (scope.hoursSheet || []).reduce((sum, row) => sum + (Number(row?.hours ?? row?.loggedHours ?? 0) || 0), 0);
+      const totalDowntime = (scope.hoursSheet || []).reduce((sum, row) => {
+        const hours = Number(row?.hours ?? row?.loggedHours ?? 0) || 0;
+        return sum + (isDowntimeEngineerRow(row) ? hours : 0);
+      }, 0);
 
-      const problemsLogged = scope.entries.filter((entry) => {
-        const blob = `${entry?.status || ""} ${entry?.review || ""} ${entry?.note || ""}`.toLowerCase();
-        return blob.includes("attention") || blob.includes("blocked") || blob.includes("monitor") || blob.includes("open");
-      }).length;
+      const downtimeBreakdown = buildEngineerDowntimeBreakdown(scope, managerSummary);
+      const helpList = buildEngineerHelpList(scope, managerSummary);
+      const helpCount = helpList.length || Number(managerSummary?.helpNeededCount || managerSummary?.helpNeeded || 0) || 0;
 
-      const incompleteCount = scope.hoursSheet.filter(hasIncompleteEngineerRow).length;
-      const helpQueue = scope.weekendBoard.filter((row) => {
-        const blob = `${row?.helpNeeded ?? row?.help ?? ""} ${row?.status ?? ""}`.toLowerCase();
-        return blob.includes("help needed") || blob === "yes";
-      }).length;
+      const cellSet = new Set();
+      (scope.hoursSheet || []).forEach((row) => { const cell = getEngineerCellValue(row); if (cell) cellSet.add(cell); });
+      (scope.entries || []).forEach((entry) => { const cell = getEngineerCellValue(entry); if (cell) cellSet.add(cell); });
+      (scope.weekendBoard || []).forEach((row) => { const cell = getEngineerCellValue(row); if (cell && String(row?.tcStatus || row?.status || "").trim()) cellSet.add(cell); });
 
-      const uptimePct = totalLogged > 0 ? ((totalLogged - totalDowntime) / totalLogged) * 100 : 100;
+      const activeCells = cellSet.size || Number(managerSummary?.activeCells || 0);
+      const weekendRowsForScope = Array.isArray(scope.weekendBoard) ? scope.weekendBoard : [];
+      const statusRows = weekendRowsForScope.filter((row) => String(row?.tcStatus || row?.status || "").trim());
+      const totalKnownCells = Math.max(
+        activeCells,
+        weekendRowsForScope.length,
+        typeof TEST_CELL_OPTIONS !== "undefined" && Array.isArray(TEST_CELL_OPTIONS) ? TEST_CELL_OPTIONS.length : 0,
+        1
+      );
+
+      const utilizationPct = totalKnownCells > 0
+        ? clampNumber(Math.round((Math.max(statusRows.length, activeCells) / totalKnownCells) * 100), 0, 100)
+        : 0;
+
+      const incompleteCount = (scope.hoursSheet || []).filter(hasIncompleteEngineerRow).length;
       const completenessPct = scope.hoursSheet.length > 0
-        ? ((scope.hoursSheet.length - incompleteCount) / scope.hoursSheet.length) * 100
+        ? clampNumber(Math.round(((scope.hoursSheet.length - incompleteCount) / scope.hoursSheet.length) * 100), 0, 100)
         : 100;
 
-      let posture = "Steady";
-      let postureClass = "posture-good";
-      if (totalDowntime >= 4 || helpQueue >= 4) {
-        posture = "Watching";
-        postureClass = "posture-warn";
-      }
-      if (totalDowntime >= 6 || incompleteCount >= 3) {
-        posture = "Attention";
-        postureClass = "posture-attn";
-      }
+      const uptimePct = totalLogged > 0
+        ? clampNumber(((totalLogged - totalDowntime) / totalLogged) * 100, 0, 100)
+        : 100;
+
+      const live = window.engineerLiveShiftJitter || {};
+      const liveUptime = clampNumber(uptimePct + (Number(live.uptimeDelta) || 0), 0, 100);
+      const liveUtilization = clampNumber(utilizationPct + (Number(live.utilizationDelta) || 0), 0, 100);
+      const liveDowntime = clampNumber(totalDowntime + (Number(live.downtimeDelta) || 0), 0, 999);
+
+      const downtimePressure = clampNumber(100 - (liveDowntime * 11), 0, 100);
+      const helpPressure = clampNumber(100 - (helpCount * 18), 0, 100);
+      const healthScore = clampNumber(Math.round(
+        (liveUptime * .42) +
+        (completenessPct * .22) +
+        (liveUtilization * .16) +
+        (downtimePressure * .12) +
+        (helpPressure * .08)
+      ), 0, 100);
+
+      const healthTone = toneClassForScore(healthScore, 90, 76);
+      const uptimeTone = toneClassForScore(liveUptime, 92, 84);
+      const downtimeTone = toneClassForInverse(liveDowntime, 4, 7);
+      const utilizationTone = toneClassForScore(liveUtilization, 70, 45);
+      const helpTone = helpCount >= 3 ? "attn" : helpCount >= 1 ? "warn" : "good";
+      const dataTone = toneClassForScore(completenessPct, 92, 82);
 
       return {
-        heroUptime: uptimePct.toFixed(1),
-        shiftUptime: Math.round(uptimePct),
-        downtimeHours: totalDowntime.toFixed(1),
-        problemsLogged,
-        dataCompleteness: Math.round(completenessPct),
-        posture,
-        postureClass,
-        helpQueue,
-        uptimeSeries: buckets.map((b) => Number(b.uptimePct.toFixed(1))),
-        downtimeSeries: buckets.map((b) => Number(b.down.toFixed(1))),
-        problemsSeries: buckets.map((b) => b.problems),
-        selectedCell: scope.selectedCell
+        selectedCell: scope.selectedCell,
+        uptimePct: Number(liveUptime.toFixed(1)),
+        downtimeHours: Number(liveDowntime.toFixed(1)),
+        activeCells,
+        utilizationPct: Math.round(liveUtilization),
+        helpCount,
+        helpList,
+        completenessPct,
+        healthScore,
+        healthTone,
+        uptimeTone,
+        downtimeTone,
+        utilizationTone,
+        helpTone,
+        dataTone,
+        downtimeBreakdown,
+        utilizationSeries: buildEngineerUtilizationSeries(scope, liveUtilization)
       };
     }
 
@@ -3695,11 +4022,11 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       node.classList.add(toneClass);
     }
 
-    function drawEngineerPremiumSparkline(svgId, values, strokeColor, glowColor) {
+    function drawEngineerPremiumSparkline(svgId, values, strokeColor = "#2DD4BF", glowColor = "#22D3EE") {
       const svg = document.getElementById(svgId);
       if (!svg) return;
 
-      const safe = (values && values.length ? values : [0,0,0,0,0,0,0]).slice(-7);
+      const safe = (Array.isArray(values) && values.length ? values : [50,52,55,57,56,60,62]).slice(-7);
       const max = Math.max(...safe, 1);
       const min = Math.min(...safe);
       const range = Math.max(1, max - min);
@@ -3710,14 +4037,19 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
         return `${x.toFixed(1)},${y.toFixed(1)}`;
       }).join(" ");
 
+      const area = `0,72 ${points} 220,72`;
       const lastPair = points.split(" ").pop().split(",");
       const lastX = lastPair[0];
       const lastY = lastPair[1];
 
       svg.innerHTML = `
         <defs>
+          <linearGradient id="${svgId}-fill" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="${glowColor}" stop-opacity=".22"></stop>
+            <stop offset="100%" stop-color="${glowColor}" stop-opacity="0"></stop>
+          </linearGradient>
           <filter id="${svgId}-glow" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="3.5" result="blur"></feGaussianBlur>
+            <feGaussianBlur stdDeviation="3.2" result="blur"></feGaussianBlur>
             <feMerge>
               <feMergeNode in="blur"></feMergeNode>
               <feMergeNode in="SourceGraphic"></feMergeNode>
@@ -3725,17 +4057,47 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
           </filter>
         </defs>
         <line x1="0" y1="60" x2="220" y2="60" stroke="rgba(148,163,184,.18)" stroke-width="1"></line>
-        <polyline
-          points="${points}"
-          fill="none"
-          stroke="${strokeColor}"
-          stroke-width="3"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          filter="url(#${svgId}-glow)"
-        ></polyline>
+        <polygon points="${area}" fill="url(#${svgId}-fill)"></polygon>
+        <polyline points="${points}" fill="none" stroke="${strokeColor}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#${svgId}-glow)"></polyline>
         <circle cx="${lastX}" cy="${lastY}" r="4.5" fill="${glowColor}" filter="url(#${svgId}-glow)"></circle>
       `;
+    }
+
+    function renderEngineerDowntimeBreakdown(items){
+      const target = document.getElementById("engineer-downtime-breakdown");
+      if (!target) return;
+
+      if (!items.length) {
+        target.innerHTML = `<div class="engineer-breakdown-row muted">No downtime rows in scope.</div>`;
+        return;
+      }
+
+      target.innerHTML = items.map((item) => `
+        <div class="engineer-breakdown-row">
+          <span><strong>${escapeHtml(item.label)}</strong></span>
+          <span>${Number(item.hours || 0).toFixed(1)}h</span>
+        </div>
+      `).join("");
+    }
+
+    function renderEngineerHelpList(items){
+      const target = document.getElementById("engineer-help-list");
+      if (!target) return;
+
+      if (!items.length) {
+        target.innerHTML = `<div class="engineer-help-row muted">No active help-needed rows.</div>`;
+        return;
+      }
+
+      target.innerHTML = items.map((item) => `
+        <div class="engineer-help-row">
+          <span>
+            <strong>Cell ${escapeHtml(item.cell)}</strong><br>
+            ${escapeHtml(item.status)} · ${escapeHtml(item.note)}
+          </span>
+          <span>${escapeHtml(item.time)}</span>
+        </div>
+      `).join("");
     }
 
     function renderEngineerPremiumDashboard() {
@@ -3748,46 +4110,94 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
 
       const metrics = deriveEngineerPremiumMetrics();
 
-      const hero = document.getElementById("engineer-hero-uptime");
-      const caption = document.getElementById("engineer-hero-caption");
-      const postureChip = document.getElementById("metric-cell-posture-chip");
-      const postureText = document.getElementById("metric-cell-posture");
+      setEngineerText("engineer-cell-uptime", metrics.uptimePct.toFixed(1));
+      setEngineerText("metric-downtime-hours", metrics.downtimeHours.toFixed(1));
+      setEngineerText("metric-active-cells", String(metrics.activeCells));
+      setEngineerText("metric-utilization", String(metrics.utilizationPct));
+      setEngineerText("metric-help-count", String(metrics.helpCount));
+      setEngineerText("metric-data-completeness", String(metrics.completenessPct));
+      setEngineerText("engineer-health-score", String(metrics.healthScore));
 
-      if (hero) hero.textContent = metrics.heroUptime;
-      if (caption) {
-        caption.textContent = metrics.selectedCell
-          ? `Current engineer scope is locked to Cell ${metrics.selectedCell || "current"} with low-friction at-a-glance review.`
-          : "Current engineer scope blends all visible cells into one premium snapshot.";
+      const subtitle = document.getElementById("engineer-command-subtitle");
+      if (subtitle) {
+        subtitle.textContent = metrics.selectedCell
+          ? `Cell ${metrics.selectedCell} command view using the current Engineer filter.`
+          : "All visible cells command view using hours, weekend board, running sheet, and manager aggregation.";
       }
 
-      setText(document.getElementById("metric-shift-uptime"), String(metrics.shiftUptime));
-      setText(document.getElementById("metric-downtime-hours"), String(metrics.downtimeHours));
-      setText(document.getElementById("metric-problems-logged"), String(metrics.problemsLogged));
-      setText(document.getElementById("metric-data-completeness"), String(metrics.dataCompleteness));
-      setText(document.getElementById("metric-help-queue"), String(metrics.helpQueue));
-
-      if (postureText) postureText.textContent = metrics.posture;
-      if (postureChip) {
-        postureChip.classList.remove("posture-good", "posture-warn", "posture-attn");
-        postureChip.classList.add(metrics.postureClass);
+      const uptimeCaption = document.getElementById("engineer-uptime-caption");
+      if (uptimeCaption) {
+        uptimeCaption.textContent = `${metrics.downtimeHours.toFixed(1)} downtime hour(s) currently shaping ${metrics.uptimePct.toFixed(1)}% uptime.`;
       }
 
-      applyEngineerArcMeter("meter-shift-uptime", metrics.shiftUptime, metrics.shiftUptime >= 95 ? "meter-good" : metrics.shiftUptime >= 88 ? "meter-warn" : "meter-attn");
-      applyEngineerArcMeter("meter-downtime-hours", Math.min(100, (Number(metrics.downtimeHours) / 8) * 100), Number(metrics.downtimeHours) < 4 ? "meter-good" : Number(metrics.downtimeHours) < 6 ? "meter-warn" : "meter-attn");
-      applyEngineerArcMeter("meter-problems-logged", Math.min(100, (metrics.problemsLogged / 18) * 100), metrics.problemsLogged <= 5 ? "meter-good" : metrics.problemsLogged <= 9 ? "meter-warn" : "meter-attn");
-      applyEngineerArcMeter("meter-data-completeness", metrics.dataCompleteness, metrics.dataCompleteness >= 92 ? "meter-good" : metrics.dataCompleteness >= 82 ? "meter-warn" : "meter-attn");
-      applyEngineerArcMeter("meter-help-queue", Math.min(100, (metrics.helpQueue / 10) * 100), metrics.helpQueue <= 2 ? "meter-good" : metrics.helpQueue <= 5 ? "meter-warn" : "meter-attn");
+      const healthNote = document.getElementById("engineer-health-note");
+      if (healthNote) {
+        healthNote.textContent = `${metrics.activeCells} active cell(s), ${metrics.helpCount} help request(s), ${metrics.completenessPct}% data completeness.`;
+      }
 
-      drawEngineerPremiumSparkline("sparkline-uptime", metrics.uptimeSeries, "#2DD4BF", "#22D3EE");
-      drawEngineerPremiumSparkline("sparkline-downtime", metrics.downtimeSeries, "#FBBF24", "#FB923C");
-      drawEngineerPremiumSparkline("sparkline-problems", metrics.problemsSeries, "#FB7185", "#F87171");
+      const utilizationNote = document.getElementById("engineer-utilization-note");
+      if (utilizationNote) {
+        utilizationNote.textContent = `${metrics.utilizationPct}% utilization from saved shift chunks and weekend board activity.`;
+      }
+
+      const dataNote = document.getElementById("engineer-data-note");
+      if (dataNote) {
+        dataNote.textContent = metrics.completenessPct >= 92
+          ? "Required Engineer review fields are in good shape."
+          : "Some hours/detail/comment fields still need cleanup before this read is fully trusted.";
+      }
+
+      const uptimeBand = document.getElementById("engineer-uptime-band");
+      const downtimeBand = document.getElementById("engineer-downtime-band");
+      const utilizationBand = document.getElementById("engineer-utilization-band");
+      const helpBand = document.getElementById("engineer-help-band");
+      const dataBand = document.getElementById("engineer-data-band");
+      const healthLabel = document.getElementById("engineer-health-label");
+
+      applyEngineerTone(uptimeBand, metrics.uptimeTone);
+      applyEngineerTone(downtimeBand, metrics.downtimeTone);
+      applyEngineerTone(utilizationBand, metrics.utilizationTone);
+      applyEngineerTone(helpBand, metrics.helpTone);
+      applyEngineerTone(dataBand, metrics.dataTone);
+      applyEngineerTone(healthLabel, metrics.healthTone);
+
+      if (uptimeBand) uptimeBand.textContent = metrics.uptimeTone === "good" ? "Healthy" : metrics.uptimeTone === "warn" ? "Watch" : "Attention";
+      if (downtimeBand) downtimeBand.textContent = metrics.downtimeTone === "good" ? "Low" : metrics.downtimeTone === "warn" ? "Watch" : "High";
+      if (utilizationBand) utilizationBand.textContent = metrics.utilizationTone === "good" ? "Loaded" : metrics.utilizationTone === "warn" ? "Light" : "Low";
+      if (helpBand) helpBand.textContent = metrics.helpTone === "good" ? "Clear" : metrics.helpTone === "warn" ? "Open" : "Priority";
+      if (dataBand) dataBand.textContent = metrics.dataTone === "good" ? "Clean" : metrics.dataTone === "warn" ? "Review" : "Gaps";
+      if (healthLabel) healthLabel.textContent = metrics.healthTone === "good" ? "Stable" : metrics.healthTone === "warn" ? "Watch" : "Attention";
+
+      const downtimeMeter = document.getElementById("meter-downtime-hours");
+      const dataMeter = document.getElementById("meter-data-completeness");
+      const healthFill = document.getElementById("engineer-health-fill");
+
+      applyEngineerArcMeter("meter-cell-uptime", metrics.uptimePct, metrics.uptimeTone === "attn" ? "meter-attn" : metrics.uptimeTone === "warn" ? "meter-warn" : "meter-good");
+
+      if (downtimeMeter) {
+        downtimeMeter.style.setProperty("--meter-pct", String(clampNumber((metrics.downtimeHours / 8) * 100, 0, 100)));
+        applyEngineerMeterTone(downtimeMeter, metrics.downtimeTone);
+      }
+
+      if (dataMeter) {
+        dataMeter.style.setProperty("--meter-pct", String(metrics.completenessPct));
+        applyEngineerMeterTone(dataMeter, metrics.dataTone);
+      }
+
+      if (healthFill) {
+        healthFill.style.width = `${metrics.healthScore}%`;
+        healthFill.classList.remove("warn", "attn");
+        if (metrics.healthTone === "warn") healthFill.classList.add("warn");
+        if (metrics.healthTone === "attn") healthFill.classList.add("attn");
+      }
+
+      renderEngineerDowntimeBreakdown(metrics.downtimeBreakdown);
+      renderEngineerHelpList(metrics.helpList);
+      drawEngineerPremiumSparkline("sparkline-utilization", metrics.utilizationSeries, "#2DD4BF", "#22D3EE");
 
       const collapsed = getEngineeringGraphicsCollapsed();
-      const rows = section.querySelectorAll(".engineer-hero-card, .engineer-metric-grid, .engineer-sparkline-grid, .engineer-2026-footer");
-      rows.forEach((row) => {
-        row.hidden = collapsed;
-      });
-
+      const body = document.getElementById("engineer-graphics-body");
+      if (body) body.hidden = collapsed;
       if (collapseButton) collapseButton.textContent = collapsed ? "Expand" : "Collapse";
     }
 
@@ -3795,17 +4205,21 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       const section = document.getElementById("engineer-graphics-section");
       if (!section) return;
 
-      const collapsed = getEngineeringGraphicsCollapsed();
-      const next = !collapsed;
+      const next = !getEngineeringGraphicsCollapsed();
       setEngineeringGraphicsCollapsed(next);
 
-      const rows = section.querySelectorAll(".engineer-hero-card, .engineer-metric-grid, .engineer-sparkline-grid, .engineer-2026-footer");
-      rows.forEach((row) => {
-        row.hidden = next;
-      });
+      const body = document.getElementById("engineer-graphics-body");
+      if (body) body.hidden = next;
 
       const btn = document.getElementById("engineer-graphics-collapse-btn");
       if (btn) btn.textContent = next ? "Expand" : "Collapse";
+
+      if (!next) {
+        renderEngineerPremiumDashboard();
+        bindEngineerDashboardButtons();
+      } else {
+        stopEngineerLiveSimulation();
+      }
     }
 
     function setEngineerDashboardSkin(mode) {
@@ -3822,23 +4236,76 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       if (select) select.value = normalized;
     }
 
+    function stopEngineerLiveSimulation(){
+      if (window.engineerGraphicsLiveTimer) {
+        window.clearInterval(window.engineerGraphicsLiveTimer);
+        window.engineerGraphicsLiveTimer = null;
+      }
+
+      window.engineerLiveShiftJitter = null;
+      try { localStorage.setItem(ENGINEERING_GRAPHICS_LIVE_STORAGE_KEY, "false"); } catch {}
+
+      const liveBtn = document.getElementById("engineer-live-toggle-btn");
+      if (liveBtn) {
+        liveBtn.textContent = "Simulate Live Shift";
+        liveBtn.classList.remove("is-live");
+      }
+    }
+
+    function toggleEngineerLiveSimulation(){
+      if (window.engineerGraphicsLiveTimer) {
+        stopEngineerLiveSimulation();
+        renderEngineerPremiumDashboard();
+        return;
+      }
+
+      const liveBtn = document.getElementById("engineer-live-toggle-btn");
+      if (liveBtn) {
+        liveBtn.textContent = "Stop Live Shift";
+        liveBtn.classList.add("is-live");
+      }
+
+      // Prototype-only animation pulse. This does not mutate saved hours/weekend/logbook data.
+      const applySimulatedShift = () => {
+        window.engineerLiveShiftJitter = {
+          uptimeDelta: (Math.random() - 0.5) * 1.8,
+          utilizationDelta: (Math.random() - 0.5) * 5,
+          downtimeDelta: Math.max(-0.2, (Math.random() - 0.65) * 0.45)
+        };
+        renderEngineerPremiumDashboard();
+      };
+
+      applySimulatedShift();
+      window.engineerGraphicsLiveTimer = window.setInterval(applySimulatedShift, 3200);
+      try { localStorage.setItem(ENGINEERING_GRAPHICS_LIVE_STORAGE_KEY, "true"); } catch {}
+    }
+
     function exportEngineerSnapshot() {
       const metrics = deriveEngineerPremiumMetrics();
+
       const lines = [
-        "Cummins Unified Logbook • Engineer Snapshot",
-        `Cell Uptime: ${metrics.heroUptime}%`,
-        `Shift Uptime: ${metrics.shiftUptime}%`,
-        `Downtime Hours: ${metrics.downtimeHours}`,
-        `Problems Logged: ${metrics.problemsLogged}`,
-        `Data Completeness: ${metrics.dataCompleteness}%`,
-        `Cell Posture: ${metrics.posture}`,
-        `Help Queue: ${metrics.helpQueue} cells`
+        "Cummins Unified Logbook • Engineer Test Cell Snapshot",
+        `Version: ${VERSION}`,
+        `Description: ${VERSION_DESCRIPTION}`,
+        `Cell Uptime: ${metrics.uptimePct.toFixed(1)}%`,
+        `Downtime Hours: ${metrics.downtimeHours.toFixed(1)}`,
+        `Active Cells: ${metrics.activeCells}`,
+        `Utilization: ${metrics.utilizationPct}%`,
+        `Help Needed Count: ${metrics.helpCount}`,
+        `Data Completeness: ${metrics.completenessPct}%`,
+        `Overall Cell Health Score: ${metrics.healthScore}/100`,
+        "",
+        "Downtime Breakdown:",
+        ...(metrics.downtimeBreakdown.length ? metrics.downtimeBreakdown.map(item => `- ${item.label}: ${item.hours.toFixed(1)}h`) : ["- No downtime rows in scope"]),
+        "",
+        "Help Needed:",
+        ...(metrics.helpList.length ? metrics.helpList.map(item => `- Cell ${item.cell}: ${item.status} · ${item.note}`) : ["- No active help-needed rows"])
       ];
 
-      const blob = new Blob([lines.join("\\n")], { type: "text/plain;charset=utf-8" });
+      const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "engineer_snapshot.txt";
+      link.download = "engineer_test_cell_snapshot.txt";
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -3850,7 +4317,6 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
         switchTab("hours");
       }
     }
-
 
     function bindEngineerDashboardButtons() {
       const collapseBtn = document.getElementById("engineer-graphics-collapse-btn");
