@@ -1770,7 +1770,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small header-meta-stack" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.153-engineer-dashboard-click-delegation-fix</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.154-engineer-dashboard-structure-cleanup</span></div>
           <div id="data-quality-header" class="data-quality-badge good" title="No significant anomalies detected today — 94% high-quality data" hidden>Data Quality: <span id="quality-percent">94</span>%</div>
         </div>
       </div>
@@ -1778,7 +1778,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.153-engineer-dashboard-click-delegation-fix</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.154-engineer-dashboard-structure-cleanup</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -2173,7 +2173,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.153-engineer-dashboard-click-delegation-fix</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.154-engineer-dashboard-structure-cleanup</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -2205,6 +2205,8 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             
 
             
+          <!-- v1.0.154 - premium engineer dashboard replaces the earlier lightweight graphics block entirely.
+                 Keep this as the only engineer graphics section to avoid ghost overlays and broken click layers. -->
           <section
             id="engineer-graphics-section"
             class="panel engineer-2026-dashboard engineer-dashboard--dark"
@@ -2358,57 +2360,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             </div>
           </section>
 
-                <div class="engineer-graphics-button-row"><button id="engineer-live-toggle-btn" class="secondary engineer-graphics-live-btn" type="button">Simulate Live Reading</button><button id="engineer-graphics-toggle-btn" class="secondary" type="button">Hide Graphics</button></div>
-              </div>
-              <div class="section-body engineer-graphics-body" id="engineer-graphics-body">
-                <div class="engineer-graphics-grid">
-                  <div class="engineer-graphic-card">
-                    <div class="engineer-block-head"><h3>Quick gauges</h3><span class="engineer-block-tag">Prototype</span></div>
-                    <div class="engineer-block-note" id="engineer-graphics-summary">Derived from current running sheet + hours signals.</div>
-                    <div class="engineer-gauge-row">
-                      <div class="engineer-gauge-card">
-                        <div class="engineer-gauge-ring tone-rpm" id="engineer-rpm-gauge" style="--gauge-value:72;">
-                          <div class="engineer-gauge-core">
-                            <div class="engineer-gauge-value" id="engineer-rpm-value">3600</div>
-                            <div class="engineer-gauge-label">RPM</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="engineer-gauge-card">
-                        <div class="engineer-gauge-ring tone-torque" id="engineer-torque-gauge" style="--gauge-value:56;">
-                          <div class="engineer-gauge-core">
-                            <div class="engineer-gauge-value" id="engineer-torque-value">1650</div>
-                            <div class="engineer-gauge-label">Torque</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="engineer-gauge-card">
-                        <div class="engineer-gauge-ring tone-temp" id="engineer-temp-gauge" style="--gauge-value:48;">
-                          <div class="engineer-gauge-core">
-                            <div class="engineer-gauge-value" id="engineer-temp-value">188</div>
-                            <div class="engineer-gauge-label">Temp °F</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="engineer-graphic-card">
-                    <div class="engineer-block-head"><h3>Trend line</h3><span class="engineer-block-tag">Inline SVG</span></div>
-                    <div class="engineer-block-note">A lightweight visual trend pulled from the current visible engineer data instead of an external chart library.</div>
-                    <svg id="engineer-temp-sparkline" class="engineer-sparkline" viewBox="0 0 240 90" preserveAspectRatio="none" aria-label="Engineer graphical overview trend"></svg>
-                    <div class="engineer-sparkline-note" id="engineer-sparkline-note">Trend will update from the current visible engineer scope.</div>
-                  </div>
-                </div>
-                <div class="engineer-graphics-footer">
-                  <div class="engineer-anomaly-card">
-                    <div class="engineer-block-head"><h3>What jumps out visually</h3><span class="engineer-block-tag">Signal</span></div>
-                    <div class="engineer-anomaly-list" id="engineer-anomaly-list"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="engineer-summary-strip">
+                <div class="engineer-summary-strip">
               <div class="engineer-summary-card" id="engineer-summary-cells-card">
                 <div class="engineer-summary-label">Visible Cells</div>
                 <div class="engineer-summary-value" id="engineer-visible-cells">0</div>
@@ -2469,7 +2421,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.153-engineer-dashboard-click-delegation-fix</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.154-engineer-dashboard-structure-cleanup</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -2527,7 +2479,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.153-engineer-dashboard-click-delegation-fix</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.154-engineer-dashboard-structure-cleanup</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -2732,7 +2684,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.153-engineer-dashboard-click-delegation-fix</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.154-engineer-dashboard-structure-cleanup</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -2813,7 +2765,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
        - improved spacing and hierarchy
        - stronger controls and focus treatment
        - Cummins-ready presentation polish without deleting or renaming working logic */
-    const VERSION = "v1.0.153-engineer-dashboard-click-delegation-fix";
+    const VERSION = "v1.0.154-engineer-dashboard-structure-cleanup";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
