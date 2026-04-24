@@ -1335,6 +1335,12 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     }
     .data-quality-badge.warn{background:#fffbeb;color:#92400e;border-color:#fde68a}
     .data-quality-badge.poor{background:#fef2f2;color:#b91c1c;border-color:#fecaca}
+    .data-quality-badge[hidden]{display:none !important}
+    .data-quality-badge{transition:var(--transition-normal)}
+    .engineer-graphics-live-btn.is-live{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,23,42,.10)}
+    .engineer-gauge-ring.is-live{transform:translateY(-1px);box-shadow:inset 0 0 0 1px rgba(15,23,42,.05), 0 4px 12px rgba(15,23,42,.08)}
+    .engineer-gauge-ring{transition:transform .22s ease, box-shadow .22s ease}
+
 
     .settings-inline-toggle{
       display:flex;align-items:center;gap:10px;margin-top:14px;padding:12px 14px;
@@ -1418,15 +1424,15 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small header-meta-stack" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.149-engineer-graphics-foundation</span></div>
-          <div id="data-quality-header" class="data-quality-badge good" title="Prototype completeness score from current running sheet and hours readiness.">Data Quality: <span id="quality-percent">75</span>%</div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.150-lowkey-graphics-polish</span></div>
+          <div id="data-quality-header" class="data-quality-badge good" title="No significant anomalies detected today — 94% high-quality data" hidden>Data Quality: <span id="quality-percent">94</span>%</div>
         </div>
       </div>
       <div class="grid header-grid" id="header-grid"></div>
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.149-engineer-graphics-foundation</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.150-lowkey-graphics-polish</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1821,7 +1827,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.149-engineer-graphics-foundation</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.150-lowkey-graphics-polish</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1859,13 +1865,13 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
                   <h3>Quick visual read before the deeper detail blocks</h3>
                   <div class="small engineer-graphics-copy">Pure CSS and inline SVG only. This stays small, contained, and tied to the current engineer scope.</div>
                 </div>
-                <button id="engineer-graphics-toggle-btn" class="secondary" type="button">Hide Graphics</button>
+                <div class="engineer-graphics-button-row"><button id="engineer-live-toggle-btn" class="secondary engineer-graphics-live-btn" type="button">Simulate Live Reading</button><button id="engineer-graphics-toggle-btn" class="secondary" type="button">Hide Graphics</button></div>
               </div>
               <div class="section-body engineer-graphics-body" id="engineer-graphics-body">
                 <div class="engineer-graphics-grid">
                   <div class="engineer-graphic-card">
                     <div class="engineer-block-head"><h3>Quick gauges</h3><span class="engineer-block-tag">Prototype</span></div>
-                    <div class="engineer-block-note">A fast sense of intensity based on the current visible engineer scope.</div>
+                    <div class="engineer-block-note" id="engineer-graphics-summary">Derived from current running sheet + hours signals.</div>
                     <div class="engineer-gauge-row">
                       <div class="engineer-gauge-card">
                         <div class="engineer-gauge-ring tone-rpm" id="engineer-rpm-gauge" style="--gauge-value:72;">
@@ -1970,7 +1976,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.149-engineer-graphics-foundation</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.150-lowkey-graphics-polish</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -2028,7 +2034,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.149-engineer-graphics-foundation</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.150-lowkey-graphics-polish</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -2233,7 +2239,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.149-engineer-graphics-foundation</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.150-lowkey-graphics-polish</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -2268,7 +2274,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
               </div>
               <label class="settings-inline-toggle">
                 <input id="engineering-graphics-toggle" type="checkbox" />
-                <span>Enable Graphical Overview in Engineer tab</span>
+                <span>Enable Graphical Overview in Engineer tab + Data Quality badge</span>
               </label>
               <div class="settings-copy" style="margin-top:10px">This stays optional and collapsible so the Engineer view can gain visual signal without changing the rest of the workflow.</div>
               <div class="settings-copy" style="margin-top:14px">Anything beyond themes can come back later once the core views are locked down.</div>
@@ -2314,7 +2320,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
        - improved spacing and hierarchy
        - stronger controls and focus treatment
        - Cummins-ready presentation polish without deleting or renaming working logic */
-    const VERSION = "v1.0.149-engineer-graphics-foundation";
+    const VERSION = "v1.0.150-lowkey-graphics-polish";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -2329,6 +2335,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     const DISPLAY_MODE_STORAGE_KEY = "ctcDisplayMode";
     const ENGINEERING_GRAPHICS_STORAGE_KEY = "cumminsUnifiedLogbook.engineeringGraphicsEnabled";
     const ENGINEERING_GRAPHICS_COLLAPSED_STORAGE_KEY = "cumminsUnifiedLogbook.engineeringGraphicsCollapsed";
+    const ENGINEERING_GRAPHICS_LIVE_STORAGE_KEY = "cumminsUnifiedLogbook.engineeringGraphicsLive";
     const DISPLAY_MODES = [
       { key: "standard", label: "Standard Display", copy: "Current default presentation style." },
       { key: "clarity", label: "Clarity Display", copy: "Stronger separation with reduced red/green dependence." }
@@ -2574,6 +2581,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
     const engineeringGraphicsToggle = document.getElementById("engineering-graphics-toggle");
     const dataQualityHeader = document.getElementById("data-quality-header");
     const qualityPercent = document.getElementById("quality-percent");
+    const engineerLiveToggleBtn = document.getElementById("engineer-live-toggle-btn");
     const tabButtons = Array.from(document.querySelectorAll("[data-tab-target]"));
     const mainSessionHeader = document.getElementById("main-session-header");
     const weekendBoardDate = document.getElementById("weekend-board-date");
@@ -2749,12 +2757,21 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       }
     }
 
+    function getEngineeringGraphicsLiveEnabled(){
+      try {
+        return localStorage.getItem(ENGINEERING_GRAPHICS_LIVE_STORAGE_KEY) === "true";
+      } catch {
+        return false;
+      }
+    }
+
     function setEngineeringGraphicsEnabled(enabled){
       const next = !!enabled;
       try { localStorage.setItem(ENGINEERING_GRAPHICS_STORAGE_KEY, String(next)); } catch {}
       if (engineeringGraphicsToggle) engineeringGraphicsToggle.checked = next;
       syncEngineeringGraphicsVisibility();
       if (next) updateEngineerGraphicsOverview(getFilteredEngineerData());
+      else stopEngineerLiveSimulation();
       syncCtcPulseSnapshot();
     }
 
@@ -2769,39 +2786,101 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       const collapsed = getEngineeringGraphicsCollapsed();
       if (engineeringGraphicsToggle) engineeringGraphicsToggle.checked = enabled;
       if (engineerGraphicsSection) engineerGraphicsSection.hidden = !enabled;
+      if (dataQualityHeader) dataQualityHeader.hidden = !enabled;
       if (engineerGraphicsBody) engineerGraphicsBody.hidden = !enabled || collapsed;
       if (engineerGraphicsToggleBtn) engineerGraphicsToggleBtn.textContent = collapsed ? "Show Graphics" : "Hide Graphics";
+      if (!enabled) stopEngineerLiveSimulation();
     }
 
     function toggleEngineeringMode(enabled){
       setEngineeringGraphicsEnabled(enabled);
+      updateDataQuality();
     }
 
     function toggleEngineerGraphics(){
       setEngineeringGraphicsCollapsed(!getEngineeringGraphicsCollapsed());
       if (!getEngineeringGraphicsCollapsed()) updateEngineerGraphicsOverview(getFilteredEngineerData());
+      else stopEngineerLiveSimulation();
     }
 
-    // Prototype-only completeness indicator. This is intentionally lightweight:
-    // it reflects how readable/complete the current operational data feels, not a formal test-cell certification score.
-    function updateDataQuality(){
-      let score = 74;
-      const entryCount = Array.isArray(entries) ? entries.length : 0;
-      const hoursSummary = typeof getHoursValidationSummary === "function" ? getHoursValidationSummary() : null;
-      score += Math.min(10, entryCount * 2);
-      if (hoursSummary) {
-        if (hoursSummary.total > 0) score += 2;
-        if (hoursSummary.ready) score += 8;
-        score -= Math.min(12, hoursSummary.invalidDowntimeRows.length * 3);
-        score -= Math.min(8, hoursSummary.missingDetailRows.length * 2);
-        score -= Math.min(8, hoursSummary.missingHoursRows.length * 2);
-        if (hoursSummary.totalMismatch) score -= 4;
+    function clampNumber(value, min, max){
+      return Math.max(min, Math.min(max, Number(value) || 0));
+    }
+
+    function collectKeywordNumbers(textValue, keywordsPattern){
+      const values = [];
+      const source = String(textValue || "");
+      const pattern = new RegExp(`(?:${keywordsPattern})[^\d]{0,12}(\d{2,5})`, "ig");
+      let match;
+      while ((match = pattern.exec(source))) {
+        const value = Number(match[1]);
+        if (Number.isFinite(value)) values.push(value);
       }
-      score = Math.max(62, Math.min(98, score));
+      return values;
+    }
+
+    function isDowntimeLike(row){
+      const blob = `${row?.status || ""} ${row?.detail || ""} ${row?.comment || ""}`.toLowerCase();
+      return blob.includes("down") || blob.includes("downtime") || blob.includes("wait") || blob.includes("hold");
+    }
+
+    function hasMissingHoursFields(row){
+      const hoursValue = Number(row?.hours ?? row?.loggedHours ?? 0);
+      const detail = String(row?.detail ?? "").trim();
+      const comment = String(row?.comment ?? "").trim();
+      return !hoursValue || !detail || (isDowntimeLike(row) && !comment);
+    }
+
+    // Prototype-only completeness indicator.
+    // This intentionally reflects current data health/readability using existing app validation patterns.
+    function updateDataQuality(){
+      const hoursRowsLocal = Array.isArray(hoursRows) ? hoursRows : [];
+      const entriesLocal = Array.isArray(entries) ? entries : [];
+      const weekendRowsLocal = Array.isArray(weekendRows) ? weekendRows : [];
+
+      let green = 0;
+      let yellow = 0;
+      let red = 0;
+
+      hoursRowsLocal.forEach((row) => {
+        const hoursValue = Number(row?.hours ?? row?.loggedHours ?? 0);
+        const missingDetail = !String(row?.detail ?? "").trim();
+        const missingHours = !hoursValue;
+        const missingDowntimeComment = isDowntimeLike(row) && !String(row?.comment ?? "").trim();
+
+        if (missingDetail || missingHours) red += 1;
+        else if (missingDowntimeComment) yellow += 1;
+        else green += 1;
+      });
+
+      entriesLocal.forEach((entry) => {
+        const blob = `${entry?.status || ""} ${entry?.review || ""} ${entry?.note || ""}`.toLowerCase();
+        if (blob.includes("attention") || blob.includes("blocked")) red += 1;
+        else if (blob.includes("monitor") || blob.includes("waiting") || blob.includes("open")) yellow += 1;
+        else green += 1;
+      });
+
+      weekendRowsLocal.forEach((row) => {
+        const blob = `${row?.helpNeeded ?? row?.help ?? ""} ${row?.status ?? ""}`.toLowerCase();
+        if (blob.includes("help needed") || blob === "yes") yellow += 1;
+      });
+
+      const total = Math.max(1, green + yellow + red);
+      const score = clampNumber(Math.round(((green + (yellow * 0.55)) / total) * 100), 68, 99);
       setText(qualityPercent, String(score));
+
       if (dataQualityHeader) {
         dataQualityHeader.classList.remove("good", "warn", "poor");
-        dataQualityHeader.classList.add(score >= 90 ? "good" : score >= 78 ? "warn" : "poor");
+        const qualityBand = red > 0 ? "poor" : yellow > 2 ? "warn" : "good";
+        dataQualityHeader.classList.add(qualityBand);
+
+        const summary = red > 0
+          ? `${red} blocking data issue(s) and ${yellow} minor anomaly/anomalies today — ${score}% high-quality data`
+          : yellow > 0
+            ? `${yellow} minor anomaly/anomalies today — ${score}% high-quality data`
+            : `No significant anomalies detected today — ${score}% high-quality data`;
+
+        dataQualityHeader.title = summary;
       }
     }
 
@@ -2821,9 +2900,9 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       return [18, 24, 29, 27, 35, 33, 41];
     }
 
-    function drawEngineerSparkline(data){
+    function drawEngineerSparkline(data, overridePoints = null){
       if (!engineerTempSparkline) return;
-      const points = buildEngineerSparklinePoints(data);
+      const points = (overridePoints && overridePoints.length ? overridePoints : buildEngineerSparklinePoints(data)).slice(-9);
       const width = 240;
       const height = 90;
       const pointPairs = points.map((value, index) => {
@@ -2846,6 +2925,126 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       }
     }
 
+    function animateGaugeTo(element, targetPercent){
+      if (!element) return;
+      const startPercent = Number(element.dataset.currentValue || element.style.getPropertyValue("--gauge-value") || 0);
+      const startTime = performance.now();
+      const duration = 700;
+
+      element.classList.add("is-live");
+
+      function frame(now){
+        const progress = Math.min(1, (now - startTime) / duration);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = startPercent + ((targetPercent - startPercent) * eased);
+        element.style.setProperty("--gauge-value", String(current));
+        if (progress < 1) {
+          requestAnimationFrame(frame);
+        } else {
+          element.dataset.currentValue = String(targetPercent);
+          window.setTimeout(() => element.classList.remove("is-live"), 250);
+        }
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    function deriveEngineerLiveMetrics(data){
+      const cards = Array.isArray(data?.cards) ? data.cards : [];
+      const filteredLogs = Array.isArray(data?.filteredLogs) ? data.filteredLogs : [];
+      const combinedText = [
+        ...filteredLogs.map((entry) => `${entry?.note || ""} ${entry?.comment || ""} ${entry?.event || ""} ${entry?.run || ""}`),
+        ...cards.flatMap((card) => (card?.shifts || []).map((shift) => `${shift?.detail || ""} ${shift?.comment || ""} ${shift?.status || ""}`))
+      ].join(" | ");
+
+      const rpmValues = collectKeywordNumbers(combinedText, "rpm");
+      const torqueValues = collectKeywordNumbers(combinedText, "torque|nm");
+      const tempValues = collectKeywordNumbers(combinedText, "coolant temp|coolant|temp");
+
+      const totalLogged = cards.reduce((sum, card) => sum + (card.totalLogged || 0), 0);
+      const totalDowntime = cards.reduce((sum, card) => sum + (card.downtimeHours || 0), 0);
+      const totalLogs = filteredLogs.length;
+      const totalShifts = cards.reduce((sum, card) => sum + ((card.shifts || []).length), 0);
+      const downtimeShare = totalLogged > 0 ? (totalDowntime / totalLogged) : 0;
+      const missingRows = cards.reduce((sum, card) => sum + ((card.shifts || []).filter(hasMissingHoursFields).length), 0);
+
+      const rpm = rpmValues.length
+        ? Math.round(rpmValues.reduce((sum, value) => sum + value, 0) / rpmValues.length)
+        : Math.round(1450 + (totalLogged * 115) + ((1 - downtimeShare) * 1750) + (totalLogs * 40) - (missingRows * 55));
+
+      const torque = torqueValues.length
+        ? Math.round(torqueValues.reduce((sum, value) => sum + value, 0) / torqueValues.length)
+        : Math.round(900 + (totalShifts * 65) + ((1 - downtimeShare) * 680) + (totalDowntime * 42) - (missingRows * 20));
+
+      let tempTrend = tempValues.slice(-9);
+      if (!tempTrend.length) {
+        tempTrend = buildEngineerSparklinePoints(data).map((value, index) => clampNumber(Math.round(68 + (value * 0.6) + index), 62, 115));
+      }
+      while (tempTrend.length < 9) tempTrend.unshift(tempTrend[0] ?? 80);
+
+      const coolantTemp = tempTrend[tempTrend.length - 1];
+
+      return {
+        rpm: clampNumber(rpm, 700, 5200),
+        torque: clampNumber(torque, 400, 2800),
+        coolantTemp: clampNumber(coolantTemp, 60, 115),
+        rpmPct: clampNumber(Math.round((rpm / 5200) * 100), 10, 100),
+        torquePct: clampNumber(Math.round((torque / 2800) * 100), 10, 100),
+        tempTrend,
+        scopedHoursCount: totalShifts,
+        scopedEntryCount: totalLogs
+      };
+    }
+
+    function stopEngineerLiveSimulation(){
+      if (window.engineerGraphicsLiveTimer) {
+        window.clearInterval(window.engineerGraphicsLiveTimer);
+        window.engineerGraphicsLiveTimer = null;
+      }
+      try { localStorage.setItem(ENGINEERING_GRAPHICS_LIVE_STORAGE_KEY, "false"); } catch {}
+      if (engineerLiveToggleBtn) {
+        engineerLiveToggleBtn.textContent = "Simulate Live Reading";
+        engineerLiveToggleBtn.classList.remove("is-live");
+      }
+    }
+
+    function toggleEngineerLiveSimulation(){
+      if (window.engineerGraphicsLiveTimer) {
+        stopEngineerLiveSimulation();
+        updateEngineerGraphicsOverview(getFilteredEngineerData());
+        return;
+      }
+
+      if (engineerLiveToggleBtn) {
+        engineerLiveToggleBtn.textContent = "Stop Live Reading";
+        engineerLiveToggleBtn.classList.add("is-live");
+      }
+
+      const applySimulatedRead = () => {
+        const data = getFilteredEngineerData();
+        const base = deriveEngineerLiveMetrics(data);
+
+        const simulated = {
+          rpm: clampNumber(Math.round(base.rpm + ((Math.random() - 0.5) * 160)), 700, 5200),
+          torque: clampNumber(Math.round(base.torque + ((Math.random() - 0.5) * 90)), 400, 2800),
+          coolantTemp: clampNumber(Math.round(base.coolantTemp + ((Math.random() - 0.5) * 4)), 60, 115)
+        };
+
+        const simulatedTrend = base.tempTrend.slice(-8).concat(simulated.coolantTemp);
+        animateGaugeTo(engineerRpmGauge, clampNumber(Math.round((simulated.rpm / 5200) * 100), 10, 100));
+        animateGaugeTo(engineerTorqueGauge, clampNumber(Math.round((simulated.torque / 2800) * 100), 10, 100));
+        animateGaugeTo(engineerTempGauge, clampNumber(Math.round((simulated.coolantTemp / 115) * 100), 10, 100));
+        setText(engineerRpmValue, String(simulated.rpm));
+        setText(engineerTorqueValue, String(simulated.torque));
+        setText(engineerTempValue, String(simulated.coolantTemp));
+        drawEngineerSparkline(data, simulatedTrend);
+      };
+
+      applySimulatedRead();
+      window.engineerGraphicsLiveTimer = window.setInterval(applySimulatedRead, 3500);
+      try { localStorage.setItem(ENGINEERING_GRAPHICS_LIVE_STORAGE_KEY, "true"); } catch {}
+    }
+
     function updateEngineerGraphicsOverview(data){
       syncEngineeringGraphicsVisibility();
       if (!getEngineeringGraphicsEnabled()) return;
@@ -2855,17 +3054,19 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       const totalLogs = lead ? lead.logs.length : Number(data?.filteredLogs?.length || 0);
       const totalShifts = lead ? lead.shifts.length : Number(data?.totalShiftChunks || 0);
 
-      const rpmPct = Math.max(12, Math.min(96, Math.round(20 + (totalLogs * 8) + (totalLogged * 3))));
-      const torquePct = Math.max(10, Math.min(94, Math.round(18 + (totalShifts * 10) + (totalDowntime * 9))));
-      const tempPct = Math.max(8, Math.min(92, Math.round(24 + (totalDowntime * 7) + ((data?.cards || []).length * 4))));
-      if (engineerRpmGauge) engineerRpmGauge.style.setProperty("--gauge-value", String(rpmPct));
-      if (engineerTorqueGauge) engineerTorqueGauge.style.setProperty("--gauge-value", String(torquePct));
-      if (engineerTempGauge) engineerTempGauge.style.setProperty("--gauge-value", String(tempPct));
-      setText(engineerRpmValue, String(1200 + (rpmPct * 34)));
-      setText(engineerTorqueValue, String(800 + (torquePct * 16)));
-      setText(engineerTempValue, String(140 + Math.round(tempPct * 0.85)));
+      const metrics = deriveEngineerLiveMetrics(data);
+      animateGaugeTo(engineerRpmGauge, metrics.rpmPct);
+      animateGaugeTo(engineerTorqueGauge, metrics.torquePct);
+      animateGaugeTo(engineerTempGauge, clampNumber(Math.round((metrics.coolantTemp / 115) * 100), 10, 100));
+      setText(engineerRpmValue, String(metrics.rpm));
+      setText(engineerTorqueValue, String(metrics.torque));
+      setText(engineerTempValue, String(metrics.coolantTemp));
+      drawEngineerSparkline(data, metrics.tempTrend);
 
-      drawEngineerSparkline(data);
+      const graphicsSummary = document.getElementById("engineer-graphics-summary");
+      if (graphicsSummary) {
+        graphicsSummary.textContent = `Derived from ${metrics.scopedHoursCount} visible hour row(s) and ${metrics.scopedEntryCount} running sheet entr${metrics.scopedEntryCount === 1 ? "y" : "ies"}.`;
+      }
 
       if (engineerAnomalyList) {
         const lines = [];
@@ -2923,9 +3124,16 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       if (engineerGraphicsToggleBtn) {
         engineerGraphicsToggleBtn.addEventListener("click", toggleEngineerGraphics);
       }
+      if (engineerLiveToggleBtn) {
+        engineerLiveToggleBtn.addEventListener("click", toggleEngineerLiveSimulation);
+      }
       applyDisplayMode(getSavedDisplayMode());
       syncEngineeringGraphicsVisibility();
       updateDataQuality();
+      if (getEngineeringGraphicsEnabled() && document.body.dataset.activeTab === "engineer") {
+        updateEngineerGraphicsOverview(getFilteredEngineerData());
+        if (getEngineeringGraphicsLiveEnabled()) toggleEngineerLiveSimulation();
+      }
     }
     function formatTimeForInput(value){
       const raw = (value || "").toUpperCase().replace(/[^0-9APM]/g, "");
@@ -6027,6 +6235,7 @@ function renderHours(){
       if (tabName === "weekend") renderWeekendDailyUpdate();
       if (tabName === "manager") renderManagerTab();
       if (tabName === "engineer") renderEngineerInfoMode();
+      if (tabName !== "engineer") stopEngineerLiveSimulation();
       tabButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.tabTarget === tabName));
       syncEngineeringGraphicsVisibility();
       updateDataQuality();
