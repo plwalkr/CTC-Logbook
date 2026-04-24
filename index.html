@@ -1724,6 +1724,21 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       border-radius:12px;
     }
 
+    /* v1.0.152 - button click hardening
+       The premium engineer dashboard introduces layered visuals (grid background,
+       glass cards, glow layers). This pass explicitly raises interactive controls
+       above decorative layers and restores pointer access even if future visual
+       layers are added or reordered. */
+    .engineer-2026-topbar,
+    .engineer-2026-footer,
+    .engineer-2026-topbar-actions,
+    .engineer-2026-footer button,
+    .engineer-2026-topbar button{
+      position:relative;
+      z-index:5;
+      pointer-events:auto;
+    }
+
     @media (max-width: 1100px){
       .engineer-metric-grid,
       .engineer-sparkline-grid{
@@ -1743,7 +1758,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small header-meta-stack" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.151-engineer-premium-dashboard</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.152-engineer-dashboard-button-fix</span></div>
           <div id="data-quality-header" class="data-quality-badge good" title="No significant anomalies detected today — 94% high-quality data" hidden>Data Quality: <span id="quality-percent">94</span>%</div>
         </div>
       </div>
@@ -1751,7 +1766,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.151-engineer-premium-dashboard</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.152-engineer-dashboard-button-fix</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -2146,7 +2161,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.151-engineer-premium-dashboard</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.152-engineer-dashboard-button-fix</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -2442,7 +2457,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.151-engineer-premium-dashboard</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.152-engineer-dashboard-button-fix</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -2500,7 +2515,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.151-engineer-premium-dashboard</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.152-engineer-dashboard-button-fix</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -2705,7 +2720,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.151-engineer-premium-dashboard</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.152-engineer-dashboard-button-fix</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -2786,7 +2801,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
        - improved spacing and hierarchy
        - stronger controls and focus treatment
        - Cummins-ready presentation polish without deleting or renaming working logic */
-    const VERSION = "v1.0.151-engineer-premium-dashboard";
+    const VERSION = "v1.0.152-engineer-dashboard-button-fix";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -3868,6 +3883,46 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       }
     }
 
+
+    function bindEngineerDashboardButtons() {
+      const collapseBtn = document.getElementById("engineer-graphics-collapse-btn");
+      const liveBtn = document.getElementById("engineer-live-toggle-btn");
+      const exportBtn = document.getElementById("engineer-export-snapshot-btn");
+      const hoursBtn = document.getElementById("engineer-view-hours-btn");
+
+      if (collapseBtn && !collapseBtn.dataset.boundClick) {
+        collapseBtn.addEventListener("click", (event) => {
+          event.preventDefault();
+          toggleEngineerGraphics();
+        });
+        collapseBtn.dataset.boundClick = "true";
+      }
+
+      if (liveBtn && !liveBtn.dataset.boundClick) {
+        liveBtn.addEventListener("click", (event) => {
+          event.preventDefault();
+          toggleEngineerLiveSimulation();
+        });
+        liveBtn.dataset.boundClick = "true";
+      }
+
+      if (exportBtn && !exportBtn.dataset.boundClick) {
+        exportBtn.addEventListener("click", (event) => {
+          event.preventDefault();
+          exportEngineerSnapshot();
+        });
+        exportBtn.dataset.boundClick = "true";
+      }
+
+      if (hoursBtn && !hoursBtn.dataset.boundClick) {
+        hoursBtn.addEventListener("click", (event) => {
+          event.preventDefault();
+          openHoursBreakdownFromEngineer();
+        });
+        hoursBtn.dataset.boundClick = "true";
+      }
+    }
+
 function initSettings(){
       renderDisplayModeButtons();
       if (displayModeBar) {
@@ -3898,6 +3953,7 @@ function initSettings(){
       syncEngineeringGraphicsVisibility();
       updateDataQuality();
       setEngineerDashboardSkin(savedSkin);
+      bindEngineerDashboardButtons();
       if (getEngineeringGraphicsEnabled() && document.body.dataset.activeTab === "engineer") {
         renderEngineerPremiumDashboard();
         if (getEngineeringGraphicsLiveEnabled()) toggleEngineerLiveSimulation();
@@ -5166,6 +5222,7 @@ function renderEngineerInfoMode(){
   }).join('');
   updateDataQuality();
   renderEngineerPremiumDashboard();
+  bindEngineerDashboardButtons();
 }
 
 
@@ -7004,7 +7061,7 @@ function renderHours(){
       if (tabName === "manager") renderManagerTab();
       if (tabName === "engineer") renderEngineerInfoMode();
       if (tabName !== "engineer") stopEngineerLiveSimulation();
-      if (tabName === "engineer" && getEngineeringGraphicsEnabled()) renderEngineerPremiumDashboard();
+      if (tabName === "engineer" && getEngineeringGraphicsEnabled()) { renderEngineerPremiumDashboard(); bindEngineerDashboardButtons(); }
       tabButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.tabTarget === tabName));
       syncEngineeringGraphicsVisibility();
       updateDataQuality();
