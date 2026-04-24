@@ -1722,7 +1722,19 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     .engineer-2026-footer .secondary,
     .engineer-2026-topbar .secondary{
       border-radius:12px;
+      cursor:pointer;
     }
+
+    .engineer-2026-grid-bg,
+    .engineer-hero-glow{
+      pointer-events:none !important;
+      user-select:none;
+    }
+
+    /* v1.0.153 - click delegation hardening
+       Decorative premium layers are now fully click-transparent and the buttons
+       are also handled through document-level delegation so re-renders cannot
+       silently strand dead button nodes. */
 
     /* v1.0.152 - button click hardening
        The premium engineer dashboard introduces layered visuals (grid background,
@@ -1758,7 +1770,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small header-meta-stack" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.152-engineer-dashboard-button-fix</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.153-engineer-dashboard-click-delegation-fix</span></div>
           <div id="data-quality-header" class="data-quality-badge good" title="No significant anomalies detected today — 94% high-quality data" hidden>Data Quality: <span id="quality-percent">94</span>%</div>
         </div>
       </div>
@@ -1766,7 +1778,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.152-engineer-dashboard-button-fix</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.153-engineer-dashboard-click-delegation-fix</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -2161,7 +2173,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.152-engineer-dashboard-button-fix</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.153-engineer-dashboard-click-delegation-fix</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -2457,7 +2469,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.152-engineer-dashboard-button-fix</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.153-engineer-dashboard-click-delegation-fix</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -2515,7 +2527,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.152-engineer-dashboard-button-fix</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.153-engineer-dashboard-click-delegation-fix</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -2720,7 +2732,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.152-engineer-dashboard-button-fix</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.153-engineer-dashboard-click-delegation-fix</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -2801,7 +2813,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
        - improved spacing and hierarchy
        - stronger controls and focus treatment
        - Cummins-ready presentation polish without deleting or renaming working logic */
-    const VERSION = "v1.0.152-engineer-dashboard-button-fix";
+    const VERSION = "v1.0.153-engineer-dashboard-click-delegation-fix";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -3923,6 +3935,47 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       }
     }
 
+
+    function bindEngineerDashboardDelegation() {
+      if (document.body.dataset.engineerDashboardDelegationBound === "true") return;
+
+      document.addEventListener("click", (event) => {
+        const collapseBtn = event.target.closest("#engineer-graphics-collapse-btn");
+        const liveBtn = event.target.closest("#engineer-live-toggle-btn");
+        const exportBtn = event.target.closest("#engineer-export-snapshot-btn");
+        const hoursBtn = event.target.closest("#engineer-view-hours-btn");
+
+        if (collapseBtn) {
+          event.preventDefault();
+          if (typeof window.toggleEngineerGraphics === "function") window.toggleEngineerGraphics();
+          return;
+        }
+        if (liveBtn) {
+          event.preventDefault();
+          if (typeof window.toggleEngineerLiveSimulation === "function") window.toggleEngineerLiveSimulation();
+          return;
+        }
+        if (exportBtn) {
+          event.preventDefault();
+          if (typeof window.exportEngineerSnapshot === "function") window.exportEngineerSnapshot();
+          return;
+        }
+        if (hoursBtn) {
+          event.preventDefault();
+          if (typeof window.openHoursBreakdownFromEngineer === "function") window.openHoursBreakdownFromEngineer();
+          return;
+        }
+      }, true);
+
+      document.body.dataset.engineerDashboardDelegationBound = "true";
+    }
+
+
+    window.toggleEngineerGraphics = toggleEngineerGraphics;
+    window.toggleEngineerLiveSimulation = toggleEngineerLiveSimulation;
+    window.exportEngineerSnapshot = exportEngineerSnapshot;
+    window.openHoursBreakdownFromEngineer = openHoursBreakdownFromEngineer;
+
 function initSettings(){
       renderDisplayModeButtons();
       if (displayModeBar) {
@@ -3954,6 +4007,7 @@ function initSettings(){
       updateDataQuality();
       setEngineerDashboardSkin(savedSkin);
       bindEngineerDashboardButtons();
+      bindEngineerDashboardDelegation();
       if (getEngineeringGraphicsEnabled() && document.body.dataset.activeTab === "engineer") {
         renderEngineerPremiumDashboard();
         if (getEngineeringGraphicsLiveEnabled()) toggleEngineerLiveSimulation();
@@ -5223,6 +5277,7 @@ function renderEngineerInfoMode(){
   updateDataQuality();
   renderEngineerPremiumDashboard();
   bindEngineerDashboardButtons();
+  bindEngineerDashboardDelegation();
 }
 
 
