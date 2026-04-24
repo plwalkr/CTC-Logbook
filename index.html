@@ -1412,6 +1412,325 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
       .header-meta-stack{align-items:flex-start;text-align:left}
     }
 
+
+    /* ==================== v1.0.151 - PREMIUM ENGINEER DASHBOARD ==================== */
+    /* Version A = engineer-dashboard--dark */
+    /* Version B = engineer-dashboard--lightcards */
+
+    .engineer-2026-dashboard{
+      position:relative;
+      overflow:hidden;
+      border-radius:24px;
+      border:1px solid rgba(148,163,184,.18);
+      background:#0F172A;
+      color:#E5EEF8;
+      box-shadow:0 16px 40px rgba(2,6,23,.18);
+    }
+
+    .engineer-2026-shell{
+      position:relative;
+      padding:24px;
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+      isolation:isolate;
+    }
+
+    .engineer-2026-grid-bg{
+      position:absolute;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      background:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size:28px 28px;
+      mask-image:linear-gradient(to bottom, rgba(0,0,0,.9), rgba(0,0,0,.55));
+    }
+
+    .engineer-2026-shell > *{
+      position:relative;
+      z-index:1;
+    }
+
+    .engineer-dashboard--dark{
+      --eng-card-bg:rgba(255,255,255,.08);
+      --eng-card-line:rgba(255,255,255,.12);
+      --eng-card-blur:blur(14px);
+      --eng-title:#F8FAFC;
+      --eng-copy:#C9D7E8;
+      --eng-muted:#94A3B8;
+      --eng-glow:rgba(45,212,191,.25);
+      --eng-good-a:#2DD4BF;
+      --eng-good-b:#22D3EE;
+      --eng-warn-a:#FBBF24;
+      --eng-warn-b:#FB923C;
+      --eng-attn-a:#FB7185;
+      --eng-attn-b:#F87171;
+    }
+
+    .engineer-dashboard--lightcards{
+      --eng-card-bg:rgba(248,250,252,.92);
+      --eng-card-line:rgba(148,163,184,.18);
+      --eng-card-blur:blur(8px);
+      --eng-title:#E2E8F0;
+      --eng-copy:#D7E2EF;
+      --eng-muted:#94A3B8;
+      --eng-glow:rgba(34,211,238,.18);
+      --eng-good-a:#14B8A6;
+      --eng-good-b:#06B6D4;
+      --eng-warn-a:#F59E0B;
+      --eng-warn-b:#FB923C;
+      --eng-attn-a:#FB7185;
+      --eng-attn-b:#EF4444;
+    }
+
+    .engineer-2026-topbar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .engineer-2026-kicker{
+      font-size:11px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--eng-muted);
+      margin-bottom:4px;
+    }
+
+    .engineer-2026-title{
+      margin:0;
+      font-size:24px;
+      font-weight:700;
+      letter-spacing:-.02em;
+      color:var(--eng-title);
+    }
+
+    .engineer-hero-card,
+    .engineer-metric-card,
+    .engineer-spark-card{
+      border:1px solid var(--eng-card-line);
+      background:var(--eng-card-bg);
+      backdrop-filter:var(--eng-card-blur);
+      -webkit-backdrop-filter:var(--eng-card-blur);
+      border-radius:22px;
+      box-shadow:0 10px 24px rgba(2,6,23,.12);
+    }
+
+    .engineer-hero-card{
+      position:relative;
+      padding:28px;
+      min-height:148px;
+      display:flex;
+      align-items:center;
+    }
+
+    .engineer-hero-label{
+      color:var(--eng-muted);
+      font-size:13px;
+      font-weight:600;
+      margin-bottom:8px;
+    }
+
+    .engineer-hero-value{
+      font-size:48px;
+      line-height:1;
+      font-weight:800;
+      color:#F8FAFC;
+      letter-spacing:-.04em;
+      text-shadow:0 0 28px var(--eng-glow);
+    }
+
+    .engineer-hero-unit{
+      font-size:28px;
+      margin-left:4px;
+      opacity:.9;
+    }
+
+    .engineer-hero-caption{
+      margin-top:12px;
+      color:var(--eng-copy);
+      font-size:14px;
+      max-width:56ch;
+    }
+
+    .engineer-hero-glow{
+      position:absolute;
+      right:24px;
+      top:22px;
+      width:160px;
+      height:160px;
+      border-radius:50%;
+      background:radial-gradient(circle, var(--eng-glow) 0%, rgba(45,212,191,0) 68%);
+      filter:blur(12px);
+      pointer-events:none;
+    }
+
+    .engineer-metric-grid,
+    .engineer-sparkline-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:16px;
+    }
+
+    .engineer-metric-card,
+    .engineer-spark-card{
+      padding:18px;
+      min-height:210px;
+    }
+
+    .engineer-metric-head,
+    .engineer-spark-head{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:16px;
+    }
+
+    .engineer-metric-title,
+    .engineer-spark-title{
+      font-size:15px;
+      font-weight:700;
+      color:#F8FAFC;
+      letter-spacing:-.01em;
+    }
+
+    .engineer-dashboard--lightcards .engineer-metric-title,
+    .engineer-dashboard--lightcards .engineer-spark-title{
+      color:#0F172A;
+    }
+
+    .engineer-metric-subtle,
+    .engineer-spark-label{
+      color:var(--eng-muted);
+      font-size:12px;
+    }
+
+    .engineer-arc-meter{
+      --meter-pct:72;
+      --meter-fill:var(--eng-good-a);
+      --meter-fill-2:var(--eng-good-b);
+      position:relative;
+      width:156px;
+      height:156px;
+      margin:8px auto 0;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 50% 50%, transparent 56%, rgba(148,163,184,.10) 57%, rgba(148,163,184,.10) 61%, transparent 62%),
+        conic-gradient(from 225deg, var(--meter-fill) 0%, var(--meter-fill-2) calc((270deg * var(--meter-pct)) / 100), rgba(148,163,184,.18) 0 270deg, transparent 270deg 360deg);
+      filter:drop-shadow(0 0 10px rgba(34,211,238,.12));
+      transition:transform .22s ease, box-shadow .22s ease, background .22s ease;
+    }
+
+    .meter-good{ --meter-fill:var(--eng-good-a); --meter-fill-2:var(--eng-good-b); }
+    .meter-warn{ --meter-fill:var(--eng-warn-a); --meter-fill-2:var(--eng-warn-b); }
+    .meter-attn{ --meter-fill:var(--eng-attn-a); --meter-fill-2:var(--eng-attn-b); }
+
+    .engineer-arc-meter::before{
+      content:"";
+      position:absolute;
+      inset:16px;
+      border-radius:50%;
+      background:rgba(15,23,42,.85);
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .engineer-dashboard--lightcards .engineer-arc-meter::before{
+      background:rgba(255,255,255,.96);
+      border:1px solid rgba(148,163,184,.18);
+    }
+
+    .engineer-arc-meter-inner{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      z-index:2;
+    }
+
+    .engineer-arc-meter-value{
+      font-size:28px;
+      font-weight:800;
+      letter-spacing:-.03em;
+      color:#F8FAFC;
+    }
+
+    .engineer-dashboard--lightcards .engineer-arc-meter-value{
+      color:#0F172A;
+    }
+
+    .metric-inline-unit{
+      font-size:13px;
+      font-weight:600;
+      color:var(--eng-muted);
+    }
+
+    .engineer-posture-chip{
+      margin:28px auto 0;
+      min-height:52px;
+      max-width:180px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:999px;
+      padding:0 18px;
+      font-size:20px;
+      font-weight:700;
+      letter-spacing:-.02em;
+      border:1px solid transparent;
+    }
+
+    .posture-good{
+      background:rgba(16,185,129,.14);
+      color:#6EE7B7;
+      border-color:rgba(16,185,129,.22);
+    }
+    .posture-warn{
+      background:rgba(245,158,11,.14);
+      color:#FCD34D;
+      border-color:rgba(245,158,11,.22);
+    }
+    .posture-attn{
+      background:rgba(248,113,113,.14);
+      color:#FCA5A5;
+      border-color:rgba(248,113,113,.22);
+    }
+
+    .engineer-spark-card{
+      min-height:182px;
+    }
+
+    .engineer-sparkline{
+      width:100%;
+      height:88px;
+      display:block;
+      overflow:visible;
+    }
+
+    .engineer-2026-footer{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:flex-end;
+    }
+
+    .engineer-2026-footer .secondary,
+    .engineer-2026-topbar .secondary{
+      border-radius:12px;
+    }
+
+    @media (max-width: 1100px){
+      .engineer-metric-grid,
+      .engineer-sparkline-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
 </style>
 </head>
 <body data-theme="standard">
@@ -1424,7 +1743,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
         </div>
         <div class="small header-meta-stack" style="text-align:right">
           <div>Controlled running sheet with locked system and operator history.</div>
-          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.150-lowkey-graphics-polish</span></div>
+          <div style="font-weight:700;color:#334155;margin-top:4px">Version <span id="version-label">v1.0.151-engineer-premium-dashboard</span></div>
           <div id="data-quality-header" class="data-quality-badge good" title="No significant anomalies detected today — 94% high-quality data" hidden>Data Quality: <span id="quality-percent">94</span>%</div>
         </div>
       </div>
@@ -1432,7 +1751,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </header>
 
     <div class="compact-release-bar" aria-hidden="true">
-      <div class="compact-release-label">Version <span class="release-version-label">v1.0.150-lowkey-graphics-polish</span></div>
+      <div class="compact-release-label">Version <span class="release-version-label">v1.0.151-engineer-premium-dashboard</span></div>
     </div>
 
     <div class="view-tabs" aria-label="Main views">
@@ -1827,7 +2146,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-engineer" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.150-lowkey-graphics-polish</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.151-engineer-premium-dashboard</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="temp-test-bar">
@@ -1858,13 +2177,160 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
             </div>
             
 
-            <div id="engineer-graphics-section" class="panel engineer-graphics-panel" hidden>
-              <div class="panel-head engineer-graphics-head">
+            
+          <section
+            id="engineer-graphics-section"
+            class="panel engineer-2026-dashboard engineer-dashboard--dark"
+            hidden
+          >
+            <div class="engineer-2026-shell">
+              <div class="engineer-2026-grid-bg"></div>
+
+              <div class="engineer-2026-topbar">
                 <div>
-                  <div class="engineer-kicker">Optional graphical overview</div>
-                  <h3>Quick visual read before the deeper detail blocks</h3>
-                  <div class="small engineer-graphics-copy">Pure CSS and inline SVG only. This stays small, contained, and tied to the current engineer scope.</div>
+                  <div class="engineer-2026-kicker">Prototype Graphical Overview</div>
+                  <h3 class="engineer-2026-title">Engineer Performance Overview</h3>
                 </div>
+
+                <div class="engineer-2026-topbar-actions">
+                  <button
+                    id="engineer-graphics-collapse-btn"
+                    type="button"
+                    class="secondary"
+                    onclick="toggleEngineerGraphics()"
+                  >
+                    Collapse
+                  </button>
+                </div>
+              </div>
+
+              <div class="engineer-hero-card">
+                <div class="engineer-hero-copy">
+                  <div class="engineer-hero-label">Cell Uptime</div>
+                  <div class="engineer-hero-value">
+                    <span id="engineer-hero-uptime">96.2</span><span class="engineer-hero-unit">%</span>
+                  </div>
+                  <div id="engineer-hero-caption" class="engineer-hero-caption">
+                    Strong uptime across the current engineer scope.
+                  </div>
+                </div>
+                <div class="engineer-hero-glow"></div>
+              </div>
+
+              <div class="engineer-metric-grid">
+                <article class="engineer-metric-card">
+                  <div class="engineer-metric-head">
+                    <div class="engineer-metric-title">Shift Uptime</div>
+                    <div class="engineer-metric-subtle">Current shift</div>
+                  </div>
+                  <div class="engineer-arc-meter meter-good" id="meter-shift-uptime" style="--meter-pct:96;">
+                    <div class="engineer-arc-meter-inner">
+                      <div class="engineer-arc-meter-value"><span id="metric-shift-uptime">96</span>%</div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="engineer-metric-card">
+                  <div class="engineer-metric-head">
+                    <div class="engineer-metric-title">Downtime Hours</div>
+                    <div class="engineer-metric-subtle">Target &lt;4</div>
+                  </div>
+                  <div class="engineer-arc-meter meter-warn" id="meter-downtime-hours" style="--meter-pct:38;">
+                    <div class="engineer-arc-meter-inner">
+                      <div class="engineer-arc-meter-value"><span id="metric-downtime-hours">3.8</span><span class="metric-inline-unit"> hrs</span></div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="engineer-metric-card">
+                  <div class="engineer-metric-head">
+                    <div class="engineer-metric-title">Problems Logged</div>
+                    <div class="engineer-metric-subtle">This shift</div>
+                  </div>
+                  <div class="engineer-arc-meter meter-attn" id="meter-problems-logged" style="--meter-pct:40;">
+                    <div class="engineer-arc-meter-inner">
+                      <div class="engineer-arc-meter-value"><span id="metric-problems-logged">7</span></div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+
+              <div class="engineer-metric-grid">
+                <article class="engineer-metric-card">
+                  <div class="engineer-metric-head">
+                    <div class="engineer-metric-title">Data Completeness</div>
+                    <div class="engineer-metric-subtle">Required fields</div>
+                  </div>
+                  <div class="engineer-arc-meter meter-good" id="meter-data-completeness" style="--meter-pct:89;">
+                    <div class="engineer-arc-meter-inner">
+                      <div class="engineer-arc-meter-value"><span id="metric-data-completeness">89</span>%</div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="engineer-metric-card">
+                  <div class="engineer-metric-head">
+                    <div class="engineer-metric-title">Cell Posture</div>
+                    <div class="engineer-metric-subtle">Operational read</div>
+                  </div>
+                  <div class="engineer-posture-chip posture-good" id="metric-cell-posture-chip">
+                    <span id="metric-cell-posture">Steady</span>
+                  </div>
+                </article>
+
+                <article class="engineer-metric-card">
+                  <div class="engineer-metric-head">
+                    <div class="engineer-metric-title">Help Queue</div>
+                    <div class="engineer-metric-subtle">Weekend / support signal</div>
+                  </div>
+                  <div class="engineer-arc-meter meter-warn" id="meter-help-queue" style="--meter-pct:32;">
+                    <div class="engineer-arc-meter-inner">
+                      <div class="engineer-arc-meter-value"><span id="metric-help-queue">4</span><span class="metric-inline-unit"> cells</span></div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+
+              <div class="engineer-sparkline-grid">
+                <article class="engineer-spark-card">
+                  <div class="engineer-spark-head">
+                    <div class="engineer-spark-title">Last 7 Shifts Trends</div>
+                    <div class="engineer-spark-label">Uptime</div>
+                  </div>
+                  <svg id="sparkline-uptime" class="engineer-sparkline" viewBox="0 0 220 72" preserveAspectRatio="none"></svg>
+                </article>
+
+                <article class="engineer-spark-card">
+                  <div class="engineer-spark-head">
+                    <div class="engineer-spark-title">Last 7 Shifts Trends</div>
+                    <div class="engineer-spark-label">Downtime</div>
+                  </div>
+                  <svg id="sparkline-downtime" class="engineer-sparkline" viewBox="0 0 220 72" preserveAspectRatio="none"></svg>
+                </article>
+
+                <article class="engineer-spark-card">
+                  <div class="engineer-spark-head">
+                    <div class="engineer-spark-title">Last 7 Shifts Trends</div>
+                    <div class="engineer-spark-label">Problems / Shift</div>
+                  </div>
+                  <svg id="sparkline-problems" class="engineer-sparkline" viewBox="0 0 220 72" preserveAspectRatio="none"></svg>
+                </article>
+              </div>
+
+              <div class="engineer-2026-footer">
+                <button id="engineer-live-toggle-btn" class="secondary" type="button" onclick="toggleEngineerLiveSimulation()">
+                  Simulate Live Update
+                </button>
+                <button id="engineer-export-snapshot-btn" class="secondary" type="button" onclick="exportEngineerSnapshot()">
+                  Export Snapshot
+                </button>
+                <button id="engineer-view-hours-btn" class="secondary" type="button" onclick="openHoursBreakdownFromEngineer()">
+                  View Full Hours Breakdown
+                </button>
+              </div>
+            </div>
+          </section>
+
                 <div class="engineer-graphics-button-row"><button id="engineer-live-toggle-btn" class="secondary engineer-graphics-live-btn" type="button">Simulate Live Reading</button><button id="engineer-graphics-toggle-btn" class="secondary" type="button">Hide Graphics</button></div>
               </div>
               <div class="section-body engineer-graphics-body" id="engineer-graphics-body">
@@ -1976,7 +2442,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
     </div>
 
     <div id="tab-weekend" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.150-lowkey-graphics-polish</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.151-engineer-premium-dashboard</span></span></div>
       <section class="panel">
         <div class="section-body weekend-board">
           <div class="temp-test-bar">
@@ -2034,7 +2500,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
 
     <div id="tab-manager" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.150-lowkey-graphics-polish</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.151-engineer-premium-dashboard</span></span></div>
       <section class="panel">
         <div class="section-body manager-shell">
           <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap">
@@ -2239,7 +2705,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
 
     
     <div id="tab-settings" class="tab-view" hidden>
-      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.150-lowkey-graphics-polish</span></span></div>
+      <div class="tab-release-note"><span class="release-label">Version <span class="release-version-label">v1.0.151-engineer-premium-dashboard</span></span></div>
       <section class="panel">
         <div class="section-body">
           <div class="settings-hero" style="grid-template-columns:1fr">
@@ -2320,7 +2786,7 @@ body[data-theme="clarity"] .trade-cell-stamp{color:#44566f}
        - improved spacing and hierarchy
        - stronger controls and focus treatment
        - Cummins-ready presentation polish without deleting or renaming working logic */
-    const VERSION = "v1.0.150-lowkey-graphics-polish";
+    const VERSION = "v1.0.151-engineer-premium-dashboard";
     let lastCtcPulseMetrics = null;
     function setText(el, value){
       if (el) el.textContent = value;
@@ -3003,7 +3469,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       }
       try { localStorage.setItem(ENGINEERING_GRAPHICS_LIVE_STORAGE_KEY, "false"); } catch {}
       if (engineerLiveToggleBtn) {
-        engineerLiveToggleBtn.textContent = "Simulate Live Reading";
+        engineerLiveToggleBtn.textContent = "Simulate Live Update";
         engineerLiveToggleBtn.classList.remove("is-live");
       }
     }
@@ -3016,7 +3482,7 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       }
 
       if (engineerLiveToggleBtn) {
-        engineerLiveToggleBtn.textContent = "Stop Live Reading";
+        engineerLiveToggleBtn.textContent = "Stop Live Update";
         engineerLiveToggleBtn.classList.add("is-live");
       }
 
@@ -3106,7 +3572,303 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       }
     }
 
-    function initSettings(){
+    
+    function getEngineerDashboardScope() {
+      const scopedHours = Array.isArray(hoursRows) ? hoursRows.filter((row) => {
+        if (!engineerSelectedCell || engineerSelectedCell === "all") return true;
+        const value = String(row?.cell || row?.testCell || row?.sourceCell || "");
+        return value.includes(engineerSelectedCell);
+      }) : [];
+
+      const scopedEntries = Array.isArray(entries) ? entries.filter((row) => {
+        if (!engineerSelectedCell || engineerSelectedCell === "all") return true;
+        const value = String(row?.cell || row?.testCell || row?.sourceCell || "");
+        return value.includes(engineerSelectedCell);
+      }) : [];
+
+      const scopedWeekend = Array.isArray(weekendRows) ? weekendRows.filter((row) => {
+        if (!engineerSelectedCell || engineerSelectedCell === "all") return true;
+        const value = String(row?.cell || row?.testCell || row?.sourceCell || row?.testCellLabel || "");
+        return value.includes(engineerSelectedCell);
+      }) : [];
+
+      return {
+        selectedCell: engineerSelectedCell,
+        hoursSheet: scopedHours,
+        entries: scopedEntries,
+        weekendBoard: scopedWeekend
+      };
+    }
+
+    function isDowntimeEngineerRow(row) {
+      const blob = `${row?.status || ""} ${row?.detail || ""} ${row?.comment || ""}`.toLowerCase();
+      return blob.includes("down") || blob.includes("downtime") || blob.includes("wait") || blob.includes("hold");
+    }
+
+    function hasIncompleteEngineerRow(row) {
+      const hoursValue = Number(row?.hours ?? row?.loggedHours ?? 0);
+      const detail = String(row?.detail ?? "").trim();
+      const comment = String(row?.comment ?? "").trim();
+      return !hoursValue || !detail || (isDowntimeEngineerRow(row) && !comment);
+    }
+
+    function buildEngineerShiftBuckets(scope) {
+      const rows = [...(scope.hoursSheet || [])];
+      const lastSeven = rows.slice(-7);
+
+      const buckets = lastSeven.map((row, index) => {
+        const logged = Number(row?.hours ?? row?.loggedHours ?? 0);
+        const down = isDowntimeEngineerRow(row) ? logged : 0;
+
+        const relatedProblems = (scope.entries || []).filter((entry) => {
+          const info = `${entry?.status || ""} ${entry?.review || ""} ${entry?.note || ""}`.toLowerCase();
+          const cellA = String(entry?.cell || entry?.testCell || entry?.sourceCell || "");
+          const cellB = String(row?.cell || row?.testCell || row?.sourceCell || "");
+          const relevant = !cellB || cellA.includes(cellB);
+          return relevant && (info.includes("attention") || info.includes("blocked") || info.includes("monitor") || info.includes("open"));
+        }).length;
+
+        const uptimePct = logged > 0
+          ? Math.max(0, Math.min(100, ((logged - down) / logged) * 100))
+          : 100;
+
+        return {
+          label: `Shift ${index + 1}`,
+          logged,
+          down,
+          uptimePct,
+          problems: relatedProblems
+        };
+      });
+
+      while (buckets.length < 7) {
+        buckets.unshift({
+          label: `Shift ${buckets.length + 1}`,
+          logged: 8,
+          down: 0.2,
+          uptimePct: 97.5,
+          problems: 1
+        });
+      }
+
+      return buckets;
+    }
+
+    function deriveEngineerPremiumMetrics() {
+      const scope = getEngineerDashboardScope();
+      const buckets = buildEngineerShiftBuckets(scope);
+
+      const totalLogged = scope.hoursSheet.reduce((sum, row) => sum + Number(row?.hours ?? row?.loggedHours ?? 0), 0);
+      const totalDowntime = scope.hoursSheet.reduce((sum, row) => sum + (isDowntimeEngineerRow(row) ? Number(row?.hours ?? row?.loggedHours ?? 0) : 0), 0);
+
+      const problemsLogged = scope.entries.filter((entry) => {
+        const blob = `${entry?.status || ""} ${entry?.review || ""} ${entry?.note || ""}`.toLowerCase();
+        return blob.includes("attention") || blob.includes("blocked") || blob.includes("monitor") || blob.includes("open");
+      }).length;
+
+      const incompleteCount = scope.hoursSheet.filter(hasIncompleteEngineerRow).length;
+      const helpQueue = scope.weekendBoard.filter((row) => {
+        const blob = `${row?.helpNeeded ?? row?.help ?? ""} ${row?.status ?? ""}`.toLowerCase();
+        return blob.includes("help needed") || blob === "yes";
+      }).length;
+
+      const uptimePct = totalLogged > 0 ? ((totalLogged - totalDowntime) / totalLogged) * 100 : 100;
+      const completenessPct = scope.hoursSheet.length > 0
+        ? ((scope.hoursSheet.length - incompleteCount) / scope.hoursSheet.length) * 100
+        : 100;
+
+      let posture = "Steady";
+      let postureClass = "posture-good";
+      if (totalDowntime >= 4 || helpQueue >= 4) {
+        posture = "Watching";
+        postureClass = "posture-warn";
+      }
+      if (totalDowntime >= 6 || incompleteCount >= 3) {
+        posture = "Attention";
+        postureClass = "posture-attn";
+      }
+
+      return {
+        heroUptime: uptimePct.toFixed(1),
+        shiftUptime: Math.round(uptimePct),
+        downtimeHours: totalDowntime.toFixed(1),
+        problemsLogged,
+        dataCompleteness: Math.round(completenessPct),
+        posture,
+        postureClass,
+        helpQueue,
+        uptimeSeries: buckets.map((b) => Number(b.uptimePct.toFixed(1))),
+        downtimeSeries: buckets.map((b) => Number(b.down.toFixed(1))),
+        problemsSeries: buckets.map((b) => b.problems),
+        selectedCell: scope.selectedCell
+      };
+    }
+
+    function applyEngineerArcMeter(id, percent, toneClass) {
+      const node = document.getElementById(id);
+      if (!node) return;
+      node.style.setProperty("--meter-pct", String(Math.max(0, Math.min(100, percent))));
+      node.classList.remove("meter-good", "meter-warn", "meter-attn");
+      node.classList.add(toneClass);
+    }
+
+    function drawEngineerPremiumSparkline(svgId, values, strokeColor, glowColor) {
+      const svg = document.getElementById(svgId);
+      if (!svg) return;
+
+      const safe = (values && values.length ? values : [0,0,0,0,0,0,0]).slice(-7);
+      const max = Math.max(...safe, 1);
+      const min = Math.min(...safe);
+      const range = Math.max(1, max - min);
+
+      const points = safe.map((value, index) => {
+        const x = (index / Math.max(safe.length - 1, 1)) * 220;
+        const y = 60 - (((value - min) / range) * 42);
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+      }).join(" ");
+
+      const lastPair = points.split(" ").pop().split(",");
+      const lastX = lastPair[0];
+      const lastY = lastPair[1];
+
+      svg.innerHTML = `
+        <defs>
+          <filter id="${svgId}-glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="3.5" result="blur"></feGaussianBlur>
+            <feMerge>
+              <feMergeNode in="blur"></feMergeNode>
+              <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+          </filter>
+        </defs>
+        <line x1="0" y1="60" x2="220" y2="60" stroke="rgba(148,163,184,.18)" stroke-width="1"></line>
+        <polyline
+          points="${points}"
+          fill="none"
+          stroke="${strokeColor}"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          filter="url(#${svgId}-glow)"
+        ></polyline>
+        <circle cx="${lastX}" cy="${lastY}" r="4.5" fill="${glowColor}" filter="url(#${svgId}-glow)"></circle>
+      `;
+    }
+
+    function renderEngineerPremiumDashboard() {
+      const enabled = getEngineeringGraphicsEnabled();
+      const section = document.getElementById("engineer-graphics-section");
+      const collapseButton = document.getElementById("engineer-graphics-collapse-btn");
+
+      if (section) section.hidden = !enabled;
+      if (!enabled) return;
+
+      const metrics = deriveEngineerPremiumMetrics();
+
+      const hero = document.getElementById("engineer-hero-uptime");
+      const caption = document.getElementById("engineer-hero-caption");
+      const postureChip = document.getElementById("metric-cell-posture-chip");
+      const postureText = document.getElementById("metric-cell-posture");
+
+      if (hero) hero.textContent = metrics.heroUptime;
+      if (caption) {
+        caption.textContent = metrics.selectedCell
+          ? `Current engineer scope is locked to Cell ${metrics.selectedCell || "current"} with low-friction at-a-glance review.`
+          : "Current engineer scope blends all visible cells into one premium snapshot.";
+      }
+
+      setText(document.getElementById("metric-shift-uptime"), String(metrics.shiftUptime));
+      setText(document.getElementById("metric-downtime-hours"), String(metrics.downtimeHours));
+      setText(document.getElementById("metric-problems-logged"), String(metrics.problemsLogged));
+      setText(document.getElementById("metric-data-completeness"), String(metrics.dataCompleteness));
+      setText(document.getElementById("metric-help-queue"), String(metrics.helpQueue));
+
+      if (postureText) postureText.textContent = metrics.posture;
+      if (postureChip) {
+        postureChip.classList.remove("posture-good", "posture-warn", "posture-attn");
+        postureChip.classList.add(metrics.postureClass);
+      }
+
+      applyEngineerArcMeter("meter-shift-uptime", metrics.shiftUptime, metrics.shiftUptime >= 95 ? "meter-good" : metrics.shiftUptime >= 88 ? "meter-warn" : "meter-attn");
+      applyEngineerArcMeter("meter-downtime-hours", Math.min(100, (Number(metrics.downtimeHours) / 8) * 100), Number(metrics.downtimeHours) < 4 ? "meter-good" : Number(metrics.downtimeHours) < 6 ? "meter-warn" : "meter-attn");
+      applyEngineerArcMeter("meter-problems-logged", Math.min(100, (metrics.problemsLogged / 18) * 100), metrics.problemsLogged <= 5 ? "meter-good" : metrics.problemsLogged <= 9 ? "meter-warn" : "meter-attn");
+      applyEngineerArcMeter("meter-data-completeness", metrics.dataCompleteness, metrics.dataCompleteness >= 92 ? "meter-good" : metrics.dataCompleteness >= 82 ? "meter-warn" : "meter-attn");
+      applyEngineerArcMeter("meter-help-queue", Math.min(100, (metrics.helpQueue / 10) * 100), metrics.helpQueue <= 2 ? "meter-good" : metrics.helpQueue <= 5 ? "meter-warn" : "meter-attn");
+
+      drawEngineerPremiumSparkline("sparkline-uptime", metrics.uptimeSeries, "#2DD4BF", "#22D3EE");
+      drawEngineerPremiumSparkline("sparkline-downtime", metrics.downtimeSeries, "#FBBF24", "#FB923C");
+      drawEngineerPremiumSparkline("sparkline-problems", metrics.problemsSeries, "#FB7185", "#F87171");
+
+      const collapsed = getEngineeringGraphicsCollapsed();
+      const rows = section.querySelectorAll(".engineer-hero-card, .engineer-metric-grid, .engineer-sparkline-grid, .engineer-2026-footer");
+      rows.forEach((row) => {
+        row.hidden = collapsed;
+      });
+
+      if (collapseButton) collapseButton.textContent = collapsed ? "Expand" : "Collapse";
+    }
+
+    function toggleEngineerGraphics() {
+      const section = document.getElementById("engineer-graphics-section");
+      if (!section) return;
+
+      const collapsed = getEngineeringGraphicsCollapsed();
+      const next = !collapsed;
+      setEngineeringGraphicsCollapsed(next);
+
+      const rows = section.querySelectorAll(".engineer-hero-card, .engineer-metric-grid, .engineer-sparkline-grid, .engineer-2026-footer");
+      rows.forEach((row) => {
+        row.hidden = next;
+      });
+
+      const btn = document.getElementById("engineer-graphics-collapse-btn");
+      if (btn) btn.textContent = next ? "Expand" : "Collapse";
+    }
+
+    function setEngineerDashboardSkin(mode) {
+      const section = document.getElementById("engineer-graphics-section");
+      if (!section) return;
+
+      const normalized = mode === "lightcards" ? "lightcards" : "dark";
+      try { localStorage.setItem("engineeringDashboardSkin", normalized); } catch {}
+
+      section.classList.remove("engineer-dashboard--dark", "engineer-dashboard--lightcards");
+      section.classList.add(normalized === "lightcards" ? "engineer-dashboard--lightcards" : "engineer-dashboard--dark");
+
+      const select = document.getElementById("engineering-dashboard-skin");
+      if (select) select.value = normalized;
+    }
+
+    function exportEngineerSnapshot() {
+      const metrics = deriveEngineerPremiumMetrics();
+      const lines = [
+        "Cummins Unified Logbook • Engineer Snapshot",
+        `Cell Uptime: ${metrics.heroUptime}%`,
+        `Shift Uptime: ${metrics.shiftUptime}%`,
+        `Downtime Hours: ${metrics.downtimeHours}`,
+        `Problems Logged: ${metrics.problemsLogged}`,
+        `Data Completeness: ${metrics.dataCompleteness}%`,
+        `Cell Posture: ${metrics.posture}`,
+        `Help Queue: ${metrics.helpQueue} cells`
+      ];
+
+      const blob = new Blob([lines.join("\\n")], { type: "text/plain;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "engineer_snapshot.txt";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(link.href);
+    }
+
+    function openHoursBreakdownFromEngineer() {
+      if (typeof switchTab === "function") {
+        switchTab("hours");
+      }
+    }
+
+function initSettings(){
       renderDisplayModeButtons();
       if (displayModeBar) {
         displayModeBar.addEventListener("click", (event) => {
@@ -3127,11 +3889,17 @@ const tradeReferenceNote = document.getElementById("trade-reference-note");
       if (engineerLiveToggleBtn) {
         engineerLiveToggleBtn.addEventListener("click", toggleEngineerLiveSimulation);
       }
+      const engineerSkinSelect = document.getElementById("engineering-dashboard-skin");
+      const savedSkin = (() => { try { return localStorage.getItem("engineeringDashboardSkin") || "dark"; } catch { return "dark"; } })();
+      if (engineerSkinSelect) {
+        engineerSkinSelect.value = savedSkin;
+      }
       applyDisplayMode(getSavedDisplayMode());
       syncEngineeringGraphicsVisibility();
       updateDataQuality();
+      setEngineerDashboardSkin(savedSkin);
       if (getEngineeringGraphicsEnabled() && document.body.dataset.activeTab === "engineer") {
-        updateEngineerGraphicsOverview(getFilteredEngineerData());
+        renderEngineerPremiumDashboard();
         if (getEngineeringGraphicsLiveEnabled()) toggleEngineerLiveSimulation();
       }
     }
@@ -4396,8 +5164,8 @@ function renderEngineerInfoMode(){
         </div>
       </section>`;
   }).join('');
-  updateEngineerGraphicsOverview(data);
   updateDataQuality();
+  renderEngineerPremiumDashboard();
 }
 
 
@@ -6236,6 +7004,7 @@ function renderHours(){
       if (tabName === "manager") renderManagerTab();
       if (tabName === "engineer") renderEngineerInfoMode();
       if (tabName !== "engineer") stopEngineerLiveSimulation();
+      if (tabName === "engineer" && getEngineeringGraphicsEnabled()) renderEngineerPremiumDashboard();
       tabButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.tabTarget === tabName));
       syncEngineeringGraphicsVisibility();
       updateDataQuality();
